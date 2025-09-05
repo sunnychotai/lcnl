@@ -1,5 +1,5 @@
 <?php
-$logDir = '/home/u485920306/domains/aricer.com/lcnl/writable/logs';
+$logDir = '../writable/logs';
 
 if (!is_dir($logDir)) {
     die("❌ Logs directory missing: $logDir");

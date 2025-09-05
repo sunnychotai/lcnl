@@ -1,0 +1,115 @@
+:root{
+  --brand:#4e0e10;
+  --accent:#c9a227;
+  --muted:#f6f2f2;
+  --radius:14px;
+}
+
+.bg-brand{ background: var(--brand) !important; }
+
+.hero{
+  background: linear-gradient(135deg, #3f0b0c 0%, var(--brand) 70%);
+  padding: 64px 0;
+  color:#fff;
+}
+
+.btn.btn-brand {
+  background-color: var(--brand) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.btn.btn-brand:hover,
+.btn.btn-brand:focus {
+  background-color: #6b1214 !important; /* lighter maroon */
+  color: #fff !important;
+}
+
+.btn-gold{ background: var(--accent); color:#222; border:none; }
+.btn-gold:hover{ filter: brightness(1.05); color:#222; }
+
+.card{ border:0; border-radius: var(--radius); box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+.card-link{ text-decoration:none; color:inherit; transition: transform .15s ease; }
+.card-link:hover{ transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,.12); }
+
+footer a{ opacity:.9; }
+footer a:hover{ opacity:1; }
+
+/* Header */
+.lcnl-header img {
+  height: 100px; /* bigger logo */
+}
+
+.lcnl-header a {
+  color: #222;
+}
+.lcnl-header a:hover {
+  color: var(--brand);
+}
+
+/* Navbar gold theme */
+.bg-gold {
+  background-color: var(--accent) !important;
+}
+
+.navbar .nav-link {
+  color: #222 !important;
+  transition: color 0.2s ease;
+}
+.navbar .nav-link:hover {
+  color: var(--brand) !important;
+}
+
+/* Login button (use brand theme) */
+.btn-brand {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+}
+.btn-brand:hover {
+  background: #6b1214; /* slightly brighter maroon */
+  color: #fff;
+}
+
+/* Spacing between nav items + comfy link padding */
+.lcnl-nav {
+  gap: 2rem;                 /* space between items */
+}
+.navbar .nav-link {
+  padding: 0.75rem 1rem;        /* bigger click area */
+}
+
+/* Show dropdown on hover for desktop (keep click on mobile) */
+@media (min-width: 992px) {     /* lg and up */
+  .navbar .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;              /* snug under link */
+  }
+  .navbar .dropdown-toggle::after {
+    vertical-align: .15em;      /* nicer caret alignment */
+  }
+}
+
+/* Optional: dropdown menu readability on gold navbar */
+.bg-gold .dropdown-menu {
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+}
+.bg-gold .dropdown-item:hover {
+  background-color: var(--muted);
+}
+
+/* Keep dropdown on hover (desktop) */
+@media (min-width: 992px) {
+  .navbar .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+  }
+}
+
+/* Ensure Home shows caret but still links */
+.dropdown-toggle-home::after {
+  content: " ▾"; /* small caret */
+  font-size: 1em;
+}

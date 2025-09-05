@@ -16,7 +16,24 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      */
-    public string $baseURL = 'http://lcnl.aricer.com/';
+    public string $baseURL = '';
+
+    public function __construct()
+{
+    parent::__construct();
+
+    // Detect scheme
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+
+    // Detect host (fallback to localhost)
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
+    // Optionally detect subfolder (if app isn’t at domain root)
+    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+    $path = str_replace(basename($scriptName), '', $scriptName);
+
+    $this->baseURL = $scheme . '://' . $host . $path;
+}
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
