@@ -58,7 +58,7 @@ if (is_dir(FCPATH . '../system')) {
 } elseif (is_dir(FCPATH . '../vendor/codeigniter4/framework/system')) {
     $paths->systemDirectory = realpath(FCPATH . '../vendor/codeigniter4/framework/system');
 } elseif (is_dir(FCPATH . '../../lcnl/vendor/codeigniter4/framework/system')) {
-    $paths->systemDirectory = realpath(FCPATH . '../../../lcnl/vendor/codeigniter4/framework/system');
+    $paths->systemDirectory = realpath(FCPATH . '../../lcnl/vendor/codeigniter4/framework/system');
 } else {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
     echo "❌ Could not locate system directory";
@@ -68,8 +68,7 @@ if (is_dir(FCPATH . '../system')) {
 // ---------------------------------------------------------------
 // BOOT THE FRAMEWORK
 // ---------------------------------------------------------------
-var_dump($paths->systemDirectory);
-exit;
+
 require $paths->systemDirectory . '/Boot.php';
 
 exit(\CodeIgniter\Boot\Boot::bootWeb($paths));
