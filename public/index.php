@@ -32,7 +32,7 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 // LOCATE PATHS.PHP
 // ---------------------------------------------------------------
 $localPaths   = realpath(FCPATH . '../app/Config/Paths.php');            // Local dev
-$remotePaths  = realpath(FCPATH . '../../../lcnl/app/Config/Paths.php'); // Hostinger
+$remotePaths  = realpath(FCPATH . '../../lcnl/app/Config/Paths.php'); // Hostinger
 
 if (is_file($localPaths)) {
     require $localPaths;
@@ -53,8 +53,8 @@ if (is_dir(FCPATH . '../system')) {
     $paths->systemDirectory = realpath(FCPATH . '../system'); // legacy local
 } elseif (is_dir(FCPATH . '../vendor/codeigniter4/framework/system')) {
     $paths->systemDirectory = realpath(FCPATH . '../vendor/codeigniter4/framework/system'); // local composer
-} elseif (is_dir(FCPATH . '../../../lcnl/vendor/codeigniter4/framework/system')) {
-    $paths->systemDirectory = realpath(FCPATH . '../../../lcnl/vendor/codeigniter4/framework/system'); // Hostinger
+} elseif (is_dir(FCPATH . '../../lcnl/vendor/codeigniter4/framework/system')) {
+    $paths->systemDirectory = realpath(FCPATH . '../../lcnl/vendor/codeigniter4/framework/system'); // Hostinger
 } else {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
     echo "❌ Could not locate system directory";
