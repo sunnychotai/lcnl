@@ -68,6 +68,8 @@ if (is_dir(FCPATH . '../system')) {
 // ---------------------------------------------------------------
 // BOOT THE FRAMEWORK
 // ---------------------------------------------------------------
+var_dump($paths->systemDirectory);
+exit;
 require $paths->systemDirectory . '/Boot.php';
 
 exit(\CodeIgniter\Boot\Boot::bootWeb($paths));
