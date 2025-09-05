@@ -29,7 +29,7 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 // On localhost (XAMPP) the app folder is ../app
 // On Hostinger it lives in ../../../lcnl/app
 $localPaths   = realpath(FCPATH . '../app/Config/Paths.php');
-$remotePaths  = realpath(FCPATH . '../../../lcnl/app/Config/Paths.php');
+$remotePaths  = realpath(FCPATH . '../../lcnl/app/Config/Paths.php');
 
 if (is_file($localPaths)) {
     require $localPaths;
