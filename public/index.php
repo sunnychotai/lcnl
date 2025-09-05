@@ -52,7 +52,7 @@ if (is_dir(FCPATH . '../system')) {
     $paths->systemDirectory = realpath(FCPATH . '../system');
 } elseif (is_dir(FCPATH . '../vendor/codeigniter4/framework/system')) {
     $paths->systemDirectory = realpath(FCPATH . '../vendor/codeigniter4/framework/system');
-} elseif (is_dir(FCPATH . '../../../lcnl/vendor/codeigniter4/framework/system')) {
+} elseif (is_dir(FCPATH . '../../lcnl/vendor/codeigniter4/framework/system')) {
     $paths->systemDirectory = realpath(FCPATH . '../../../lcnl/vendor/codeigniter4/framework/system');
 } else {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
