@@ -1,0 +1,14 @@
+# Ignore environment files
+.env
+
+# Ignore writable
+writable/*
+!writable/index.html
+!writable/.gitkeep
+
+# Ignore IDE/OS files
+*.bak
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
