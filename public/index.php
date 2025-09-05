@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 
 use Config\Paths;
+use CodeIgniter\Boot;
 
 // ---------------------------------------------------------------
 // CHECK PHP VERSION
@@ -69,6 +70,7 @@ if (is_dir(FCPATH . '../system')) {
 // BOOT THE FRAMEWORK
 // ---------------------------------------------------------------
 
+// LOAD THE FRAMEWORK BOOTSTRAP FILE
 require $paths->systemDirectory . '/Boot.php';
 
-exit(\CodeIgniter\Boot\Boot::bootWeb($paths));
+exit(Boot::bootWeb($paths));
