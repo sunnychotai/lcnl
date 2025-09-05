@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 use Config\Paths;
 use CodeIgniter\Boot;
 
@@ -32,10 +31,8 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 // ---------------------------------------------------------------
 // LOCATE PATHS.PHP
 // ---------------------------------------------------------------
-// On localhost (XAMPP) the app folder is ../app
-// On Hostinger it lives in ../../../lcnl/app
-$localPaths   = realpath(FCPATH . '../app/Config/Paths.php');
-$remotePaths  = realpath(FCPATH . '../../lcnl/app/Config/Paths.php');
+$localPaths   = realpath(FCPATH . '../app/Config/Paths.php');            // Local dev
+$remotePaths  = realpath(FCPATH . '../../../lcnl/app/Config/Paths.php'); // Hostinger
 
 if (is_file($localPaths)) {
     require $localPaths;
@@ -52,14 +49,12 @@ $paths = new Paths();
 // ---------------------------------------------------------------
 // LOCATE SYSTEM DIRECTORY
 // ---------------------------------------------------------------
-// Local (XAMPP): ../system OR ../vendor/codeigniter4/framework/system
-// Hostinger: ../../../lcnl/vendor/codeigniter4/framework/system
 if (is_dir(FCPATH . '../system')) {
-    $paths->systemDirectory = realpath(FCPATH . '../system');
+    $paths->systemDirectory = realpath(FCPATH . '../system'); // legacy local
 } elseif (is_dir(FCPATH . '../vendor/codeigniter4/framework/system')) {
-    $paths->systemDirectory = realpath(FCPATH . '../vendor/codeigniter4/framework/system');
-} elseif (is_dir(FCPATH . '../../lcnl/vendor/codeigniter4/framework/system')) {
-    $paths->systemDirectory = realpath(FCPATH . '../../lcnl/vendor/codeigniter4/framework/system');
+    $paths->systemDirectory = realpath(FCPATH . '../vendor/codeigniter4/framework/system'); // local composer
+} elseif (is_dir(FCPATH . '../../../lcnl/vendor/codeigniter4/framework/system')) {
+    $paths->systemDirectory = realpath(FCPATH . '../../../lcnl/vendor/codeigniter4/framework/system'); // Hostinger
 } else {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
     echo "❌ Could not locate system directory";
@@ -69,8 +64,6 @@ if (is_dir(FCPATH . '../system')) {
 // ---------------------------------------------------------------
 // BOOT THE FRAMEWORK
 // ---------------------------------------------------------------
-
-// LOAD THE FRAMEWORK BOOTSTRAP FILE
 require $paths->systemDirectory . '/Boot.php';
 
 exit(Boot::bootWeb($paths));
