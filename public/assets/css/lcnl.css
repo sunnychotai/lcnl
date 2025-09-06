@@ -18,10 +18,9 @@
   color: #fff !important;
   border: none !important;
 }
-
 .btn.btn-brand:hover,
 .btn.btn-brand:focus {
-  background-color: #6b1214 !important; /* lighter maroon */
+  background-color: #6b1214 !important;
   color: #fff !important;
 }
 
@@ -35,81 +34,57 @@
 footer a{ opacity:.9; }
 footer a:hover{ opacity:1; }
 
-/* Header */
-.lcnl-header img {
-  height: 100px; /* bigger logo */
+/* ===== Header ===== */
+.lcnl-header .lcnl-logo {
+  /* ~10% bigger than 100px, but scale down on small screens */
+  height: clamp(80px, 10vw, 110px);
+}
+.lcnl-header a { color: #222; }
+.lcnl-header a:hover { color: var(--brand); }
+
+/* Title spacing + line-height */
+.lcnl-header .fs-4 { line-height: 1.15; }
+.lcnl-header .site-title { margin-bottom: .5rem; }
+@media (min-width: 992px) {
+  .lcnl-header .site-title { margin-bottom: 1rem; }
 }
 
-.lcnl-header a {
-  color: #222;
-}
-.lcnl-header a:hover {
-  color: var(--brand);
-}
+/* Slightly tighter icon hitbox alignment */
+.lcnl-header .socials a { line-height: 1; }
 
-/* Navbar gold theme */
-.bg-gold {
-  background-color: var(--accent) !important;
-}
+/* ===== Navbar gold theme ===== */
+.bg-gold { background-color: var(--accent) !important; }
 
 .navbar .nav-link {
   color: #222 !important;
   transition: color 0.2s ease;
+  padding: 0.75rem 1rem; /* bigger click area */
 }
-.navbar .nav-link:hover {
-  color: var(--brand) !important;
-}
+.navbar .nav-link:hover { color: var(--brand) !important; }
 
 /* Login button (use brand theme) */
-.btn-brand {
-  background: var(--brand);
-  color: #fff;
-  border: none;
-}
-.btn-brand:hover {
-  background: #6b1214; /* slightly brighter maroon */
-  color: #fff;
-}
+.btn-brand { background: var(--brand); color: #fff; border: none; }
+.btn-brand:hover { background: #6b1214; color: #fff; }
 
-/* Spacing between nav items + comfy link padding */
-.lcnl-nav {
-  gap: 2rem;                 /* space between items */
-}
-.navbar .nav-link {
-  padding: 0.75rem 1rem;        /* bigger click area */
-}
+/* Space between nav items */
+.lcnl-nav { gap: 2rem; }
 
 /* Show dropdown on hover for desktop (keep click on mobile) */
-@media (min-width: 992px) {     /* lg and up */
-  .navbar .dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0;              /* snug under link */
-  }
-  .navbar .dropdown-toggle::after {
-    vertical-align: .15em;      /* nicer caret alignment */
-  }
+@media (min-width: 992px) {
+  .navbar .dropdown:hover .dropdown-menu { display: block; margin-top: 0; }
+  .navbar .dropdown-toggle::after { vertical-align: .15em; }
 }
 
-/* Optional: dropdown menu readability on gold navbar */
+/* Dropdown menu look on gold navbar */
 .bg-gold .dropdown-menu {
   border-radius: 10px;
   border: 0;
   box-shadow: 0 6px 20px rgba(0,0,0,.08);
 }
-.bg-gold .dropdown-item:hover {
-  background-color: var(--muted);
-}
-
-/* Keep dropdown on hover (desktop) */
-@media (min-width: 992px) {
-  .navbar .dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0;
-  }
-}
+.bg-gold .dropdown-item:hover { background-color: var(--muted); }
 
 /* Ensure Home shows caret but still links */
 .dropdown-toggle-home::after {
-  content: " ▾"; /* small caret */
+  content: " ▾";
   font-size: 1em;
 }

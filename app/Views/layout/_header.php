@@ -1,24 +1,37 @@
 <header class="lcnl-header bg-white py-2 border-bottom">
-  <div class="container d-flex justify-content-between align-items-center">
-    <!-- Logo -->
-    <a href="<?= base_url('/') ?>" class="d-flex align-items-center text-decoration-none">
-      <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" alt="LCNL" height="60" class="me-2">
-      <span class="fw-bold fs-4 text-dark">Lohana Community of North London</span>
-    </a>
-
-    <!-- Right side -->
-    <div class="d-flex align-items-center">
-      <!-- Socials -->
-      <div class="me-3">
-        <a href="#" class="text-dark fs-5 me-2"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="text-dark fs-5 me-2"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="text-dark fs-5"><i class="bi bi-whatsapp"></i></a>
+  <div class="container">
+    <div class="row align-items-center g-3">
+      <!-- Logo (left) -->
+      <div class="col-auto">
+        <a href="<?= base_url('/') ?>" class="d-inline-block">
+          <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" alt="LCNL" class="lcnl-logo">
+        </a>
       </div>
 
-      <!-- Login button -->
-      <a href="<?= base_url('login') ?>" class="btn btn-brand btn-sm">
-        <i class="bi bi-person-circle me-1"></i> Login
-      </a>
+      <!-- Right block: Title (top-right), Socials + Login (underneath) -->
+      <div class="col">
+        <div class="d-flex flex-column align-items-start text-start align-items-lg-end text-lg-end">
+          <!-- Title -->
+          <a href="<?= base_url('/') ?>" class="text-decoration-none site-title mb-2 mb-lg-3">
+            <span class="fw-bold fs-4 text-dark d-block">
+              Lohana Community of North London
+            </span>
+          </a>
+
+          <!-- Socials + Login -->
+          <div class="d-flex flex-wrap align-items-center gap-3 pt-1">
+            <div class="d-flex align-items-center gap-2 socials">
+              <a href="#" class="text-dark fs-5" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="text-dark fs-5" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="text-dark fs-5" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+
+            <a href="<?= base_url('login') ?>" class="btn btn-brand btn-sm">
+              <i class="bi bi-person-circle me-1"></i> Login
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
