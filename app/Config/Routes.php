@@ -13,4 +13,10 @@ $routes->get('/bereavement', 'Home::bereavement');
 $routes->get('/membership', 'Home::membership');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/dbcheck', 'Test::dbcheck');
+$routes->get('/aboutus', 'Home::aboutUs');
+$routes->get('committee', 'Committee::index');
+$routes->get('faqs', 'Home::faq');       // grouped view
+$routes->get('faqs/all', 'FaqController::all');     // all FAQs
+$routes->get('faqs/(:segment)', 'FaqController::group/$1'); // FAQs by group
+$routes->get('bereavement', 'FaqController::bereavement');
 

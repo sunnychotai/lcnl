@@ -1,17 +1,12 @@
 :root{
-  --brand:#4e0e10;
+  --brand:#7a1d3c;
   --accent:#c9a227;
+  --accent1:#eae753;
   --muted:#f6f2f2;
   --radius:14px;
 }
 
 .bg-brand{ background: var(--brand) !important; }
-
-.hero{
-  background: linear-gradient(135deg, #3f0b0c 0%, var(--brand) 70%);
-  padding: 64px 0;
-  color:#fff;
-}
 
 .btn.btn-brand {
   background-color: var(--brand) !important;
@@ -55,6 +50,8 @@ footer a:hover{ opacity:1; }
 /* ===== Navbar gold theme ===== */
 .bg-gold { background-color: var(--accent) !important; }
 
+.bg-lcnl { background-color: var(--accent1) !important;}
+
 .navbar .nav-link {
   color: #222 !important;
   transition: color 0.2s ease;
@@ -88,3 +85,29 @@ footer a:hover{ opacity:1; }
   content: " ▾";
   font-size: 1em;
 }
+
+.accordion-button {
+  background-color: #f1f1f1;
+  font-weight: 600;
+}
+.accordion-button:not(.collapsed) {
+  background-color: #ddd;
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.08); /* grows 5% bigger */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.committee-photo {
+  width: 250px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+

@@ -1,21 +1,29 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero">
+<section class="hero py-4">
   <div class="container">
     <div class="row align-items-center g-4">
-      <div class="col-lg-7">
+      <!-- Text column (flexible width) -->
+      <div class="col">
         <h1 class="display-5 fw-bold text-white">Lohana Community of North London</h1>
-        <p class="lead text-white-50 mb-4">Bringing our community together through culture, seva and celebration.</p>
-        <a href="<?= base_url('members') ?>" class="btn btn-gold btn-lg me-2">Join LCNL</a>
-        <a href="<?= base_url('donate') ?>" class="btn btn-outline-light btn-lg">Donate</a>
+        <p class="lead text-white-50 mb-4">
+          The Lohana Community North London (LCNL) has been bringing people together since 1976. 
+          Serving over 2,300 families, we celebrate our culture, support charitable causes, and 
+          create spaces where our community can thrive. Proud of our heritage, we move forward 
+          together for future generations.
+        </p>
       </div>
-      <div class="col-lg-5 d-none d-lg-block">
-        <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" class="w-100 rounded-3 shadow" alt="LCNL">
+
+      <!-- Image column (fixed size, right) -->
+      <div class="col-lg-4 d-none d-lg-flex justify-content-end">
+        <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" class="img-fluid" style="max-width: 200px;" alt="LCNL">
       </div>
     </div>
   </div>
 </section>
+
+
 
 <section class="py-5">
   <div class="container">
