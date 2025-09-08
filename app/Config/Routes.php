@@ -12,3 +12,5 @@ $routes->get('/contact', 'Home::contact');
 $routes->get('/bereavement', 'Home::bereavement');
 $routes->get('/membership', 'Home::membership');
 $routes->get('/faq', 'Home::faq');
+$routes->get('/dbcheck', 'Test::dbcheck');
+

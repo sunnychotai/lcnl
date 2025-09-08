@@ -12,7 +12,7 @@
   <?= $this->include('layout/_header') ?>
   <?= $this->include('layout/_navbar') ?>
 
-  <main class="flex-shrink-0 mt-4">
+  <main class="flex-shrink-0 mt-0">
     <?= $this->renderSection('content') ?>
   </main>
 
