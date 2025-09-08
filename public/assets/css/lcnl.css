@@ -8,6 +8,8 @@
 
 .bg-brand{ background: var(--brand) !important; }
 
+.hero{ background: linear-gradient(135deg, #3f0b0c 0%, var(--brand) 70%); padding: 64px 0; color:#fff; }
+
 .btn.btn-brand {
   background-color: var(--brand) !important;
   color: #fff !important;
