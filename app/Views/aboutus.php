@@ -3,30 +3,35 @@
 
 
 <!-- Hero Banner -->
-<div class="position-relative w-100" style="height: 400px; overflow: hidden;">
-    <img src="<?= base_url('assets/img/site/lcnl-ec-2025.jpg') ?>" 
-         alt="LCNL Executive Committee 2025" 
-         class="img-fluid w-100 h-100" 
-         style="object-fit: cover; object-position: top;">
-
-    <!-- Semi-transparent dark layer -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.4);"></div>
-
-<!-- Overlay text -->
-<div class="position-absolute top-50 start-0 translate-middle-y w-100 text-white">
-    <div class="container">
-        <h1 class="fw-bold display-4">About Us</h1>
-        <p class="lead">Lohana Community of North London</p>
-    </div>
-</div>
-
+<!-- Hero Banner -->
+<div class="hero hero-rangoli-red d-flex align-items-center justify-content-center">
+  <div class="overlay"></div>
+  <div class="container position-relative">
+    <h1 class="text-white fw-bold">About Us</h1>
+    <p class="text-white-75">Lohana Community of North London</p>
+  </div>
 </div>
 
 
 
 <!-- Page Content -->
 <div class="container py-5">
-    <h1 class="mb-4">About Us</h1>
+
+<!-- Committee Image -->
+<div class="mb-4 text-center">
+    <!-- Small thumbnail, clickable -->
+    <img src="<?= base_url('uploads/committee/lcnl-ec-25-27.JPG') ?>" 
+         alt="LCNL Executive Committee"
+         class="img-fluid rounded shadow committee-img"
+         style="max-width: 100%;"
+         data-bs-toggle="modal" data-bs-target="#committeeModal">
+    <!-- Subtext caption -->
+    <p class="mt-2 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
+</div>
+
+
+
+
 <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
 
 <p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Mandal, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
@@ -47,9 +52,9 @@
         <li>Raghuvanshi Charitable Trust</li>
         <li>Lohana Charity Foundation</li>
     </ul>
-<div class="container text-left my-5">
+<div class="container text-left my-3">
     <blockquote class="blockquote">
-        <p class="mb-0 fs-5 fw-bold text-brand">“We Move Forward Together”</p>
+        <p class="mb-0 fs-5 fw-bold text-brand">-- “We Move Forward Together”</p>
     </blockquote>
 </div>
 </div>

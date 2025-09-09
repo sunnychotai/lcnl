@@ -2,22 +2,12 @@
 <?= $this->section('content') ?>
 
 <!-- Hero Banner -->
-<div class="position-relative w-100" style="height: 400px; overflow: hidden;">
-    <img src="<?= base_url('assets/img/hero/bereavement.png') ?>" 
-         alt="Bereavement Support Information" 
-         class="img-fluid w-100 h-100" 
-         style="object-fit: cover; object-position: center;">
-
-    <!-- Semi-transparent dark layer -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.4);"></div>
-
-<!-- Overlay text -->
-<div class="position-absolute top-50 start-0 translate-middle-y w-100 text-white">
-    <div class="container">
-        <h1 class="fw-bold display-4">Bereavement Support Information</h1>
-        <p class="lead">Support & Assitance for the Community</p>
-    </div>
-</div>
+<div class="hero hero-rangoli-grey d-flex align-items-center justify-content-center">
+  <div class="overlay"></div>
+  <div class="container position-relative">
+    <h1 class="text-white fw-bold">Bereavement Support Information</h1>
+    <p class="text-white-75">Support & Assistance for the Lohana Community</p>
+  </div>
 </div>
 
 

@@ -29,6 +29,7 @@ class Home extends BaseController
 
     public function aboutus() { return view('aboutus'); }
 
+
     public function committee() { return view('committee'); }
 
     public function faq()

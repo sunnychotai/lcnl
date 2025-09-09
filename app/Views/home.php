@@ -1,13 +1,14 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero py-4">
+<section class="hero bg-brand d-flex align-items-center">
   <div class="container">
     <div class="row align-items-center g-4">
-      <!-- Text column (flexible width) -->
+      
+      <!-- Text column -->
       <div class="col">
-        <h1 class="display-5 fw-bold text-white">Lohana Community of North London</h1>
-        <p class="lead text-white-50 mb-4">
+        <h2 class="fw-bold text-white fs-2">Lohana Community of North London</h2>
+        <p class="text-white-50 fs-5 mb-3">
           The Lohana Community North London (LCNL) has been bringing people together since 1976. 
           Serving over 2,300 families, we celebrate our culture, support charitable causes, and 
           create spaces where our community can thrive. Proud of our heritage, we move forward 
@@ -15,13 +16,15 @@
         </p>
       </div>
 
-      <!-- Image column (fixed size, right) -->
+      <!-- Image column -->
       <div class="col-lg-4 d-none d-lg-flex justify-content-end">
-        <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" class="img-fluid" style="max-width: 200px;" alt="LCNL">
+        <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" 
+             class="img-fluid" style="max-width: 175px;" alt="LCNL">
       </div>
     </div>
   </div>
 </section>
+
 
 
 
