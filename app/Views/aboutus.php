@@ -15,7 +15,7 @@
 
 
 <!-- Page Content -->
-<div class="container py-5">
+<div class="container py-4">
 
 <!-- Committee Image -->
 <div class="mb-4 text-center">
@@ -32,7 +32,17 @@
 
 
 
-<p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
+
+</div>
+
+
+<section class="py-2">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+      
+      <!-- Left column -->
+      <div class="col-md-8">
+        <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
 
 <p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Mandal, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
 
@@ -57,6 +67,104 @@
         <p class="mb-0 fs-5 fw-bold text-brand">-- “We Move Forward Together”</p>
     </blockquote>
 </div>
+      </div>
+
+<!-- Right column (stacked cards) -->
+<div class="col-md-4 d-flex flex-column gap-3">
+
+  <div class="card shadow-sm border-0">
+    <a href="<?= base_url('events') ?>" class="stretched-link text-decoration-none text-dark">
+      <div class="card-body d-flex align-items-center">
+        <i class="bi bi-calendar-event-fill text-brand fs-3 me-3"></i>
+        <div>
+          <h5 class="card-title mb-1">Events</h5>
+          <p class="card-text text-muted small">Navratri, Diwali & year-round programmes.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <a href="<?= base_url('membership') ?>" class="stretched-link text-decoration-none text-dark">
+      <div class="card-body d-flex align-items-center">
+        <i class="bi bi-person-badge-fill text-accent fs-3 me-3"></i>
+        <div>
+          <h5 class="card-title mb-1">Membership</h5>
+          <p class="card-text text-muted small">Become a member and support LCNL.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <a href="<?= base_url('gallery') ?>" class="stretched-link text-decoration-none text-dark">
+      <div class="card-body d-flex align-items-center">
+        <i class="bi bi-images text-success fs-3 me-3"></i>
+        <div>
+          <h5 class="card-title mb-1">Gallery</h5>
+          <p class="card-text text-muted small">Photos & videos from our events.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Bereavement -->
+<div class="card shadow-sm border-0">
+  <a href="<?= base_url('bereavement') ?>" class="stretched-link text-decoration-none text-dark">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-flower1 text-danger fs-3 me-3"></i>
+      <div>
+        <h5 class="card-title mb-1">Bereavement</h5>
+        <p class="card-text text-muted small">Support, notices & community prayers.</p>
+      </div>
+    </div>
+  </a>
 </div>
+
+<!-- Mahila Mandal -->
+<div class="card shadow-sm border-0">
+  <a href="<?= base_url('mahila') ?>" class="stretched-link text-decoration-none text-dark">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-gem text-pink fs-3 me-3"></i>
+      <div>
+        <h5 class="card-title mb-1">Mahila Mandal</h5>
+        <p class="card-text text-muted small">Women-led programmes & activities.</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- Young Lohana Society (YLS) -->
+<div class="card shadow-sm border-0">
+  <a href="<?= base_url('yls') ?>" class="stretched-link text-decoration-none text-dark">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-people-fill text-primary fs-3 me-3"></i>
+      <div>
+        <h5 class="card-title mb-1">Young Lohana Society</h5>
+        <p class="card-text text-muted small">Youth events, networking & socials.</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- Youth Committee -->
+<div class="card shadow-sm border-0">
+  <a href="<?= base_url('youth') ?>" class="stretched-link text-decoration-none text-dark">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-controller text-warning fs-3 me-3"></i>
+      <div>
+        <h5 class="card-title mb-1">Youth Committee</h5>
+        <p class="card-text text-muted small">Activities & events for 13–18 year olds.</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+</div>
+
+  </div>
+  </div>
+</section>
 
 <?= $this->endSection() ?>

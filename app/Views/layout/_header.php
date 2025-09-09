@@ -27,9 +27,16 @@
 </div>
 
 
-            <a href="<?= base_url('login') ?>" class="btn btn-brand btn-sm">
-              <i class="bi bi-person-circle me-1"></i> Login
-            </a>
+           <?php if (session()->get('isLoggedIn')): ?>
+  <a href="<?= base_url('/auth/logout') ?>" class="btn btn-brand btn-sm">
+    <i class="bi bi-box-arrow-right me-1"></i> Logout
+  </a>
+<?php else: ?>
+  <a href="<?= base_url('/auth/login') ?>" class="btn btn-brand btn-sm">
+    <i class="bi bi-person-circle me-1"></i> Login
+  </a>
+<?php endif; ?>
+
           </div>
         </div>
       </div>

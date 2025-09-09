@@ -6,6 +6,7 @@ class CommitteeModel extends Model
 {
     protected $table      = 'committee';
     protected $primaryKey = 'id';
+    protected $returnType = 'array';   // ✅ always array
 
     protected $allowedFields = [
         'firstname', 'surname', 'email', 'role', 'committee', 'display_order', 'image', 'url'

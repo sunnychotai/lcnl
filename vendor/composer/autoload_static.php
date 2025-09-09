@@ -100,8 +100,16 @@ class ComposerStaticInit657ac079313fab046eb8c29fe1d6992b
     );
 
     public static $classMap = array (
+        'App\\Controllers\\Auth' => __DIR__ . '/../..' . '/app/Controllers/Auth.php',
         'App\\Controllers\\BaseController' => __DIR__ . '/../..' . '/app/Controllers/BaseController.php',
+        'App\\Controllers\\Committee' => __DIR__ . '/../..' . '/app/Controllers/Committee.php',
+        'App\\Controllers\\FaqController' => __DIR__ . '/../..' . '/app/Controllers/FaqController.php',
         'App\\Controllers\\Home' => __DIR__ . '/../..' . '/app/Controllers/Home.php',
+        'App\\Controllers\\Test' => __DIR__ . '/../..' . '/app/Controllers/Test.php',
+        'App\\Database\\Seeds\\CommitteeSeeder' => __DIR__ . '/../..' . '/app/Database/Seeds/CommitteeSeeder.php',
+        'App\\Filters\\AuthFilter' => __DIR__ . '/../..' . '/app/Filters/AuthFilter.php',
+        'App\\Models\\CommitteeModel' => __DIR__ . '/../..' . '/app/Models/CommitteeModel.php',
+        'App\\Models\\FaqModel' => __DIR__ . '/../..' . '/app/Models/FaqModel.php',
         'CodeIgniter\\API\\ResponseTrait' => __DIR__ . '/..' . '/codeigniter4/framework/system/API/ResponseTrait.php',
         'CodeIgniter\\Autoloader\\Autoloader' => __DIR__ . '/..' . '/codeigniter4/framework/system/Autoloader/Autoloader.php',
         'CodeIgniter\\Autoloader\\FileLocator' => __DIR__ . '/..' . '/codeigniter4/framework/system/Autoloader/FileLocator.php',

@@ -258,3 +258,133 @@ footer a:hover { opacity:1; }
   color: var(--brand) !important;
 }
 
+/* Dashboard cards */
+.hover-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--radius);
+}
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Colours for icons */
+.text-brand { color: var(--brand) !important; }
+.text-accent { color: var(--accent) !important; }
+
+.bg-darkblue {
+  background-color: #0d1b3d !important; /* deep blue */
+}
+
+.navbar-dark .nav-link {
+  color: #f8f9fa !important;
+}
+.navbar-dark .nav-link:hover {
+  color: var(--accent); /* your gold/yellow accent */
+}
+#adminNav .navbar-nav {
+  justify-content: center;
+  width: 100%;
+}
+
+#adminNav .nav-item {
+  text-align: center;
+}
+
+.btn-brand {
+  background-color: var(--brand);
+  color: #fff !important;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-brand:hover {
+  background-color: #6b1214; /* slightly darker */
+  transform: translateY(-2px);
+}
+
+.btn-outline-brand {
+  border: 2px solid var(--brand);
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.btn-outline-brand:hover {
+  background-color: var(--brand);
+  color: #fff;
+}
+
+/* Horizontal scroll row */
+.d-flex.overflow-auto {
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand) #f1f1f1; /* Firefox */
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar {
+  height: 8px;
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: var(--brand);
+  border-radius: 10px;
+}
+
+.event-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.event-img-wrapper:hover img {
+  transform: scale(1.05);
+}
+
+.event-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.text-pink { color: #e4405f !important; }   /* Mahila Mandal */
+.text-danger { color: #d63384 !important; } /* Bereavement */
+.text-primary { color: #0d6efd !important; } /* YLS */
+
+/* Event overlay reused */
+.event-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.event-img-wrapper img {
+  width: 250px;        /* fixed width */
+  height: auto;        /* auto height preserves aspect ratio */
+  object-fit: contain; /* ensures no distortion if you later add max constraints */
+  display: block;      /* removes inline spacing */
+  margin: 0 auto;      /* center horizontally inside card */
+}
+
+
+.event-img-wrapper:hover img {
+  transform: scale(1.05);
+}
+.event-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+  padding: 0.5rem;
+  text-align: center;
+}

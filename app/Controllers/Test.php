@@ -17,4 +17,10 @@ class Test extends Controller
             return "❌ DB connection failed: " . $e->getMessage();
         }
     }
+
+    public function pwhash()
+    {
+        return $passwordHash = password_hash('a', PASSWORD_DEFAULT);
+    }
+
 }
