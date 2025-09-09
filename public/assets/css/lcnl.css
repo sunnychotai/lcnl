@@ -11,9 +11,12 @@
 /* Base hero */
 .hero {
   position: relative;
-  height: 200px;
+  min-height: 200px;    /* acts as a baseline */
+  padding: 2rem 0;      /* gives breathing room */
   color: #fff;
-  overflow: hidden;
+  overflow: visible;    /* don’t clip content */
+  display: flex;
+  align-items: center;  /* vertical centering */
 }
 
 .hero-rangoli-pink {
@@ -54,6 +57,25 @@
     var(--accent1) 40px
   );
 }
+
+.hero .row {
+  flex-wrap: nowrap;   /* stops logo dropping to next line */
+}
+.hero .col {
+  flex: 1 1 auto;      /* text takes remaining space */
+  min-width: 0;        /* allows text to shrink gracefully */
+}
+.hero .col-lg-4 {
+  flex: 0 0 auto;      /* logo keeps its size */
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+}
+.hero img {
+  max-width: 175px;
+  height: auto;
+}
+
 
 
 /* Dark overlay layer */

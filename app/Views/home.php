@@ -16,14 +16,15 @@
         </p>
       </div>
 
-      <!-- Image column -->
-      <div class="col-lg-4 d-none d-lg-flex justify-content-end">
+      <!-- Logo column -->
+      <div class="col-lg-4">
         <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" 
-             class="img-fluid" style="max-width: 175px;" alt="LCNL">
+             class="img-fluid" alt="LCNL">
       </div>
     </div>
   </div>
 </section>
+
 
 
 

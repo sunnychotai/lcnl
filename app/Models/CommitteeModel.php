@@ -8,7 +8,7 @@ class CommitteeModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'firstname', 'surname', 'email', 'role', 'display_order', 'image', 'url'
+        'firstname', 'surname', 'email', 'role', 'committee', 'display_order', 'image', 'url'
     ];
 
     protected $useTimestamps = true;

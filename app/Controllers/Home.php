@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\FaqModel;
+use App\Models\CommitteeModel;
 
 class Home extends BaseController
 {
@@ -16,6 +17,18 @@ class Home extends BaseController
     }
 
     public function events()  { return view('events'); }
+
+        public function mahila() { 
+        
+        $committeeModel = new CommitteeModel();
+        $members = $committeeModel
+        ->where('committee', 'Mahila')   // 👈 filter
+        ->orderBy('id', 'ASC')              // or whatever column you use
+        ->findAll();
+        return view('mahila', [
+            'members' => $members
+        ]);
+    }
     public function gallery() { return view('gallery'); }
     public function contact() { return view('contact'); }
     public function bereavement()
@@ -30,7 +43,17 @@ class Home extends BaseController
     public function aboutus() { return view('aboutus'); }
 
 
-    public function committee() { return view('committee'); }
+    public function committee() { 
+        
+        $committeeModel = new CommitteeModel();
+        $members = $committeeModel
+        ->where('committee', 'Executive')   // 👈 filter
+        ->orderBy('id', 'ASC')              // or whatever column you use
+        ->findAll();
+        return view('committee', [
+            'members' => $members
+        ]);
+    }
 
     public function faq()
 {

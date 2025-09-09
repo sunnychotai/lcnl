@@ -1,27 +1,16 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
-<!-- Hero Banner -->
-<div class="position-relative w-100" style="height: 400px; overflow: hidden;">
-    <img src="<?= base_url('assets/img/site/lcnl-ec-2025.jpg') ?>" 
-         alt="LCNL Executive Committee 2025" 
-         class="img-fluid w-100 h-100" 
-         style="object-fit: cover; object-position: top;">
 
-    <!-- Semi-transparent dark layer -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.4);"></div>
-
-<!-- Overlay text -->
-<div class="position-absolute top-50 start-0 translate-middle-y w-100 text-white">
-    <div class="container">
-        <h1 class="fw-bold display-4">Executive Committee</h1>
-        <p class="lead">Meet the LCNL 2025-2027 Executive Committee</p>
-    </div>
-</div>
+<div class="hero hero-rangoli-purple d-flex align-items-center justify-content-center">
+  <div class="overlay"></div>
+  <div class="container position-relative">
+    <h1 class="text-white fw-bold">Mahila Mandal</h1>
+    <p class="text-white-75">Supporting and empowering the women of our community.</p>
+  </div>
 </div>
 
 <div class="container py-5">
-  
-  <div class="row g-4">
+   <div class="row g-4">
     <?php foreach ($members as $m): ?>
       <div class="col-md-3 col-sm-6">
         <div class="card h-100 text-center">
@@ -50,5 +39,6 @@
     <?php endforeach; ?>
   </div>
 </div>
+
 
 <?= $this->endSection() ?>
