@@ -3,10 +3,10 @@
 
 <section class="hero bg-brand d-flex align-items-center">
   <div class="container">
-    <div class="row align-items-center g-4">
+    <div class="row align-items-center g-4 text-center text-lg-start">
       
       <!-- Text column -->
-      <div class="col">
+      <div class="col-lg-8">
         <h2 class="fw-bold text-white fs-2">Lohana Community of North London</h2>
         <p class="text-white-50 fs-5 mb-3">
           The Lohana Community North London (LCNL) has been bringing people together since 1976. 
@@ -17,13 +17,16 @@
       </div>
 
       <!-- Logo column -->
-      <div class="col-lg-4">
+      <div class="col-lg-4 text-center text-lg-end">
         <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" 
-             class="img-fluid" alt="LCNL">
+             class="img-fluid" 
+             style="max-height:120px;" 
+             alt="LCNL">
       </div>
     </div>
   </div>
 </section>
+
 
 
 <?php if (!empty($upcomingEvents)): ?>
