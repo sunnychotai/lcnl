@@ -10,7 +10,7 @@ class Home extends BaseController
     public function index()
 {
     $eventModel = new EventModel();
-    $data['upcomingEvents'] = $eventModel->getUpcoming(10);
+    $data['upcomingEvents'] = $eventModel->getUpcomingEvents([], 10);
 
     return view('home', $data);
 }
@@ -38,17 +38,38 @@ public function events()
     ]);
 }
 
-        public function mahila() { 
-        
-        $committeeModel = new CommitteeModel();
-        $members = $committeeModel
-        ->where('committee', 'Mahila')   // 👈 filter
-        ->orderBy('id', 'ASC')              // or whatever column you use
+public function mahila()
+{
+    $committeeModel = new \App\Models\CommitteeModel();
+    $eventModel     = new \App\Models\EventModel();
+
+    // Mahila Mandal members
+    $members = $committeeModel
+        ->where('committee', 'Mahila')
+        ->orderBy('id', 'ASC')
         ->findAll();
-        return view('mahila', [
-            'members' => $members
-        ]);
+
+    // Upcoming events for Executive + Mahila committees (limit 10)
+    $events = $eventModel
+        ->where('event_date >=', date('Y-m-d'))
+        ->whereIn('committee', ['Executive', 'Mahila'])
+        ->orderBy('event_date', 'ASC')
+        ->findAll(10);
+
+    // Group events by month for display
+    $groupedEvents = [];
+    foreach ($events as $e) {
+        $month = date('F Y', strtotime($e['event_date']));
+        $groupedEvents[$month][] = $e;
     }
+
+    return view('committees/mahila', [
+        'members'       => $members,
+        'groupedEvents' => $groupedEvents
+    ]);
+}
+
+
     public function gallery() { return view('gallery'); }
     public function contact() { return view('contact'); }
     public function bereavement()
@@ -70,7 +91,7 @@ public function events()
         ->where('committee', 'Executive')   // 👈 filter
         ->orderBy('id', 'ASC')              // or whatever column you use
         ->findAll();
-        return view('committee', [
+        return view('committees/committee', [
             'members' => $members
         ]);
     }
@@ -109,6 +130,36 @@ public function eventDetail($id)
     ]);
 }
 
+public function yls()
+{
+    $committeeModel = new \App\Models\CommitteeModel();
+    $eventModel     = new \App\Models\EventModel();
+
+    // Mahila Mandal members
+    $members = $committeeModel
+        ->where('committee', 'YLS')
+        ->orderBy('id', 'ASC')
+        ->findAll();
+
+    // Upcoming events for Executive + Mahila committees (limit 10)
+    $events = $eventModel
+        ->where('event_date >=', date('Y-m-d'))
+        ->whereIn('committee', ['YLS'])
+        ->orderBy('event_date', 'ASC')
+        ->findAll(10);
+
+    // Group events by month for display
+    $groupedEvents = [];
+    foreach ($events as $e) {
+        $month = date('F Y', strtotime($e['event_date']));
+        $groupedEvents[$month][] = $e;
+    }
+
+    return view('committees/yls', [
+        'members'       => $members,
+        'groupedEvents' => $groupedEvents
+    ]);
+}
 
 
 }

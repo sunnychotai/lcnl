@@ -28,7 +28,7 @@
           <ul class="dropdown-menu" aria-labelledby="committeeDropdown">
             <li><a class="dropdown-item" href="<?= base_url('/committee') ?>">Executive Committee</a></li>  
             <li><a class="dropdown-item" href="<?= base_url('/mahila') ?>">Mahila Mandal</a></li>  
-            <li><a class="dropdown-item" href="<?= base_url('/') ?>">Young Lohana Society</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('/yls') ?>">Young Lohana Society</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/') ?>">Youth Committee</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/') ?>">Senior Mens</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/') ?>">Senior Ladies</a></li>
@@ -48,7 +48,7 @@
   </div>
 </nav>
 
-<?php if (session()->get('isLoggedIn') && session()->get('user_role') === 'Admin'): ?>
+<?php if (session()->get('isLoggedIn') && session()->get('user_role') === 'ADMIN'): ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-darkblue py-2 shadow-sm">
     <div class="container-fluid">
       

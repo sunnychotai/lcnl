@@ -1,0 +1,74 @@
+<?= $this->extend('layout/main') ?>
+<?= $this->section('content') ?>
+
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-brand text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0"><i class="bi bi-question-circle-fill me-2"></i> Add FAQ</h4>
+          <a href="<?= base_url('admin/faqs') ?>" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-arrow-left"></i> Back
+          </a>
+        </div>        
+        <div class="card-body">
+          <form method="post" action="<?= base_url('admin/faqs/store') ?>">
+            <?= csrf_field() ?>
+
+            <!-- Group -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold"><i class="bi bi-folder2-open me-1"></i> Group</label>
+              <select name="faq_group" class="form-select" required>
+                <option value="">-- Select Group --</option>
+                <?php foreach ($groups as $g): ?>
+                  <option value="<?= esc($g) ?>"><?= esc($g) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+
+            <!-- Question -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold"><i class="bi bi-chat-left-text me-1"></i> Question</label>
+              <textarea name="question" class="form-control" rows="2" required></textarea>
+            </div>
+
+            <!-- Answer -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold"><i class="bi bi-card-text me-1"></i> Answer</label>
+              <textarea name="answer" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <!-- Order + Valid -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold"><i class="bi bi-list-ol me-1"></i> Display Order</label>
+                <input type="number" name="faq_order" class="form-control" value="0">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold"><i class="bi bi-check-circle me-1"></i> Valid</label>
+                <select name="valid" class="form-select">
+                  <option value="1" selected>Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <a href="<?= base_url('admin/faqs') ?>" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cancel
+              </a>
+              <button type="submit" class="btn btn-success">
+                <i class="bi bi-save"></i> Save FAQ
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<?= $this->endSection() ?>

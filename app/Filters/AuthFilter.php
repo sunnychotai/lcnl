@@ -10,17 +10,24 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Check if user is logged in
-        if (! session()->get('isLoggedIn')) {
-            return redirect()->to('/auth/login')->with('error', 'Please login first.');
+        $session = session();
+
+        // Check if logged in
+        if (! $session->get('isLoggedIn')) {
+            return redirect()->to('/auth/login')->with('error', 'Please log in first');
+        }
+
+        // If specific role(s) required, enforce it
+        if ($arguments) {
+            $userRole = $session->get('user_role');
+            if (! in_array($userRole, $arguments)) {
+                return redirect()->to('/admin/dashboard')->with('error', 'Access denied');
+            }
         }
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        // Optional: prevent logged-in users from hitting login page
-        if (session()->get('isLoggedIn') && service('router')->controllerName() === 'App\Controllers\Auth') {
-            return redirect()->to('/admin/dashboard');
-        }
+        // Nothing needed here
     }
 }

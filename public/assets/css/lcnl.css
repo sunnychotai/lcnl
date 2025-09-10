@@ -388,3 +388,14 @@ footer a:hover { opacity:1; }
   padding: 0.5rem;
   text-align: center;
 }
+
+.nav-tabs .nav-link {
+  font-weight: 600;
+  color: var(--brand);
+}
+.nav-tabs .nav-link.active {
+  background-color: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+}

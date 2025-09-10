@@ -1,15 +1,12 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <!-- Hero Banner -->
-<div class="position-relative w-100" style="height: 300px; overflow: hidden;">
-    <img src="<?= base_url('assets/img/hero/faq.png') ?>" 
-         alt="Bereavement Support Information" 
-         class="img-fluid w-100 h-100" 
-         style="object-fit: cover; object-position: center;">
-
-    <!-- Semi-transparent dark layer -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.4);"></div>
-
+<div class="hero hero-rangoli-pink d-flex align-items-center justify-content-center">
+  <div class="overlay"></div>
+  <div class="container position-relative">
+    <h1 class="text-white fw-bold">Events</h1>
+    <p class="text-white-75">Discover our upcoming events by month.</p>
+  </div>
 </div>
 
 </div>
