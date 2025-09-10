@@ -90,7 +90,7 @@
         <h2 class="mb-4 mt-5"><?= esc($month) ?></h2>
         <div class="d-flex overflow-auto gap-3 pb-2">
           <?php foreach ($events as $event): ?>
-            <?php if (in_array($event['committee'], ['Executive', 'Mahila'])): ?>
+            <?php if (in_array($event['committee'], ['YLS'])): ?>
               <a href="<?= base_url('events/'.$event['id']) ?>" 
                  class="text-decoration-none flex-shrink-0" 
                  style="width: 280px;">
