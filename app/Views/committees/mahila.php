@@ -36,17 +36,23 @@
     <!-- About Tab -->
     <div class="tab-pane fade show active" id="about" role="tabpanel">
       <div class="mb-4 text-center">
-    <!-- Small thumbnail, clickable -->
-    <img src="<?= base_url('uploads/committee/mahila-committee.jpg') ?>" 
-         alt="LCNL Mahila"
-         class="img-fluid rounded shadow committee-img"
-         style="max-width: 100%;"
-         data-bs-toggle="modal" data-bs-target="#committeeModal">
-    <!-- Subtext caption -->
-    <p class="mt-2 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
-</div>
+        <?php 
+          $basePath = 'assets/img/committee/';
+          $imagePath = $basePath . 'mahila-committee.jpg';
 
-      <div class="">
+          if (!is_file(FCPATH . $imagePath)) {
+              $imagePath = $basePath . 'lcnl-placeholder.png';
+          }
+        ?>
+        <img src="<?= base_url($imagePath) ?>" 
+             alt="LCNL Mahila"
+             class="img-fluid rounded shadow committee-img"
+             style="max-width: 100%;"
+             data-bs-toggle="modal" data-bs-target="#committeeModal">
+        <p class="mt-2 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
+      </div>
+
+      <div>
         <p>
           The Mahila Mandal has been at the heart of LCNL, bringing women together 
           through cultural, social and charitable activities. 
@@ -59,86 +65,90 @@
       </div>
     </div>
 
-<!-- Events Tab -->
-<div class="tab-pane fade" id="events" role="tabpanel">
-  <h3 class="mb-4">Upcoming Events</h3>
-  
-  <div class="container">
-    <?php if (!empty($groupedEvents)): ?>
-      <?php foreach ($groupedEvents as $month => $events): ?>
-        <h2 class="mb-4 mt-5"><?= esc($month) ?></h2>
-        <div class="d-flex overflow-auto gap-3 pb-2">
-          <?php foreach ($events as $event): ?>
-            <?php if (in_array($event['committee'], ['Executive', 'Mahila'])): ?>
-              <a href="<?= base_url('events/'.$event['id']) ?>" 
-                 class="text-decoration-none flex-shrink-0" 
-                 style="width: 280px;">
-                <div class="card shadow-sm border-0 h-100 event-card">
-                  <?php if (!empty($event['image'])): ?>
-                    <div class="event-img-wrapper">
-                      <img src="<?= base_url($event['image']) ?>" 
-                           class="card-img-top" 
-                           alt="<?= esc($event['title']) ?>">
-                      <div class="event-overlay">
-                        <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
-                        <small class="text-light">
-                          <?= date('d M Y', strtotime($event['event_date'])) ?>
-                          <?php if (!empty($event['time_from'])): ?>
-                            · <?= date('H:i', strtotime($event['time_from'])) ?>
-                          <?php endif; ?>
-                        </small>
-                      </div>
+    <!-- Events Tab -->
+    <div class="tab-pane fade" id="events" role="tabpanel">
+      <h3 class="mb-4">Upcoming Events</h3>
+      
+      <div class="container">
+        <?php if (!empty($groupedEvents)): ?>
+          <?php foreach ($groupedEvents as $month => $events): ?>
+            <h2 class="mb-4 mt-5"><?= esc($month) ?></h2>
+            <div class="d-flex overflow-auto gap-3 pb-2">
+              <?php foreach ($events as $event): ?>
+                <?php if (in_array($event['committee'], ['Executive', 'Mahila'])): ?>
+                  <a href="<?= base_url('events/'.$event['id']) ?>" 
+                     class="text-decoration-none flex-shrink-0" 
+                     style="width: 280px;">
+                    <div class="card shadow-sm border-0 h-100 event-card">
+                      <?php if (!empty($event['image'])): ?>
+                        <div class="event-img-wrapper">
+                          <img src="<?= base_url($event['image']) ?>" 
+                               class="card-img-top" 
+                               alt="<?= esc($event['title']) ?>">
+                          <div class="event-overlay">
+                            <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
+                            <small class="text-light">
+                              <?= date('d M Y', strtotime($event['event_date'])) ?>
+                              <?php if (!empty($event['time_from'])): ?>
+                                · <?= date('H:i', strtotime($event['time_from'])) ?>
+                              <?php endif; ?>
+                            </small>
+                          </div>
+                        </div>
+                      <?php else: ?>
+                        <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:200px;">
+                          <i class="bi bi-calendar-event fs-1 text-muted"></i>
+                        </div>
+                      <?php endif; ?>
                     </div>
-                  <?php else: ?>
-                    <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:200px;">
-                      <i class="bi bi-calendar-event fs-1 text-muted"></i>
-                    </div>
-                  <?php endif; ?>
-                </div>
-              </a>
-            <?php endif; ?>
+                  </a>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            </div>
           <?php endforeach; ?>
+        <?php else: ?>
+          <p>No upcoming events found.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+
+<!-- Committee Tab -->
+<div class="tab-pane fade" id="committee" role="tabpanel">
+  <h3 class="mb-4 text-center">Committee Members</h3>
+  <div class="row g-4">
+    <?php foreach ($members as $m): ?>
+      <div class="col-md-3 col-sm-6">
+        <div class="card h-100 text-center">
+          <?php 
+            $basePath = 'assets/img/committee/';
+            $filename = basename($m['image'] ?? ''); // only keep filename
+            $imagePath = $basePath . $filename;
+
+            if (empty($filename) || !is_file(FCPATH . $imagePath)) {
+                $imagePath = $basePath . 'lcnl-placeholder.png';
+            }
+          ?>
+          <img src="<?= base_url($imagePath) ?>" 
+               class="card-img-top committee-photo" 
+               alt="<?= esc($m['firstname'].' '.$m['surname']) ?>">
+
+          <div class="card-body">
+            <h5 class="card-title mb-1">
+              <?= esc($m['firstname'].' '.$m['surname']) ?>
+            </h5>
+            <?php if (!empty($m['role'])): ?>
+              <p class="text-muted mb-1"><?= esc($m['role']) ?></p>
+            <?php endif; ?>
+            <?php if (!empty($m['url'])): ?>
+              <a href="<?= esc($m['url']) ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">More</a>
+            <?php endif; ?>
+          </div>
         </div>
-      <?php endforeach; ?>
-    <?php else: ?>
-      <p>No upcoming events found.</p>
-    <?php endif; ?>
+      </div>
+    <?php endforeach; ?>
   </div>
 </div>
 
-
-    <!-- Committee Tab -->
-    <div class="tab-pane fade" id="committee" role="tabpanel">
-      <h3 class="mb-4 text-center">Committee Members</h3>
-      <div class="row g-4">
-        <?php foreach ($members as $m): ?>
-          <div class="col-md-3 col-sm-6">
-            <div class="card h-100 text-center">
-              <?php 
-                $imagePath = $m['image'];
-                if (empty($imagePath) || !is_file(FCPATH . ltrim($imagePath, '/'))) {
-                    $imagePath = '/uploads/committee/lcnl-placeholder.png';
-                }
-              ?>
-              <img src="<?= base_url($imagePath) ?>" 
-                   class="card-img-top committee-photo" 
-                   alt="<?= esc($m['firstname'].' '.$m['surname']) ?>">
-              <div class="card-body">
-                <h5 class="card-title mb-1">
-                  <?= esc($m['firstname'].' '.$m['surname']) ?>
-                </h5>
-                <?php if (!empty($m['role'])): ?>
-                  <p class="text-muted mb-1"><?= esc($m['role']) ?></p>
-                <?php endif; ?>
-                <?php if (!empty($m['url'])): ?>
-                  <a href="<?= esc($m['url']) ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">More</a>
-                <?php endif; ?>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    </div>
 
   </div>
 </div>
