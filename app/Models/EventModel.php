@@ -7,7 +7,7 @@ class EventModel extends Model
     protected $table      = 'events';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'title', 'description', 'event_date', 'image', 'committee'
+        'title', 'description', 'event_date', 'location', 'time_from', 'time_to','image', 'committee'
     ];
     protected $useTimestamps = true;
 
