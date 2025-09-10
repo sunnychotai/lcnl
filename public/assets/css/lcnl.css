@@ -217,13 +217,14 @@ footer a:hover { opacity:1; }
   background-color: #ddd;
 }
 
-/* Committee photos */
 .committee-photo {
-  width: 250px;
-  height: auto;
-  margin: 0 auto;
-  display: block;
+  height: 375px;         /* Fixed height */
+  width: 100%;           /* Fill card width */
+  object-fit: contain;   /* Scale without cropping/stretching */
+  background: #f8f9fa;   /* Light background padding */
+  padding: 10px;         /* Optional breathing space */
 }
+
 
 /* Carousel */
 #galleryCarousel { position: relative; }

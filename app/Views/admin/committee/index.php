@@ -62,19 +62,21 @@
           <!-- ✅ Thumbnail with file existence check -->
 <td>
   <?php 
-    $imgPath = FCPATH . ltrim($member['image'], '/'); // absolute file path
-    $imgUrl  = base_url($member['image']);
+    // Normalise image path
+    $imgPath = FCPATH . 'assets/img/committee/' . basename($member['image'] ?? '');
+    $imgUrl  = base_url('assets/img/committee/' . basename($member['image'] ?? ''));
 
     if (!empty($member['image']) && file_exists($imgPath)) {
         $finalImg = $imgUrl;
     } else {
-        $finalImg = base_url('/uploads/committee/lcnl-placeholder.png');
+        $finalImg = base_url('assets/img/committee/lcnl-placeholder.png');
     }
   ?>
   <img src="<?= $finalImg ?>" 
        alt="Photo" 
        style="width:40px;height:40px;object-fit:cover;border-radius:50%;">
 </td>
+
 
 
 

@@ -59,7 +59,7 @@ public function create()
             'role'          => 'permit_empty|string',
             'committee'     => 'required|in_list[Executive,Mahila,YLS,RCT,LSM,LSL,LCF,YC]',
             'display_order' => 'required|is_natural',
-            'image'         => 'required|regex_match[/^\/uploads\/committee\/.+$/]'
+            'image'         => 'permit_empty|string'
         ];
 
         if (! $this->validate($validationRules)) {
@@ -99,7 +99,7 @@ public function create()
             'role'          => 'permit_empty|string',
             'committee'     => 'required|in_list[Executive,Mahila,YLS,RCT,LSM,LSL,LCF,YC]',
             'display_order' => 'required|is_natural',
-            'image'         => 'required|regex_match[/^\/uploads\/committee\/.+$/]'
+            'role'          => 'permit_empty|string'
         ];
 
         if (! $this->validate($validationRules)) {

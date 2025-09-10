@@ -20,7 +20,7 @@
 <!-- Committee Image -->
 <div class="mb-4 text-center">
     <!-- Small thumbnail, clickable -->
-    <img src="<?= base_url('uploads/committee/lcnl-ec-25-27.JPG') ?>" 
+    <img src="<?= base_url('assets/img/committee/lcnl-ec-25-27.JPG') ?>" 
          alt="LCNL Executive Committee"
          class="img-fluid rounded shadow committee-img"
          style="max-width: 100%;"

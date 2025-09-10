@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <!-- Hero Banner -->
 <div class="position-relative w-100" style="height: 400px; overflow: hidden;">
-    <img src="<?= base_url('assets/img/site/lcnl-ec-2025.jpg') ?>" 
+    <img src="<?= base_url('assets/img/committee/lcnl-ec-25-27.jpg') ?>" 
          alt="LCNL Executive Committee 2025" 
          class="img-fluid w-100 h-100" 
          style="object-fit: cover; object-position: top;">
@@ -20,21 +20,25 @@
 </div>
 
 <div class="container py-5">
-  
   <div class="row g-4">
     <h2>Lohana Community of North London Committee 2025-2027</h2>
     <?php foreach ($members as $m): ?>
       <div class="col-md-3 col-sm-6">
         <div class="card h-100 text-center">
           <?php 
-    $imagePath = $m['image'];
-    if (empty($imagePath) || !is_file(FCPATH . ltrim($imagePath, '/'))) {
-        $imagePath = '/uploads/committee/lcnl-placeholder.png';
-    }
-?>
-<img src="<?= base_url($imagePath) ?>" 
-     class="card-img-top committee-photo" 
-     alt="<?= esc($m['firstname'].' '.$m['surname']) ?>">
+            // Base path for committee images
+            $basePath = 'assets/img/committee/';
+            $imagePath = $basePath . ($m['image'] ?? '');
+
+            // Check if file exists, otherwise use placeholder
+            if (empty($m['image']) || !is_file(FCPATH . $imagePath)) {
+                $imagePath = $basePath . 'lcnl-placeholder.png';
+            }
+          ?>
+          <img src="<?= base_url($imagePath) ?>" 
+               class="card-img-top committee-photo" 
+               alt="<?= esc($m['firstname'].' '.$m['surname']) ?>">
+
           <div class="card-body">
             <h5 class="card-title mb-1">
               <?= esc($m['firstname'].' '.$m['surname']) ?>
@@ -51,5 +55,6 @@
     <?php endforeach; ?>
   </div>
 </div>
+
 
 <?= $this->endSection() ?>

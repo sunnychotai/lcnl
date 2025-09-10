@@ -84,7 +84,7 @@
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-semibold"><i class="bi bi-image me-1"></i> Image URL</label>
                 <input type="text" name="image" class="form-control"
-                       value="<?= old('image', $committee['image'] ?? '/uploads/committee/') ?>" required>
+                       value="<?= old('image', $committee['image'] ?? '') ?>" required>
               </div>
             </div>
 

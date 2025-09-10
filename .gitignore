@@ -14,3 +14,7 @@ writable/*
 *.swp
 .DS_Store
 Thumbs.db
+
+# Ignore all uploads
+/public/uploads/
+/uploads/
