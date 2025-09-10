@@ -16,7 +16,7 @@
   <div class="d-flex flex-wrap flex-row-reverse align-items-start mb-3">
     <!-- Image -->
     <div style="flex: 0 0 300px; max-width: 300px; margin-right: 20px; margin-bottom: 20px;">
-      <img src="<?= base_url('uploads/shiva.png') ?>" 
+      <img src="<?= base_url('assets/img/shiva.png') ?>" 
            alt="Shiva" 
            class="img-fluid rounded" 
            style="width: 100%; height: auto;">

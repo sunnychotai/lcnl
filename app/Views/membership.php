@@ -11,8 +11,8 @@
 </div>
 
 <div class="container py-5">
-  <h2>Membership</h2>
-  <p>Become a member now</p>
+  <h2>In Development</h2>
+  
 </div>
 
 <?= $this->endSection() ?>
