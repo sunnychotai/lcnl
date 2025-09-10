@@ -39,7 +39,7 @@
     <h2>About Us</h2>
     
     <div class="text-center mb-4">
-      <img src="<?= base_url('uploads/committee/yls-logo.png') ?>" 
+      <img src="<?= base_url('assets/img/committee/yls-logo.png') ?>" 
            alt="YLS Logo" 
            class="img-fluid" 
            style="max-height:120px;">
