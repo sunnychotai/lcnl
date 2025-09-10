@@ -7,10 +7,24 @@
     <!-- Image column -->
     <div class="col-md-5">
       <?php if (!empty($event['image'])): ?>
-     <img src="<?= base_url($event['image']) ?>" 
-     class="img-fluid rounded shadow-sm w-100 bg-light" 
-     style="max-height:350px; object-fit:contain;" 
-     alt="<?= esc($event['title']) ?>">
+  <!-- Thumbnail (clickable) -->
+  <a href="#" data-bs-toggle="modal" data-bs-target="#eventImageModal">
+    <img src="<?= base_url($event['image']) ?>" 
+         class="img-fluid rounded shadow-sm w-100 bg-light" 
+         style="max-height:350px; object-fit:contain; cursor: zoom-in;" 
+         alt="<?= esc($event['title']) ?>">
+  </a>
+
+  <!-- Modal for enlarged image -->
+  <div class="modal fade" id="eventImageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+        <img src="<?= base_url($event['image']) ?>" 
+             class="img-fluid rounded shadow" 
+             alt="<?= esc($event['title']) ?>">
+      </div>
+    </div>
+  </div>
 
 
       <?php else: ?>
@@ -32,7 +46,7 @@
         <?php endif; ?>
       </p>
 
-      <div class="fs-5 mb-4">
+      <div class="fs-6 mb-4">
         <?= nl2br(esc($event['description'])) ?>
       </div>
 
