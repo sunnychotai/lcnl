@@ -515,12 +515,3 @@ footer a:hover { opacity:1; }
 .no-hover .event-img-wrapper:hover img {
   transform: scale(1.05);
 }
-
-/* Ensure the rangoli wins even if something sets background later */
-.hero.hero-rangoli-orange {
-  background-color: var(--accent1) !important;
-  background-image: url("/assets/patterns/rangoli-orange.svg") !important;
-  background-repeat: repeat !important;
-  background-position: top left !important;
-  background-size: auto !important;
-}
