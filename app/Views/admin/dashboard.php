@@ -6,7 +6,6 @@
   <div class="overlay"></div>
   <div class="container position-relative">
     <h1 class="text-white fw-bold">Administration</h1>
-    <p class="text-white-75"><pre><?php print_r(session()->get()); ?></pre></p>
   </div>
 </div>
 
