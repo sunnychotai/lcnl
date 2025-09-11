@@ -23,13 +23,13 @@
 
       <!-- News items -->
       <div class="carousel-item">
-        <p><i class="bi bi-ticket-perforated me-2"></i>Navratri Garba tickets available now!</p>
+        <h1><i class="bi bi-ticket-perforated me-2"></i>Navratri Garba tickets available now!</h1>
       </div>
       <div class="carousel-item">
-        <p><i class="bi bi-stars me-2"></i>Join us for Diwali celebrations on 1st Nov.</p>
+        <h1><i class="bi bi-stars me-2"></i>Join us for Diwali celebrations on 1st Nov.</h1>
       </div>
       <div class="carousel-item">
-        <p><i class="bi bi-people-fill me-2"></i>Over 2,300 families are part of LCNL.</p>
+        <h1><i class="bi bi-people-fill me-2"></i>Over 2,300 families are part of LCNL.</h1>
       </div>
 
     </div>
