@@ -5,7 +5,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Events</h1>
-    <p class="text-white-75">Upcoming events by month</p>
+    <p class="text-white-50">Upcoming events by month</p>
   </div>
 </div>
 

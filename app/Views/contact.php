@@ -6,7 +6,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Contact Us</h1>
-    <p class="text-white-75">We would love to hear from you</p>
+    <p class="text-white-50">We would love to hear from you</p>
   </div>
 </div>
 

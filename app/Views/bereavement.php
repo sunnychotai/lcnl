@@ -6,7 +6,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Bereavement Support Information</h1>
-    <p class="text-white-75">Support & Assistance for the Lohana Community</p>
+    <p class="text-white-50">Support & Assistance for the Lohana Community</p>
   </div>
 </div>
 

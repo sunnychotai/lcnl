@@ -1,14 +1,12 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-
-<!-- Hero Banner -->
 <!-- Hero Banner -->
 <div class="hero hero-rangoli-red d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">About Us</h1>
-    <p class="text-white-75">Lohana Community of North London</p>
+    <p class="text-white-50">Lohana Community of North London</p>
   </div>
 </div>
 
@@ -20,7 +18,7 @@
 <!-- Committee Image -->
 <div class="mb-4 text-center">
     <!-- Small thumbnail, clickable -->
-    <img src="<?= base_url('assets/img/committee/lcnl-ec-25-27.JPG') ?>" 
+    <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" 
          alt="LCNL Executive Committee"
          class="img-fluid rounded shadow committee-img"
          style="max-width: 100%;"

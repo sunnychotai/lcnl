@@ -5,7 +5,7 @@
  */
 
 $baseDir = __DIR__;
-$publicDir = $baseDir . '/public';
+$publicDir = $baseDir . '\public';
 
 $errors = [];
 

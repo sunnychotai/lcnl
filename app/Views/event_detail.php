@@ -25,7 +25,7 @@
     // Resolve image (fallback)
     $img = $event['image'] ?? '';
     if (! $img) {
-        $img = 'assets/img/events/placeholder-event.jpg'; // adjust if different
+        $img = 'assets/img/lcnl-placeholder-320.png'; // adjust if different
     }
     $modalId = 'eventImageModal';
   ?>

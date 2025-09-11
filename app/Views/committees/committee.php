@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <!-- Hero Banner -->
 <div class="position-relative w-100" style="height: 400px; overflow: hidden;">
-    <img src="<?= base_url('assets/img/committee/lcnl-ec-25-27.JPG') ?>" 
+    <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" 
          alt="LCNL Executive Committee 2025" 
          class="img-fluid w-100 h-100" 
          style="object-fit: cover; object-position: top;">

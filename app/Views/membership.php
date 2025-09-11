@@ -6,7 +6,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">LCNL Membership</h1>
-    <p class="text-white-75">Sign up and become a member of the Lohana Community today</p>
+    <p class="text-white-50">Sign up and become a member of the Lohana Community today</p>
   </div>
 </div>
 

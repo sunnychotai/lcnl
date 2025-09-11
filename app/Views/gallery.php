@@ -5,7 +5,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Gallery</h1>
-    <p class="text-white-75"></p>
+    <p class="text-white-50"></p>
   </div>
 </div>
 <div class="container py-5">
