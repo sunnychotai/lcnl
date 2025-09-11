@@ -13,8 +13,15 @@
           <li><a class="text-white text-decoration-none" href="<?= base_url('bereavement') ?>">Bereavement</a></li>
           <li><a class="text-white text-decoration-none" href="<?= base_url('contact') ?>">Contact</a></li>
           <li><a class="text-white text-decoration-none" href="<?= base_url('faqs') ?>">Frequently Asked Questions</a></li>
-        </ul>
-      </div>
+        
+        <?php if (session()->get('isLoggedIn')): ?>
+            <li><a class="text-white text-decoration-none" href="<?= base_url('/auth/logout') ?>"><i class="bi bi-box-arrow-right me-1"></i> Logout</a></li>
+<?php else: ?>
+              <li><a class="text-white text-decoration-none" href="<?= base_url('/auth/login') ?>"><i class="bi bi-box-arrow-right me-1"></i> Login</a></li>
+
+<?php endif; ?>
+</ul>      
+</div>
       <div class="col-md-3 mb-3">
         <h6 class="fw-bold">Contact</h6>
         <div class="small">info@lcnl.org.uk</div>

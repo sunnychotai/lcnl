@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <!-- Hero Banner -->
-<div class="hero hero-rangoli-red d-flex align-items-center justify-content-center">
+<div class="hero hero-lcnl-watermark d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Events</h1>
@@ -9,10 +9,10 @@
   </div>
 </div>
 
-<div class="container py-5">
+<div class="container py-1">
   <?php if (!empty($groupedEvents)): ?>
     <?php foreach ($groupedEvents as $month => $events): ?>
-      <h2 class="mb-4 mt-5"><?= esc($month) ?></h2>
+      <h2 class="mb-1 mt-3"><?= esc($month) ?></h2>
       <div class="d-flex overflow-auto gap-3 pb-2">
         <?php foreach ($events as $event): ?>
           <a href="<?= base_url('events/'.$event['id']) ?>" 

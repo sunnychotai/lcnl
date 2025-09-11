@@ -4,7 +4,7 @@
 <section class="hero bg-brand d-flex align-items-center">
   <div class="container text-lg-start">
     <div class="glass-box text-start">
-  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
     <div class="carousel-inner text-white">
 
       <!-- Intro -->
@@ -45,7 +45,7 @@
 
 <?php if (!empty($upcomingEvents)): ?>
   <section class="container py-3">
-    <h2 class="mb-4">
+    <h2 class="mb-2">
       <a href="<?= base_url('events') ?>" class="text-decoration-none text-dark">
         Upcoming Events
       </a>

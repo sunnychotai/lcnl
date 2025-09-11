@@ -48,10 +48,10 @@
     <i class="bi bi-people-fill me-2 text-brand"></i>Connect with us
   </h5>
   <p>Follow LCNL on social media for the latest updates:</p>
-  <div class="d-flex gap-3 fs-4 socials">
-    <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-    <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-    <a href="#" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+  <div class="d-flex align-items-center gap-2 socials">
+    <a href="https://www.facebook.com/groups/lcnlmahajan/" class="fs-4" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+    <a href="https://www.instagram.com/lcnlmahajan/" class="fs-4" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+    <a href="https://vimeo.com/lcnl" class="fs-4" aria-label="Vimeo"><i class="bi bi-vimeo"></i></a>
   </div>
 </div>
 

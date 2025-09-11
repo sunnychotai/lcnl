@@ -1,7 +1,7 @@
 :root {
   --brand:#7a1d3c;
-  --accent:#c9a227;
-  --accent1:#eae753; /* yellow */
+  --accent1:#d4af37;
+  /* --accent1:#eae753; /* yellow */
   --muted:#f6f2f2;
   --radius:14px;
 }
@@ -58,13 +58,35 @@
 /* Base hero */
 .hero {
   position: relative;
-  min-height: 200px;    /* acts as a baseline */
-  padding: 2rem 0;      /* gives breathing room */
+  min-height: 125px;    /* acts as a baseline */
+  padding: 0;      /* gives breathing room */
   color: #fff;
   overflow: visible;    /* don’t clip content */
   display: flex;
   align-items: center;  /* vertical centering */
 }
+
+.hero-lcnl-watermark {
+  position: relative;
+  background-image: url("/assets/patterns/lcnl-watermark.svg");
+  background-repeat:repeat;
+  background-size: 150px 150px;  /* tile size */
+}
+
+.hero-lcnl-watermark::before {
+  content: "";
+  position: absolute;
+  inset:0; /* covers entire area */
+  background: rgba(255, 246, 217, 0.9); /* grey overlay at 60% opacity */
+  pointer-events: none; /* don’t block clicks */
+}
+
+
+
+
+
+
+
 
 .hero-rangoli-pink {
   background-color: var(--accent1);
@@ -218,45 +240,69 @@ footer a:hover { opacity:1; }
 }
 .lcnl-header .socials a { line-height: 1; }
 
-/* ===== Navbar yellow theme ===== */
+/* ===== Navbar gold theme ===== */
 .bg-lcnl {
-  background-color: var(--accent1) !important; /* yellow */
+  background-color: var(--accent1) !important; /* gold navbar */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);      /* subtle shadow */
 }
 
 .navbar-light .navbar-nav .nav-link {
-  color: #222 !important;
-  transition: color 0.2s ease;
+  color: #ffffff !important; /* crisp bright white text */
+  transition: all 0.2s ease;
   padding: 0.75rem 1rem;
 }
-.navbar-light .navbar-nav .nav-link:hover {
-  color: var(--brand) !important;
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link.active {
+  color: #ffffff !important; /* keep bright white on hover */
+  background-color: rgba(255,255,255,0.2); /* soft white overlay */
+  border-radius: var(--radius);
 }
+
+.lcnl-nav { gap: 2rem; }
 
 /* Toggler (hamburger) for mobile */
 .navbar-light .navbar-toggler {
-  border-color: rgba(0,0,0,0.2);
+  border-color: rgba(255,255,255,0.7); /* lighter border */
 }
 .navbar-light .navbar-toggler-icon {
-  filter: none; /* dark icon on yellow */
+  filter: invert(1); /* white icon on gold */
 }
-
-/* Space between nav items */
-.lcnl-nav { gap: 2rem; }
 
 /* Dropdown menu */
 .navbar-light .dropdown-menu {
   background-color: #fff; /* clean white dropdown */
-  border-radius: 10px;
-  border: 0;
-  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  border-radius: var(--radius);
+  border: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,.1);
 }
+
 .navbar-light .dropdown-item {
   color: #222 !important;
 }
-.navbar-light .dropdown-item:hover {
-  background-color: var(--muted) !important;
-  color: var(--brand) !important;
+
+.navbar-light .dropdown-item:hover,
+.navbar-light .dropdown-item:focus,
+.navbar-light .dropdown-item.active {
+  background-color: var(--accent1) !important; /* gold background */
+  color: #ffffff !important;                   /* crisp white text */
 }
+
+/* Dropdown caret arrow */
+.navbar-light .dropdown-toggle::after {
+  border-top-color: #ffffff !important; /* white caret */
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
 
 /* Show dropdown on hover for desktop (keep click on mobile) */
 @media (min-width: 992px) {

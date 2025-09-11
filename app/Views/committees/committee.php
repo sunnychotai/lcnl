@@ -19,7 +19,7 @@
 </div>
 </div>
 
-<div class="container py-5">
+<div class="container py-4">
   <div class="row g-4">
     <h2>2025-2027 Committee</h2>
     <?php foreach ($members as $m): ?>
