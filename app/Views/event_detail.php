@@ -2,106 +2,126 @@
 <?= $this->section('content') ?>
 
 <div class="container py-5">
+
+  <!-- Title -->
+  <div class="mb-4">
+    <h1 class="fw-bold mb-1"><?= esc($event['title'] ?? 'Event') ?></h1>
+    <?php if (!empty($event['date']) || !empty($event['location'])): ?>
+      <div class="text-muted">
+        <?php if (!empty($event['date'])): ?>
+          <i class="bi bi-calendar-event me-1"></i><?= esc($event['date']) ?>
+        <?php endif; ?>
+        <?php if (!empty($event['time'])): ?>
+          · <i class="bi bi-clock me-1"></i><?= esc($event['time']) ?>
+        <?php endif; ?>
+        <?php if (!empty($event['location'])): ?>
+          · <i class="bi bi-geo-alt me-1"></i><?= esc($event['location']) ?>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+  </div>
+
+  <!-- Row 1: Image + Description -->
   <div class="row g-4 align-items-start">
-    
-    <!-- Image column -->
-    <div class="col-md-5">
-      <?php
-        $imagePath = $event['image'] ?? '';
-        $fullPath  = FCPATH . ltrim($imagePath, '/');
-
-        if (empty($imagePath) || !is_file($fullPath)) {
-            $imagePath = 'assets/img/lcnl-placeholder-320.png';
-        }
-      ?>
-      <!-- Thumbnail (clickable) -->
-      <a href="#" data-bs-toggle="modal" data-bs-target="#eventImageModal">
-        <img src="<?= base_url($imagePath) ?>" 
-             class="img-fluid rounded shadow-sm w-100 bg-light" 
-             style="max-height:350px; object-fit:contain; cursor: zoom-in;" 
-             alt="<?= esc($event['title']) ?>">
-      </a>
-
-      <!-- Modal for enlarged image -->
-      <div class="modal fade" id="eventImageModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content bg-transparent border-0">
-            <img src="<?= base_url($imagePath) ?>" 
-                 class="img-fluid rounded shadow" 
-                 alt="<?= esc($event['title']) ?>">
-          </div>
-        </div>
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-0">
+        <?php
+          // Resolve image URL (fallback if missing)
+          $img = $event['image'] ?? '';
+          if (!$img) {
+              $img = 'assets/img/events/placeholder-event.jpg'; // adjust to your placeholder
+          }
+        ?>
+        <img src="<?= base_url($img) ?>"
+             class="card-img-top"
+             alt="<?= esc($event['title'] ?? 'Event image') ?>">
       </div>
     </div>
 
-    <!-- Text column -->
-    <div class="col-md-7">
-      <h2 class="fw-bold mb-3"><?= esc($event['title']) ?></h2>
-      <p class="text-muted fs-5 mb-3">
-        <i class="bi bi-calendar3 me-2"></i>
-        <?= date('l, d M Y', strtotime($event['event_date'])) ?>
-        <?php if (!empty($event['time_from'])): ?>
-          · <?= date('H:i', strtotime($event['time_from'])) ?> – <?= date('H:i', strtotime($event['time_to'])) ?>
-        <?php endif; ?>
-      </p>
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="mb-3">
+            <i class="bi bi-info-circle me-2"></i>About this event
+          </h4>
 
-      <div class="fs-6 mb-4">
-        <?= nl2br(esc($event['description'])) ?>
+          <?php if (!empty($event['description'])): ?>
+            <div class="fs-6">
+              <?= nl2br(esc($event['description'])) ?>
+            </div>
+          <?php else: ?>
+            <p class="text-muted mb-0">More details coming soon.</p>
+          <?php endif; ?>
+        </div>
       </div>
+    </div>
+  </div>
 
-      <div class="d-flex flex-wrap gap-3">
-        <?php if (!empty($event['location'])): ?>
-          <span class="badge bg-brand fs-6">
-            <i class="bi bi-geo-alt-fill me-1"></i> <?= esc($event['location']) ?>
-          </span>
-        <?php endif; ?>
+  <!-- Row 2: Full-width Terms -->
+  <div class="mt-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h4 class="mb-3">
+          <i class="bi bi-file-earmark-text me-2"></i>Event Terms
+        </h4>
 
-        <?php if (!empty($event['committee'])): ?>
-          <span class="badge bg-accent text-dark fs-6">
-            <i class="bi bi-people-fill me-1"></i> <?= esc($event['committee']) ?>
-          </span>
+        <?php if (!empty($event['eventterms'])): ?>
+          <div class="fs-6">
+            <?= nl2br(esc($event['eventterms'])) ?>
+          </div>
+        <?php else: ?>
+          <p class="text-muted mb-0">No special terms provided.</p>
         <?php endif; ?>
       </div>
     </div>
   </div>
-</div>
 
-<?php if (!empty($upcomingEvents)): ?>
-  <section class="container py-5">
-    <h3 class="mb-4">More Upcoming Events</h3>
-    <div class="d-flex overflow-auto gap-3 pb-2">
-      <?php foreach ($upcomingEvents as $e): ?>
-        <?php
-          $imagePath = $e['image'] ?? '';
-          $fullPath  = FCPATH . ltrim($imagePath, '/');
+  <!-- Row 3: Ticket Info (left) + Contact Info (right) -->
+  <div class="row g-4 mt-1">
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+          <h4 class="mb-3">
+            <i class="bi bi-ticket-perforated me-2"></i>Ticket Information
+          </h4>
 
-          if (empty($imagePath) || !is_file($fullPath)) {
-              $imagePath = 'assets/img/lcnl-placeholder-320.png';
-          }
-        ?>
-        <a href="<?= base_url('events/'.$e['id']) ?>" 
-           class="text-decoration-none flex-shrink-0" 
-           style="width: 280px;">
-          <div class="card shadow-sm border-0 h-100 event-card">
-            <div class="event-img-wrapper">
-              <img src="<?= base_url($imagePath) ?>" 
-                   class="card-img-top" 
-                   alt="<?= esc($e['title']) ?>">
-              <div class="event-overlay">
-                <h6 class="text-white mb-1"><?= esc($e['title']) ?></h6>
-                <small class="text-light">
-                  <?= date('d M Y', strtotime($e['event_date'])) ?>
-                  <?php if (!empty($e['time_from'])): ?>
-                    · <?= date('H:i', strtotime($e['time_from'])) ?>
-                  <?php endif; ?>
-                </small>
-              </div>
+          <?php if (!empty($event['ticketinfo'])): ?>
+            <div class="fs-6">
+              <?= nl2br(esc($event['ticketinfo'])) ?>
             </div>
-          </div>
-        </a>
-      <?php endforeach; ?>
+          <?php else: ?>
+            <p class="text-muted mb-0">Ticket details will be announced.</p>
+          <?php endif; ?>
+        </div>
+      </div>
     </div>
-  </section>
-<?php endif; ?>
+
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+          <h4 class="mb-3">
+            <i class="bi bi-telephone-inbound me-2"></i>Contact Information
+          </h4>
+
+          <?php if (!empty($event['contactinfo'])): ?>
+            <div class="fs-6">
+              <?= nl2br(esc($event['contactinfo'])) ?>
+            </div>
+          <?php else: ?>
+            <p class="text-muted mb-0">For queries email <a href="mailto:info@lcnl.org">info@lcnl.org</a>.</p>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back link -->
+  <div class="mt-4">
+    <a href="<?= base_url('events') ?>" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left"></i> Back to Events
+    </a>
+  </div>
+
+</div>
 
 <?= $this->endSection() ?>

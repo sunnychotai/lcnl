@@ -77,6 +77,22 @@
               <textarea id="description" name="description" class="form-control" rows="4"><?= old('description', $event['description'] ?? '') ?></textarea>
             </div>
 
+            <div class="mb-3">
+  <label for="ticketinfo" class="form-label">Ticket Information</label>
+  <textarea id="ticketinfo" name="ticketinfo" class="form-control" rows="4"><?= old('ticketinfo', $event['ticketinfo'] ?? '') ?></textarea>
+</div>
+
+<div class="mb-3">
+  <label for="eventterms" class="form-label">Event Terms</label>
+  <textarea id="eventterms" name="eventterms" class="form-control" rows="6"><?= old('eventterms', $event['eventterms'] ?? '') ?></textarea>
+</div>
+
+<div class="mb-3">
+  <label for="contactinfo" class="form-label">Contact Information</label>
+  <textarea id="contactinfo" name="contactinfo" class="form-control" rows="4"><?= old('contactinfo', $event['contactinfo'] ?? '') ?></textarea>
+</div>
+
+
             <!-- Image -->
             <div class="mb-3">
               <label for="image" class="form-label fw-semibold"><i class="bi bi-image me-1"></i> Event Image</label>
