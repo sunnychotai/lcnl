@@ -5,8 +5,8 @@
   <div class="row justify-content-center">
     <div class="col-lg-9">
 
-      <div class="card shadow-sm border-0">
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+      <div class="card shadow-sm border-0 no-hover">
+        <div class="card-header bg-brand text-white d-flex justify-content-between align-items-center">
           <h4 class="mb-0">
             <i class="bi bi-calendar-event-fill me-2"></i>
             <?= isset($event['id']) ? 'Edit Event' : 'Add Event' ?>

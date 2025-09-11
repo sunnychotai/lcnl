@@ -446,3 +446,46 @@ footer a:hover { opacity:1; }
   border: none;
   border-radius: var(--radius) var(--radius) 0 0;
 }
+
+/* Event cards in upcoming events scroller */
+.event-card-link {
+  width: 280px;          /* same as your inline style */
+  flex-shrink: 0;        /* prevents shrinking in flex row */
+}
+
+.event-card {
+  height: 375px;         /* fixed uniform card height */
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card .event-img-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--radius);
+  position: relative;
+}
+
+.event-card .event-img-wrapper img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.event-card .event-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  background: rgba(0,0,0,0.6);
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.card.no-hover:hover {
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08) !important;
+  z-index: auto !important;
+}

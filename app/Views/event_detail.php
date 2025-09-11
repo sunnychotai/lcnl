@@ -6,33 +6,32 @@
     
     <!-- Image column -->
     <div class="col-md-5">
-      <?php if (!empty($event['image'])): ?>
-  <!-- Thumbnail (clickable) -->
-  <a href="#" data-bs-toggle="modal" data-bs-target="#eventImageModal">
-    <img src="<?= base_url($event['image']) ?>" 
-         class="img-fluid rounded shadow-sm w-100 bg-light" 
-         style="max-height:350px; object-fit:contain; cursor: zoom-in;" 
-         alt="<?= esc($event['title']) ?>">
-  </a>
+      <?php
+        $imagePath = $event['image'] ?? '';
+        $fullPath  = FCPATH . ltrim($imagePath, '/');
 
-  <!-- Modal for enlarged image -->
-  <div class="modal fade" id="eventImageModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content bg-transparent border-0">
-        <img src="<?= base_url($event['image']) ?>" 
-             class="img-fluid rounded shadow" 
+        if (empty($imagePath) || !is_file($fullPath)) {
+            $imagePath = 'assets/img/lcnl-placeholder-320.png';
+        }
+      ?>
+      <!-- Thumbnail (clickable) -->
+      <a href="#" data-bs-toggle="modal" data-bs-target="#eventImageModal">
+        <img src="<?= base_url($imagePath) ?>" 
+             class="img-fluid rounded shadow-sm w-100 bg-light" 
+             style="max-height:350px; object-fit:contain; cursor: zoom-in;" 
              alt="<?= esc($event['title']) ?>">
-      </div>
-    </div>
-  </div>
+      </a>
 
-
-      <?php else: ?>
-        <div class="bg-light d-flex align-items-center justify-content-center rounded shadow-sm" 
-             style="height:300px;">
-          <i class="bi bi-calendar-event fs-1 text-muted"></i>
+      <!-- Modal for enlarged image -->
+      <div class="modal fade" id="eventImageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content bg-transparent border-0">
+            <img src="<?= base_url($imagePath) ?>" 
+                 class="img-fluid rounded shadow" 
+                 alt="<?= esc($event['title']) ?>">
+          </div>
         </div>
-      <?php endif; ?>
+      </div>
     </div>
 
     <!-- Text column -->
@@ -72,26 +71,32 @@
     <h3 class="mb-4">More Upcoming Events</h3>
     <div class="d-flex overflow-auto gap-3 pb-2">
       <?php foreach ($upcomingEvents as $e): ?>
+        <?php
+          $imagePath = $e['image'] ?? '';
+          $fullPath  = FCPATH . ltrim($imagePath, '/');
+
+          if (empty($imagePath) || !is_file($fullPath)) {
+              $imagePath = 'assets/img/lcnl-placeholder-320.png';
+          }
+        ?>
         <a href="<?= base_url('events/'.$e['id']) ?>" 
            class="text-decoration-none flex-shrink-0" 
            style="width: 280px;">
           <div class="card shadow-sm border-0 h-100 event-card">
-            <?php if (!empty($e['image'])): ?>
-              <div class="event-img-wrapper">
-                <img src="<?= base_url($e['image']) ?>" 
-                     class="card-img-top" 
-                     alt="<?= esc($e['title']) ?>">
-                <div class="event-overlay">
-                  <h6 class="text-white mb-1"><?= esc($e['title']) ?></h6>
-                  <small class="text-light">
-                    <?= date('d M Y', strtotime($e['event_date'])) ?>
-                    <?php if (!empty($e['time_from'])): ?>
-                      · <?= date('H:i', strtotime($e['time_from'])) ?>
-                    <?php endif; ?>
-                  </small>
-                </div>
+            <div class="event-img-wrapper">
+              <img src="<?= base_url($imagePath) ?>" 
+                   class="card-img-top" 
+                   alt="<?= esc($e['title']) ?>">
+              <div class="event-overlay">
+                <h6 class="text-white mb-1"><?= esc($e['title']) ?></h6>
+                <small class="text-light">
+                  <?= date('d M Y', strtotime($e['event_date'])) ?>
+                  <?php if (!empty($e['time_from'])): ?>
+                    · <?= date('H:i', strtotime($e['time_from'])) ?>
+                  <?php endif; ?>
+                </small>
               </div>
-            <?php endif; ?>
+            </div>
           </div>
         </a>
       <?php endforeach; ?>

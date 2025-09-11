@@ -45,37 +45,44 @@
 
 <?php if (!empty($upcomingEvents)): ?>
   <section class="container py-3">
-<h2 class="mb-4">
-  <a href="<?= base_url('events') ?>" class="text-decoration-none text-dark">
-    Upcoming Events
-  </a>
-</h2>
+    <h2 class="mb-4">
+      <a href="<?= base_url('events') ?>" class="text-decoration-none text-dark">
+        Upcoming Events
+      </a>
+    </h2>
+
     <div class="d-flex overflow-auto gap-3 pb-2">
       <?php foreach ($upcomingEvents as $event): ?>
         <a href="<?= base_url('events/'.$event['id']) ?>" 
-           class="text-decoration-none flex-shrink-0" 
-           style="width: 280px;">
-          <div class="card shadow-sm border-0 h-100 event-card">
-            <?php if (!empty($event['image'])): ?>
-              <div class="event-img-wrapper">
-                <img src="<?= base_url($event['image']) ?>" 
-                     class="card-img-top" 
-                     alt="<?= esc($event['title']) ?>">
-                <div class="event-overlay">
-                  <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
-                  <small class="text-light">
-                    <?= date('d M Y', strtotime($event['event_date'])) ?>
-                    
-                  </small>
-                </div>
+           class="text-decoration-none flex-shrink-0 event-card-link">
+          <div class="card shadow-sm border-0 event-card">
+            <div class="event-img-wrapper">
+              <?php
+                $imagePath = $event['image'] ?? '';
+                $fullPath  = FCPATH . ltrim($imagePath, '/');
+
+                if (empty($imagePath) || !is_file($fullPath)) {
+                    $imagePath = 'assets/img/lcnl-placeholder-320.png';
+                }
+              ?>
+              <img src="<?= base_url($imagePath) ?>" 
+                   class="card-img-top" 
+                   alt="<?= esc($event['title']) ?>">
+
+              <div class="event-overlay">
+                <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
+                <small class="text-light">
+                  <?= date('d M Y', strtotime($event['event_date'])) ?>
+                </small>
               </div>
-            <?php endif; ?>
+            </div>
           </div>
         </a>
       <?php endforeach; ?>
     </div>
   </section>
 <?php endif; ?>
+
 
 
 

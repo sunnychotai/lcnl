@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-8">
       
-      <div class="card shadow-sm border-0">
+      <div class="card shadow-sm border-0 no-hover">
         <div class="card-header bg-brand text-white d-flex justify-content-between align-items-center">
           <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i> Edit FAQ</h4>
           <a href="<?= base_url('admin/faqs') ?>" class="btn btn-outline-light btn-sm">
