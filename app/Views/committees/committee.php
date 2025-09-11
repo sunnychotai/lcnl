@@ -21,7 +21,7 @@
 
 <div class="container py-5">
   <div class="row g-4">
-    <h2>Lohana Community of North London Committee 2025-2027</h2>
+    <h2>2025-2027 Committee</h2>
     <?php foreach ($members as $m): ?>
       <div class="col-md-3 col-sm-6">
         <div class="card h-100 text-center">

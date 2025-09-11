@@ -43,7 +43,7 @@ public function mahila()
     $committeeModel = new \App\Models\CommitteeModel();
     $eventModel     = new \App\Models\EventModel();
 
-    // Mahila Mandal members
+    // Mahila members
     $members = $committeeModel
         ->where('committee', 'Mahila')
         ->orderBy('id', 'ASC')
@@ -135,7 +135,7 @@ public function yls()
     $committeeModel = new \App\Models\CommitteeModel();
     $eventModel     = new \App\Models\EventModel();
 
-    // Mahila Mandal members
+    // Mahila  members
     $members = $committeeModel
         ->where('committee', 'YLS')
         ->orderBy('id', 'ASC')
@@ -167,7 +167,7 @@ public function youth()
     $committeeModel = new \App\Models\CommitteeModel();
     $eventModel     = new \App\Models\EventModel();
 
-    // Mahila Mandal members
+    // Mahila  members
     $members = $committeeModel
         ->where('committee', 'YC')
         ->orderBy('id', 'ASC')

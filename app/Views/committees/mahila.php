@@ -4,7 +4,7 @@
 <div class="hero hero-rangoli-purple d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
   <div class="container position-relative text-center">
-    <h1 class="text-white fw-bold">Mahila Mandal</h1>
+    <h1 class="text-white fw-bold">Mahila Committee</h1>
     <p class="text-white-75">Supporting and empowering the women of our community.</p>
   </div>
 </div>
@@ -49,12 +49,12 @@
              class="img-fluid rounded shadow committee-img"
              style="max-width: 100%;"
              data-bs-toggle="modal" data-bs-target="#committeeModal">
-        <p class="mt-2 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
+        <p class="mt-2 fw-semibold text-muted">LCNL Mahila Committee 2025-7</p>
       </div>
 
       <div>
         <p>
-          The Mahila Mandal has been at the heart of LCNL, bringing women together 
+          The Mahila Committee has been at the heart of LCNL, bringing women together 
           through cultural, social and charitable activities. 
           We encourage everyone to participate and celebrate our traditions while 
           supporting each other.

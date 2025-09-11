@@ -6,10 +6,51 @@
   --radius:14px;
 }
 
-#newsTicker .carousel-item {
-  transition: transform 0.6s ease-in-out;
-  font-size: 0.9rem;
+.glass-box {
+  background: rgba(255, 255, 255, 0.1);   /* transparent white */
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);            /* frosted glass blur */
+  -webkit-backdrop-filter: blur(10px);    /* Safari/iOS fix */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
+
+
+/* Style for hero carousel items */
+#heroCarousel .carousel-item {
+  padding: 2rem 1rem;          /* breathing room */
+  min-height: 180px;           /* consistent height across slides */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#heroCarousel h3,
+#heroCarousel p {
+  color: #fff !important;      /* white text */
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+#heroCarousel h3 {
+  font-weight: 700;            /* bold heading */
+  font-size: 1.6rem;           /* slightly larger */
+}
+
+#heroCarousel p {
+  font-size: 1.1rem;
+  font-weight: 600;            /* bolden ticker text */
+  line-height: 1.5;
+}
+
+#heroCarousel .carousel-item p::before {
+  content: "• ";               /* optional: dot/bullet before news items */
+  font-size: 1.2rem;
+  color: var(--accent, #c9a227);
+}
+
 
 
 .bg-brand { background: var(--brand) !important; }
@@ -229,7 +270,7 @@ footer a:hover { opacity:1; }
 }
 
 .committee-photo {
-  height: 375px;         /* Fixed height */
+  height: 300px;         /* Fixed height */
   width: 100%;           /* Fill card width */
   object-fit: contain;   /* Scale without cropping/stretching */
   background: #f8f9fa;   /* Light background padding */
@@ -348,15 +389,7 @@ footer a:hover { opacity:1; }
   border-radius: 10px;
 }
 
-.event-img-wrapper {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius);
-}
 
-.event-img-wrapper:hover img {
-  transform: scale(1.05);
-}
 
 .event-overlay {
   position: absolute;
@@ -368,9 +401,11 @@ footer a:hover { opacity:1; }
   text-align: center;
 }
 
-.text-pink { color: #e4405f !important; }   /* Mahila Mandal */
+.text-pink { color: #e4405f !important; }   /* Mahila Committee */
 .text-danger { color: #d63384 !important; } /* Bereavement */
 .text-primary { color: #0d6efd !important; } /* YLS */
+
+
 
 /* Event overlay reused */
 .event-img-wrapper {
@@ -380,7 +415,7 @@ footer a:hover { opacity:1; }
 }
 
 .event-img-wrapper img {
-  width: 250px;        /* fixed width */
+  width: 200px;        /* fixed width */
   height: auto;        /* auto height preserves aspect ratio */
   object-fit: contain; /* ensures no distortion if you later add max constraints */
   display: block;      /* removes inline spacing */

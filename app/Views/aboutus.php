@@ -44,7 +44,7 @@
       <div class="col-md-8">
         <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
 
-<p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Mandal, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
+<p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Committee, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
 
 <p>LCNL connects with over 2,300 families through regular News & Events, the Raghuvanshi Diwali Magazine, and annual festivals. We come together for Navratri, Diwali, Janmashtami, Hanuman Jayanti, and many more religious and cultural celebrations.</p>
 
@@ -53,7 +53,7 @@
 <p>Rooted in a long tradition of unity and service, LCNL continues to move forward together, honouring our history while building for the future.</p>
 <p>There are various affiliated commitees under the LCNL, these are:
     <ul>
-        <li>Mahila Mandal</li>
+        <li>Mahila Committee</li>
         <li>Young Lohana Society</li>
         <li>Youth Committee</li>
         <li>Youth Committee</li>
@@ -121,7 +121,7 @@
   </a>
 </div>
 
-<!-- Mahila Mandal -->
+<!-- Mahila Committee -->
 <div class="card shadow-sm border-0">
   <a href="<?= base_url('mahila') ?>" class="stretched-link text-decoration-none text-dark">
     <div class="card-body d-flex align-items-center">

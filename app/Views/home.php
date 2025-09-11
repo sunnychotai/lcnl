@@ -2,13 +2,18 @@
 <?= $this->section('content') ?>
 
 <section class="hero bg-brand d-flex align-items-center">
-  <div class="container">
-    <div class="row align-items-center g-4 text-center text-lg-start">
-      
-      <!-- Text column -->
-      <div class="col-12 col-lg-8">
-        <h3 class="fw-bold text-white fs-4">Lohana Community of North London</h3>
-        <p class="text-white-50 fs-6 mb-3">
+  <div class="container text-lg-start">
+    <div class="glass-box text-start">
+  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner text-white">
+
+      <!-- Intro -->
+      <div class="carousel-item active">
+        <h3 class="fw-bold">
+          <i class="bi bi-newspaper me-2"></i>
+          Lohana Community of North London
+        </h3>
+        <p>
           The Lohana Community North London (LCNL) has been bringing people together since 1976. 
           Serving over 2,300 families, we celebrate our culture, support charitable causes, and 
           create spaces where our community can thrive. Proud of our heritage, we move forward 
@@ -16,28 +21,23 @@
         </p>
       </div>
 
-      <!-- Carousel/Ticker column -->
-      <div class="col-12 col-lg-4 text-center text-lg-end overflow-hidden">
-        <div id="newsTicker" class="carousel slide w-100" data-bs-ride="carousel" data-bs-interval="4000">
-          <div class="carousel-inner text-white">
-
-            <div class="carousel-item active">
-              <p class="mb-0">📢 Navratri Garba tickets available now!</p>
-            </div>
-            <div class="carousel-item">
-              <p class="mb-0">🙏 Join us for Diwali celebrations on 1st Nov.</p>
-            </div>
-            <div class="carousel-item">
-              <p class="mb-0">👨‍👩‍👧‍👦 Over 2,300 families are part of LCNL.</p>
-            </div>
-
-          </div>
-        </div>
+      <!-- News items -->
+      <div class="carousel-item">
+        <p><i class="bi bi-ticket-perforated me-2"></i>Navratri Garba tickets available now!</p>
+      </div>
+      <div class="carousel-item">
+        <p><i class="bi bi-stars me-2"></i>Join us for Diwali celebrations on 1st Nov.</p>
+      </div>
+      <div class="carousel-item">
+        <p><i class="bi bi-people-fill me-2"></i>Over 2,300 families are part of LCNL.</p>
       </div>
 
     </div>
   </div>
+</div>
+  </div>
 </section>
+
 
 
 
@@ -87,54 +87,24 @@
       <div class="col-md-8">
         <div class="p-4 bg-light rounded shadow-sm">
           <h4 class="fw-bold mb-3">Message from the President</h4>
-          
-          <!-- President photo floated left -->
-         <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>" 
-     class="float-start me-3 mb-2 rounded-circle shadow-sm" 
-     style="width:250px; height:250px; object-fit:cover; object-position: top;" 
+
+<img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>" 
+     class="float-md-start me-3 mb-2 rounded-circle shadow-sm" 
+     style="width:220px; height:220px; object-fit:cover; object-position: top;" 
      alt="President Photo">
 
-          <p>Jai Shree Krishna | Jai Shree Ram | Jai Jalaram</p>
+<p>Jai Shree Krishna | Jai Shree Ram | Jai Jalaram</p>
 
-          <p>To be the youngest LCNL President is one thing but to be the first LCNL President
-          that was born in the UK is also testament to the hard work all those before me
-          have put in. During my two-year term we look forward to celebrating 50 years of
-          LCNL and again that’s all down to the work of all the committees, presidents and
-          support from the members over the years.</p>
+<p>It is an honour to serve as the youngest, and first UK-born, LCNL President as we mark our 50th year. This milestone is a reflection of the dedication of past presidents, committees and members.</p>
 
-          <p>I am blessed to have such a good team around me but this year I have decided
-          to run things in a slightly different way. We have 25 or so portfolios that put on
-          various events and run various services for the community and I asked all of the
-          Executive Committee to say where they would like to help out and lead. We then
-          split everyone into the various portfolios and appointed a lead for each portfolio.</p>
+<p>We have introduced a portfolio system where each Executive Committee member leads or supports an area of activity. This ensures events and services are well-managed and gives everyone the chance to contribute.</p>
 
-          <p>Over time you will hear from the various heads and portfolios about the events
-          they are putting on and the work they are doing. This way of working, I hope,
-          will bring more togetherness and a drive from within from all of the Executive
-          Committee members.</p>
+<p>Our focus will be to maintain LCNL’s cultural and religious programmes, while also introducing new initiatives that appeal to all generations—especially children and youth, who are key to our future.</p>
 
-          <p>As a committee we will look to continue with the religious and cultural events
-          that have been the backbone of the LCNL for years but also look to improve
-          them in our own ways too. We will also focus on bringing more events with more
-          variety that will appeal to all age groups too. A particular focus will be on children
-          because If we do not engage children in our events, it will be difficult for LCNL to thrive for another 50 years. So, it is vital to attract them to more events and their
-          parents too.</p>
+<p>I encourage all members to take part, share ideas, and support our events. Together we can keep LCNL thriving for the next 50 years.</p>
 
-          <p>I also want to make sure that the members of the community – all of you – feel
-          part of LCNL and therefore attend more events and enjoy them. I make a personal
-          request to you all to support all the events we do from Navratri to mehfil nights
-          to bingo to golf, please keep supporting every event and feel free to contact me if
-          you have any issues or even have ideas for any events.</p>
-
-          <p>Lastly, I would like to thank the Executive Committee and all of our sponsors,
-          yajman, well wishers and supporters without whom none of the events and work
-          LCNL does would be possible. A special thanks to Dipen Tanna for putting this
-          News & Events together too.</p>
-
-          <p>I look forward to seeing you all at the upcoming events!</p>
-
-          <p class="fw-bold mb-0">Ronak Paw</p>
-          <p class="mb-0">LCNL President 2025 - 2027</p>
+<p class="fw-bold mb-0">Ronak Paw</p>
+<p class="mb-0">LCNL President 2025 – 2027</p>
         </div>
       </div>
 
@@ -165,7 +135,7 @@
     </a>
   </div>
 
-  <div class="card shadow-sm border-0">
+  <!-- <div class="card shadow-sm border-0">
     <a href="<?= base_url('gallery') ?>" class="stretched-link text-decoration-none text-dark">
       <div class="card-body d-flex align-items-center">
         <i class="bi bi-images text-success fs-3 me-3"></i>
@@ -176,7 +146,7 @@
       </div>
     </a>
   </div>
-
+            -->
   <!-- Bereavement -->
 <div class="card shadow-sm border-0">
   <a href="<?= base_url('bereavement') ?>" class="stretched-link text-decoration-none text-dark">
@@ -190,13 +160,13 @@
   </a>
 </div>
 
-<!-- Mahila Mandal -->
+<!-- Mahila Committee -->
 <div class="card shadow-sm border-0">
   <a href="<?= base_url('mahila') ?>" class="stretched-link text-decoration-none text-dark">
     <div class="card-body d-flex align-items-center">
       <i class="bi bi-gem text-pink fs-3 me-3"></i>
       <div>
-        <h5 class="card-title mb-1">Mahila Mandal</h5>
+        <h5 class="card-title mb-1">Mahila Committee</h5>
         <p class="card-text text-muted small">Women-led programmes & activities.</p>
       </div>
     </div>
