@@ -516,8 +516,11 @@ footer a:hover { opacity:1; }
   transform: scale(1.05);
 }
 
-.hero-rangoli-orange {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-orange.svg"); /* relative to CSS file */
-  background-repeat: repeat;
+/* Ensure the rangoli wins even if something sets background later */
+.hero.hero-rangoli-orange {
+  background-color: var(--accent1) !important;
+  background-image: url("/assets/patterns/rangoli-orange.svg") !important;
+  background-repeat: repeat !important;
+  background-position: top left !important;
+  background-size: auto !important;
 }
