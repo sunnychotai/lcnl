@@ -4,9 +4,9 @@
 <section class="hero bg-brand d-flex align-items-center">
   <div class="container">
     <div class="row align-items-center g-4 text-center text-lg-start">
-
+      
       <!-- Text column -->
-      <div class="col-lg-8">
+      <div class="col-12 col-lg-8">
         <h3 class="fw-bold text-white fs-4">Lohana Community of North London</h3>
         <p class="text-white-50 fs-6 mb-3">
           The Lohana Community North London (LCNL) has been bringing people together since 1976. 
@@ -16,12 +16,11 @@
         </p>
       </div>
 
-      <!-- Carousel column -->
-      <div class="col-lg-4">
-        <div id="newsTicker" class="carousel slide" data-bs-ride="carousel">
+      <!-- Carousel/Ticker column -->
+      <div class="col-12 col-lg-4 text-center text-lg-end overflow-hidden">
+        <div id="newsTicker" class="carousel slide w-100" data-bs-ride="carousel" data-bs-interval="4000">
           <div class="carousel-inner text-white">
 
-            <!-- Text items (like a ticker) -->
             <div class="carousel-item active">
               <p class="mb-0">📢 Navratri Garba tickets available now!</p>
             </div>
@@ -32,16 +31,6 @@
               <p class="mb-0">👨‍👩‍👧‍👦 Over 2,300 families are part of LCNL.</p>
             </div>
 
-            <!-- Or you can use images instead -->
-            <!--
-            <div class="carousel-item active">
-              <img src="<?= base_url('assets/img/news1.jpg') ?>" class="d-block w-100" alt="News 1">
-            </div>
-            <div class="carousel-item">
-              <img src="<?= base_url('assets/img/news2.jpg') ?>" class="d-block w-100" alt="News 2">
-            </div>
-            -->
-
           </div>
         </div>
       </div>
@@ -49,6 +38,7 @@
     </div>
   </div>
 </section>
+
 
 
 
