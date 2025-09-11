@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <!-- Hero Banner -->
-<div class="hero hero-rangoli-orange d-flex align-items-center justify-content-center">
+<div class="hero hero-rangoli-red d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Events</h1>
@@ -20,20 +20,27 @@
              style="width: 280px;">
             <div class="card shadow-sm border-0 h-100 event-card">
               <?php if (!empty($event['image'])): ?>
-                <div class="event-img-wrapper">
-                  <img src="<?= base_url($event['image']) ?>" 
-                       class="card-img-top" 
-                       alt="<?= esc($event['title']) ?>">
-                  <div class="event-overlay">
-                    <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
-                    <small class="text-light">
-                      <?= date('d M Y', strtotime($event['event_date'])) ?>
-                      <?php if (!empty($event['time_from'])): ?>
-                        · <?= date('H:i', strtotime($event['time_from'])) ?>
-                      <?php endif; ?>
-                    </small>
-                  </div>
-                </div>
+                <?php
+  // Work out image path
+  $imgPath = !empty($event['image']) ? $event['image'] : '';
+  if (!$imgPath || !is_file(FCPATH . $imgPath)) {
+      $imgPath = 'assets/img/lcnl-placeholder-320.png';
+  }
+?>
+<div class="event-img-wrapper">
+  <img src="<?= base_url($imgPath) ?>" 
+       class="card-img-top" 
+       alt="<?= esc($event['title']) ?>">
+  <div class="event-overlay">
+    <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
+    <small class="text-light">
+      <?= date('d M Y', strtotime($event['event_date'])) ?>
+      <?php if (!empty($event['time_from'])): ?>
+        · <?= date('H:i', strtotime($event['time_from'])) ?>
+      <?php endif; ?>
+    </small>
+  </div>
+</div>
               <?php else: ?>
                 <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:200px;">
                   <i class="bi bi-calendar-event fs-1 text-muted"></i>

@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <!-- Hero Banner -->
-<div class="hero hero-rangoli-grey d-flex align-items-center justify-content-center">
+<div class="hero hero-rangoli-yellow d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
   <div class="container position-relative text-center text-white">
 
@@ -42,14 +42,15 @@
 
 <div class="container py-5">
 
-  <?php
-    // Resolve image (fallback)
-    $img = $event['image'] ?? '';
-    if (! $img) {
-        $img = 'assets/img/lcnl-placeholder-320.png'; // adjust if different
-    }
-    $modalId = 'eventImageModal';
-  ?>
+<?php
+  // Resolve image (with fallback if missing or file not found)
+  $img = !empty($event['image']) ? $event['image'] : '';
+  if (!$img || !is_file(FCPATH . $img)) {
+      $img = 'assets/img/lcnl-placeholder-320.png'; // fallback placeholder
+  }
+  $modalId = 'eventImageModal';
+?>
+
 
   <!-- Row 1: Image + Description -->
   <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
@@ -60,10 +61,10 @@
           <a href="#" class="d-inline-block" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>" title="Click to enlarge">
             <div class="event-img-wrapper" style="width:250px; max-width:100%;">
               <img
-                src="<?= base_url($img) ?>"
-                class="img-fluid rounded"
-                alt="<?= esc($event['title'] ?? 'Event image') ?>"
-              >
+  src="<?= base_url($img) ?>"
+  class="img-fluid rounded"
+  alt="<?= esc($event['title'] ?? 'Event image') ?>"
+>
             </div>
           </a>
         </div>
@@ -158,10 +159,10 @@
     <div class="modal-content border-0">
       <div class="modal-body p-0">
         <img
-          src="<?= base_url($img) ?>"
-          class="img-fluid w-100"
-          alt="<?= esc($event['title'] ?? 'Event image enlarged') ?>"
-        >
+  src="<?= base_url($img) ?>"
+  class="img-fluid w-100"
+  alt="<?= esc($event['title'] ?? 'Event image enlarged') ?>"
+>
       </div>
       <div class="modal-footer justify-content-between">
         <span class="text-muted small"><?= esc($event['title'] ?? 'Event image') ?></span>

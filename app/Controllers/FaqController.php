@@ -39,4 +39,5 @@ class FaqController extends BaseController
     return view('bereavement/index', $data);
 }
 
+
 }

@@ -21,9 +21,11 @@
           <!-- Socials + Login -->
           <div class="d-flex flex-wrap align-items-center gap-3 pt-1">
    <div class="d-flex align-items-center gap-2 socials">
-  <a href="#" class="fs-5" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-  <a href="#" class="fs-5" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-  <a href="#" class="fs-5" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+  <a href="https://www.facebook.com/groups/lcnlmahajan/" class="fs-4" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+  <a href="https://www.instagram.com/lcnlmahajan/" class="fs-4" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+  <a href="https://vimeo.com/lcnl" class="fs-4" aria-label="Vimeo"><i class="bi bi-vimeo"></i></a>
+
+  
 </div>
 
 

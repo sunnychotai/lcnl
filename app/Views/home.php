@@ -4,7 +4,7 @@
 <section class="hero bg-brand d-flex align-items-center">
   <div class="container text-lg-start">
     <div class="glass-box text-start">
-  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
     <div class="carousel-inner text-white">
 
       <!-- Intro -->

@@ -20,9 +20,9 @@
         <div class="small">info@lcnl.org.uk</div>
         
         <div class="mt-2">
-          <a class="text-white me-3" href="#"><i class="bi bi-facebook"></i></a>
-          <a class="text-white me-3" href="#"><i class="bi bi-instagram"></i></a>
-          <a class="text-white" href="#"><i class="bi bi-whatsapp"></i></a>
+            <a href="https://www.facebook.com/groups/lcnlmahajan/" class="fs-4"><i class="bi bi-facebook"></i></a>
+  <a href="https://www.instagram.com/lcnlmahajan/" class="fs-4"><i class="bi bi-instagram"></i></a>
+  <a href="https://vimeo.com/lcnl" class="fs-4"><i class="bi bi-vimeo"></i></a>
         </div>
       </div>
     </div>
