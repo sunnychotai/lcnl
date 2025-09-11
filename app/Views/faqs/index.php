@@ -5,7 +5,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Frequently Asked Questions</h1>
-    <p class="text-white-50">Sign up and become a member of the Lohana Community today</p>
+    <h5>Sign up and become a member of the Lohana Community today</h5>
   </div>
 </div>
 

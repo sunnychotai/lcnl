@@ -1,25 +1,46 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<div class="container py-5">
+<!-- Hero Banner -->
+<div class="hero hero-rangoli-grey d-flex align-items-center justify-content-center">
+  <div class="overlay"></div>
+  <div class="container position-relative text-center text-white">
 
-  <!-- Title -->
-  <div class="mb-4">
-    <h1 class="fw-bold mb-1"><?= esc($event['title'] ?? 'Event') ?></h1>
-    <?php if (!empty($event['event_date']) || !empty($event['location'])): ?>
-      <div class="text-muted">
-        <?php if (!empty($event['event_date'])): ?>
-          <i class="bi bi-calendar-event me-1"></i><?= esc($event['event_date']) ?>
-        <?php endif; ?>
-        <?php if (!empty($event['time'])): ?>
-          · <i class="bi bi-clock me-1"></i><?= esc($event['time']) ?>
-        <?php endif; ?>
-        <?php if (!empty($event['location'])): ?>
-          · <i class="bi bi-geo-alt me-1"></i><?= esc($event['location']) ?>
-        <?php endif; ?>
-      </div>
-    <?php endif; ?>
+    <h1 class="fw-bold mb-2"><?= esc($event['title'] ?? 'Event') ?></h1>
+
+    <?php
+      // Format time range from time_from/time_to (24h format; change to 'g:ia' for 12h)
+      $timeStr = '';
+      $tf = !empty($event['time_from']) ? date('H:i', strtotime($event['time_from'])) : '';
+      $tt = !empty($event['time_to'])   ? date('H:i', strtotime($event['time_to']))   : '';
+      if ($tf || $tt) {
+        $timeStr = $tf . ($tt ? '–' . $tt : '');
+      }
+    ?>
+    <h5>
+    <div class="event-meta d-flex justify-content-center flex-wrap gap-2 mt-2">
+      <?php if (!empty($event['event_date'])): ?>
+        <span class="badge badge-glass">
+          <i class="bi bi-calendar-event me-1"></i>
+          <?= date('D j M Y', strtotime($event['event_date'])) ?>
+          <?php if ($timeStr): ?>
+            · <i class="bi bi-clock ms-2 me-1"></i><?= $timeStr ?>
+          <?php endif; ?>
+        </span>
+      <?php endif; ?>
+
+      <?php if (!empty($event['location'])): ?>
+        <span class="badge badge-brand">
+          <i class="bi bi-geo-alt me-1"></i><?= esc($event['location']) ?>
+        </span>
+      <?php endif; ?>
+    </div>
+</h4>
   </div>
+</div>
+
+
+<div class="container py-5">
 
   <?php
     // Resolve image (fallback)
@@ -30,11 +51,11 @@
     $modalId = 'eventImageModal';
   ?>
 
-  <!-- Row 1: FULL-WIDTH card with small image + description -->
-<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
+  <!-- Row 1: Image + Description -->
+  <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
     <div class="card-body">
       <div class="row g-4 align-items-start">
-        <!-- Image (fixed ~250px, click to expand) -->
+        <!-- Image -->
         <div class="col-md-auto">
           <a href="#" class="d-inline-block" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>" title="Click to enlarge">
             <div class="event-img-wrapper" style="width:250px; max-width:100%;">
@@ -47,7 +68,7 @@
           </a>
         </div>
 
-        <!-- Description (takes remaining width) -->
+        <!-- Description -->
         <div class="col">
           <h4 class="mb-3">
             <i class="bi bi-info-circle me-2"></i>About this event
@@ -65,8 +86,8 @@
     </div>
   </div>
 
-  <!-- Row 2: Full-width Terms -->
-<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
+  <!-- Row 2: Terms -->
+  <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
     <div class="card-body">
       <h4 class="mb-3">
         <i class="bi bi-file-earmark-text me-2"></i>Event Terms
@@ -82,10 +103,10 @@
     </div>
   </div>
 
-  <!-- Row 3: Ticket Info (left) + Contact Info (right) -->
+  <!-- Row 3: Tickets + Contact -->
   <div class="row g-4">
     <div class="col-lg-6">
-<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
+      <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
         <div class="card-body">
           <h4 class="mb-3">
             <i class="bi bi-ticket-perforated me-2"></i>Ticket Information
@@ -103,7 +124,7 @@
     </div>
 
     <div class="col-lg-6">
-<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
+      <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
         <div class="card-body">
           <h4 class="mb-3">
             <i class="bi bi-telephone-inbound me-2"></i>Contact Information
@@ -131,7 +152,7 @@
   </div>
 </div>
 
-<!-- Image Modal (click-to-expand) -->
+<!-- Image Modal -->
 <div class="modal fade" id="<?= $modalId ?>" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content border-0">
@@ -144,9 +165,7 @@
       </div>
       <div class="modal-footer justify-content-between">
         <span class="text-muted small"><?= esc($event['title'] ?? 'Event image') ?></span>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

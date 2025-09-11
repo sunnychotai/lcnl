@@ -597,3 +597,49 @@ footer a:hover { opacity:1; }
   padding-bottom: .5rem;
   margin-bottom: 1rem;
 }
+
+/* Bigger, bolder hero chips */
+.event-meta { gap: .6rem; }
+.event-meta .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: 700;           /* bolder text */
+  line-height: 1.1;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35); /* readability on patterned bg */
+}
+.badge-xl {
+  font-size: clamp(1rem, 2.2vw, 1.25rem); /* scales up on larger screens */
+  padding: .65rem .9rem;                  /* bigger hit area */
+  border-radius: var(--radius);
+}
+.event-meta .bi { font-size: 1.1em; transform: translateY(-1px); }
+
+/* Optional: stronger contrast for glass/outline variants */
+.badge-glass { background: rgba(0,0,0,.35); border-color: rgba(255,255,255,.6); }
+.badge-outline-light { border-width: 2px; }
+
+
+/* Meta chips under the event title */
+.event-meta .badge { font-weight: 600; }
+
+/* frosted/glass date chip */
+.badge-glass {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.3);
+}
+
+/* outline chip for time */
+.badge-outline-light {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.5);
+}
+
+/* brand badge for location */
+.badge-brand {
+  background: var(--brand) !important;
+  color: #fff !important;
+  border: 1px solid rgba(0,0,0,.1);
+}

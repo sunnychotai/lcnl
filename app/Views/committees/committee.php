@@ -14,7 +14,7 @@
 <div class="position-absolute top-50 start-0 translate-middle-y w-100 text-white">
     <div class="container text-center">
         <h1 class="fw-bold display-4">Executive Committee</h1>
-        <p class="lead">Meet the LCNL 2025-2027 Executive Committee</p>
+        <h5>Meet the LCNL 2025-2027 Executive Committee</h5>
     </div>
 </div>
 </div>

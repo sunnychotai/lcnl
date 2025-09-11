@@ -6,7 +6,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">About Us</h1>
-    <p class="text-white-50">Lohana Community of North London</p>
+    <h5>Lohana Community of North London</h5>
   </div>
 </div>
 

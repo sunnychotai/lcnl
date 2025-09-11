@@ -5,7 +5,7 @@
   <div class="overlay"></div>
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Young Lohana Society</h1>
-    <p class="text-white-50">Supporting and empowering the youth of our community.</p>
+    <h5>Supporting and empowering the youth of our community.</h5>
   </div>
 </div>
 
