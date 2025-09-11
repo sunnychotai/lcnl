@@ -50,7 +50,7 @@ class Events extends BaseController
         $file = $this->request->getFile('image');
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/events', $newName);
+            $file->move(getenv('UPLOAD_PATH') . 'events', $newName);
             $data['image'] = '/uploads/events/' . $newName;
         }
 
@@ -90,7 +90,7 @@ class Events extends BaseController
         $file = $this->request->getFile('image');
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/events', $newName);
+            $file->move(getenv('UPLOAD_PATH') . 'events', $newName);
             $data['image'] = '/uploads/events/' . $newName;
         }
 
