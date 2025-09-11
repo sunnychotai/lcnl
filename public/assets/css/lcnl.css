@@ -68,37 +68,37 @@
 
 .hero-rangoli-pink {
   background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-pink.svg"); /* relative to CSS file */
+  background-image: url("assets/patterns/rangoli-pink.svg"); /* relative to CSS file */
   background-repeat: repeat;
 }
 
 .hero-rangoli-blue {
   background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-blue.svg"); /* relative to CSS file */
+  background-image: url("assets/patterns/rangoli-blue.svg"); /* relative to CSS file */
   background-repeat: repeat;
 }
 
 .hero-rangoli-purple {
   background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-purple.svg"); /* relative to CSS file */
+  background-image: url("assets/patterns/rangoli-purple.svg"); /* relative to CSS file */
   background-repeat: repeat;
 }
 
 .hero-rangoli-grey {
   background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-grey.svg"); /* relative to CSS file */
+  background-image: url("assets/patterns/rangoli-grey.svg"); /* relative to CSS file */
   background-repeat: repeat;
 }
 
 .hero-rangoli-red {
   background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-red.svg"); /* relative to CSS file */
+  background-image: url("assets/patterns/rangoli-red.svg"); /* relative to CSS file */
   background-repeat: repeat;
 }
 
 .hero-rangoli-orange {
   background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-orange.svg"); /* relative to CSS file */
+  background-image: url("assets/patterns/rangoli-orange.svg"); /* relative to CSS file */
   background-repeat: repeat;
 }
 .hero-radial {
