@@ -489,3 +489,29 @@ footer a:hover { opacity:1; }
   box-shadow: 0 6px 20px rgba(0,0,0,.08) !important;
   z-index: auto !important;
 }
+
+/* 1) Stop the card's own hover scaling */
+.card.no-hover:hover {
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08) !important; /* your base shadow */
+  z-index: auto !important;
+}
+
+/* 2) If an ANCHOR is the thing adding hover effects */
+.no-hover.card-link:hover,           /* anchor itself has no-hover */
+.no-hover .card-link:hover {         /* or anchor inside a no-hover container/card */
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 3) If you also use `hover-card` somewhere on the same element */
+.no-hover.hover-card:hover {
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08) !important;
+}
+
+/* Keep the image hover effect ONLY (don’t remove this if you still want the zoom) */
+.no-hover .event-img-wrapper:hover img {
+  transform: scale(1.05);
+}
+
