@@ -29,7 +29,7 @@
             <li><a class="dropdown-item" href="<?= base_url('/committee') ?>">Executive Committee</a></li>  
             <li><a class="dropdown-item" href="<?= base_url('/mahila') ?>">Mahila Mandal</a></li>  
             <li><a class="dropdown-item" href="<?= base_url('/yls') ?>">Young Lohana Society</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/') ?>">Youth Committee</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('/youth') ?>">Youth Committee</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/') ?>">Senior Mens</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/') ?>">Senior Ladies</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/') ?>">Raghuvanshi Charitable Trust</a></li>

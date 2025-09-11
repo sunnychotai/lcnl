@@ -22,6 +22,7 @@ $routes->get('/events/(:num)', 'Home::eventDetail/$1');
 $routes->get('/committee', 'Home::committee');
 $routes->get('/mahila', 'Home::mahila');
 $routes->get('/yls', 'Home::yls');
+$routes->get('/youth', 'Home::youth');
 
 // FAQ Routes (public)
 $routes->get('faqs', 'Home::faq');                           // grouped view

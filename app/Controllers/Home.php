@@ -162,4 +162,35 @@ public function yls()
 }
 
 
+public function youth()
+{
+    $committeeModel = new \App\Models\CommitteeModel();
+    $eventModel     = new \App\Models\EventModel();
+
+    // Mahila Mandal members
+    $members = $committeeModel
+        ->where('committee', 'YC')
+        ->orderBy('id', 'ASC')
+        ->findAll();
+
+    // Upcoming events for Executive + Mahila committees (limit 10)
+    $events = $eventModel
+        ->where('event_date >=', date('Y-m-d'))
+        ->whereIn('committee', ['Youth'])
+        ->orderBy('event_date', 'ASC')
+        ->findAll(10);
+
+    // Group events by month for display
+    $groupedEvents = [];
+    foreach ($events as $e) {
+        $month = date('F Y', strtotime($e['event_date']));
+        $groupedEvents[$month][] = $e;
+    }
+
+    return view('committees/youth', [
+        'members'       => $members,
+        'groupedEvents' => $groupedEvents
+    ]);
+}
+
 }

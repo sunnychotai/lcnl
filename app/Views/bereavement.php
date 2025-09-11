@@ -4,7 +4,7 @@
 <!-- Hero Banner -->
 <div class="hero hero-rangoli-grey d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
-  <div class="container position-relative">
+  <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Bereavement Support Information</h1>
     <p class="text-white-75">Support & Assistance for the Lohana Community</p>
   </div>

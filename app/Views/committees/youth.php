@@ -4,7 +4,7 @@
 <div class="hero hero-rangoli-blue d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
   <div class="container position-relative text-center">
-    <h1 class="text-white fw-bold">Young Lohana Society</h1>
+    <h1 class="text-white fw-bold">Lohana Youth Committee</h1>
     <p class="text-white-75">Supporting and empowering the youth of our community.</p>
   </div>
 </div>
@@ -12,7 +12,7 @@
 <div class="container py-5">
 
   <!-- Tabs Navigation -->
-  <ul class="nav nav-tabs justify-content-center" id="ylsTabs" role="tablist">
+  <ul class="nav nav-tabs justify-content-center" id="youthTabs" role="tablist">
     <li class="nav-item" role="presentation">
       <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">
         About
@@ -31,58 +31,26 @@
   </ul>
 
   <!-- Tabs Content -->
-  <div class="tab-content py-4" id="ylsTabsContent">
+  <div class="tab-content py-4" id="youthTabsContent">
 
     <!-- About Tab -->
 <div class="tab-pane fade show active" id="about" role="tabpanel">
   <div class="">
     <h2>About Us</h2>
     
-    <div class="text-center mb-4">
-      <img src="<?= base_url('assets/img/committee/yls-logo.png') ?>" 
-           alt="YLS Logo" 
-           class="img-fluid" 
-           style="max-height:120px;">
-    </div>
-
+   
     <p>
-      We would like to take this opportunity to introduce ourselves and how we were formed.
+      Placeholder
     </p>
 
-    <p>
-      With no official youth community in North London, LCNL invited a group of youngsters, many of whom had never met each other, to come together to discuss the future of young Lohanas. Many came to learn about the Lohana community, others were keen on the free pizza, but it was a great opportunity to meet fellow like minded Lohanas and discuss and brainstorm ideas about serving the young Lohanas in North London. So the “Young Lohana Society (YLS) was formed!
-    </p>
-
-    <p>
-      The members of the committee are diverse allowing us to reach out to a wider audience. The youngest committee member is aged 18 and the eldest are in their 30s! Some of the members only moved to London in the last few years whilst others have been brought up here.
-    </p>
-
-    <p>
-      So, what is our aim and purpose? To put it quite simply, our aim is to bring the Lohana youth together as well as preserving and strengthening our sense of belongingness within the community by promoting and encouraging the young lohanas to actively integrate and participate in community events. YLS is a youth organisation launched to capture and cater for the younger generation within the Lohana community.
-    </p>
-
-    <p>
-      We will hold a variety of events ranging from religious, cultural and social including sports days, summer BBQ/Fete, mehfil night, quiz night, parties and many more.
-    </p>
-
-    <p>
-      The LCNL motto is “we move forward together”, for the YLS it is simply a case of us all “growing up together”. Whether you’re a young Lohana or whether you’ve been part of the LCNL for years I hope you’ll take an active part in our future: whether it is suggesting ideas, attending functions, or even coming up to say hello to us!
-    </p>
-
-    <p>
-      We look forward to seeing you all soon!
-    </p>
-
-    <a href="<?= base_url('events') ?>" class="btn btn-brand mt-3">
-      View Upcoming Events
-    </a>
+    
   </div>
 </div>
 
 
 <!-- Events Tab -->
 <div class="tab-pane fade" id="events" role="tabpanel">
-  <h3 class="mb-4">Upcoming YLS Events</h3>
+  <h3 class="mb-4">Upcoming Youth Events</h3>
   
   <div class="container">
     <?php if (!empty($groupedEvents)): ?>
@@ -90,7 +58,7 @@
         <h2 class="mb-4 mt-5"><?= esc($month) ?></h2>
         <div class="d-flex overflow-auto gap-3 pb-2">
           <?php foreach ($events as $event): ?>
-            <?php if (in_array($event['committee'], ['YLS'])): ?>
+            <?php if (in_array($event['committee'], ['Youth'])): ?>
               <a href="<?= base_url('events/'.$event['id']) ?>" 
                  class="text-decoration-none flex-shrink-0" 
                  style="width: 280px;">

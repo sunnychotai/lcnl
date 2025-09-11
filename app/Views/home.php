@@ -75,7 +75,7 @@
           <h4 class="fw-bold mb-3">Message from the President</h4>
           
           <!-- President photo floated left -->
-         <img src="<?= base_url('uploads/committee/ronak-paw.jpg') ?>" 
+         <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>" 
      class="float-start me-3 mb-2 rounded-circle shadow-sm" 
      style="width:250px; height:250px; object-fit:cover; object-position: top;" 
      alt="President Photo">

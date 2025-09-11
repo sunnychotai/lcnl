@@ -49,6 +49,11 @@
   background-repeat: repeat;
 }
 
+.hero-rangoli-orange {
+  background-color: var(--accent1);
+  background-image: url("/assets/patterns/rangoli-orange.svg"); /* relative to CSS file */
+  background-repeat: repeat;
+}
 .hero-radial {
   background-image: repeating-radial-gradient(circle,
     var(--brand),
