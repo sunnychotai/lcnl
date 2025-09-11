@@ -22,7 +22,7 @@
   </div>
 
   <?php
-    // Resolve image (with fallback)
+    // Resolve image (fallback)
     $img = $event['image'] ?? '';
     if (! $img) {
         $img = 'assets/img/events/placeholder-event.jpg'; // adjust if different
@@ -30,25 +30,25 @@
     $modalId = 'eventImageModal';
   ?>
 
-  <!-- Row 1: Small image + Description -->
-  <div class="row g-4 align-items-start">
-    <div class="col-auto">
-      <div class="card shadow-sm border-0" title="Click to enlarge">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>">
-          <div class="event-img-wrapper" style="width:250px;">
-            <img
-              src="<?= base_url($img) ?>"
-              class="img-fluid rounded-top"
-              alt="<?= esc($event['title'] ?? 'Event image') ?>"
-            >
-          </div>
-        </a>
-      </div>
-    </div>
+  <!-- Row 1: FULL-WIDTH card with small image + description -->
+  <div class="card shadow-sm border-0 no-hover mb-4">
+    <div class="card-body">
+      <div class="row g-4 align-items-start">
+        <!-- Image (fixed ~250px, click to expand) -->
+        <div class="col-md-auto">
+          <a href="#" class="d-inline-block" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>" title="Click to enlarge">
+            <div class="event-img-wrapper" style="width:250px; max-width:100%;">
+              <img
+                src="<?= base_url($img) ?>"
+                class="img-fluid rounded"
+                alt="<?= esc($event['title'] ?? 'Event image') ?>"
+              >
+            </div>
+          </a>
+        </div>
 
-    <div class="col-lg-8 col-md-7">
-      <div class="card shadow-sm border-0 no-hover">
-        <div class="card-body">
+        <!-- Description (takes remaining width) -->
+        <div class="col">
           <h4 class="mb-3">
             <i class="bi bi-info-circle me-2"></i>About this event
           </h4>
@@ -66,26 +66,24 @@
   </div>
 
   <!-- Row 2: Full-width Terms -->
-  <div class="mt-4">
-    <div class="card shadow-sm border-0 no-hover">
-      <div class="card-body">
-        <h4 class="mb-3">
-          <i class="bi bi-file-earmark-text me-2"></i>Event Terms
-        </h4>
+  <div class="card shadow-sm border-0 no-hover mb-4">
+    <div class="card-body">
+      <h4 class="mb-3">
+        <i class="bi bi-file-earmark-text me-2"></i>Event Terms
+      </h4>
 
-        <?php if (!empty($event['eventterms'])): ?>
-          <div class="fs-6">
-            <?= nl2br(esc($event['eventterms'])) ?>
-          </div>
-        <?php else: ?>
-          <p class="text-muted mb-0">No special terms provided.</p>
-        <?php endif; ?>
-      </div>
+      <?php if (!empty($event['eventterms'])): ?>
+        <div class="fs-6">
+          <?= nl2br(esc($event['eventterms'])) ?>
+        </div>
+      <?php else: ?>
+        <p class="text-muted mb-0">No special terms provided.</p>
+      <?php endif; ?>
     </div>
   </div>
 
   <!-- Row 3: Ticket Info (left) + Contact Info (right) -->
-  <div class="row g-4 mt-1">
+  <div class="row g-4">
     <div class="col-lg-6">
       <div class="card shadow-sm border-0 no-hover h-100">
         <div class="card-body">
