@@ -28,14 +28,7 @@
     <!-- Subtext caption -->
     <p class="mt-2 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
 </div>
-
-
-
-
-
 </div>
-
-
 <section class="py-2">
   <div class="container">
     <div class="row g-4 align-items-start">
@@ -44,9 +37,9 @@
       <div class="col-md-8">
         <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
 
-<p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Committee, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
+      <p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Committee, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
 
-<p>LCNL connects with over 2,300 families through regular News & Events, the Raghuvanshi Diwali Magazine, and annual festivals. We come together for Navratri, Diwali, Janmashtami, Hanuman Jayanti, and many more religious and cultural celebrations.</p>
+      <p>LCNL connects with over 2,300 families through regular News & Events, the Raghuvanshi Diwali Magazine, and annual festivals. We come together for Navratri, Diwali, Janmashtami, Hanuman Jayanti, and many more religious and cultural celebrations.</p>
 
 <p>We are proud of our contributions to local and international charities, the establishment of the RCT Sports Centre in Harrow, and most recently, the acquisition of a new community centre to serve future generations.</p>
 
