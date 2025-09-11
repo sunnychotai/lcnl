@@ -6,6 +6,12 @@
   --radius:14px;
 }
 
+#newsTicker .carousel-item {
+  transition: transform 0.6s ease-in-out;
+  font-size: 0.9rem;
+}
+
+
 .bg-brand { background: var(--brand) !important; }
 
 /* Base hero */
