@@ -31,7 +31,7 @@
   ?>
 
   <!-- Row 1: FULL-WIDTH card with small image + description -->
-  <div class="card shadow-sm border-0 no-hover mb-4">
+<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
     <div class="card-body">
       <div class="row g-4 align-items-start">
         <!-- Image (fixed ~250px, click to expand) -->
@@ -66,7 +66,7 @@
   </div>
 
   <!-- Row 2: Full-width Terms -->
-  <div class="card shadow-sm border-0 no-hover mb-4">
+<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
     <div class="card-body">
       <h4 class="mb-3">
         <i class="bi bi-file-earmark-text me-2"></i>Event Terms
@@ -85,7 +85,7 @@
   <!-- Row 3: Ticket Info (left) + Contact Info (right) -->
   <div class="row g-4">
     <div class="col-lg-6">
-      <div class="card shadow-sm border-0 no-hover h-100">
+<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
         <div class="card-body">
           <h4 class="mb-3">
             <i class="bi bi-ticket-perforated me-2"></i>Ticket Information
@@ -103,7 +103,7 @@
     </div>
 
     <div class="col-lg-6">
-      <div class="card shadow-sm border-0 no-hover h-100">
+<div class="card shadow-sm border-0 no-hover colourful-card mb-4">
         <div class="card-body">
           <h4 class="mb-3">
             <i class="bi bi-telephone-inbound me-2"></i>Contact Information

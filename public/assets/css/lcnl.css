@@ -515,3 +515,85 @@ footer a:hover { opacity:1; }
 .no-hover .event-img-wrapper:hover img {
   transform: scale(1.05);
 }
+
+/* Remove hover effects completely */
+.card.no-hover,
+.card.no-hover:hover {
+  transform: none !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; /* subtle static shadow */
+  z-index: auto !important;
+}
+
+/* Subtle colourful card styling */
+.colourful-card {
+  border-left: 6px solid var(--brand);   /* your maroon accent */
+  background: linear-gradient(180deg, #fff, var(--muted));
+  border-radius: var(--radius);
+}
+
+/* Give each section a different accent by icon type */
+.colourful-card h4 i.bi-info-circle {
+  color: var(--brand);
+}
+.colourful-card h4 i.bi-file-earmark-text {
+  color: var(--accent);
+}
+.colourful-card h4 i.bi-ticket-perforated {
+  color: #198754; /* Bootstrap green */
+}
+.colourful-card h4 i.bi-telephone-inbound {
+  color: #0d6efd; /* Bootstrap blue */
+}
+
+/* Make headings pop a bit */
+.colourful-card h4 {
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: .5rem;
+  margin-bottom: 1rem;
+}
+
+/* Remove hover effects completely */
+.card.no-hover,
+.card.no-hover:hover {
+  transform: none !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+  z-index: auto !important;
+}
+
+/* Subtle colourful card styling */
+.colourful-card {
+  background: linear-gradient(180deg, #fff, var(--muted));
+  border-radius: var(--radius);
+  padding: .5rem;
+}
+
+/* Section-specific colours via their icons */
+.colourful-card h4 i.bi-info-circle {
+  color: var(--brand);  /* maroon */
+  border-left: 6px solid var(--brand);
+  padding-left: .5rem;
+}
+.colourful-card h4 i.bi-file-earmark-text {
+  color: var(--accent); /* gold */
+  border-left: 6px solid var(--accent);
+  padding-left: .5rem;
+}
+.colourful-card h4 i.bi-ticket-perforated {
+  color: #198754; /* green */
+  border-left: 6px solid #198754;
+  padding-left: .5rem;
+}
+.colourful-card h4 i.bi-telephone-inbound {
+  color: #0d6efd; /* blue */
+  border-left: 6px solid #0d6efd;
+  padding-left: .5rem;
+}
+
+/* Headings style */
+.colourful-card h4 {
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: .5rem;
+  margin-bottom: 1rem;
+}
