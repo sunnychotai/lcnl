@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <!-- Hero Banner -->
-<div class="position-relative w-100" style="height: 400px; overflow: hidden;">
+<div class="position-relative w-100" style="height: 300px; overflow: hidden;">
     <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" 
          alt="LCNL Executive Committee 2025" 
          class="img-fluid w-100 h-100" 
@@ -13,8 +13,8 @@
 <!-- Overlay text -->
 <div class="position-absolute top-50 start-0 translate-middle-y w-100 text-white">
     <div class="container text-center">
-        <h1 class="fw-bold display-4">Executive Committee</h1>
-        <h5>Meet the LCNL 2025-2027 Executive Committee</h5>
+      <h1 class="fw-bold display-6 mb-2">Executive Committee</h1>
+    <p class="lead fs-5 mb-0">Meet the LCNL 2025-2027 Executive Committee</p>
     </div>
 </div>
 </div>

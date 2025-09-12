@@ -4,9 +4,7 @@
 <!-- Hero Banner -->
 <section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
-    <h1 class="motto"><span class="script">We Move Forward Together</span></h1>
-
-
+    <h1 class="motto">"WE MOVE <span class="script">FORWARD</span> TOGETHER"</h1>
     <p class="lead fs-5 mb-0">... bringing people together since 1976. Proud of our heritage, <em>we move forward together.</em></p>
   </div>
 </section>

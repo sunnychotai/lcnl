@@ -19,9 +19,8 @@
   color: #fff;
 }
 .motto .script {
-  font-family: 'Dancing Script', cursive;
   font-size: 2.8rem;
-  color: var(--muted);
+  color: var(--accent1);
 }
 
 
