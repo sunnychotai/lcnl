@@ -81,13 +81,7 @@
   pointer-events: none; /* don’t block clicks */
 }
 
-
-
-
-
-
-
-
+/* Rangoli AUM banners in different colours */
 .hero-rangoli-pink {
   background-color: var(--accent1);
   background-image: url("/assets/patterns/rangoli-pink.svg"); /* relative to CSS file */
@@ -312,6 +306,25 @@ footer a:hover { opacity:1; }
   }
   .navbar .dropdown-toggle::after { vertical-align: .15em; }
 }
+
+@media (max-width: 991.98px) {  /* mobile & tablet collapsed nav */
+  .lcnl-nav {
+    gap: 0.5rem !important;   /* tighter vertical spacing */
+  }
+
+  .navbar-nav .nav-link {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .navbar-nav .dropdown-menu .dropdown-item {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+
 
 /* Caret for "Home" style dropdowns */
 .dropdown-toggle-home::after {
