@@ -9,11 +9,6 @@
   </div>
 </section>
 
-
-
-
-
-
 <?php if (!empty($upcomingEvents)): ?>
   <section class="container py-3">
     <h2 class="mb-2">
