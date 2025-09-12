@@ -2,13 +2,13 @@
 <?= $this->section('content') ?>
 
 <!-- Hero Banner -->
-<div class="hero hero-rangoli-purple d-flex align-items-center justify-content-center">
-  
-  <div class="container position-relative text-center">
-    <h1 class="text-white fw-bold">LCNL Membership</h1>
-    <h5>Sign up and become a member of the Lohana Community today</h5>
+<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
+    <h1 class="fw-bold display-6 mb-2">LCNL Membership</h1>
+    <p class="lead fs-5 mb-0">Sign up and become a member of the Lohana Community today</p>
   </div>
-</div>
+</section>
+
 
 
 <div class="container py-5">

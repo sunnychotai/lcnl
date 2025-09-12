@@ -1,40 +1,13 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero bg-brand d-flex align-items-center">
-  <div class="container text-lg-start">
-    <div class="glass-box text-start">
-  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-    <div class="carousel-inner text-white">
+<!-- Hero Banner -->
+<section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
+    <h1 class="motto"><span class="script">We Move Forward Together</span></h1>
 
-      <!-- Intro -->
-      <div class="carousel-item active">
-        <h3 class="fw-bold">
-          <i class="bi bi-newspaper me-2"></i>
-          Lohana Community of North London
-        </h3>
-        <p>
-          The Lohana Community North London (LCNL) has been bringing people together since 1976. 
-          Serving over 2,300 families, we celebrate our culture, support charitable causes, and 
-          create spaces where our community can thrive. Proud of our heritage, we move forward 
-          together for future generations.
-        </p>
-      </div>
 
-      <!-- News items -->
-      <div class="carousel-item">
-        <h1><i class="bi bi-ticket-perforated me-2"></i>Navratri Garba tickets available now!</h1>
-      </div>
-      <div class="carousel-item">
-        <h1><i class="bi bi-stars me-2"></i>Join us for Diwali celebrations on 1st Nov.</h1>
-      </div>
-      <div class="carousel-item">
-        <h1><i class="bi bi-people-fill me-2"></i>Over 2,300 families are part of LCNL.</h1>
-      </div>
-
-    </div>
-  </div>
-</div>
+    <p class="lead fs-5 mb-0">... bringing people together since 1976. Proud of our heritage, <em>we move forward together.</em></p>
   </div>
 </section>
 

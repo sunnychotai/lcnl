@@ -1,13 +1,13 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<div class="hero hero-rangoli-blue d-flex align-items-center justify-content-center">
-  
-  <div class="container position-relative text-center">
-    <h1 class="text-white fw-bold">Young Lohana Society</h1>
-    <h5>Supporting and empowering the youth of our community.</h5>
+<!-- Hero Banner -->
+<section class="hero-lcnl-watermark hero-overlay-cobalt d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
+    <h1 class="fw-bold display-6 mb-2">Young Lohana Society</h1>
+    <p class="lead fs-5 mb-0">Supporting and empowering the youth of our community.</p>
   </div>
-</div>
+</section>
 
 <div class="container py-5">
 

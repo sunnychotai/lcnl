@@ -2,13 +2,12 @@
 <?= $this->section('content') ?>
 
 <!-- Hero Banner -->
-<div class="hero hero-rangoli-blue d-flex align-items-center justify-content-center">
-  
-  <div class="container position-relative text-center">
-    <h1 class="text-white fw-bold">Contact Us</h1>
-    <h5>We would love to hear from you</h5>
+<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
+    <h1 class="fw-bold display-6 mb-2">Contact Us</h1>
+    <p class="lead fs-5 mb-0">We would love to hear from you</p>
   </div>
-</div>
+</section>
 
 <!-- Page Content -->
 <div class="container py-5">

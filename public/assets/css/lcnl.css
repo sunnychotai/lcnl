@@ -6,59 +6,39 @@
   --radius:14px;
 }
 
-.glass-box {
-  background: rgba(255, 255, 255, 0.1);   /* transparent white */
-  border-radius: 16px;
-  padding: 1.5rem;
-  backdrop-filter: blur(10px);            /* frosted glass blur */
-  -webkit-backdrop-filter: blur(10px);    /* Safari/iOS fix */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-
-/* Style for hero carousel items */
-#heroCarousel .carousel-item {
-  padding: 2rem 1rem;          /* breathing room */
-  min-height: 180px;           /* consistent height across slides */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#heroCarousel h3,
-#heroCarousel p {
-  color: #fff !important;      /* white text */
-  text-align: center;
-  margin-bottom: 0.75rem;
-}
-
-#heroCarousel h3 {
-  font-weight: 700;            /* bold heading */
-  font-size: 1.6rem;           /* slightly larger */
-}
-
-#heroCarousel p {
-  font-size: 1.1rem;
-  font-weight: 600;            /* bolden ticker text */
-  line-height: 1.5;
-}
-
-#heroCarousel .carousel-item p::before {
-  content: "• ";               /* optional: dot/bullet before news items */
-  font-size: 1.2rem;
-  color: var(--accent, #c9a227);
-}
-
 .bg-brand { background: var(--brand) !important; }
-
-
 
 .hero-lcnl-watermark {
   min-height: 150px;
   
 }
+
+.motto {
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #fff;
+}
+.motto .script {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.8rem;
+  color: var(--muted);
+}
+
+
+.motto-sub {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #f8f9fa;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.text-accent {
+  color: var(--accent1); /* your gold */
+}
+
+
+
 
 .hero-lcnl-watermark {
   position: relative;
@@ -224,7 +204,7 @@
 
 /* 2. Ruby Red */
 .hero-overlay-ruby::before {
-  background: linear-gradient(to bottom right,
+  background: radial-gradient(ellipse at center,
     rgba(120, 0, 30, 0.95),
     rgba(80, 0, 20, 0.6));
 }
@@ -308,7 +288,7 @@
 
 /* 14. Steel Blue */
 .hero-overlay-steel::before {
-  background: linear-gradient(to right,
+  background: radial-gradient(ellipse at center,
     rgba(50, 70, 100, 0.95),
     rgba(30, 40, 60, 0.6));
 }
@@ -322,7 +302,7 @@
 
 /* 16. Midnight Teal */
 .hero-overlay-midnight-teal::before {
-  background: linear-gradient(to top left,
+  background: radial-gradient(ellipse at center,
     rgba(0, 50, 60, 0.95),
     rgba(0, 30, 40, 0.6));
 }
@@ -357,7 +337,7 @@
 
 /* 1. Crimson Sunset */
 .hero-overlay-crimsonsunset::before {
-  background: linear-gradient(to right,
+  background: radial-gradient(ellipse at center,
     rgba(120, 0, 30, 0.9),
     rgba(255, 80, 60, 0.6));
 }
@@ -413,7 +393,7 @@
 
 /* 9. Cobalt Blue */
 .hero-overlay-cobalt::before {
-  background: linear-gradient(to right,
+  background: radial-gradient(ellipse at center,
     rgba(0, 50, 150, 0.9),
     rgba(0, 20, 90, 0.65));
 }
