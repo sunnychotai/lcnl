@@ -60,19 +60,19 @@
         </div>
 
         <!-- Constitution Download Section -->
-        <div class="mt-5">
-          <div class="card shadow-sm border-0">
-            <div class="card-body text-center">
-              <i class="bi bi-file-earmark-text fs-1 text-brand mb-3"></i>
-              <h5 class="fw-bold">LCNL Constitution</h5>
-              <p class="text-muted small mb-3">Download the official LCNL Constitution (February 2023).</p>
-              <a href="<?= base_url('assets/documents/LCNL Constitution February 2023.pdf') ?>" 
-                 class="btn btn-brand fw-semibold" target="_blank">
-                <i class="bi bi-download me-2"></i> Download PDF
-              </a>
-            </div>
-          </div>
-        </div>
+<div class="container my-4">
+  <div class="constitution-box">
+    <h5 class="fw-bold text-brand mb-2">
+      <i class="bi bi-file-earmark-text me-2"></i> LCNL Constitution
+    </h5>
+    <p class="mb-3 text-muted">Read our guiding principles and values as outlined in the latest LCNL Constitution.</p>
+    <a href="<?= base_url('assets/documents/LCNL Constitution February 2023.pdf') ?>" 
+       class="btn btn-brand btn-sm" target="_blank">
+      <i class="bi bi-download me-1"></i> Download Constitution (PDF)
+    </a>
+  </div>
+</div>
+
 
       </div>
 
