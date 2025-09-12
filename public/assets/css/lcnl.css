@@ -51,15 +51,23 @@
   color: var(--accent, #c9a227);
 }
 
-
-
 .bg-brand { background: var(--brand) !important; }
+
+
+
+.hero-lcnl-watermark {
+  min-height: 150px;
+  
+}
 
 .hero-lcnl-watermark {
   position: relative;
   overflow: hidden;
-  min-height: 200px;
   z-index: 0; /* baseline context */
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
 }
 
 .hero-lcnl-watermark::before {
@@ -72,18 +80,28 @@
 
 .hero-lcnl-watermark .random-logo {
   position: absolute;
-  opacity: 0.08; /* subtle watermark effect */
+  opacity: 0.8; /* subtle watermark effect */
   pointer-events: none;
   z-index: 0; /* keep logos behind overlay */
-  opacity:0.5;
   mix-blend-mode: overlay;
-  
 }
 
 .hero-lcnl-watermark > .text-center {
   position: relative;
   z-index: 2; /* ensures text always above everything */
 }
+
+.hero-lcnl-watermark h4 {
+  text-shadow: 0 2px 6px rgba(0,0,0,.5); /* ensure readability */
+}
+
+.hero-lcnl-watermark .badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius);
+  backdrop-filter: blur(3px);
+}
+
 
 
 
@@ -478,25 +496,6 @@
     rgba(30, 0, 60, 0.95),
     rgba(10, 0, 30, 0.7));
 }
-.hero-lcnl-watermark {
-  position: relative;
-  overflow: hidden;
-  min-height: 200px;
-  border-radius: var(--radius);
-}
-
-.hero-lcnl-watermark h4 {
-  text-shadow: 0 2px 6px rgba(0,0,0,.5); /* ensure readability */
-}
-
-.hero-lcnl-watermark .badge {
-  font-size: 0.85rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: var(--radius);
-  backdrop-filter: blur(3px);
-}
-
-
 
 /* Constitution Box Card (download) on AboutUs page*/
 
@@ -761,6 +760,12 @@ footer a:hover { opacity:1; }
   }
 }
 
+.navbar {
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
 
 
 /* Caret for "Home" style dropdowns */
@@ -1151,3 +1156,38 @@ footer a:hover { opacity:1; }
   color: #fff !important;
   border: 1px solid rgba(0,0,0,.1);
 }
+
+/* Bereavement Contact Card (styled like Constitution box) */
+.card-bereavement {
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.08);   /* light border */
+  border-left: 6px solid var(--brand);  /* LCNL maroon accent */
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* soft shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-bereavement:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.card-bereavement .card-title {
+  font-weight: 600;
+  color: var(--brand);
+}
+
+
+/* Shiva image centre on mobile */
+@media (max-width: 768px) {
+  .shiva-img-wrapper {
+    margin: 0 auto 20px auto !important;
+    text-align: center;
+  }
+  .shiva-img-wrapper img {
+    display: inline-block;
+  }
+}
+
+

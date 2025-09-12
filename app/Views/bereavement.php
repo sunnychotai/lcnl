@@ -1,66 +1,62 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<div class="hero hero-rangoli-grey d-flex align-items-center justify-content-center">
-  
-  <div class="container position-relative text-center">
-    <h1 class="text-white fw-bold">Bereavement Support Information</h1>
-    <h5>Support & Assistance for the Lohana Community</h5>
+<section class="hero-lcnl-watermark hero-overlay-midnightindigo d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
+    <h1 class="fw-bold display-6 mb-2">Bereavement Support Information</h1>
+    <p class="lead fs-5 mb-0">Support &amp; Assistance for the Lohana Community</p>
   </div>
-</div>
+</section>
 
+<div class="container py-3">
 
-<div class="container py-5">
   <!-- Image + Text side by side -->
-  <div class="d-flex flex-wrap flex-row-reverse align-items-start mb-3">
-    <!-- Image -->
-    <div style="flex: 0 0 300px; max-width: 300px; margin-right: 20px; margin-bottom: 20px;">
+  <div class="d-flex flex-wrap flex-row-reverse align-items-start mb-2">
+
+    <!-- Shiva Image -->
+    <div class="shiva-img-wrapper" 
+         style="flex:0 0 300px; max-width:300px; margin-right:20px; margin-bottom:20px;">
       <img src="<?= base_url('assets/img/shiva.png') ?>" 
            alt="Shiva" 
-           class="img-fluid rounded" 
-           style="width: 100%; height: auto;">
+           class="img-fluid rounded">
     </div>
 
     <!-- Text -->
-    <div style="flex: 1; min-width: 300px;">
+    <div style="flex:1; min-width:300px;">
       <p>
-        The Bereavement Committee has always done their utmost to help and assist the bereaved families, 
-        handling every matter sympathetically and sensitively to ensure that all the requirements of the 
-        family are fulfilled as per their wishes. We are always available to provide the guidance and the 
-        assistance during the time of mourning and assist in making the necessary arrangements starting 
-        from the Prathna to the Funeral. We have a dedicated team to perform the Prathna according to 
-        the wishes of the family in mourning. For the families that wish to have Bhajans, we also have 
-        a team who are happy to provide this service for free. 
+        The Bereavement Committee is committed to supporting bereaved families with compassion and sensitivity, 
+        ensuring that all requirements are met according to the family’s wishes. We are available to provide 
+        guidance during the time of mourning and to help with arrangements, from the Prathna to the Funeral. 
+        A dedicated team is available to perform the Prathna, and for families who wish to hold Bhajans, 
+        we also have a volunteer team who provide this service free of charge.
       </p>
 
       <p>
-        We currently have over <strong>3,250 registered recipients</strong> for the bereavement emails and from 
-        the 3-month period <strong>1st August 2022 to 31st October 2022</strong>, over <strong>539,000 emails</strong> 
-        have been sent. This averages around <strong>11 emails per week</strong>. This is a totally free service LCNL provides 
-        and is open to everyone including non-Lohanas.
+        We currently have over <strong>3,250 registered recipients</strong> for bereavement emails. 
+        Between <strong>1 August and 31 October 2022</strong>, more than <strong>539,000 emails</strong> were sent — 
+        averaging around <strong>11 emails per week</strong>. This is a free LCNL service and is open to everyone, 
+        including non-Lohanas.
       </p>
 
       <p>
-        We still have a substantial number of recipients who have not re-registered under GDPR compliance. 
-        To register to receive these emails (no limit on how many family members can register), 
+        A large number of recipients have yet to re-register under GDPR rules. 
+        To register (no limit on how many family members can do so), please email: 
         <a href="mailto:bereavement@lcnl.org">bereavement@lcnl.org</a>
       </p>
 
       <p>
-        I would like this opportunity to thank the entire bereavement team for their hard work. 
-        The feedback from the community is extremely positive as we wholeheartedly assist the family in mourning. 
-        I also thank President and the EC committee members for their continued support.
+        I would like to thank the entire Bereavement Team for their tireless efforts. 
+        Feedback from the community has been overwhelmingly positive, and I also thank the President 
+        and EC Committee members for their continued support.
       </p>
     </div>
   </div>
 
-<!-- Contacts -->
-<h5 class="mt-4 mb-3">Contacts</h5>
-<div class="row g-4">
-  <div class="col-md-6">
-    <div class="card h-100 shadow-sm">
-      <div class="card-body">
+  <!-- Contacts -->
+  <h5 class="mt-2 mb-3">Contacts</h5>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card-bereavement h-100">
         <h6 class="card-title mb-2">Vinu Kotecha</h6>
         <p class="mb-1"><strong>Chairman – Bereavement Committee</strong></p>
         <p class="mb-1">
@@ -69,11 +65,9 @@
         </p>
       </div>
     </div>
-  </div>
 
-  <div class="col-md-6">
-    <div class="card h-100 shadow-sm">
-      <div class="card-body">
+    <div class="col-md-6">
+      <div class="card-bereavement h-100">
         <h6 class="card-title mb-2">Rajubhai Sawjani</h6>
         <p class="mb-1"><strong>Bereavement Committee</strong></p>
         <p class="mb-1">
@@ -83,16 +77,12 @@
       </div>
     </div>
   </div>
-</div>
 
   <!-- FAQ Section (dynamic from DB) -->
-  <div class="faq mt-5">
+  <div class="faq mt-3">
     <h3 class="mb-4">Frequently Asked Questions</h3>
     <?= view('faqs/_accordion', ['faqs' => $faqs]) ?>
   </div>
-</div>
-
-</div>
 </div>
 
 <?= $this->endSection() ?>

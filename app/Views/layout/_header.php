@@ -32,3 +32,56 @@
     </div>
   </div>
 </header>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".hero-lcnl-watermark").forEach(container => {
+    const count = 15; // number of scattered logos per section
+    const placed = []; // keep track of positions
+
+    for (let i = 0; i < count; i++) {
+      let tries = 0, placedOk = false, x, y, size;
+
+      while (!placedOk && tries < 50) { // max attempts
+        size = 50 + Math.random() * 150; // px
+        x = Math.random() * 100; // %
+        y = Math.random() * 100; // %
+
+        // Convert % to pixels relative to container
+        const rect = container.getBoundingClientRect();
+        const px = (x / 100) * rect.width;
+        const py = (y / 100) * rect.height;
+
+        // Check overlap with already placed logos
+        let overlap = false;
+        for (const p of placed) {
+          const dx = px - p.x;
+          const dy = py - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < (size/2 + p.size/2) * 0.9) { // 0.9 = tolerance
+            overlap = true;
+            break;
+          }
+        }
+
+        if (!overlap) {
+          placed.push({ x: px, y: py, size });
+          placedOk = true;
+        }
+        tries++;
+      }
+
+      if (placedOk) {
+        const img = document.createElement("img");
+        img.src = "/assets/patterns/lcnl-watermark.svg";
+        img.className = "random-logo";
+        img.style.width = size + "px";
+        img.style.top = y + "%";
+        img.style.left = x + "%";
+        img.style.transform =
+          `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+        container.appendChild(img);
+      }
+    }
+  });
+});
+</script>
