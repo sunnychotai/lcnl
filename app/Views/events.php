@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <!-- Hero Banner -->
 <div class="hero hero-lcnl-watermark d-flex align-items-center justify-content-center">
-  <div class="overlay"></div>
+  
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Events</h1>
     <h5>Upcoming LCNL events</h5>

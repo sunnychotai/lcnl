@@ -3,7 +3,7 @@
 
 <!-- Hero Banner -->
 <div class="hero hero-rangoli-red d-flex align-items-center justify-content-center">
-  <div class="overlay"></div>
+ 
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">About Us</h1>
     <h5>Lohana Community of North London</h5>

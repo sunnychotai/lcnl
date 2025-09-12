@@ -3,7 +3,7 @@
 
 <!-- Hero Banner -->
 <div class="hero hero-rangoli-yellow d-flex align-items-center justify-content-center">
-  <div class="overlay"></div>
+  
   <div class="container position-relative text-center text-white">
 
     <h1 class="fw-bold mb-2"><?= esc($event['title'] ?? 'Event') ?></h1>

@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div class="hero hero-rangoli-purple d-flex align-items-center justify-content-center">
-  <div class="overlay"></div>
+  
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Mahila Committee</h1>
     <h5>Supporting and empowering the women of our community.</h5>

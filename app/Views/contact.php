@@ -3,7 +3,7 @@
 
 <!-- Hero Banner -->
 <div class="hero hero-rangoli-blue d-flex align-items-center justify-content-center">
-  <div class="overlay"></div>
+  
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Contact Us</h1>
     <h5>We would love to hear from you</h5>

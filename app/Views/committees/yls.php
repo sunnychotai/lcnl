@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div class="hero hero-rangoli-blue d-flex align-items-center justify-content-center">
-  <div class="overlay"></div>
+  
   <div class="container position-relative text-center">
     <h1 class="text-white fw-bold">Young Lohana Society</h1>
     <h5>Supporting and empowering the youth of our community.</h5>

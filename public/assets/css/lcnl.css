@@ -55,31 +55,453 @@
 
 .bg-brand { background: var(--brand) !important; }
 
-/* Base hero */
-.hero {
-  position: relative;
-  min-height: 125px;    /* acts as a baseline */
-  padding: 0;      /* gives breathing room */
-  color: #fff;
-  overflow: visible;    /* don’t clip content */
-  display: flex;
-  align-items: center;  /* vertical centering */
-}
-
 .hero-lcnl-watermark {
   position: relative;
-  background-image: url("/assets/patterns/lcnl-watermark.svg");
-  background-repeat:repeat;
-  background-size: 150px 150px;  /* tile size */
+  overflow: hidden;
+  min-height: 200px;
+  z-index: 0; /* baseline context */
 }
 
 .hero-lcnl-watermark::before {
   content: "";
   position: absolute;
-  inset:0; /* covers entire area */
-  background: rgba(255, 246, 217, 0.9); /* grey overlay at 60% opacity */
-  pointer-events: none; /* don’t block clicks */
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* overlay ABOVE logos, BELOW text */
 }
+
+.hero-lcnl-watermark .random-logo {
+  position: absolute;
+  opacity: 0.08; /* subtle watermark effect */
+  pointer-events: none;
+  z-index: 0; /* keep logos behind overlay */
+  opacity:0.5;
+  mix-blend-mode: overlay;
+  
+}
+
+.hero-lcnl-watermark > .text-center {
+  position: relative;
+  z-index: 2; /* ensures text always above everything */
+}
+
+
+
+/* Artistic overlays */
+.hero-overlay-grey::before {
+  background: radial-gradient(circle at center,
+    rgba(128, 128, 128, 0.85) 0%,
+    rgba(128, 128, 128, 0.4) 80%);
+}
+
+.hero-overlay-red::before {
+  background: linear-gradient(135deg,
+    rgba(220, 53, 69, 0.85) 0%,
+    rgba(220, 53, 69, 0.4) 100%);
+}
+
+.hero-overlay-blue::before {
+  background: radial-gradient(circle at top,
+    rgba(13, 110, 253, 0.85) 20%,
+    rgba(13, 110, 253, 0.3) 100%);
+}
+
+.hero-overlay-green::before {
+  background: linear-gradient(to right,
+    rgba(25, 135, 84, 0.85) 0%,
+    rgba(40, 167, 69, 0.5) 100%);
+}
+
+.hero-overlay-orange::before {
+  background:
+    linear-gradient(rgba(253, 126, 20, 0.8), rgba(253, 126, 20, 0.8)),
+    url("/assets/patterns/noise-texture.png"); /* subtle texture image */
+  background-size: auto, 200px 200px;
+}
+
+.hero-overlay-white::before {
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.6) 100%);
+}
+
+/* === Elegant Overlays === */
+
+/* 1. Royal Blue (gradient) */
+.hero-overlay-royalblue::before {
+  background: radial-gradient(circle at center,
+    rgba(15, 40, 120, 0.9) 0%,
+    rgba(15, 40, 120, 0.6) 100%);
+}
+
+/* 2. Emerald Green */
+.hero-overlay-emerald::before {
+  background: linear-gradient(to bottom right,
+    rgba(0, 80, 50, 0.9),
+    rgba(0, 120, 70, 0.6));
+}
+
+/* 3. Dark Red (crimson) */
+.hero-overlay-darkred::before {
+  background: linear-gradient(to top,
+    rgba(100, 0, 20, 0.9),
+    rgba(150, 0, 40, 0.6));
+}
+
+/* 4. Midnight Purple */
+.hero-overlay-midnight::before {
+  background: radial-gradient(circle at top left,
+    rgba(40, 0, 70, 0.95),
+    rgba(25, 0, 40, 0.6));
+}
+
+/* 5. Charcoal Grey */
+.hero-overlay-charcoal::before {
+  background: linear-gradient(135deg,
+    rgba(20, 20, 20, 0.9),
+    rgba(60, 60, 60, 0.6));
+}
+
+/* 6. Teal Mist */
+.hero-overlay-teal::before {
+  background: linear-gradient(to right,
+    rgba(0, 70, 70, 0.9),
+    rgba(0, 120, 120, 0.6));
+}
+
+/* 7. Burgundy */
+.hero-overlay-burgundy::before {
+  background: radial-gradient(circle,
+    rgba(80, 0, 20, 0.95),
+    rgba(120, 0, 40, 0.65));
+}
+
+/* 8. Slate Blue */
+.hero-overlay-slateblue::before {
+  background: linear-gradient(to bottom,
+    rgba(70, 90, 140, 0.9),
+    rgba(50, 70, 110, 0.6));
+}
+
+/* 9. Forest Green */
+.hero-overlay-forest::before {
+  background: linear-gradient(to top right,
+    rgba(20, 60, 20, 0.9),
+    rgba(40, 100, 40, 0.6));
+}
+
+/* 10. Bronze */
+.hero-overlay-bronze::before {
+  background: linear-gradient(135deg,
+    rgba(120, 60, 20, 0.9),
+    rgba(180, 100, 40, 0.65));
+}
+
+/* === Jewel, Smoky & Vignette Styles === */
+
+/* 1. Sapphire Blue */
+.hero-overlay-sapphire::before {
+  background: radial-gradient(circle at center,
+    rgba(15, 60, 150, 0.95),
+    rgba(10, 30, 80, 0.65));
+}
+
+/* 2. Ruby Red */
+.hero-overlay-ruby::before {
+  background: linear-gradient(to bottom right,
+    rgba(120, 0, 30, 0.95),
+    rgba(80, 0, 20, 0.6));
+}
+
+/* 3. Amethyst Purple */
+.hero-overlay-amethyst::before {
+  background: radial-gradient(circle at top,
+    rgba(70, 0, 100, 0.95),
+    rgba(40, 0, 60, 0.6));
+}
+
+/* 4. Onyx Black */
+.hero-overlay-onyx::before {
+  background: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.95),
+    rgba(50, 50, 50, 0.7));
+}
+
+/* 5. Obsidian */
+.hero-overlay-obsidian::before {
+  background: radial-gradient(ellipse at center,
+    rgba(10, 10, 20, 0.95) 40%,
+    rgba(0, 0, 0, 0.7) 100%);
+}
+
+/* 6. Gold Glow */
+.hero-overlay-gold::before {
+  background: radial-gradient(circle,
+    rgba(160, 120, 20, 0.9),
+    rgba(90, 60, 10, 0.7));
+}
+
+/* 7. Platinum Silver */
+.hero-overlay-platinum::before {
+  background: linear-gradient(to bottom,
+    rgba(180, 180, 180, 0.9),
+    rgba(90, 90, 90, 0.6));
+}
+
+/* 8. Deep Ocean */
+.hero-overlay-ocean::before {
+  background: linear-gradient(135deg,
+    rgba(0, 30, 80, 0.95),
+    rgba(0, 70, 120, 0.65));
+}
+
+/* 9. Storm Grey */
+.hero-overlay-storm::before {
+  background: radial-gradient(circle at center,
+    rgba(50, 50, 60, 0.95),
+    rgba(20, 20, 30, 0.7));
+}
+
+/* 10. Wine Red */
+.hero-overlay-wine::before {
+  background: linear-gradient(to top,
+    rgba(70, 0, 20, 0.9),
+    rgba(120, 20, 40, 0.65));
+}
+
+/* 11. Velvet Purple */
+.hero-overlay-velvet::before {
+  background: radial-gradient(circle,
+    rgba(60, 0, 80, 0.95),
+    rgba(30, 0, 50, 0.6));
+}
+
+/* 12. Jade Green */
+.hero-overlay-jade::before {
+  background: linear-gradient(to bottom right,
+    rgba(0, 60, 40, 0.95),
+    rgba(0, 100, 70, 0.65));
+}
+
+/* 13. Copper */
+.hero-overlay-copper::before {
+  background: linear-gradient(135deg,
+    rgba(120, 60, 20, 0.9),
+    rgba(90, 40, 15, 0.7));
+}
+
+/* 14. Steel Blue */
+.hero-overlay-steel::before {
+  background: linear-gradient(to right,
+    rgba(50, 70, 100, 0.95),
+    rgba(30, 40, 60, 0.6));
+}
+
+/* 15. Smoke Grey */
+.hero-overlay-smoke::before {
+  background: radial-gradient(ellipse at center,
+    rgba(80, 80, 80, 0.8),
+    rgba(20, 20, 20, 0.9));
+}
+
+/* 16. Midnight Teal */
+.hero-overlay-midnight-teal::before {
+  background: linear-gradient(to top left,
+    rgba(0, 50, 60, 0.95),
+    rgba(0, 30, 40, 0.6));
+}
+
+/* 17. Desert Sand */
+.hero-overlay-sand::before {
+  background: linear-gradient(to bottom,
+    rgba(180, 120, 60, 0.9),
+    rgba(100, 60, 30, 0.7));
+}
+
+/* 18. Indigo */
+.hero-overlay-indigo::before {
+  background: radial-gradient(circle at center,
+    rgba(30, 0, 80, 0.95),
+    rgba(15, 0, 50, 0.6));
+}
+
+/* 19. Peacock Blue/Green */
+.hero-overlay-peacock::before {
+  background: linear-gradient(135deg,
+    rgba(0, 70, 100, 0.95),
+    rgba(0, 100, 70, 0.65));
+}
+
+/* 20. Vignette Black */
+.hero-overlay-vignette::before {
+  background: radial-gradient(circle at center,
+    rgba(0, 0, 0, 0.6) 70%,
+    rgba(0, 0, 0, 0.95) 100%);
+}
+
+/* 1. Crimson Sunset */
+.hero-overlay-crimsonsunset::before {
+  background: linear-gradient(to right,
+    rgba(120, 0, 30, 0.9),
+    rgba(255, 80, 60, 0.6));
+}
+
+/* 2. Arctic Blue */
+.hero-overlay-arctic::before {
+  background: radial-gradient(circle at top,
+    rgba(0, 150, 255, 0.85),
+    rgba(0, 60, 120, 0.6));
+}
+
+/* 3. Moss Green */
+.hero-overlay-moss::before {
+  background: linear-gradient(160deg,
+    rgba(40, 70, 40, 0.9),
+    rgba(90, 140, 90, 0.6));
+}
+
+/* 4. Amber Glow */
+.hero-overlay-amber::before {
+  background: radial-gradient(circle,
+    rgba(255, 160, 30, 0.9),
+    rgba(150, 80, 0, 0.65));
+}
+
+/* 5. Night Sky */
+.hero-overlay-nightsky::before {
+  background: linear-gradient(to bottom,
+    rgba(10, 10, 50, 0.9),
+    rgba(0, 0, 0, 0.85));
+}
+
+/* 6. Turquoise */
+.hero-overlay-turquoise::before {
+  background: radial-gradient(circle at center,
+    rgba(0, 180, 160, 0.85),
+    rgba(0, 100, 80, 0.65));
+}
+
+/* 7. Rosewood */
+.hero-overlay-rosewood::before {
+  background: linear-gradient(135deg,
+    rgba(80, 20, 40, 0.9),
+    rgba(150, 50, 80, 0.65));
+}
+
+/* 8. Pearl White */
+.hero-overlay-pearl::before {
+  background: linear-gradient(to bottom right,
+    rgba(255, 255, 255, 0.95),
+    rgba(230, 230, 230, 0.7));
+}
+
+/* 9. Cobalt Blue */
+.hero-overlay-cobalt::before {
+  background: linear-gradient(to right,
+    rgba(0, 50, 150, 0.9),
+    rgba(0, 20, 90, 0.65));
+}
+
+/* 10. Garnet */
+.hero-overlay-garnet::before {
+  background: radial-gradient(circle at center,
+    rgba(90, 0, 20, 0.95),
+    rgba(40, 0, 10, 0.65));
+}
+
+/* 11. Emerald Mist */
+.hero-overlay-emeraldmist::before {
+  background: radial-gradient(ellipse at bottom,
+    rgba(0, 120, 70, 0.9),
+    rgba(0, 40, 20, 0.6));
+}
+
+/* 12. Silver Frost */
+.hero-overlay-silverfrost::before {
+  background: linear-gradient(135deg,
+    rgba(210, 210, 210, 0.9),
+    rgba(140, 140, 140, 0.6));
+}
+
+/* 13. Magenta */
+.hero-overlay-magenta::before {
+  background: linear-gradient(to bottom left,
+    rgba(200, 0, 150, 0.9),
+    rgba(100, 0, 80, 0.65));
+}
+
+/* 14. Chocolate Brown */
+.hero-overlay-chocolate::before {
+  background: radial-gradient(circle at top,
+    rgba(80, 40, 10, 0.95),
+    rgba(40, 20, 5, 0.7));
+}
+
+/* 15. Slate Storm */
+.hero-overlay-slatestorm::before {
+  background: linear-gradient(160deg,
+    rgba(70, 70, 80, 0.9),
+    rgba(30, 30, 40, 0.7));
+}
+
+/* 16. Lavender */
+.hero-overlay-lavender::before {
+  background: linear-gradient(to top,
+    rgba(180, 160, 230, 0.9),
+    rgba(120, 100, 180, 0.65));
+}
+
+/* 17. Obsidian Red */
+.hero-overlay-obsidianred::before {
+  background: linear-gradient(135deg,
+    rgba(50, 0, 0, 0.95),
+    rgba(100, 0, 20, 0.7));
+}
+
+/* 18. Teal Ocean */
+.hero-overlay-tealocean::before {
+  background: radial-gradient(circle at center,
+    rgba(0, 100, 120, 0.9),
+    rgba(0, 50, 70, 0.6));
+}
+
+/* 19. Royal Gold */
+.hero-overlay-royalgold::before {
+  background: linear-gradient(to right,
+    rgba(200, 150, 20, 0.9),
+    rgba(120, 80, 10, 0.65));
+}
+
+/* 20. Midnight Indigo */
+.hero-overlay-midnightindigo::before {
+  background: radial-gradient(ellipse at center,
+    rgba(30, 0, 60, 0.95),
+    rgba(10, 0, 30, 0.7));
+}
+.hero-lcnl-watermark {
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  border-radius: var(--radius);
+}
+
+.hero-lcnl-watermark h4 {
+  text-shadow: 0 2px 6px rgba(0,0,0,.5); /* ensure readability */
+}
+
+.hero-lcnl-watermark .badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius);
+  backdrop-filter: blur(3px);
+}
+
+
+
+
+
+
+
 
 /* Rangoli AUM banners in different colours */
 .hero-rangoli-pink {

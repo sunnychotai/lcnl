@@ -15,6 +15,7 @@ $routes->get('/mahila', 'Home::mahila');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/dbcheck', 'Test::dbcheck');
 $routes->get('/aboutus', 'Home::aboutUs');
+$routes->get('/sample', 'Home::sample');
 
 $routes->get('/events/(:num)', 'Home::eventDetail/$1');
 

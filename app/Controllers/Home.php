@@ -193,4 +193,6 @@ public function youth()
     ]);
 }
 
+    public function sample(){    return view('sample'); }
+
 }
