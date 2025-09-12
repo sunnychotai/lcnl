@@ -96,7 +96,7 @@
           <h4 class="fw-bold mb-3">Message from the President</h4>
 
 <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>" 
-     class="float-md-start me-3 mb-2 rounded-circle shadow-sm" 
+     class="mx-auto d-block d-md-inline float-md-start me-md-3 mb-2 rounded-circle shadow-sm" 
      style="width:220px; height:220px; object-fit:cover; object-position: top;" 
      alt="President Photo">
 
