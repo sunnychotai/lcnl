@@ -6,70 +6,95 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// Optional but recommended hardening:
+// Recommended hardening
 $routes->setAutoRoute(false);
 
+/* -----------------------
+   Public pages
+------------------------*/
 $routes->get('/', 'Home::index');
 $routes->get('/events', 'Home::events');
+$routes->get('/events/(:num)', 'Home::eventDetail/$1');
+
 $routes->get('/gallery', 'Home::gallery');
 $routes->get('/contact', 'Home::contact');
-$routes->get('/bereavement', 'Home::bereavement');
-$routes->get('/membership', 'Home::membership');
+$routes->get('/membership', 'Home::membership'); // landing page
 $routes->get('/mahila', 'Home::mahila');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/dbcheck', 'Test::dbcheck');
 $routes->get('/aboutus', 'Home::aboutUs');
 $routes->get('/sample', 'Home::sample');
 
-$routes->get('/events/(:num)', 'Home::eventDetail/$1');
-
-// Committee Routes (public)
 $routes->get('/committee', 'Home::committee');
-// $routes->get('/mahila', 'Home::mahila'); // duplicate of above, keep one
 $routes->get('/yls', 'Home::yls');
 $routes->get('/youth', 'Home::youth');
 
-// FAQ Routes (public)
+/* -----------------------
+   FAQs (public)
+------------------------*/
 $routes->get('faqs', 'Home::faq');                           // grouped view
 $routes->get('faqs/all', 'FaqController::all');              // all FAQs
 $routes->get('faqs/(:segment)', 'FaqController::group/$1');  // FAQs by group
-$routes->get('bereavement', 'FaqController::bereavement');
+$routes->get('bereavement', 'FaqController::bereavement');   // single definitive route
 
-$routes->get('/pwhash', 'Test::pwhash');
-
-// Auth
+/* -----------------------
+   Auth
+------------------------*/
 $routes->get('auth/login', 'Auth::login');
 $routes->post('auth/attemptLogin', 'Auth::attemptLogin');
 $routes->get('auth/logout', 'Auth::logout');
 
-
-// ---------------------------------------------------------
-// PUBLIC: Membership (⚠️ keep OUTSIDE the admin group)
-// ---------------------------------------------------------
+/* ---------------------------------------------------------
+   PUBLIC: Membership (keep OUTSIDE admin group)
+----------------------------------------------------------*/
 $routes->group('membership', ['namespace' => 'App\Controllers'], static function ($routes) {
-    // Registration form + submit
     $routes->get('register', 'MembershipController::register', ['as' => 'membership.register']);
     $routes->post('register', 'MembershipController::create',   ['as' => 'membership.create']);
-
-    // (Future) email verification
-    $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
-
-    // Simple success/pending page after registration
+    $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']); // future
     $routes->get('success', 'MembershipController::success', ['as' => 'membership.success']);
 });
 
+// MEMBER auth (public endpoints)
+$routes->get('member/login',  'MemberAuth::login');
+$routes->post('member/attempt','MemberAuth::attempt');
+$routes->get('member/logout', 'MemberAuth::logout');
 
-// ---------------------------------------------------------
-// 🔒 Admin Area (single group; avoid nesting another /admin)
-// ---------------------------------------------------------
+// ACCOUNT: Member dashboard & profile (requires MEMBER login)
+$routes->group('account', [
+    'namespace' => 'App\Controllers\Account',
+    'filter'    => 'authMember'
+], static function ($routes) {
+    $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
+
+    // Simple profile edit (mobile, postcode, consent)
+    $routes->get('profile',  'ProfileController::edit',   ['as' => 'account.profile.edit']);
+    $routes->post('profile', 'ProfileController::update', ['as' => 'account.profile.update']);
+});
+
+
+
+// ACCOUNT area uses member guard (NOT admin guard)
+$routes->group('account/household', [
+    'namespace' => 'App\Controllers\Account',
+    'filter'    => 'authMember'
+], static function ($routes) {
+    $routes->get('/',              'HouseholdController::index',        ['as' => 'account.household']);
+    $routes->post('create',        'HouseholdController::create',       ['as' => 'account.household.create']);
+    $routes->post('add-dependent', 'HouseholdController::addDependent', ['as' => 'account.household.addDependent']);
+    $routes->post('link',          'HouseholdController::linkExisting', ['as' => 'account.household.linkExisting']);
+});
+
+/* ---------------------------------------------------------
+   🔒 Admin Area (single group)
+----------------------------------------------------------*/
 $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
-    // Dashboard (all logged-in roles)
+    // Dashboard
     $routes->get('dashboard', 'Admin::dashboard');
 
-    // Committee CRUD (any logged-in user)
+    // Committee CRUD
     $routes->group('committee', function($routes) {
-        $routes->get('', 'Admin\CommitteeController::index');   // /admin/committee
+        $routes->get('', 'Admin\CommitteeController::index');
         $routes->get('create', 'Admin\CommitteeController::create');
         $routes->post('store', 'Admin\CommitteeController::store');
         $routes->get('edit/(:num)', 'Admin\CommitteeController::edit/$1');
@@ -78,9 +103,9 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->get('clone/(:num)', 'Admin\CommitteeController::clone/$1');
     });
 
-    // Events CRUD (any logged-in user)
+    // Events CRUD
     $routes->group('events', function($routes) {
-        $routes->get('', 'Admin\Events::index');   // /admin/events
+        $routes->get('', 'Admin\Events::index');
         $routes->get('create', 'Admin\Events::create');
         $routes->post('store', 'Admin\Events::store');
         $routes->get('edit/(:num)', 'Admin\Events::edit/$1');
@@ -91,7 +116,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
     // FAQs CRUD (ADMIN + WEBSITE only if you adjust filter)
     $routes->group('faqs', function($routes) {
-        $routes->get('', 'Admin\FaqAdmin::index');   // /admin/faqs
+        $routes->get('', 'Admin\FaqAdmin::index');
         $routes->get('create', 'Admin\FaqAdmin::create');
         $routes->post('store', 'Admin\FaqAdmin::store');
         $routes->get('edit/(:num)', 'Admin\FaqAdmin::edit/$1');
@@ -100,9 +125,9 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->post('reorder', 'Admin\FaqAdmin::reorder');
     });
 
-    // Users CRUD (🔒 ADMIN only)
+    // Users CRUD (ADMIN only)
     $routes->group('users', ['filter' => 'auth:ADMIN'], function($routes) {
-        $routes->get('', 'Admin\Users::index');   // /admin/users
+        $routes->get('', 'Admin\Users::index');
         $routes->get('create', 'Admin\Users::create');
         $routes->post('store', 'Admin\Users::store');
         $routes->get('edit/(:num)', 'Admin\Users::edit/$1');
@@ -110,8 +135,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->get('delete/(:num)', 'Admin\Users::delete/$1');
     });
 
-    // Members Admin (put here so it’s /admin/members)
-    // If you want only Admins, add ['filter' => 'auth:ADMIN'] like Users group above.
+    // Members Admin
     $routes->group('members', function($routes) {
         $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
         $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.members.show']); // optional
@@ -119,9 +143,16 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->post('(:num)/disable',  'Admin\MembersController::disable/$1',  ['as' => 'admin.members.disable']);
         $routes->post('(:num)/resend',   'Admin\MembersController::resend/$1',   ['as' => 'admin.members.resend']);
     });
+
+    // Families admin (merge stub)
+    $routes->group('families', function($routes) {
+        $routes->post('merge', 'Admin\FamiliesController::merge', ['as' => 'admin.families.merge']);
+    });
 });
 
-// ENVIRONMENT ROUTES (keep LAST)
+/* -----------------------
+   Environment routes (LAST)
+------------------------*/
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

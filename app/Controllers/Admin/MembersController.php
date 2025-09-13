@@ -3,52 +3,84 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\MemberModel;
 use App\Services\MemberService;
 
 class MembersController extends BaseController
 {
+    private MemberModel $members;
     private MemberService $svc;
 
     public function __construct()
     {
-        $this->svc = new MemberService();
+        $this->members = new MemberModel();
+        $this->svc     = new MemberService();
     }
 
+    /** List members with basic filters & search */
     public function index()
     {
-        $status = $this->request->getGet('status') ?? 'pending';
+        $status = $this->request->getGet('status') ?: 'pending'; // pending|active|disabled|all
         $q      = trim((string) $this->request->getGet('q'));
 
-        $members = $this->svc->list($status, $q, 50);
-        $counts  = $this->svc->counts();
+        $builder = $this->members->builder();
+        $builder->select('*');
 
-        return view('admin/members/index', compact('members','status','q','counts'));
+        if ($status !== 'all') {
+            $builder->where('status', $status);
+        }
+
+        if ($q !== '') {
+            $builder->groupStart()
+                ->like('first_name', $q)
+                ->orLike('last_name', $q)
+                ->orLike('email', $q)
+                ->orLike('mobile', $q)
+            ->groupEnd();
+        }
+
+        $builder->orderBy('created_at', 'DESC');
+        $rows = $builder->get(100)->getResultArray();
+
+        // Quick counts for tabs
+        $counts = [
+            'pending'  => (int) $this->members->where('status','pending')->countAllResults(false),
+            'active'   => (int) $this->members->where('status','active')->countAllResults(false),
+            'disabled' => (int) $this->members->where('status','disabled')->countAllResults(false),
+            'all'      => (int) $this->members->countAllResults(),
+        ];
+
+        return view('admin/members/index', compact('rows','status','q','counts'));
     }
 
-    public function show(int $id)
+    /** Show one member (read-only details + actions) */
+    public function show($id)
     {
-        // Optional: load one member with future family info
-        return view('admin/members/show', ['member' => []]);
+        $id = (int) $id;
+        $m  = $this->members->find($id);
+        if (! $m) {
+            return redirect()->to('/admin/members')->with('error', 'Member not found.');
+        }
+        return view('admin/members/show', compact('m'));
     }
 
-    public function activate(int $id)
+    /** Activate */
+    public function activate($id)
     {
-        $adminId = session()->get('user_id') ?? null;
-        $this->svc->activate($id, $adminId);
-
+        $this->svc->activate((int) $id, (int) (session('user_id') ?? 0));
         return redirect()->back()->with('message', 'Member activated.');
     }
 
-    public function disable(int $id)
+    /** Disable */
+    public function disable($id)
     {
-        $this->svc->disable($id);
-
+        $this->svc->disable((int) $id);
         return redirect()->back()->with('message', 'Member disabled.');
     }
 
-    public function resend(int $id)
+    /** Resend verification (stub until email queue is enabled) */
+    public function resend($id)
     {
-        // Future: enqueue verification email
-        return redirect()->back()->with('message', 'Verification email queued (coming soon).');
+        return redirect()->back()->with('message', 'Email queue not enabled yet.');
     }
 }

@@ -88,6 +88,21 @@
     </div>
   </a>
 </div>
+
+<div class="col-md-6 col-lg-4">
+  <div class="card shadow-sm border-0">
+    <a href="<?= base_url('admin/members?status=pending') ?>" class="stretched-link text-decoration-none text-dark">
+      <div class="card-body d-flex align-items-center">
+        <i class="bi bi-people-fill text-primary fs-3 me-3"></i>
+        <div>
+          <h5 class="card-title mb-1">Members</h5>
+          <p class="card-text text-muted small mb-0">Review & activate new registrations.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
   <?php endif; ?>
 
 </div>

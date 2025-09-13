@@ -28,7 +28,13 @@ class Filters extends BaseFilters
         'csrf'          => CSRF::class,
         'toolbar'       => DebugToolbar::class,
         'honeypot'      => Honeypot::class,
-        'auth'     => \App\Filters\AuthFilter::class,
+        // ADMIN auth (map your existing 'auth' to Admin filter)
+        'auth'       => \App\Filters\AuthAdmin::class,
+        'authAdmin'  => \App\Filters\AuthAdmin::class,
+
+        // MEMBER auth
+        'authMember' => \App\Filters\AuthMember::class,
+        
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'cors'          => Cors::class,

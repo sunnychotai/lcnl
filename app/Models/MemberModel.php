@@ -15,7 +15,7 @@ class MemberModel extends Model
     protected $allowedFields = [
         'first_name','last_name','email','mobile','password_hash',
         'postcode','status','verified_at','verified_by','consent_at',
-        'source','created_at','updated_at','deleted_at'
+        'source','last_login','created_at','updated_at','deleted_at'
     ];
 
     protected $beforeInsert = ['normalizeFields'];
