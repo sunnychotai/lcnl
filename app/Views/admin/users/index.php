@@ -1,6 +1,12 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
-
+<!-- Hero Banner -->
+<section class="hero-lcnl-watermark hero-overlay-ocean d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
+    <h1 class="fw-bold display-6 mb-2">User Administration</h1>
+    <p class="lead fs-5 mb-0">LCNL Site Admin</p>
+  </div>
+</section>
 <div class="container py-4">
   <h2 class="mb-3">Manage Users</h2>
 

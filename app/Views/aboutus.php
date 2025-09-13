@@ -10,10 +10,10 @@
 </section>
 
 <!-- Page Content -->
-<div class="container py-4">
+<div class="container py-1">
 
   <!-- Committee Image -->
-  <div class="mb-4 text-center">
+  <div class="mb-2 text-center">
     <!-- Small thumbnail, clickable -->
     <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" 
          alt="LCNL Executive Committee"
@@ -21,11 +21,11 @@
          style="max-width: 100%;"
          data-bs-toggle="modal" data-bs-target="#committeeModal">
     <!-- Subtext caption -->
-    <p class="mt-2 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
+    <p class="mt-1 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
   </div>
 </div>
 
-<section class="py-2">
+<section class="py-0">
   <div class="container">
     <div class="row g-4 align-items-start">
       
