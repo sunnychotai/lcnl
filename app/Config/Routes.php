@@ -21,6 +21,7 @@ $routes->get('/contact', 'Home::contact');
 $routes->get('/membership', 'Home::membership'); // landing page
 $routes->get('/mahila', 'Home::mahila');
 $routes->get('/faq', 'Home::faq');
+$routes->get('/bereavement', 'Home::bereavement');
 $routes->get('/dbcheck', 'Test::dbcheck');
 $routes->get('/aboutus', 'Home::aboutUs');
 $routes->get('/sample', 'Home::sample');
