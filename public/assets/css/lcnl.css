@@ -1167,4 +1167,42 @@ footer a:hover { opacity:1; }
   }
 }
 
+/* Membership Benefit Cards */
+.membership-benefits .benefit-card {
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.05);
+  border-top: 5px solid var(--brand); /* LCNL maroon accent */
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+.membership-benefits .benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.membership-benefits .benefit-icon {
+  font-size: 2.5rem;
+  color: var(--brand); /* maroon icons */
+}
+
+.btn-accent {
+  background: var(--accent1);
+  color: #000;
+  border: none;
+}
+.btn-accent:hover {
+  background: #c9a227;
+  color: #000;
+}
+
+.btn-brand {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+}
+.btn-brand:hover {
+  background: #5c0f25;
+  color: #fff;
+}

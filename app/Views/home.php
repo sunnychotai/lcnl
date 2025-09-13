@@ -84,17 +84,36 @@
 <!-- Right column (stacked cards) -->
 <div class="col-md-4 d-flex flex-column gap-3">
 
-  <div class="card shadow-sm border-0">
-    <a href="<?= base_url('events') ?>" class="stretched-link text-decoration-none text-dark">
-      <div class="card-body d-flex align-items-center">
-        <i class="bi bi-calendar-event-fill text-brand fs-3 me-3"></i>
-        <div>
-          <h5 class="card-title mb-1">Events</h5>
-          <p class="card-text text-muted small">Navratri, Diwali & year-round programmes.</p>
-        </div>
-      </div>
+<!-- Register Now! Membership Card -->
+<div class="card shadow-lg border-0 rounded-4 mb-4">
+  <div class="card-body text-center p-4">
+    <div class="mb-3">
+      <i class="bi bi-person-plus-fill text-success" style="font-size:3rem;"></i>
+    </div>
+    <h3 class="fw-bold mb-3">Register Now!</h3>
+    <p class="text-muted mb-4">
+      Create your LCNL membership in minutes. Enter your details, confirm your email, 
+      and start enjoying the benefits of being part of our community.
+    </p>
+    <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
+      <i class="bi bi-pencil-square me-2"></i> Register Now
     </a>
   </div>
+</div>
+
+<!-- Events Card -->
+<div class="card shadow-sm border-0">
+  <a href="<?= base_url('events') ?>" class="stretched-link text-decoration-none text-dark">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-calendar-event-fill text-brand fs-3 me-3"></i>
+      <div>
+        <h5 class="card-title mb-1">Events</h5>
+        <p class="card-text text-muted small">Navratri, Diwali &amp; year-round programmes.</p>
+      </div>
+    </div>
+  </a>
+</div>
+
 
   <div class="card shadow-sm border-0">
     <a href="<?= base_url('membership') ?>" class="stretched-link text-decoration-none text-dark">
