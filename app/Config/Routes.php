@@ -5,6 +5,10 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+// Optional but recommended hardening:
+$routes->setAutoRoute(false);
+
 $routes->get('/', 'Home::index');
 $routes->get('/events', 'Home::events');
 $routes->get('/gallery', 'Home::gallery');
@@ -21,7 +25,7 @@ $routes->get('/events/(:num)', 'Home::eventDetail/$1');
 
 // Committee Routes (public)
 $routes->get('/committee', 'Home::committee');
-$routes->get('/mahila', 'Home::mahila');
+// $routes->get('/mahila', 'Home::mahila'); // duplicate of above, keep one
 $routes->get('/yls', 'Home::yls');
 $routes->get('/youth', 'Home::youth');
 
@@ -38,7 +42,26 @@ $routes->get('auth/login', 'Auth::login');
 $routes->post('auth/attemptLogin', 'Auth::attemptLogin');
 $routes->get('auth/logout', 'Auth::logout');
 
-// 🔒 Admin Area
+
+// ---------------------------------------------------------
+// PUBLIC: Membership (⚠️ keep OUTSIDE the admin group)
+// ---------------------------------------------------------
+$routes->group('membership', ['namespace' => 'App\Controllers'], static function ($routes) {
+    // Registration form + submit
+    $routes->get('register', 'MembershipController::register', ['as' => 'membership.register']);
+    $routes->post('register', 'MembershipController::create',   ['as' => 'membership.create']);
+
+    // (Future) email verification
+    $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
+
+    // Simple success/pending page after registration
+    $routes->get('success', 'MembershipController::success', ['as' => 'membership.success']);
+});
+
+
+// ---------------------------------------------------------
+// 🔒 Admin Area (single group; avoid nesting another /admin)
+// ---------------------------------------------------------
 $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
     // Dashboard (all logged-in roles)
@@ -87,4 +110,18 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->get('delete/(:num)', 'Admin\Users::delete/$1');
     });
 
+    // Members Admin (put here so it’s /admin/members)
+    // If you want only Admins, add ['filter' => 'auth:ADMIN'] like Users group above.
+    $routes->group('members', function($routes) {
+        $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
+        $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.members.show']); // optional
+        $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.members.activate']);
+        $routes->post('(:num)/disable',  'Admin\MembersController::disable/$1',  ['as' => 'admin.members.disable']);
+        $routes->post('(:num)/resend',   'Admin\MembersController::resend/$1',   ['as' => 'admin.members.resend']);
+    });
 });
+
+// ENVIRONMENT ROUTES (keep LAST)
+if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
+    require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
+}

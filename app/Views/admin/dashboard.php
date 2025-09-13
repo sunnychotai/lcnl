@@ -76,6 +76,20 @@
   </div>
   <?php endif; ?>
 
+<?php if (in_array($role, ['ADMIN', 'MEMBERSHIP'])): ?>
+  <div class="card shadow-sm border-0">
+  <a href="<?= route_to('admin.members.index') ?>" class="stretched-link text-decoration-none text-dark">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-person-badge-fill text-brand fs-3 me-3"></i>
+      <div>
+        <h5 class="card-title mb-1">Membership Admin</h5>
+        <p class="card-text text-muted small">Review pending registrations & activate members.</p>
+      </div>
+    </div>
+  </a>
+</div>
+  <?php endif; ?>
+
 </div>
  
 </div>
