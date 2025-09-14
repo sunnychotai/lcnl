@@ -350,7 +350,7 @@
 
 /* 3. Moss Green */
 .hero-overlay-moss::before {
-  background: linear-gradient(160deg,
+  background: radial-gradient(ellipse at center,
     rgba(40, 70, 40, 0.9),
     rgba(90, 140, 90, 0.6));
 }

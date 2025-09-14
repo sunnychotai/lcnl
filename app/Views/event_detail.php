@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-midnight-teal d-flex align-items-center justify-content-center">
+<section class="hero-lcnl-watermark hero-overlay-moss d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
 
     <h1 class="fw-bold display-6 mb-2"><?= esc($event['title'] ?? 'Event') ?></h1>
