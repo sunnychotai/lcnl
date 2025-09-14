@@ -102,6 +102,7 @@
           </a>
         </div>
 
+          <!-- Gallery
         <div class="card shadow-sm border-0">
           <a href="<?= base_url('gallery') ?>" class="stretched-link text-decoration-none text-dark">
             <div class="card-body d-flex align-items-center">
@@ -113,6 +114,7 @@
             </div>
           </a>
         </div>
+-->
 
         <!-- Bereavement -->
         <div class="card shadow-sm border-0">

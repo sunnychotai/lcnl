@@ -49,7 +49,7 @@
             Already a member? Log in to update your details, link family members, 
             and access exclusive LCNL content and event information.
           </p>
-          <a href="<?= base_url('login') ?>" class="btn btn-primary btn-lg rounded-pill px-4">
+          <a href="<?= base_url('member/login') ?>" class="btn btn-primary btn-lg rounded-pill px-4">
             <i class="bi bi-key-fill me-2"></i> Login
           </a>
         </div>

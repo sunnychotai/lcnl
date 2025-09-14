@@ -7,10 +7,8 @@
 }
 
 .bg-brand { background: var(--brand) !important; }
-
 .hero-lcnl-watermark {
   min-height: 150px;
-  
 }
 
 .motto {

@@ -17,7 +17,7 @@
         <?php if (session()->get('isLoggedIn')): ?>
             <li><a class="text-white text-decoration-none" href="<?= base_url('/auth/logout') ?>"><i class="bi bi-box-arrow-right me-1"></i> Logout</a></li>
 <?php else: ?>
-              <li><a class="text-white text-decoration-none" href="<?= base_url('/auth/login') ?>"><i class="bi bi-box-arrow-right me-1"></i> Login</a></li>
+              <li><a class="text-white text-decoration-none" href="<?= base_url('/auth/login') ?>">Admin Login</a></li>
 
 <?php endif; ?>
 </ul>      
