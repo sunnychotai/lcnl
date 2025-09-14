@@ -2,14 +2,13 @@
 <?= $this->section('content') ?>
 
 <!-- Hero Banner -->
-<div class="hero hero-rangoli-yellow d-flex align-items-center justify-content-center">
-  
-  <div class="container position-relative text-center text-white">
+<section class="hero-lcnl-watermark hero-overlay-midnight-teal d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
 
-    <h1 class="fw-bold mb-2"><?= esc($event['title'] ?? 'Event') ?></h1>
+    <h1 class="fw-bold display-6 mb-2"><?= esc($event['title'] ?? 'Event') ?></h1>
 
     <?php
-      // Format time range from time_from/time_to (24h format; change to 'g:ia' for 12h)
+      // Build time range from time_from / time_to (24h; switch to 'g:ia' for 12h)
       $timeStr = '';
       $tf = !empty($event['time_from']) ? date('H:i', strtotime($event['time_from'])) : '';
       $tt = !empty($event['time_to'])   ? date('H:i', strtotime($event['time_to']))   : '';
@@ -17,27 +16,34 @@
         $timeStr = $tf . ($tt ? '–' . $tt : '');
       }
     ?>
-    <h5>
-    <div class="event-meta d-flex justify-content-center flex-wrap gap-2 mt-2">
-      <?php if (!empty($event['event_date'])): ?>
-        <span class="badge badge-glass">
-          <i class="bi bi-calendar-event me-1"></i>
-          <?= date('D j M Y', strtotime($event['event_date'])) ?>
-          <?php if ($timeStr): ?>
-            · <i class="bi bi-clock ms-2 me-1"></i><?= $timeStr ?>
-          <?php endif; ?>
-        </span>
-      <?php endif; ?>
 
-      <?php if (!empty($event['location'])): ?>
-        <span class="badge badge-brand">
-          <i class="bi bi-geo-alt me-1"></i><?= esc($event['location']) ?>
-        </span>
-      <?php endif; ?>
-    </div>
-</h4>
+    <?php if (!empty($event['event_date']) || !empty($event['location']) || $timeStr): ?>
+      <div class="event-meta d-flex justify-content-center flex-wrap gap-2 mt-2">
+        <?php if (!empty($event['event_date'])): ?>
+          <span class="badge badge-glass">
+            <i class="bi bi-calendar-event me-1"></i>
+            <?= date('D j M Y', strtotime($event['event_date'])) ?>
+            <?php if ($timeStr): ?>
+              · <i class="bi bi-clock ms-2 me-1"></i><?= $timeStr ?>
+            <?php endif; ?>
+          </span>
+        <?php elseif ($timeStr): ?>
+          <span class="badge badge-glass">
+            <i class="bi bi-clock me-1"></i><?= $timeStr ?>
+          </span>
+        <?php endif; ?>
+
+        <?php if (!empty($event['location'])): ?>
+          <span class="badge badge-brand">
+            <i class="bi bi-geo-alt me-1"></i><?= esc($event['location']) ?>
+          </span>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+
   </div>
-</div>
+</section>
+
 
 
 <div class="container py-5">
