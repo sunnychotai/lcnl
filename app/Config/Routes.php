@@ -25,6 +25,7 @@ $routes->get('/bereavement', 'Home::bereavement');
 $routes->get('/dbcheck', 'Test::dbcheck');
 $routes->get('/aboutus', 'Home::aboutUs');
 $routes->get('/sample', 'Home::sample');
+$routes->get('/privacy', 'Home::privacy');
 
 $routes->get('/committee', 'Home::committee');
 $routes->get('/yls', 'Home::yls');

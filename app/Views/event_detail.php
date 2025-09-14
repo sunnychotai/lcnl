@@ -5,7 +5,7 @@
 <section class="hero-lcnl-watermark hero-overlay-moss d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
 
-    <h1 class="fw-bold display-6 mb-2"><?= esc($event['title'] ?? 'Event') ?></h1>
+    <h1 class="fw-bold display-6 mb-2"><i class="bi bi-calendar-event me-2"></i> <?= esc($event['title'] ?? 'Event') ?></h1>
 
     <?php
       // Build time range from time_from / time_to (24h; switch to 'g:ia' for 12h)

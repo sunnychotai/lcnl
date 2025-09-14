@@ -1,1206 +1,575 @@
-:root {
-  --brand:#7a1d3c;
-  --accent1:#d4af37;
-  /* --accent1:#eae753; /* yellow */
+/* =========================
+   LCNL THEME — CLEAN BUILD
+   ========================= */
+
+/* --- Core theme tokens --- */
+:root{
+  --brand: #7a1d3c;      /* LCNL maroon */
+  --brand-600: #6c1936;  /* hover */
+  --brand-700: #5e1630;  /* active */
+  --accent1: #d4af37;    /* gold */
+  --accent: var(--accent1); /* alias for any legacy 'var(--accent)' */
   --muted:#f6f2f2;
   --radius:14px;
 }
 
+/* --- Basics/Utilities --- */
 .bg-brand { background: var(--brand) !important; }
-.hero-lcnl-watermark {
-  min-height: 150px;
-}
+.text-brand { color: var(--brand) !important; }
+.text-accent { color: var(--accent1) !important; } /* unified */
+.text-pink { color: #e4405f !important; }          /* Mahila */
+.text-primary { color: #0d6efd !important; }       /* YLS */
+/* NOTE: .text-danger below was being used for Bereavement.
+   Keeping your colour but be aware this changes Bootstrap's global 'danger'. */
+.text-danger { color: #d63384 !important; }        /* Bereavement accent */
 
-.motto {
-  font-weight: 700;
-  font-size: 2rem;
-  color: #fff;
-}
-.motto .script {
-  font-size: 2rem;
-  color: var(--accent1);
-}
+/* --- Motto (hero headings) --- */
+.motto { font-weight: 700; font-size: 2rem; color: #fff; }
+.motto .script { font-size: 2rem; color: var(--accent1); }
+.motto-sub { font-size: 1.25rem; font-weight: 400; color: #f8f9fa; font-style: italic; margin-top: .5rem; }
 
-
-.motto-sub {
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: #f8f9fa;
-  font-style: italic;
-  margin-top: 0.5rem;
-}
-
-.text-accent {
-  color: var(--accent1); /* your gold */
-}
-
-
-
-
-.hero-lcnl-watermark {
+/* =========================
+   HERO + OVERLAYS
+   ========================= */
+.hero-lcnl-watermark{
   position: relative;
   overflow: hidden;
-  z-index: 0; /* baseline context */
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  z-index: 0;
+  min-height: 150px;
+  border-radius: 0;
+}
+.hero-lcnl-watermark::before{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  z-index:1; /* overlay ABOVE logos, BELOW content */
+}
+.hero-lcnl-watermark .random-logo{
+  position:absolute; opacity:.8; pointer-events:none; z-index:0; mix-blend-mode:overlay;
+}
+/* Ensure hero text sits on top of overlay */
+.hero-lcnl-watermark .container{ position: relative; z-index: 2; }
+.hero-lcnl-watermark h4{ text-shadow: 0 2px 6px rgba(0,0,0,.5); }
+.hero-lcnl-watermark .badge{
+  font-size:.85rem; padding:.4rem .6rem; border-radius:var(--radius); backdrop-filter: blur(3px);
 }
 
-.hero-lcnl-watermark::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1; /* overlay ABOVE logos, BELOW text */
-}
+/* Artistic overlay palettes (kept as-is, deduped) */
+.hero-overlay-grey::before{background:radial-gradient(circle at center,rgba(128,128,128,.85) 0%,rgba(128,128,128,.4) 80%);}
+.hero-overlay-red::before{background:linear-gradient(135deg,rgba(220,53,69,.85) 0%,rgba(220,53,69,.4) 100%);}
+.hero-overlay-blue::before{background:radial-gradient(circle at top,rgba(13,110,253,.85) 20%,rgba(13,110,253,.3) 100%);}
+.hero-overlay-green::before{background:linear-gradient(to right,rgba(25,135,84,.85) 0%,rgba(40,167,69,.5) 100%);}
+.hero-overlay-orange::before{background:linear-gradient(rgba(253,126,20,.8),rgba(253,126,20,.8)),url("/assets/patterns/noise-texture.png");background-size:auto,200px 200px;}
+.hero-overlay-white::before{background:linear-gradient(to bottom,rgba(255,255,255,.9) 0%,rgba(255,255,255,.6) 100%);}
 
-.hero-lcnl-watermark .random-logo {
-  position: absolute;
-  opacity: 0.8; /* subtle watermark effect */
-  pointer-events: none;
-  z-index: 0; /* keep logos behind overlay */
-  mix-blend-mode: overlay;
-}
+.hero-overlay-royalblue::before{background:radial-gradient(circle at center,rgba(15,40,120,.9) 0%,rgba(15,40,120,.6) 100%);}
+.hero-overlay-emerald::before{background:linear-gradient(to bottom right,rgba(0,80,50,.9),rgba(0,120,70,.6));}
+.hero-overlay-darkred::before{background:linear-gradient(to top,rgba(100,0,20,.9),rgba(150,0,40,.6));}
+.hero-overlay-midnight::before{background:radial-gradient(circle at top left,rgba(40,0,70,.95),rgba(25,0,40,.6));}
+.hero-overlay-charcoal::before{background:linear-gradient(135deg,rgba(20,20,20,.9),rgba(60,60,60,.6));}
+.hero-overlay-teal::before{background:linear-gradient(to right,rgba(0,70,70,.9),rgba(0,120,120,.6));}
+.hero-overlay-burgundy::before{background:radial-gradient(circle,rgba(80,0,20,.95),rgba(120,0,40,.65));}
+.hero-overlay-slateblue::before{background:linear-gradient(to bottom,rgba(70,90,140,.9),rgba(50,70,110,.6));}
+.hero-overlay-forest::before{background:linear-gradient(to top right,rgba(20,60,20,.9),rgba(40,100,40,.6));}
+.hero-overlay-bronze::before{background:linear-gradient(135deg,rgba(120,60,20,.9),rgba(180,100,40,.65));}
 
-.hero-lcnl-watermark > .text-center {
-  position: relative;
-  z-index: 2; /* ensures text always above everything */
-}
+.hero-overlay-sapphire::before{background:radial-gradient(circle at center,rgba(15,60,150,.95),rgba(10,30,80,.65));}
+.hero-overlay-ruby::before{background:radial-gradient(ellipse at center,rgba(120,0,30,.95),rgba(80,0,20,.6));}
+.hero-overlay-amethyst::before{background:radial-gradient(circle at top,rgba(70,0,100,.95),rgba(40,0,60,.6));}
+.hero-overlay-onyx::before{background:linear-gradient(180deg,rgba(0,0,0,.95),rgba(50,50,50,.7));}
+.hero-overlay-obsidian::before{background:radial-gradient(ellipse at center,rgba(10,10,20,.95) 40%,rgba(0,0,0,.7) 100%);}
+.hero-overlay-gold::before{background:radial-gradient(circle,rgba(160,120,20,.9),rgba(90,60,10,.7));}
+.hero-overlay-platinum::before{background:linear-gradient(to bottom,rgba(180,180,180,.9),rgba(90,90,90,.6));}
+.hero-overlay-ocean::before{background:radial-gradient(ellipse at center,rgba(0,30,80,.95),rgba(0,70,120,.65));}
+.hero-overlay-storm::before{background:radial-gradient(circle at center,rgba(50,50,60,.95),rgba(20,20,30,.7));}
+.hero-overlay-wine::before{background:linear-gradient(to top,rgba(70,0,20,.9),rgba(120,20,40,.65));}
+.hero-overlay-velvet::before{background:radial-gradient(circle,rgba(60,0,80,.95),rgba(30,0,50,.6));}
+.hero-overlay-jade::before{background:linear-gradient(to bottom right,rgba(0,60,40,.95),rgba(0,100,70,.65));}
+.hero-overlay-copper::before{background:linear-gradient(135deg,rgba(120,60,20,.9),rgba(90,40,15,.7));}
+.hero-overlay-steel::before{background:radial-gradient(ellipse at center,rgba(50,70,100,.95),rgba(30,40,60,.6));}
+.hero-overlay-smoke::before{background:radial-gradient(ellipse at center,rgba(80,80,80,.8),rgba(20,20,20,.9));}
+.hero-overlay-midnight-teal::before{background:radial-gradient(ellipse at center,rgba(0,50,60,.95),rgba(0,30,40,.6));}
+.hero-overlay-sand::before{background:linear-gradient(to bottom,rgba(180,120,60,.9),rgba(100,60,30,.7));}
+.hero-overlay-indigo::before{background:radial-gradient(circle at center,rgba(30,0,80,.95),rgba(15,0,50,.6));}
+.hero-overlay-peacock::before{background:linear-gradient(135deg,rgba(0,70,100,.95),rgba(0,100,70,.65));}
+.hero-overlay-vignette::before{background:radial-gradient(circle at center,rgba(0,0,0,.6) 70%,rgba(0,0,0,.95) 100%);}
+.hero-overlay-crimsonsunset::before{background:radial-gradient(ellipse at center,rgba(120,0,30,.9),rgba(255,80,60,.6));}
+.hero-overlay-arctic::before{background:radial-gradient(circle at top,rgba(0,150,255,.85),rgba(0,60,120,.6));}
+.hero-overlay-moss::before{background:radial-gradient(ellipse at center,rgba(40,70,40,.9),rgba(90,140,90,.6));}
+.hero-overlay-amber::before{background:radial-gradient(circle,rgba(255,160,30,.9),rgba(150,80,0,.65));}
+.hero-overlay-nightsky::before{background:linear-gradient(to bottom,rgba(10,10,50,.9),rgba(0,0,0,.85));}
+.hero-overlay-turquoise::before{background:radial-gradient(circle at center,rgba(0,180,160,.85),rgba(0,100,80,.65));}
+.hero-overlay-rosewood::before{background:linear-gradient(135deg,rgba(80,20,40,.9),rgba(150,50,80,.65));}
+.hero-overlay-pearl::before{background:linear-gradient(to bottom right,rgba(255,255,255,.95),rgba(230,230,230,.7));}
+.hero-overlay-cobalt::before{background:radial-gradient(ellipse at center,rgba(0,50,150,.9),rgba(0,20,90,.65));}
+.hero-overlay-garnet::before{background:radial-gradient(circle at center,rgba(90,0,20,.95),rgba(40,0,10,.65));}
+.hero-overlay-emeraldmist::before{background:radial-gradient(ellipse at bottom,rgba(0,120,70,.9),rgba(0,40,20,.6));}
+.hero-overlay-silverfrost::before{background:linear-gradient(135deg,rgba(210,210,210,.9),rgba(140,140,140,.6));}
+.hero-overlay-magenta::before{background:linear-gradient(to bottom left,rgba(200,0,150,.9),rgba(100,0,80,.65));}
+.hero-overlay-chocolate::before{background:radial-gradient(circle at top,rgba(80,40,10,.95),rgba(40,20,5,.7));}
+.hero-overlay-slatestorm::before{background:linear-gradient(160deg,rgba(70,70,80,.9),rgba(30,30,40,.7));}
+.hero-overlay-lavender::before{background:linear-gradient(to top,rgba(180,160,230,.9),rgba(120,100,180,.65));}
+.hero-overlay-obsidianred::before{background:linear-gradient(135deg,rgba(50,0,0,.95),rgba(100,0,20,.7));}
+.hero-overlay-tealocean::before{background:radial-gradient(circle at center,rgba(0,100,120,.9),rgba(0,50,70,.6));}
+.hero-overlay-royalgold::before{background:linear-gradient(to right,rgba(200,150,20,.9),rgba(120,80,10,.65));}
+.hero-overlay-midnightindigo::before{background:radial-gradient(ellipse at center,rgba(30,0,60,.95),rgba(10,0,30,.7));}
 
-.hero-lcnl-watermark h4 {
-  text-shadow: 0 2px 6px rgba(0,0,0,.5); /* ensure readability */
-}
+/* Rangoli repeated patterns */
+.hero-rangoli-pink{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-pink.svg");background-repeat:repeat;}
+.hero-rangoli-blue{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-blue.svg");background-repeat:repeat;}
+.hero-rangoli-purple{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-purple.svg");background-repeat:repeat;}
+.hero-rangoli-grey{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-grey.svg");background-repeat:repeat;}
+.hero-rangoli-red{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-red.svg");background-repeat:repeat;}
+.hero-rangoli-orange{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-orange.svg");background-repeat:repeat;}
+.hero-rangoli-green{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-green.svg");background-repeat:repeat;}
+.hero-rangoli-yellow{background-color:var(--accent1);background-image:url("/assets/patterns/rangoli-yellow.svg");background-repeat:repeat;}
 
-.hero-lcnl-watermark .badge {
-  font-size: 0.85rem;
-  padding: 0.4rem 0.6rem;
+.hero-radial{background-image:repeating-radial-gradient(circle,var(--brand),var(--brand) 20px,var(--accent1) 20px,var(--accent1) 40px);}
+
+/* =========================
+   CARDS / CONTAINERS
+   ========================= */
+.card{
+  border:0; border-radius:var(--radius);
+  box-shadow:0 6px 20px rgba(0,0,0,.08);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.card:hover{ transform: scale(1.08); box-shadow:0 8px 20px rgba(0,0,0,.2); z-index:2; }
+.card.no-hover,
+.card.no-hover:hover{ transform:none !important; box-shadow:0 4px 12px rgba(0,0,0,.05) !important; z-index:auto !important; }
+
+.card-link{ text-decoration:none; color:inherit; transition: transform .15s ease; }
+.card-link:hover{ transform: translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,.12); }
+
+/* Constitution-style box */
+.constitution-box{
+  background:#fff; border:2px solid rgba(0,0,0,.08);
+  border-left:6px solid var(--accent1);
+  border-radius:var(--radius);
+  padding:1.25rem;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.constitution-box:hover{ transform: translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,.1); }
+
+/* Colourful card variant (subtle gradient) */
+.colourful-card{
+  background: linear-gradient(180deg,#fff,var(--muted));
   border-radius: var(--radius);
-  backdrop-filter: blur(3px);
+  padding:.5rem;
 }
+.colourful-card h4{ font-weight:700; border-bottom:1px solid rgba(0,0,0,.05); padding-bottom:.5rem; margin-bottom:1rem; }
+.colourful-card h4 i.bi-info-circle{ color:var(--brand); border-left:6px solid var(--brand); padding-left:.5rem; }
+.colourful-card h4 i.bi-file-earmark-text{ color:var(--accent1); border-left:6px solid var(--accent1); padding-left:.5rem; }
+.colourful-card h4 i.bi-ticket-perforated{ color:#198754; border-left:6px solid #198754; padding-left:.5rem; }
+.colourful-card h4 i.bi-telephone-inbound{ color:#0d6efd; border-left:6px solid #0d6efd; padding-left:.5rem; }
 
 
-/* Artistic overlays */
-.hero-overlay-grey::before {
-  background: radial-gradient(circle at center,
-    rgba(128, 128, 128, 0.85) 0%,
-    rgba(128, 128, 128, 0.4) 80%);
+/* LCNL Reading Box — replaces colourful variant */
+.lcnl-card{
+  background:#fff;                          /* no gradient */
+  border:1px solid rgba(0,0,0,.08);         /* light edge for separation */
+  border-radius:var(--radius);
+  padding:1.25rem 1.25rem;                  /* comfy padding */
+  box-shadow:0 2px 8px rgba(0,0,0,.04);     /* very soft shadow */
 }
 
-.hero-overlay-red::before {
-  background: linear-gradient(135deg,
-    rgba(220, 53, 69, 0.85) 0%,
-    rgba(220, 53, 69, 0.4) 100%);
-}
-
-.hero-overlay-blue::before {
-  background: radial-gradient(circle at top,
-    rgba(13, 110, 253, 0.85) 20%,
-    rgba(13, 110, 253, 0.3) 100%);
-}
-
-.hero-overlay-green::before {
-  background: linear-gradient(to right,
-    rgba(25, 135, 84, 0.85) 0%,
-    rgba(40, 167, 69, 0.5) 100%);
-}
-
-.hero-overlay-orange::before {
-  background:
-    linear-gradient(rgba(253, 126, 20, 0.8), rgba(253, 126, 20, 0.8)),
-    url("/assets/patterns/noise-texture.png"); /* subtle texture image */
-  background-size: auto, 200px 200px;
-}
-
-.hero-overlay-white::before {
-  background: linear-gradient(to bottom,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(255, 255, 255, 0.6) 100%);
-}
-
-/* === Elegant Overlays === */
-
-/* 1. Royal Blue (gradient) */
-.hero-overlay-royalblue::before {
-  background: radial-gradient(circle at center,
-    rgba(15, 40, 120, 0.9) 0%,
-    rgba(15, 40, 120, 0.6) 100%);
-}
-
-/* 2. Emerald Green */
-.hero-overlay-emerald::before {
-  background: linear-gradient(to bottom right,
-    rgba(0, 80, 50, 0.9),
-    rgba(0, 120, 70, 0.6));
-}
-
-/* 3. Dark Red (crimson) */
-.hero-overlay-darkred::before {
-  background: linear-gradient(to top,
-    rgba(100, 0, 20, 0.9),
-    rgba(150, 0, 40, 0.6));
-}
-
-/* 4. Midnight Purple */
-.hero-overlay-midnight::before {
-  background: radial-gradient(circle at top left,
-    rgba(40, 0, 70, 0.95),
-    rgba(25, 0, 40, 0.6));
-}
-
-/* 5. Charcoal Grey */
-.hero-overlay-charcoal::before {
-  background: linear-gradient(135deg,
-    rgba(20, 20, 20, 0.9),
-    rgba(60, 60, 60, 0.6));
-}
-
-/* 6. Teal Mist */
-.hero-overlay-teal::before {
-  background: linear-gradient(to right,
-    rgba(0, 70, 70, 0.9),
-    rgba(0, 120, 120, 0.6));
-}
-
-/* 7. Burgundy */
-.hero-overlay-burgundy::before {
-  background: radial-gradient(circle,
-    rgba(80, 0, 20, 0.95),
-    rgba(120, 0, 40, 0.65));
-}
-
-/* 8. Slate Blue */
-.hero-overlay-slateblue::before {
-  background: linear-gradient(to bottom,
-    rgba(70, 90, 140, 0.9),
-    rgba(50, 70, 110, 0.6));
-}
-
-/* 9. Forest Green */
-.hero-overlay-forest::before {
-  background: linear-gradient(to top right,
-    rgba(20, 60, 20, 0.9),
-    rgba(40, 100, 40, 0.6));
-}
-
-/* 10. Bronze */
-.hero-overlay-bronze::before {
-  background: linear-gradient(135deg,
-    rgba(120, 60, 20, 0.9),
-    rgba(180, 100, 40, 0.65));
-}
-
-/* === Jewel, Smoky & Vignette Styles === */
-
-/* 1. Sapphire Blue */
-.hero-overlay-sapphire::before {
-  background: radial-gradient(circle at center,
-    rgba(15, 60, 150, 0.95),
-    rgba(10, 30, 80, 0.65));
-}
-
-/* 2. Ruby Red */
-.hero-overlay-ruby::before {
-  background: radial-gradient(ellipse at center,
-    rgba(120, 0, 30, 0.95),
-    rgba(80, 0, 20, 0.6));
-}
-
-/* 3. Amethyst Purple */
-.hero-overlay-amethyst::before {
-  background: radial-gradient(circle at top,
-    rgba(70, 0, 100, 0.95),
-    rgba(40, 0, 60, 0.6));
-}
-
-/* 4. Onyx Black */
-.hero-overlay-onyx::before {
-  background: linear-gradient(180deg,
-    rgba(0, 0, 0, 0.95),
-    rgba(50, 50, 50, 0.7));
-}
-
-/* 5. Obsidian */
-.hero-overlay-obsidian::before {
-  background: radial-gradient(ellipse at center,
-    rgba(10, 10, 20, 0.95) 40%,
-    rgba(0, 0, 0, 0.7) 100%);
-}
-
-/* 6. Gold Glow */
-.hero-overlay-gold::before {
-  background: radial-gradient(circle,
-    rgba(160, 120, 20, 0.9),
-    rgba(90, 60, 10, 0.7));
-}
-
-/* 7. Platinum Silver */
-.hero-overlay-platinum::before {
-  background: linear-gradient(to bottom,
-    rgba(180, 180, 180, 0.9),
-    rgba(90, 90, 90, 0.6));
-}
-
-/* 8. Deep Ocean */
-.hero-overlay-ocean::before {
-  background: radial-gradient(ellipse at center,
-    rgba(0, 30, 80, 0.95),
-    rgba(0, 70, 120, 0.65));
-}
-
-/* 9. Storm Grey */
-.hero-overlay-storm::before {
-  background: radial-gradient(circle at center,
-    rgba(50, 50, 60, 0.95),
-    rgba(20, 20, 30, 0.7));
-}
-
-/* 10. Wine Red */
-.hero-overlay-wine::before {
-  background: linear-gradient(to top,
-    rgba(70, 0, 20, 0.9),
-    rgba(120, 20, 40, 0.65));
-}
-
-/* 11. Velvet Purple */
-.hero-overlay-velvet::before {
-  background: radial-gradient(circle,
-    rgba(60, 0, 80, 0.95),
-    rgba(30, 0, 50, 0.6));
-}
-
-/* 12. Jade Green */
-.hero-overlay-jade::before {
-  background: linear-gradient(to bottom right,
-    rgba(0, 60, 40, 0.95),
-    rgba(0, 100, 70, 0.65));
-}
-
-/* 13. Copper */
-.hero-overlay-copper::before {
-  background: linear-gradient(135deg,
-    rgba(120, 60, 20, 0.9),
-    rgba(90, 40, 15, 0.7));
-}
-
-/* 14. Steel Blue */
-.hero-overlay-steel::before {
-  background: radial-gradient(ellipse at center,
-    rgba(50, 70, 100, 0.95),
-    rgba(30, 40, 60, 0.6));
-}
-
-/* 15. Smoke Grey */
-.hero-overlay-smoke::before {
-  background: radial-gradient(ellipse at center,
-    rgba(80, 80, 80, 0.8),
-    rgba(20, 20, 20, 0.9));
-}
-
-/* 16. Midnight Teal */
-.hero-overlay-midnight-teal::before {
-  background: radial-gradient(ellipse at center,
-    rgba(0, 50, 60, 0.95),
-    rgba(0, 30, 40, 0.6));
-}
-
-/* 17. Desert Sand */
-.hero-overlay-sand::before {
-  background: linear-gradient(to bottom,
-    rgba(180, 120, 60, 0.9),
-    rgba(100, 60, 30, 0.7));
-}
-
-/* 18. Indigo */
-.hero-overlay-indigo::before {
-  background: radial-gradient(circle at center,
-    rgba(30, 0, 80, 0.95),
-    rgba(15, 0, 50, 0.6));
-}
-
-/* 19. Peacock Blue/Green */
-.hero-overlay-peacock::before {
-  background: linear-gradient(135deg,
-    rgba(0, 70, 100, 0.95),
-    rgba(0, 100, 70, 0.65));
-}
-
-/* 20. Vignette Black */
-.hero-overlay-vignette::before {
-  background: radial-gradient(circle at center,
-    rgba(0, 0, 0, 0.6) 70%,
-    rgba(0, 0, 0, 0.95) 100%);
-}
-
-/* 1. Crimson Sunset */
-.hero-overlay-crimsonsunset::before {
-  background: radial-gradient(ellipse at center,
-    rgba(120, 0, 30, 0.9),
-    rgba(255, 80, 60, 0.6));
-}
+/* Optional: ultra-subtle brand accent */
+.lcnl-card{ border-left:6px solid color-mix(in srgb, var(--brand) 20%, transparent); }
 
-/* 2. Arctic Blue */
-.hero-overlay-arctic::before {
-  background: radial-gradient(circle at top,
-    rgba(0, 150, 255, 0.85),
-    rgba(0, 60, 120, 0.6));
-}
-
-/* 3. Moss Green */
-.hero-overlay-moss::before {
-  background: radial-gradient(ellipse at center,
-    rgba(40, 70, 40, 0.9),
-    rgba(90, 140, 90, 0.6));
-}
-
-/* 4. Amber Glow */
-.hero-overlay-amber::before {
-  background: radial-gradient(circle,
-    rgba(255, 160, 30, 0.9),
-    rgba(150, 80, 0, 0.65));
-}
-
-/* 5. Night Sky */
-.hero-overlay-nightsky::before {
-  background: linear-gradient(to bottom,
-    rgba(10, 10, 50, 0.9),
-    rgba(0, 0, 0, 0.85));
-}
-
-/* 6. Turquoise */
-.hero-overlay-turquoise::before {
-  background: radial-gradient(circle at center,
-    rgba(0, 180, 160, 0.85),
-    rgba(0, 100, 80, 0.65));
-}
-
-/* 7. Rosewood */
-.hero-overlay-rosewood::before {
-  background: linear-gradient(135deg,
-    rgba(80, 20, 40, 0.9),
-    rgba(150, 50, 80, 0.65));
-}
-
-/* 8. Pearl White */
-.hero-overlay-pearl::before {
-  background: linear-gradient(to bottom right,
-    rgba(255, 255, 255, 0.95),
-    rgba(230, 230, 230, 0.7));
-}
-
-/* 9. Cobalt Blue */
-.hero-overlay-cobalt::before {
-  background: radial-gradient(ellipse at center,
-    rgba(0, 50, 150, 0.9),
-    rgba(0, 20, 90, 0.65));
-}
-
-/* 10. Garnet */
-.hero-overlay-garnet::before {
-  background: radial-gradient(circle at center,
-    rgba(90, 0, 20, 0.95),
-    rgba(40, 0, 10, 0.65));
-}
-
-/* 11. Emerald Mist */
-.hero-overlay-emeraldmist::before {
-  background: radial-gradient(ellipse at bottom,
-    rgba(0, 120, 70, 0.9),
-    rgba(0, 40, 20, 0.6));
-}
-
-/* 12. Silver Frost */
-.hero-overlay-silverfrost::before {
-  background: linear-gradient(135deg,
-    rgba(210, 210, 210, 0.9),
-    rgba(140, 140, 140, 0.6));
-}
-
-/* 13. Magenta */
-.hero-overlay-magenta::before {
-  background: linear-gradient(to bottom left,
-    rgba(200, 0, 150, 0.9),
-    rgba(100, 0, 80, 0.65));
-}
-
-/* 14. Chocolate Brown */
-.hero-overlay-chocolate::before {
-  background: radial-gradient(circle at top,
-    rgba(80, 40, 10, 0.95),
-    rgba(40, 20, 5, 0.7));
-}
-
-/* 15. Slate Storm */
-.hero-overlay-slatestorm::before {
-  background: linear-gradient(160deg,
-    rgba(70, 70, 80, 0.9),
-    rgba(30, 30, 40, 0.7));
-}
-
-/* 16. Lavender */
-.hero-overlay-lavender::before {
-  background: linear-gradient(to top,
-    rgba(180, 160, 230, 0.9),
-    rgba(120, 100, 180, 0.65));
-}
-
-/* 17. Obsidian Red */
-.hero-overlay-obsidianred::before {
-  background: linear-gradient(135deg,
-    rgba(50, 0, 0, 0.95),
-    rgba(100, 0, 20, 0.7));
-}
-
-/* 18. Teal Ocean */
-.hero-overlay-tealocean::before {
-  background: radial-gradient(circle at center,
-    rgba(0, 100, 120, 0.9),
-    rgba(0, 50, 70, 0.6));
-}
-
-/* 19. Royal Gold */
-.hero-overlay-royalgold::before {
-  background: linear-gradient(to right,
-    rgba(200, 150, 20, 0.9),
-    rgba(120, 80, 10, 0.65));
-}
-
-/* 20. Midnight Indigo */
-.hero-overlay-midnightindigo::before {
-  background: radial-gradient(ellipse at center,
-    rgba(30, 0, 60, 0.95),
-    rgba(10, 0, 30, 0.7));
-}
-
-/* Constitution Box Card (download) on AboutUs page*/
-
-.constitution-box {
-  background: #fff;
-  border: 2px solid rgba(0,0,0,0.08);  /* light border */
-  border-left: 6px solid var(--brand); /* LCNL maroon accent */
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* soft shadow */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.constitution-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
-
-
-
-
-/* Rangoli AUM banners in different colours */
-.hero-rangoli-pink {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-pink.svg"); /* relative to CSS file */
-  background-repeat: repeat;
-}
-
-.hero-rangoli-blue {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-blue.svg"); /* relative to CSS file */
-  background-repeat: repeat;
-}
-
-.hero-rangoli-purple {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-purple.svg"); /* relative to CSS file */
-  background-repeat: repeat;
-}
-
-.hero-rangoli-grey {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-grey.svg"); /* relative to CSS file */
-  background-repeat: repeat;
-}
-
-.hero-rangoli-red {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-red.svg"); /* relative to CSS file */
-  background-repeat: repeat;
-}
-
-.hero-rangoli-orange {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-orange.svg"); /* relative to CSS file */
-  background-repeat: repeat;
-}
 
-.hero-rangoli-green {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-green.svg"); /* relative to CSS file */
-  background-repeat: repeat;
-}
+/* Keep it still on hover (no “cardy” animations) */
+.lcnl-card:hover{ transform:none; box-shadow:0 2px 10px rgba(0,0,0,.06); }
 
-.hero-rangoli-yellow {
-  background-color: var(--accent1);
-  background-image: url("/assets/patterns/rangoli-yellow.svg"); /* relative to CSS file */
-  background-repeat: repeat;
+/* Typography inside the reading box */
+.lcnl-card h1, .lcnl-card h2, .lcnl-card h3,
+.lcnl-card h4, .lcnl-card h5, .lcnl-card h6{
+  margin-top:0;
+  margin-bottom:.75rem;
+  font-weight:700;
+  color:#222;
+  border-bottom:1px solid rgba(0,0,0,.06);  /* subtle section divider */
+  padding-bottom:.35rem;
 }
 
-.hero-radial {
-  background-image: repeating-radial-gradient(circle,
-    var(--brand),
-    var(--brand) 20px,
-    var(--accent1) 20px,
-    var(--accent1) 40px
-  );
+.lcnl-card p{
+  margin-bottom:.85rem;
+  line-height:1.65;                         /* easier reading */
+  color:#333;
 }
 
-.hero .row {
-  flex-wrap: nowrap;   /* stops logo dropping to next line */
+.lcnl-card ul, .lcnl-card ol{
+  margin-bottom:.85rem;
+  padding-left:1.1rem;                      /* readable list indent */
 }
-.hero .col {
-  flex: 1 1 auto;      /* text takes remaining space */
-  min-width: 0;        /* allows text to shrink gracefully */
-}
-.hero .col-lg-4 {
-  flex: 0 0 auto;      /* logo keeps its size */
-  justify-content: flex-end;
-  display: flex;
-  align-items: center;
-}
-.hero img {
-  max-width: 175px;
-  height: auto;
-}
-
-
 
-/* Dark overlay layer */
-.hero .overlay {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1;
-}
+.lcnl-card > :last-child{ margin-bottom:0; }/* trim trailing gap */
 
-.hero .container {
-  position: relative;
-  z-index: 2;
+/* Neutralise the old colourful icon/border accents on headings */
+.lcnl-card h4 i[class^="bi-"],
+.lcnl-card h4 i[class*=" bi-"]{
+  color:currentColor;         /* inherit text colour */
+  border-left:0;
+  padding-left:0;
 }
 
-/* Example page-specific hero colours */
-.hero-events { background: linear-gradient(135deg, var(--brand), #9c2b52); }
-.hero-membership { background: linear-gradient(135deg, var(--accent), #f5d35c); }
-.hero-bereavement { background: linear-gradient(135deg, #333, #555); }
-.hero-about { background: linear-gradient(135deg, #005f73, #0a9396); }
 
-/* Optional Bootstrap-style patterns via CSS gradients */
-.hero-pattern {
-  background: repeating-linear-gradient(
-    45deg,
-    var(--accent1),
-    var(--accent1) 20px,
-    #fff 20px,
-    #fff 40px
-  );
-}
 
-.btn.btn-brand {
-  background-color: var(--brand) !important;
-  color: #fff !important;
-  border: none !important;
-}
-.btn.btn-brand:hover,
-.btn.btn-brand:focus {
-  background-color: #6b1214 !important;
-  color: #fff !important;
-}
 
-.btn-gold { background: var(--accent); color:#222; border:none; }
-.btn-gold:hover { filter: brightness(1.05); color:#222; }
 
-.card {
-  border:0;
-  border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(0,0,0,.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  z-index: 2;
-}
-.card-link { text-decoration:none; color:inherit; transition: transform .15s ease; }
-.card-link:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,.12); }
+/* Hover utility */
+.hover-card{ transition: transform .2s ease, box-shadow .2s ease; border-radius:var(--radius); }
+.hover-card:hover{ transform: translateY(-5px); box-shadow:0 6px 20px rgba(0,0,0,.15); }
 
-footer a { opacity:.9; }
-footer a:hover { opacity:1; }
+/* =========================
+   HEADER + NAVBAR
+   ========================= */
+.lcnl-header .lcnl-logo{ height: clamp(80px,10vw,110px); }
+.lcnl-header a{ color:#222; }
+.lcnl-header a:hover{ color:var(--brand); }
+.lcnl-header .fs-4{ line-height:1.15; }
+.lcnl-header .site-title{ margin-bottom:.5rem; }
+@media (min-width:992px){ .lcnl-header .site-title{ margin-bottom:1rem; } }
+.lcnl-header .socials a{ line-height:1; }
 
-/* ===== Header ===== */
-.lcnl-header .lcnl-logo {
-  height: clamp(80px, 10vw, 110px);
-}
-.lcnl-header a { color: #222; }
-.lcnl-header a:hover { color: var(--brand); }
-.lcnl-header .fs-4 { line-height: 1.15; }
-.lcnl-header .site-title { margin-bottom: .5rem; }
-@media (min-width: 992px) {
-  .lcnl-header .site-title { margin-bottom: 1rem; }
-}
-.lcnl-header .socials a { line-height: 1; }
+/* Social brand colours (incl. YouTube) */
+.socials a[aria-label="Facebook"] i{ color:#1877F2 !important; }
+.socials a[aria-label="Instagram"] i{ color:#E4405F !important; }
+.socials a[aria-label="Vimeo"] i{ color:#19b7ea !important; }
+.socials a[aria-label="YouTube"] i{ color:#FF0000 !important; }
+/* Hover -> LCNL brand */
+.socials a:hover i, .lcnl-header .socials a:hover i{ color:var(--brand) !important; }
 
-/* ===== Navbar gold theme ===== */
-.bg-lcnl {
-  background-color: var(--accent1) !important; /* gold navbar */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25);      /* subtle shadow */
-}
+/* Navbar (gold theme) */
+.bg-lcnl{ background-color: var(--accent1) !important; box-shadow:0 2px 6px rgba(0,0,0,.25); }
+.navbar{ border-radius:0; }
+.lcnl-nav{ gap:2rem; }
 
-.navbar-light .navbar-nav .nav-link {
-  color: #ffffff !important; /* crisp bright white text */
-  transition: all 0.2s ease;
-  padding: 0.75rem 1rem;
+.navbar-light .navbar-nav .nav-link{
+  color:#fff !important; text-shadow:0 1px 2px rgba(0,0,0,.25);
+  transition: all .2s ease; padding:.75rem 1rem;
 }
-
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link.active {
-  color: #ffffff !important; /* keep bright white on hover */
-  background-color: rgba(255,255,255,0.2); /* soft white overlay */
-  border-radius: var(--radius);
+.navbar-light .navbar-nav .nav-link.active{
+  color:#fff !important; background-color:rgba(255,255,255,.2); border-radius:var(--radius);
 }
+.navbar-light .navbar-nav .nav-link.active{ font-weight:600; text-decoration: underline; }
 
-.lcnl-nav { gap: 2rem; }
+.navbar-light .navbar-toggler{ border-color: rgba(255,255,255,.7); }
+.navbar-light .navbar-toggler-icon{ filter: invert(1); } /* white icon */
+.navbar-light .dropdown-toggle::after{ border-top-color:#fff !important; }
 
-/* Toggler (hamburger) for mobile */
-.navbar-light .navbar-toggler {
-  border-color: rgba(255,255,255,0.7); /* lighter border */
+.navbar-light .dropdown-menu{
+  background:#fff; border:none; border-radius:var(--radius);
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
 }
-.navbar-light .navbar-toggler-icon {
-  filter: invert(1); /* white icon on gold */
-}
-
-/* Dropdown menu */
-.navbar-light .dropdown-menu {
-  background-color: #fff; /* clean white dropdown */
-  border-radius: var(--radius);
-  border: none;
-  box-shadow: 0 6px 20px rgba(0,0,0,.1);
-}
-
-.navbar-light .dropdown-item {
-  color: #222 !important;
-}
-
+.navbar-light .dropdown-item{ color:#222 !important; }
 .navbar-light .dropdown-item:hover,
 .navbar-light .dropdown-item:focus,
-.navbar-light .dropdown-item.active {
-  background-color: var(--accent1) !important; /* gold background */
-  color: #ffffff !important;                   /* crisp white text */
+.navbar-light .dropdown-item.active{
+  background-color: var(--accent1) !important; color:#fff !important;
+}
+/* Hover open on desktop only */
+@media (min-width:992px){
+  .navbar .dropdown:hover .dropdown-menu{ display:block; margin-top:0; }
+  .navbar .dropdown-toggle::after{ vertical-align:.15em; }
+}
+/* Collapsed nav spacing */
+@media (max-width:991.98px){
+  .lcnl-nav{ gap:.5rem !important; }
+  .navbar-nav .nav-link{ padding-top:.5rem !important; padding-bottom:.5rem !important; line-height:1.2 !important; }
+  .navbar-nav .dropdown-menu .dropdown-item{ padding-top:.5rem !important; padding-bottom:.5rem !important; }
 }
 
-/* Dropdown caret arrow */
-.navbar-light .dropdown-toggle::after {
-  border-top-color: #ffffff !important; /* white caret */
+/* Toggler label size (Menu/Close) */
+.navbar-toggler-text{
+  font-size: 1rem; line-height:1.1; letter-spacing:.02em; font-weight:600; color:#fff;
+}
+@media (max-width:360px){ .navbar-toggler-text{ font-size:.75rem; } }
+
+/* Admin bar */
+.bg-darkblue{ background-color:#0d1b3d !important; }
+.navbar-dark .nav-link{ color:#f8f9fa !important; }
+.navbar-dark .nav-link:hover{ color: var(--accent1); }
+#adminNav .navbar-nav{ justify-content:center; width:100%; }
+#adminNav .nav-item{ text-align:center; }
+
+/* Header buttons – fixed sizing to prevent hover “jump” */
+.lcnl-header .btn-brand,
+.lcnl-header .btn-outline-brand{
+  --btn-py: .35rem; --btn-px: .9rem;
+  padding: var(--btn-py) var(--btn-px);
+  line-height: 1.2; border-width: 1px; font-weight:600; letter-spacing:.01em;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.lcnl-header .btn-brand:hover,
+.lcnl-header .btn-outline-brand:hover,
+.lcnl-header .btn-brand:focus,
+.lcnl-header .btn-outline-brand:focus{
+  padding: var(--btn-py) var(--btn-px); transform:none; box-shadow:none;
 }
 
-.navbar-light .navbar-nav .nav-link.active {
-  font-weight: 600;
-  text-decoration: underline;
+/* =========================
+   BUTTONS
+   ========================= */
+/* Filled brand */
+.btn-brand{
+  --bs-btn-color:#fff;
+  --bs-btn-bg:var(--brand);
+  --bs-btn-border-color:var(--brand);
+  --bs-btn-hover-color:#fff;
+  --bs-btn-hover-bg:var(--brand-600);
+  --bs-btn-hover-border-color:var(--brand-600);
+  --bs-btn-active-color:#fff;
+  --bs-btn-active-bg:var(--brand-700);
+  --bs-btn-active-border-color:var(--brand-700);
+  --bs-btn-disabled-bg:var(--brand);
+  --bs-btn-disabled-border-color:var(--brand);
+  border:none; border-radius:var(--radius);
 }
 
-.navbar-light .navbar-nav .nav-link {
-  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+/* Outline brand -> filled on hover (force white text) */
+.btn-outline-brand{
+  --bs-btn-color:var(--brand);
+  --bs-btn-border-color:var(--brand);
+  --bs-btn-hover-color:#fff;
+  --bs-btn-hover-bg:var(--brand);
+  --bs-btn-hover-border-color:var(--brand);
+  --bs-btn-active-color:#fff;
+  --bs-btn-active-bg:var(--brand-700);
+  --bs-btn-active-border-color:var(--brand-700);
+  background-color:transparent;
+  border:2px solid var(--brand);
+  color:var(--brand);
+}
+.btn-outline-brand:hover,
+.btn-outline-brand:focus,
+.btn-outline-brand:active,
+.btn-outline-brand.active,
+.show > .btn-outline-brand.dropdown-toggle{
+  color:#fff !important; background-color:var(--brand) !important; border-color:var(--brand) !important;
 }
 
+/* Link-style (e.g., Logout) */
+.btn-link-brand{ color:var(--brand) !important; font-weight:600; }
+.btn-link-brand:hover{ color:var(--brand-600) !important; text-decoration:underline; }
 
-/* Show dropdown on hover for desktop (keep click on mobile) */
-@media (min-width: 992px) {
-  .navbar .dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0;
-  }
-  .navbar .dropdown-toggle::after { vertical-align: .15em; }
+/* Focus ring */
+.btn-brand:focus-visible,
+.btn-outline-brand:focus-visible,
+.btn-link-brand:focus-visible{
+  outline:0; box-shadow:0 0 0 .2rem rgba(122,29,60,.25);
 }
 
-@media (max-width: 991.98px) {  /* mobile & tablet collapsed nav */
-  .lcnl-nav {
-    gap: 0.5rem !important;   /* tighter vertical spacing */
-  }
+/* Accent button (gold) */
+.btn-accent{ background:var(--accent1); color:#000; border:none; }
+.btn-accent:hover{ background:#c9a227; color:#000; }
 
-  .navbar-nav .nav-link {
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-    line-height: 1.2 !important;
-  }
+/* =========================
+   EVENTS / GALLERY
+   ========================= */
+.event-overlay{
+  position:absolute; bottom:0; left:0; right:0;
+  background:rgba(0,0,0,.6); padding:.5rem; text-align:center;
+}
+/* Scroller scrollbar */
+.d-flex.overflow-auto{ scrollbar-width:thin; scrollbar-color:var(--brand) #f1f1f1; }
+.d-flex.overflow-auto::-webkit-scrollbar{ height:8px; }
+.d-flex.overflow-auto::-webkit-scrollbar-track{ background:#f1f1f1; }
+.d-flex.overflow-auto::-webkit-scrollbar-thumb{ background-color:var(--brand); border-radius:10px; }
 
-  .navbar-nav .dropdown-menu .dropdown-item {
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-  }
+/* Event cards in upcoming scroller (unified) */
+.event-card-link{ width:280px; flex-shrink:0; }
+.event-card{
+  height:350px; display:flex; flex-direction:column;
+}
+.event-card .event-img-wrapper{
+  flex:1; display:flex; align-items:center; justify-content:center;
+  overflow:hidden; border-radius:var(--radius); position:relative;
+}
+.event-card .event-img-wrapper img{
+  width:100%; height:350px; object-fit:contain;
+}
+.event-card .event-overlay{ position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.6); padding:.5rem; text-align:center; }
+
+/* =========================
+   COMPONENTS MISC
+   ========================= */
+footer a{ opacity:.9; }
+footer a:hover{ opacity:1; }
+
+.accordion-button{ background:#f1f1f1; font-weight:600; }
+.accordion-button:not(.collapsed){ background:#ddd; }
+
+/* Committee photos */
+.committee-photo{
+  height:300px; width:100%;
+  object-fit:contain; background:#f8f9fa; padding:10px;
 }
 
-.navbar {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-
-/* Caret for "Home" style dropdowns */
-.dropdown-toggle-home::after {
-  content: " ▾";
-  font-size: 1em;
-}
-
-/* Accordion buttons */
-.accordion-button {
-  background-color: #f1f1f1;
-  font-weight: 600;
-}
-.accordion-button:not(.collapsed) {
-  background-color: #ddd;
-}
-
-.committee-photo {
-  height: 300px;         /* Fixed height */
-  width: 100%;           /* Fill card width */
-  object-fit: contain;   /* Scale without cropping/stretching */
-  background: #f8f9fa;   /* Light background padding */
-  padding: 10px;         /* Optional breathing space */
-}
-
-
-/* Carousel */
-#galleryCarousel { position: relative; }
+/* Carousel tweaks */
+#galleryCarousel{ position:relative; }
 #galleryCarousel .carousel-control-prev,
-#galleryCarousel .carousel-control-next { width: 10%; }
+#galleryCarousel .carousel-control-next{ width:10%; }
 #galleryCarousel .carousel-control-prev-icon,
-#galleryCarousel .carousel-control-next-icon {
-  filter: invert(1);
-}
-
-/* Social icon brand colours */
-/* --- Socials --- */
-
-.socials a[aria-label="Facebook"] i {
-  color: #1877F2 !important;
-}
-.socials a[aria-label="Instagram"] i {
-  color: #E4405F !important;
-}
-.socials a[aria-label="Vimeo"] i {
-  color: #19b7ea !important;
-}
-
-/* Hover → LCNL brand maroon */
-.lcnl-header .socials a:hover i {
-  color: var(--brand) !important;
-}
-
-
-/* Hover → LCNL brand maroon */
-.socials a:hover i {
-  color: var(--brand) !important;
-}
-
-/* Dashboard cards */
-.hover-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-radius: var(--radius);
-}
-.hover-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Colours for icons */
-.text-brand { color: var(--brand) !important; }
-.text-accent { color: var(--accent) !important; }
-
-.bg-darkblue {
-  background-color: #0d1b3d !important; /* deep blue */
-}
-
-.navbar-dark .nav-link {
-  color: #f8f9fa !important;
-}
-.navbar-dark .nav-link:hover {
-  color: var(--accent); /* your gold/yellow accent */
-}
-#adminNav .navbar-nav {
-  justify-content: center;
-  width: 100%;
-}
-
-#adminNav .nav-item {
-  text-align: center;
-}
-
-.btn-brand {
-  background-color: var(--brand);
-  color: #fff !important;
-  border: none;
-  border-radius: var(--radius);
-  padding: 0.5rem 1.25rem;
-  font-weight: 600;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.btn-brand:hover {
-  background-color: #6b1214; /* slightly darker */
-  transform: translateY(-2px);
-}
-
-.btn-outline-brand {
-  border: 2px solid var(--brand);
-  color: var(--brand);
-  font-weight: 600;
-}
-
-.btn-outline-brand:hover {
-  background-color: var(--brand);
-  color: #fff;
-}
-
-/* Horizontal scroll row */
-.d-flex.overflow-auto {
-  scrollbar-width: thin;
-  scrollbar-color: var(--brand) #f1f1f1; /* Firefox */
-}
-
-.d-flex.overflow-auto::-webkit-scrollbar {
-  height: 8px;
-}
-
-.d-flex.overflow-auto::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.d-flex.overflow-auto::-webkit-scrollbar-thumb {
-  background-color: var(--brand);
-  border-radius: 10px;
-}
-
-
-
-.event-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,0.6);
-  padding: 0.5rem;
-  text-align: center;
-}
-
-.text-pink { color: #e4405f !important; }   /* Mahila Committee */
-.text-danger { color: #d63384 !important; } /* Bereavement */
-.text-primary { color: #0d6efd !important; } /* YLS */
-
-
-
-/* Event overlay reused */
-.event-img-wrapper {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius);
-}
-
-.event-img-wrapper img {
-  width: 200px;        /* fixed width */
-  height: auto;        /* auto height preserves aspect ratio */
-  object-fit: contain; /* ensures no distortion if you later add max constraints */
-  display: block;      /* removes inline spacing */
-  margin: 0 auto;      /* center horizontally inside card */
-}
-
-
-.event-img-wrapper:hover img {
-  transform: scale(1.05);
-}
-.event-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,0.6);
-  padding: 0.5rem;
-  text-align: center;
-}
-
-.nav-tabs .nav-link {
-  font-weight: 600;
-  color: var(--brand);
-}
-.nav-tabs .nav-link.active {
-  background-color: var(--brand);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-
-/* Event cards in upcoming events scroller */
-.event-card-link {
-  width: 280px;          /* same as your inline style */
-  flex-shrink: 0;        /* prevents shrinking in flex row */
-}
-
-.event-card {
-  height: 350px;         /* fixed uniform card height */
-  display: flex;
-  flex-direction: column;
-}
-
-.event-card .event-img-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow:hidden;
-  border-radius: var(--radius);
-  position: relative;
-}
-
-.event-card .event-img-wrapper img {
-  width: 100%;
-  height: 350px;
-  object-fit:contain;
-}
-
-.event-card .event-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0; right: 0;
-  background: rgba(0,0,0,0.6);
-  padding: 0.5rem;
-  text-align: center;
-}
-
-.card.no-hover:hover {
-  transform: none !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,.08) !important;
-  z-index: auto !important;
-}
-
-/* 1) Stop the card's own hover scaling */
-.card.no-hover:hover {
-  transform: none !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,.08) !important; /* your base shadow */
-  z-index: auto !important;
-}
-
-/* 2) If an ANCHOR is the thing adding hover effects */
-.no-hover.card-link:hover,           /* anchor itself has no-hover */
-.no-hover .card-link:hover {         /* or anchor inside a no-hover container/card */
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-/* 3) If you also use `hover-card` somewhere on the same element */
-.no-hover.hover-card:hover {
-  transform: none !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,.08) !important;
-}
-
-/* Keep the image hover effect ONLY (don’t remove this if you still want the zoom) */
-.no-hover .event-img-wrapper:hover img {
-  transform: scale(1.05);
-}
-
-/* Remove hover effects completely */
-.card.no-hover,
-.card.no-hover:hover {
-  transform: none !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; /* subtle static shadow */
-  z-index: auto !important;
-}
-
-/* Subtle colourful card styling */
-.colourful-card {
-  border-left: 6px solid var(--brand);   /* your maroon accent */
-  background: linear-gradient(180deg, #fff, var(--muted));
-  border-radius: var(--radius);
-}
-
-/* Give each section a different accent by icon type */
-.colourful-card h4 i.bi-info-circle {
-  color: var(--brand);
-}
-.colourful-card h4 i.bi-file-earmark-text {
-  color: var(--accent);
-}
-.colourful-card h4 i.bi-ticket-perforated {
-  color: #198754; /* Bootstrap green */
-}
-.colourful-card h4 i.bi-telephone-inbound {
-  color: #0d6efd; /* Bootstrap blue */
-}
-
-/* Make headings pop a bit */
-.colourful-card h4 {
-  font-weight: 700;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding-bottom: .5rem;
-  margin-bottom: 1rem;
-}
-
-/* Remove hover effects completely */
-.card.no-hover,
-.card.no-hover:hover {
-  transform: none !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
-  z-index: auto !important;
-}
-
-/* Subtle colourful card styling */
-.colourful-card {
-  background: linear-gradient(180deg, #fff, var(--muted));
-  border-radius: var(--radius);
-  padding: .5rem;
-}
-
-/* Section-specific colours via their icons */
-.colourful-card h4 i.bi-info-circle {
-  color: var(--brand);  /* maroon */
-  border-left: 6px solid var(--brand);
-  padding-left: .5rem;
-}
-.colourful-card h4 i.bi-file-earmark-text {
-  color: var(--accent); /* gold */
-  border-left: 6px solid var(--accent);
-  padding-left: .5rem;
-}
-.colourful-card h4 i.bi-ticket-perforated {
-  color: #198754; /* green */
-  border-left: 6px solid #198754;
-  padding-left: .5rem;
-}
-.colourful-card h4 i.bi-telephone-inbound {
-  color: #0d6efd; /* blue */
-  border-left: 6px solid #0d6efd;
-  padding-left: .5rem;
-}
-
-/* Headings style */
-.colourful-card h4 {
-  font-weight: 700;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding-bottom: .5rem;
-  margin-bottom: 1rem;
-}
-
-/* Bigger, bolder hero chips */
-.event-meta { gap: .6rem; }
-.event-meta .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  font-weight: 700;           /* bolder text */
-  line-height: 1.1;
-  text-shadow: 0 1px 2px rgba(0,0,0,.35); /* readability on patterned bg */
-}
-.badge-xl {
-  font-size: clamp(1rem, 2.2vw, 1.25rem); /* scales up on larger screens */
-  padding: .65rem .9rem;                  /* bigger hit area */
-  border-radius: var(--radius);
-}
-.event-meta .bi { font-size: 1.1em; transform: translateY(-1px); }
-
-/* Optional: stronger contrast for glass/outline variants */
-.badge-glass { background: rgba(0,0,0,.35); border-color: rgba(255,255,255,.6); }
-.badge-outline-light { border-width: 2px; }
-
-
-/* Meta chips under the event title */
-.event-meta .badge { font-weight: 600; }
-
-/* frosted/glass date chip */
-.badge-glass {
-  background: rgba(255,255,255,.15);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.3);
-}
-
-/* outline chip for time */
-.badge-outline-light {
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.5);
-}
-
-/* brand badge for location */
-.badge-brand {
-  background: var(--brand) !important;
-  color: #fff !important;
-  border: 1px solid rgba(0,0,0,.1);
-}
-
-/* Bereavement Contact Card (styled like Constitution box) */
-.card-bereavement {
-  background: #fff;
-  border: 2px solid rgba(0,0,0,0.08);   /* light border */
-  border-left: 6px solid var(--brand);  /* LCNL maroon accent */
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* soft shadow */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-bereavement:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
-
-.card-bereavement .card-title {
-  font-weight: 600;
-  color: var(--brand);
-}
-
+#galleryCarousel .carousel-control-next-icon{ filter: invert(1); }
 
 /* Shiva image centre on mobile */
-@media (max-width: 768px) {
-  .shiva-img-wrapper {
-    margin: 0 auto 20px auto !important;
-    text-align: center;
-  }
-  .shiva-img-wrapper img {
-    display: inline-block;
-  }
+@media (max-width:768px){
+  .shiva-img-wrapper{ margin:0 auto 20px !important; text-align:center; }
+  .shiva-img-wrapper img{ display:inline-block; }
 }
 
-/* Membership Benefit Cards */
-.membership-benefits .benefit-card {
-  background: #fff;
-  border: 2px solid rgba(0,0,0,0.05);
-  border-top: 5px solid var(--brand); /* LCNL maroon accent */
+/* Hero layout helpers (if used) */
+.hero .row{ flex-wrap:nowrap; }
+.hero .col{ flex:1 1 auto; min-width:0; }
+.hero .col-lg-4{ flex:0 0 auto; justify-content:flex-end; display:flex; align-items:center; }
+.hero img{ max-width:175px; height:auto; }
+.hero .overlay{ position:absolute; inset:0; background:rgba(0,0,0,.3); z-index:1; }
+.hero .container{ position:relative; z-index:2; }
+
+/* Page-specific hero colours (fixed undefined --accent → --accent1) */
+.hero-events{ background:linear-gradient(135deg,var(--brand),#9c2b52); }
+.hero-membership{ background:linear-gradient(135deg,var(--accent1),#f5d35c); }
+.hero-bereavement{ background:linear-gradient(135deg,#333,#555); }
+.hero-about{ background:linear-gradient(135deg,#005f73,#0a9396); }
+
+/* HEADER login/register – force explicit colours & consistent sizing */
+.lcnl-header .btn-brand{
+  display:inline-flex; align-items:center; gap:.35rem;
+  color:#fff !important;
+  background-color: var(--brand) !important;
+  border: 1px solid var(--brand) !important;
   border-radius: var(--radius);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* lock size so hover doesn't "grow" */
+  --btn-py:.35rem; --btn-px:.9rem;
+  padding: var(--btn-py) var(--btn-px);
+  line-height:1.2; font-weight:600; letter-spacing:.01em;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.lcnl-header .btn-brand:hover,
+.lcnl-header .btn-brand:focus{
+  color:#fff !important;
+  background-color: var(--brand-600) !important;
+  border-color: var(--brand-600) !important;
+  box-shadow:none; transform:none;
+}
+.lcnl-header .btn-brand:active{
+  color:#fff !important;
+  background-color: var(--brand-700) !important;
+  border-color: var(--brand-700) !important;
 }
 
-.membership-benefits .benefit-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+/* REGISTER (outline) – already set, but mirror the size so both match */
+.lcnl-header .btn-outline-brand{
+  display:inline-flex; align-items:center; gap:.35rem;
+  border:2px solid var(--brand);
+  color:var(--brand);
+  --btn-py:.35rem; --btn-px:.9rem;
+  padding: var(--btn-py) var(--btn-px);
+  line-height:1.2; font-weight:600; letter-spacing:.01em;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.lcnl-header .btn-outline-brand:hover,
+.lcnl-header .btn-outline-brand:focus{
+  color:#fff !important;
+  background-color: var(--brand) !important;
+  border-color: var(--brand) !important;
+  box-shadow:none; transform:none;
 }
 
-.membership-benefits .benefit-icon {
-  font-size: 2.5rem;
-  color: var(--brand); /* maroon icons */
+/* =========================
+   MEMBERSHIP — Benefit Cards
+   ========================= */
+.membership-benefits .benefit-card{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  border-top:5px solid var(--brand);      /* maroon accent */
+  border-radius:var(--radius);
+  padding:1rem 1.1rem;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  display:flex; flex-direction:column;    /* equal height cards */
+  min-height:100%;
+}
+.membership-benefits .benefit-card:hover{
+  transform: translateY(-3px);            /* subtle lift */
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
 
-.btn-accent {
-  background: var(--accent1);
-  color: #000;
-  border: none;
+/* Content helpers (optional) */
+.membership-benefits .benefit-icon{
+  font-size:2.4rem; line-height:1; color:var(--brand); margin-right:.5rem;
 }
-.btn-accent:hover {
-  background: #c9a227;
-  color: #000;
+.membership-benefits .benefit-title{
+  font-weight:700; margin:0;
+}
+.membership-benefits .benefit-body{
+  margin-top:.35rem; color:#333; line-height:1.6; flex:1;
+}
+.membership-benefits .benefit-cta .btn{ margin-top:.5rem; }
+
+/* Variant: gold top border if you want variety */
+.membership-benefits .benefit-card.accent-gold{ border-top-color: var(--accent1); }
+
+/* If a benefit card also has .card, prevent the global .card:hover scale */
+.membership-benefits .benefit-card.card:hover{
+  transform: translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
 
-.btn-brand {
+/* =========================
+   LCNL — Themed Tabs
+   ========================= */
+
+/* Remove default underline + use brand colours */
+.nav-tabs{
+  border: 0;
+  --bs-nav-tabs-border-color: transparent;
+  --bs-nav-tabs-link-hover-border-color: transparent;
+  --bs-nav-tabs-link-active-border-color: var(--brand);
+}
+
+.nav-tabs .nav-link{
+  color: var(--brand);
+  font-weight: 600;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: .6rem 1rem;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.nav-tabs .nav-link:hover{
+  color: var(--brand-600);
+  background: rgba(122, 29, 60, .06); /* very light maroon wash */
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link{
+  color: #fff;
   background: var(--brand);
-  color: #fff;
-  border: none;
+  border: 1px solid var(--brand);
+  border-bottom-color: transparent;  /* visually connects to content box */
 }
-.btn-brand:hover {
-  background: #5c0f25;
-  color: #fff;
+
+/* Accessible focus ring */
+.nav-tabs .nav-link:focus-visible{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(122, 29, 60, .25);
+}
+
+/* Pretty content box that sits under the tabs */
+.nav-tabs + .tab-content{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-top: 0; /* merges with active tab */
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+/* Small-screen padding tweak */
+@media (max-width: 576px){
+  .nav-tabs .nav-link{ padding: .5rem .75rem; }
 }

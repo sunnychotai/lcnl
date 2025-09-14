@@ -4,7 +4,7 @@
 <!-- Hero Banner -->
 <section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">About Us</h1>
+    <h1 class="fw-bold display-6 mb-2"><i class="bi bi-people-fill me-2"></i> About Us</h1>
     <p class="lead fs-5 mb-0">About the Lohana Community North London</p>
   </div>
 </section>
@@ -31,6 +31,7 @@
       
       <!-- Left column -->
       <div class="col-md-8">
+        <div class="lcnl-card">
         <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
 
         <p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Committee, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
@@ -51,6 +52,7 @@
           <li>Raghuvanshi Charitable Trust</li>
           <li>Lohana Charity Foundation</li>
         </ul>
+        
 
         <div class="container text-left my-3">
           <blockquote class="blockquote">
@@ -58,9 +60,11 @@
           </blockquote>
         </div>
 
+        </div>
+
         <!-- Constitution Download Section -->
-<div class="container my-4">
-  <div class="constitution-box">
+<div class="lcnl-card container my-4">
+  
     <h5 class="fw-bold text-brand mb-2">
       <i class="bi bi-file-earmark-text me-2"></i> LCNL Constitution
     </h5>
@@ -69,7 +73,7 @@
        class="btn btn-brand btn-sm" target="_blank">
       <i class="bi bi-download me-1"></i> Download Constitution (PDF)
     </a>
-  </div>
+  
 </div>
 
 

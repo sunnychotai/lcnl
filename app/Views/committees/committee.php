@@ -13,7 +13,7 @@
 <!-- Overlay text -->
 <div class="position-absolute top-50 start-0 translate-middle-y w-100 text-white">
     <div class="container text-center">
-      <h1 class="fw-bold display-6 mb-2">Executive Committee</h1>
+      <h1 class="fw-bold display-5 mb-2">Executive Committee</h1>
     <p class="lead fs-5 mb-0">Meet the LCNL 2025-2027 Executive Committee</p>
     </div>
 </div>

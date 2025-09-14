@@ -195,4 +195,6 @@ public function youth()
 
     public function sample(){    return view('sample'); }
 
+    public function privacy(){    return view('privacy'); }
+
 }

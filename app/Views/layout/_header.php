@@ -18,7 +18,7 @@
             <span class="fw-bold fs-4 text-dark d-block">Lohana Community - North London</span>
           </a>
 
-          <!-- Socials + Login (keep everything inside this flex) -->
+          <!-- Socials + Auth -->
           <div class="d-flex flex-wrap align-items-center gap-3 pt-1">
 
             <!-- Socials -->
@@ -26,27 +26,34 @@
               <a href="https://www.facebook.com/groups/lcnlmahajan/" class="fs-4" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
               <a href="https://www.instagram.com/lcnlmahajan/" class="fs-4" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
               <a href="https://vimeo.com/lcnl" class="fs-4" aria-label="Vimeo"><i class="bi bi-vimeo"></i></a>
+              <a href="https://www.youtube.com/@lcnlmahajan" class="fs-4 d-inline-flex align-items-center gap-1" target="_blank" rel="noopener"
+     aria-label="YouTube">
+    <i class="bi bi-youtube"></i>
+      </a>
             </div>
 
             <span class="vr d-none d-lg-inline-block"></span>
 
             <!-- Member auth buttons -->
-            <?php if (session()->get('member_id')): ?>
-             <a href="<?= url_to('account.dashboard') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
-  <i class="bi bi-speedometer2 me-1"></i> Dashboard
-</a>
+           <?php if (session()->get('member_id')): ?>
+  <a href="<?= url_to('account.dashboard') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
+    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+  </a>
+  <a href="<?= base_url('member/logout') ?>" class="btn btn-sm btn-link-brand">
+    <i class="bi bi-box-arrow-right me-1"></i> Logout
+  </a>
+<?php else: ?>
+  <a href="<?= base_url('member/login') ?>" class="btn btn-sm btn-brand rounded-pill">
+    <i class="bi bi-box-arrow-in-right me-1"></i> Login
+  </a>
+  <a href="<?= base_url('member/register') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
+    <i class="bi bi-person-plus me-1"></i> Register
+  </a>
+<?php endif; ?>
 
-              <a href="<?= base_url('member/logout') ?>" class="btn btn-sm btn-link text-danger">
-                <i class="bi bi-box-arrow-right me-1"></i> Logout
-              </a>
-            <?php else: ?>
-              <a href="<?= base_url('member/login') ?>" class="btn btn-sm btn-brand rounded-pill">
-                <i class="bi bi-box-arrow-in-right me-1"></i> Member Login
-              </a>
-            <?php endif; ?>
 
           </div>
-          <!-- /Socials + Login -->
+          <!-- /Socials + Auth -->
 
         </div>
       </div>

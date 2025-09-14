@@ -1,87 +1,115 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero-lcnl-watermark hero-overlay-midnightindigo d-flex align-items-center justify-content-center">
+<!-- Hero Banner -->
+<section class="hero-lcnl-watermark hero-overlay-midnight d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">Bereavement Support Information</h1>
-    <p class="lead fs-5 mb-0">Support &amp; Assistance for the Lohana Community</p>
+    <h1 class="fw-bold display-6 mb-2"><i class="bi bi-flower1 me-2"> </i>Bereavement Support</h1>
+    <p class="lead fs-6 mb-0">Compassionate assistance for the Lohana Community</p>
   </div>
 </section>
 
-<div class="container py-3">
+<div class="container py-5">
 
-  <!-- Image + Text side by side -->
-  <div class="d-flex flex-wrap flex-row-reverse align-items-start mb-2">
+  <!-- Intro + Image -->
+  <div class="row g-4 align-items-start mb-2">
+    <!-- Text -->
+    <div class="col-lg-8 order-2 order-lg-1">
+      <div class="lcnl-card">
+        <p class="mb-3">
+          The <strong>Bereavement Committee</strong> supports families with compassion and sensitivity, according
+          to each family’s wishes. We can guide you through arrangements from the <em>Prathna</em> to the funeral.
+          A dedicated team is available to perform the Prathna and, where desired, volunteers can support with
+          <em>Bhajans</em>—free of charge.
+        </p>
 
-    <!-- Shiva Image -->
-    <div class="shiva-img-wrapper" 
-         style="flex:0 0 300px; max-width:300px; margin-right:20px; margin-bottom:20px;">
-      <img src="<?= base_url('assets/img/shiva.png') ?>" 
-           alt="Shiva" 
-           class="img-fluid rounded">
+        <p class="mb-3">
+          We currently have over <strong>3,250 registered recipients</strong> for bereavement emails. Between
+          <strong>1 August and 31 October 2022</strong>, more than <strong>539,000 emails</strong> were sent
+          (around <strong>11 emails per week</strong>). This free LCNL service is open to everyone, including
+          non-Lohanas.
+        </p>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a href="mailto:bereavement@lcnl.org" class="btn btn-brand">
+            <i class="bi bi-envelope-paper-heart me-2"></i>Email the Bereavement Team
+          </a>
+          <a href="<?= base_url('contact') ?>" class="btn btn-outline-secondary">
+            <i class="bi bi-chat-left-heart me-2"></i>Contact form
+          </a>
+        </div>
+      </div>
+
+      <div class="lcnl-card mt-4">
+        <h3 class="h5 fw-bold mb-2">
+          <i class="bi bi-shield-check me-2 text-brand"></i>GDPR re-registration
+        </h3>
+        <p class="mb-0">
+          Many past recipients still need to re-register under GDPR. There’s no limit on how many family members
+          can register. Please email
+          <a href="mailto:bereavement@lcnl.org" class="fw-semibold text-brand">bereavement@lcnl.org</a>
+          to be added.
+        </p>
+      </div>
     </div>
 
-    <!-- Text -->
-    <div style="flex:1; min-width:300px;">
-      <p>
-        The Bereavement Committee is committed to supporting bereaved families with compassion and sensitivity, 
-        ensuring that all requirements are met according to the family’s wishes. We are available to provide 
-        guidance during the time of mourning and to help with arrangements, from the Prathna to the Funeral. 
-        A dedicated team is available to perform the Prathna, and for families who wish to hold Bhajans, 
-        we also have a volunteer team who provide this service free of charge.
-      </p>
-
-      <p>
-        We currently have over <strong>3,250 registered recipients</strong> for bereavement emails. 
-        Between <strong>1 August and 31 October 2022</strong>, more than <strong>539,000 emails</strong> were sent — 
-        averaging around <strong>11 emails per week</strong>. This is a free LCNL service and is open to everyone, 
-        including non-Lohanas.
-      </p>
-
-      <p>
-        A large number of recipients have yet to re-register under GDPR rules. 
-        To register (no limit on how many family members can do so), please email: 
-        <a href="mailto:bereavement@lcnl.org">bereavement@lcnl.org</a>
-      </p>
-
-      <p>
-        I would like to thank the entire Bereavement Team for their tireless efforts. 
-        Feedback from the community has been overwhelmingly positive, and I also thank the President 
-        and EC Committee members for their continued support.
-      </p>
+    <!-- Shiva Image -->
+    <div class="col-lg-4 order-1 order-lg-2">
+      <div class="lcnl-card text-center">
+        <img
+          src="<?= base_url('assets/img/shiva.png') ?>"
+          alt="Shiva"
+          class="img-fluid d-block mx-auto"
+          style="max-width: 280px;"
+        >
+      </div>
     </div>
   </div>
 
   <!-- Contacts -->
-  <h5 class="mt-2 mb-3">Contacts</h5>
+  <h3 class="fw-bold mt-3 mb-3"><i class="bi bi-telephone-outbound-fill me-2 text-brand"></i>Contacts</h3>
   <div class="row g-4">
     <div class="col-md-6">
-      <div class="card-bereavement h-100">
-        <h6 class="card-title mb-2">Vinu Kotecha</h6>
-        <p class="mb-1"><strong>Chairman – Bereavement Committee</strong></p>
-        <p class="mb-1">
-          Email: <a href="mailto:vinodk52@aol.com">vinodk52@aol.com</a><br>
-          Tel: +44 7956 847764
-        </p>
+      <div class="lcnl-card h-100">
+        <h6 class="mb-1">Vinu Kotecha</h6>
+        <p class="mb-2 text-muted"><strong>Chairman – Bereavement Committee</strong></p>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-1">
+            <i class="bi bi-envelope-fill me-2 text-brand"></i>
+            <a href="mailto:vinodk52@aol.com" class="text-brand fw-semibold">vinodk52@aol.com</a>
+          </li>
+          <li class="mb-0">
+            <i class="bi bi-telephone-fill me-2 text-brand"></i>
+            <a href="tel:+447956847764" class="text-reset">+44 7956 847764</a>
+          </li>
+        </ul>
       </div>
     </div>
 
     <div class="col-md-6">
-      <div class="card-bereavement h-100">
-        <h6 class="card-title mb-2">Rajubhai Sawjani</h6>
-        <p class="mb-1"><strong>Bereavement Committee</strong></p>
-        <p class="mb-1">
-          Email: <a href="mailto:rtsawjani@btinternet.com">rtsawjani@btinternet.com</a><br>
-          Tel: +44 7941 355358
-        </p>
+      <div class="lcnl-card h-100">
+        <h6 class="mb-1">Rajubhai Sawjani</h6>
+        <p class="mb-2 text-muted"><strong>Bereavement Committee</strong></p>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-1">
+            <i class="bi bi-envelope-fill me-2 text-brand"></i>
+            <a href="mailto:rtsawjani@btinternet.com" class="text-brand fw-semibold">rtsawjani@btinternet.com</a>
+          </li>
+          <li class="mb-0">
+            <i class="bi bi-telephone-fill me-2 text-brand"></i>
+            <a href="tel:+447941355358" class="text-reset">+44 7941 355358</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- FAQ Section (dynamic from DB) -->
-  <div class="faq mt-3">
-    <h3 class="mb-4">Frequently Asked Questions</h3>
-    <?= view('faqs/_accordion', ['faqs' => $faqs]) ?>
+  <!-- FAQs -->
+  <div class="mt-4">
+    <h3 class="fw-bold mb-3"><i class="bi bi-question-circle-fill me-2 text-brand"></i>Frequently Asked Questions</h3>
+    <div class="lcnl-card">
+      <?= view('faqs/_accordion', ['faqs' => $faqs ?? []]) ?>
+    </div>
   </div>
 </div>
 

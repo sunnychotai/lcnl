@@ -1,15 +1,13 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
+
 <!-- Hero Banner -->
-<div class="hero hero-rangoli-red d-flex align-items-center justify-content-center">
-  
-  <div class="container position-relative text-center">
-    <h1 class="text-white fw-bold">Gallery</h1>
-    <h5></h5>
+<section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
+  <div class="container position-relative text-center text-white py-3">
+    <h1 class="fw-bold display-6 mb-2">Gallery</h1>
+    <p class="lead fs-5 mb-0">Moments from our Community</p>
   </div>
-</div>
-<div class="container py-5">
-  <h2>Gallery</h2>
-  <p>Photos and videos will be showcased here.</p>
-</div>
+</section>
+
+
 <?= $this->endSection() ?>
