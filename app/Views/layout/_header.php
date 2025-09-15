@@ -1,4 +1,5 @@
 <header class="lcnl-header bg-white py-2 border-bottom">
+<?php //print_r(session()->get()); ?></pre>
   <div class="container">
     <div class="row align-items-center g-3">
 
@@ -35,7 +36,7 @@
             <span class="vr d-none d-lg-inline-block"></span>
 
             <!-- Member auth buttons -->
-           <?php if (session()->get('member_id')): ?>
+           <?php if (session()->get('isMemberLoggedIn')): ?>
   <a href="<?= route_to('account.dashboard') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
     <i class="bi bi-speedometer2 me-1"></i> Dashboard
   </a>

