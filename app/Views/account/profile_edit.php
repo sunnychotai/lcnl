@@ -41,6 +41,40 @@
       </div>
     </div>
   </div>
+
+
+<hr class="my-5">
+
+<h3 class="fw-bold mb-3"><i class="bi bi-people-fill me-2 text-brand"></i>My Household</h3>
+
+<?php if ($family && !empty($household)): ?>
+  <div class="lcnl-card shadow-sm border-0 mb-3">
+    <div class="card-body">
+      <h5 class="fw-bold mb-3"><?= esc($family['household_name'] ?? 'Your Household') ?></h5>
+      <ul class="list-group list-group-flush">
+        <?php foreach ($household as $fm): ?>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <?= esc(($fm['first_name'] ?? '').' '.($fm['last_name'] ?? '')) ?>
+              <small class="text-muted">(<?= ucfirst($fm['role']) ?>)</small>
+            </span>
+            <span class="badge bg-<?= $fm['status']==='active'?'success':($fm['status']==='pending'?'warning text-dark':'secondary') ?>">
+              <?= ucfirst($fm['status']) ?>
+            </span>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+      <a href="<?= route_to('account.household') ?>" class="btn btn-sm btn-brand mt-3">
+        <i class="bi bi-pencil-square me-1"></i> Manage Household
+      </a>
+    </div>
+  </div>
+<?php else: ?>
+  <p class="text-muted">No household set up yet.</p>
+  <a href="<?= route_to('account.household') ?>" class="btn btn-sm btn-outline-brand">
+    <i class="bi bi-house-add me-1"></i> Create Household
+  </a>
+<?php endif; ?>
 </div>
 
 <?= $this->endSection() ?>

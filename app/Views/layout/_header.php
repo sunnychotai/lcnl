@@ -36,7 +36,7 @@
 
             <!-- Member auth buttons -->
            <?php if (session()->get('member_id')): ?>
-  <a href="<?= url_to('account.dashboard') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
+  <a href="<?= route_to('account.dashboard') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
     <i class="bi bi-speedometer2 me-1"></i> Dashboard
   </a>
   <a href="<?= base_url('member/logout') ?>" class="btn btn-sm btn-link-brand">
@@ -46,7 +46,7 @@
   <a href="<?= base_url('member/login') ?>" class="btn btn-sm btn-brand rounded-pill">
     <i class="bi bi-box-arrow-in-right me-1"></i> Login
   </a>
-  <a href="<?= base_url('member/register') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
+  <a href="<?= base_url('membership/register') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
     <i class="bi bi-person-plus me-1"></i> Register
   </a>
 <?php endif; ?>

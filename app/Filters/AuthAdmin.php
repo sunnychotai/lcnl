@@ -10,13 +10,25 @@ class AuthAdmin implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Adjust to your admin session key
-        if (! session()->get('user_id')) {
-            return redirect()->to('/auth/login')->with('error', 'Please login as admin.');
+        $session = session();
+
+        if (! $session->get('isAdminLoggedIn')) {
+            return redirect()->to('/auth/login')
+                ->with('error', 'Please login as an administrator.');
+        }
+
+        // Optionally enforce roles
+        if ($arguments) {
+            $role = $session->get('admin_role');
+            if (! in_array($role, $arguments)) {
+                return redirect()->to('/admin/dashboard')
+                    ->with('error', 'Access denied.');
+            }
         }
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
+        // nothing
     }
 }

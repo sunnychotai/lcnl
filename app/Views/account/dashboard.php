@@ -25,7 +25,7 @@
       <div class="row g-3">
         <?php foreach ($tasks['todo'] as $t): ?>
           <div class="col-md-6">
-            <div class="card shadow-sm border-0 rounded-4 h-100">
+            <div class="lcnl-card shadow-sm border-0 rounded-4 h-100">
               <div class="card-body d-flex align-items-start gap-3">
                 <i class="bi <?= esc($t['icon']) ?> fs-2 text-accent"></i>
                 <div class="flex-grow-1">
@@ -69,7 +69,7 @@
   <!-- Quick links -->
   <div class="row g-3">
     <div class="col-md-6">
-      <div class="card shadow-sm border-0">
+      <div class="lcnl-card shadow-sm border-0">
         <a href="<?= route_to('account.household') ?>" class="stretched-link text-decoration-none text-dark">
           <div class="card-body d-flex align-items-center">
             <i class="bi bi-people-fill text-brand fs-3 me-3"></i>
@@ -83,7 +83,7 @@
     </div>
 
     <div class="col-md-6">
-      <div class="card shadow-sm border-0">
+      <div class="lcnl-card shadow-sm border-0">
         <a href="<?= route_to('account.profile.edit') ?>" class="stretched-link text-decoration-none text-dark">
           <div class="card-body d-flex align-items-center">
             <i class="bi bi-person-lines-fill text-brand fs-3 me-3"></i>

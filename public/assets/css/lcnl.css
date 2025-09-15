@@ -164,7 +164,9 @@
 .colourful-card h4 i.bi-ticket-perforated{ color:#198754; border-left:6px solid #198754; padding-left:.5rem; }
 .colourful-card h4 i.bi-telephone-inbound{ color:#0d6efd; border-left:6px solid #0d6efd; padding-left:.5rem; }
 
-
+.lcnl-card {
+  position:relative;
+}
 /* LCNL Reading Box — replaces colourful variant */
 .lcnl-card{
   background:#fff;                          /* no gradient */

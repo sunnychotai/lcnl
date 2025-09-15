@@ -28,7 +28,7 @@
     <!-- No household yet: create -->
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <div class="form-card">
+        <div class="lcnl-card">
           <h3 class="fw-bold mb-3"><i class="bi bi-person-lines-fill me-2"></i>Create Your Household</h3>
           <form method="post" action="<?= route_to('account.household.create') ?>">
             <?= csrf_field() ?>
@@ -70,7 +70,7 @@
     <div class="row g-4">
 
       <div class="col-lg-7">
-        <div class="card shadow-sm border-0 rounded-4 h-100">
+        <div class="lcnl-card h-100">
           <div class="card-body p-4">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div>
@@ -134,7 +134,7 @@
 
       <div class="col-lg-5">
         <!-- Add Dependent -->
-        <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="lcnl-card mb-4">
           <div class="card-body p-4">
             <h5 class="fw-bold mb-3"><i class="bi bi-person-plus-fill me-2 text-brand"></i>Add Dependent</h5>
             <form method="post" action="<?= route_to('account.household.addDependent') ?>">
@@ -170,7 +170,7 @@
         </div>
 
         <!-- Link Existing by Email -->
-        <div class="card shadow-sm border-0 rounded-4">
+        <div class="lcnl-card rounded-4">
           <div class="card-body p-4">
             <h5 class="fw-bold mb-3"><i class="bi bi-link-45deg me-2 text-brand"></i>Link Existing Member</h5>
             <form method="post" action="<?= route_to('account.household.linkExisting') ?>">

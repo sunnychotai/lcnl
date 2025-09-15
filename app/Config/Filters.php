@@ -29,7 +29,7 @@ class Filters extends BaseFilters
         'toolbar'       => DebugToolbar::class,
         'honeypot'      => Honeypot::class,
         // ADMIN auth (map your existing 'auth' to Admin filter)
-        'auth'       => \App\Filters\AuthAdmin::class,
+        
         'authAdmin'  => \App\Filters\AuthAdmin::class,
 
         // MEMBER auth

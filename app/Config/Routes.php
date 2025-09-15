@@ -61,13 +61,15 @@ $routes->get('member/login',  'MemberAuth::login');
 $routes->post('member/attempt','MemberAuth::attempt');
 $routes->get('member/logout', 'MemberAuth::logout');
 
+// Account shortcut → dashboard
+$routes->get('account', 'Account\DashboardController::index', ['as'=>'account.root']);
+
 // ACCOUNT: Member dashboard & profile (requires MEMBER login)
 $routes->group('account', [
     'namespace' => 'App\Controllers\Account',
     'filter'    => 'authMember'
 ], static function ($routes) {
     $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
-
     // Simple profile edit (mobile, postcode, consent)
     $routes->get('profile',  'ProfileController::edit',   ['as' => 'account.profile.edit']);
     $routes->post('profile', 'ProfileController::update', ['as' => 'account.profile.update']);
@@ -76,7 +78,7 @@ $routes->group('account', [
 
 
 // ACCOUNT area uses member guard (NOT admin guard)
-$routes->group('account/household', [
+    $routes->group('account/household', [
     'namespace' => 'App\Controllers\Account',
     'filter'    => 'authMember'
 ], static function ($routes) {
@@ -89,13 +91,13 @@ $routes->group('account/household', [
 /* ---------------------------------------------------------
    🔒 Admin Area (single group)
 ----------------------------------------------------------*/
-$routes->group('admin', ['filter' => 'auth'], function($routes) {
+$routes->group('admin', ['filter' => 'authAdmin'], function($routes) {
 
     // Dashboard
-    $routes->get('dashboard', 'Admin::dashboard');
+        $routes->get('dashboard', 'Admin::dashboard');
 
     // Committee CRUD
-    $routes->group('committee', function($routes) {
+        $routes->group('committee', function($routes) {
         $routes->get('', 'Admin\CommitteeController::index');
         $routes->get('create', 'Admin\CommitteeController::create');
         $routes->post('store', 'Admin\CommitteeController::store');
@@ -106,7 +108,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     });
 
     // Events CRUD
-    $routes->group('events', function($routes) {
+        $routes->group('events', function($routes) {
         $routes->get('', 'Admin\Events::index');
         $routes->get('create', 'Admin\Events::create');
         $routes->post('store', 'Admin\Events::store');
@@ -117,7 +119,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     });
 
     // FAQs CRUD (ADMIN + WEBSITE only if you adjust filter)
-    $routes->group('faqs', function($routes) {
+        $routes->group('faqs', function($routes) {
         $routes->get('', 'Admin\FaqAdmin::index');
         $routes->get('create', 'Admin\FaqAdmin::create');
         $routes->post('store', 'Admin\FaqAdmin::store');
@@ -128,7 +130,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     });
 
     // Users CRUD (ADMIN only)
-    $routes->group('users', ['filter' => 'auth:ADMIN'], function($routes) {
+        $routes->group('users', ['filter' => 'authAdmin'], function($routes) {
         $routes->get('', 'Admin\Users::index');
         $routes->get('create', 'Admin\Users::create');
         $routes->post('store', 'Admin\Users::store');
@@ -138,7 +140,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     });
 
     // Members Admin
-    $routes->group('members', function($routes) {
+        $routes->group('members', function($routes) {
         $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
         $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.members.show']); // optional
         $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.members.activate']);
@@ -147,7 +149,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     });
 
     // Families admin (merge stub)
-    $routes->group('families', function($routes) {
+        $routes->group('families', function($routes) {
         $routes->post('merge', 'Admin\FamiliesController::merge', ['as' => 'admin.families.merge']);
     });
 });

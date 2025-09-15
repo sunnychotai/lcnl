@@ -53,7 +53,7 @@ class MemberAuth extends BaseController
             'member_id'    => (int) $member['id'],
             'member_email' => $member['email'],
             'member_name'  => trim(($member['first_name'] ?? '').' '.($member['last_name'] ?? '')),
-            'is_member'    => true,
+            'isMemberLoggedIn'    => true,
         ]);
 
         // Update last_login safely via Query Builder (avoids timestamp quirks)
@@ -62,13 +62,14 @@ class MemberAuth extends BaseController
            ->where('id', (int) $member['id'])
            ->update(['last_login' => date('Y-m-d H:i:s')]);
 
-return redirect()->to(url_to('account.dashboard'))->with('message', 'Welcome back!');
+return redirect()->to(route_to('account.dashboard'))->with('message', 'Welcome back!');
     }
 
     public function logout()
-    {
-        session()->remove(['member_id','member_email','member_name','is_member']);
-        session()->regenerate(true);
-        return redirect()->to('/member/login')->with('message', 'You are logged out.');
-    }
+{
+    session()->remove(['member_id','member_email','member_name','isMemberLoggedIn']);
+    session()->regenerate(true);
+    return redirect()->to('/member/login')->with('message', 'You are logged out.');
+}
+
 }

@@ -4,6 +4,8 @@ namespace App\Controllers\Account;
 
 use App\Controllers\BaseController;
 use App\Models\MemberModel;
+use App\Models\FamilyModel;
+use App\Models\FamilyMemberModel;
 
 class ProfileController extends BaseController
 {
@@ -14,7 +16,26 @@ class ProfileController extends BaseController
 
         $m = (new MemberModel())->find($memberId);
 
-        return view('account/profile_edit', ['m' => $m]);
+        // --- Household summary (MEM-PROF-02) ---
+        $familyModel       = new FamilyModel();
+        $familyMemberModel = new FamilyMemberModel();
+
+        $family    = $familyModel->where('lead_member_id', $memberId)->first();
+        $household = [];
+
+        if ($family) {
+            $household = $familyMemberModel
+                ->select('family_members.*, m.first_name, m.last_name, m.email, m.mobile, m.status')
+                ->join('members m', 'm.id = family_members.member_id')
+                ->where('family_members.family_id', $family['id'])
+                ->findAll();
+        }
+
+        return view('account/profile_edit', [
+            'm'         => $m,
+            'family'    => $family,
+            'household' => $household,
+        ]);
     }
 
     public function update()

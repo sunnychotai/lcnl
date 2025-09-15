@@ -6,8 +6,7 @@ class Admin extends BaseController
 {
     public function dashboard()
     {
-        // protect route
-        if (! session()->get('isLoggedIn')) {
+        if (! session()->get('isAdminLoggedIn') || session()->get('user_role') !== 'ADMIN') {
             return redirect()->to('/auth/login');
         }
 
