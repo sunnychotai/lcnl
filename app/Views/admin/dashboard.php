@@ -76,36 +76,24 @@
   </div>
   <?php endif; ?>
 
-<?php if (in_array($role, ['ADMIN', 'MEMBERSHIP'])): ?>
-  <div class="card shadow-sm border-0">
-  <a href="<?= route_to('admin.members.index') ?>" class="stretched-link text-decoration-none text-dark">
-    <div class="card-body d-flex align-items-center">
-      <i class="bi bi-person-badge-fill text-brand fs-3 me-3"></i>
-      <div>
-        <h5 class="card-title mb-1">Membership Admin</h5>
-        <p class="card-text text-muted small">Review pending registrations & activate members.</p>
-      </div>
-    </div>
-  </a>
-</div>
-
-<div class="col-md-6 col-lg-4">
-  <div class="card shadow-sm border-0">
-    <a href="<?= base_url('admin/members?status=pending') ?>" class="stretched-link text-decoration-none text-dark">
-      <div class="card-body d-flex align-items-center">
-        <i class="bi bi-people-fill text-primary fs-3 me-3"></i>
-        <div>
-          <h5 class="card-title mb-1">Members</h5>
-          <p class="card-text text-muted small mb-0">Review & activate new registrations.</p>
+ <!-- ADMIN or MEMBERSHIP -->
+  <?php if (in_array($role, ['ADMIN', 'MEMBERSHIP'])): ?>
+  <div class="col-md-3">
+    <a href="<?= route_to('admin.members.index') ?>" class="text-decoration-none">
+      <div class="card shadow-sm h-100 text-center border-0 hover-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>
+          <h5 class="card-title text-dark mb-1">Membership Admin</h5>
+          <p class="text-muted small">Review pending registrations &amp; activate members</p>
         </div>
       </div>
     </a>
   </div>
-</div>
-
-  <?php endif; ?>
+    <?php endif; ?>
 
 </div>
+
+
  
 </div>
 
