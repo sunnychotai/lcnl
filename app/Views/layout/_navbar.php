@@ -57,7 +57,7 @@
   </div>
 </nav>
 
-<?php if (session()->get('isLoggedIn') && session()->get('user_role') === 'ADMIN'): ?>
+<?php if (session()->get('isAdminLoggedIn') && session()->get('admin_role') === 'ADMIN'): ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-darkblue py-2 shadow-sm">
     <div class="container-fluid">
       <!-- Admin nav toggler -->
@@ -98,6 +98,11 @@
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url('admin/faqs') ?>">
               <i class="bi bi-question-circle-fill me-1"></i> FAQs
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('admin/users') ?>">
+              <i class="bi bi-people-fill me-1"></i> Users
             </a>
           </li>
           <li class="nav-item">

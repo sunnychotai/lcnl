@@ -8,55 +8,77 @@
       <i class="bi bi-people-fill me-2"></i> LCNL Membership
     </h1>
     <p class="lead fs-5 mb-0">
-      Join the Lohana Community of North London and be part of something bigger
+      Join the Lohana Community of North London and be part of something bigger<pre><?php print_r(session()->get()); ?></pre>
     </p>
   </div>
 </section>
 
 <div class="container py-5">
 
-  <!-- Membership Options -->
-  <div class="row g-4 justify-content-center mb-5">
+<!-- Membership Options -->
+<div class="row g-4 justify-content-center mb-5">
 
-    <!-- New Registration -->
+  <?php if (! session()->get('isMemberLoggedIn')): ?>
+    <!-- New Registration (only if not logged in) -->
     <div class="col-md-6 col-lg-5">
       <div class="card h-100 shadow-lg border-0 rounded-4">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="bi bi-person-plus-fill text-success" style="font-size:3rem;"></i>
           </div>
-          <h3 class="fw-bold mb-3">Register Now!</h3>
+          <h3 class="fw-bold mb-3">Register Now</h3>
           <p class="text-muted mb-4">
-            Create your LCNL membership in minutes. Enter your details, confirm your email, 
-            and start enjoying the benefits of being part of our community.
+            Join LCNL in minutes. Enter your details, confirm your email, 
+            and start enjoying member benefits.
           </p>
           <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
-            <i class="bi bi-pencil-square me-2"></i> Register Now
+            <i class="bi bi-pencil-square me-2"></i> Register
           </a>
         </div>
       </div>
     </div>
+  <?php endif; ?>
 
-    <!-- Existing Member Login -->
-    <div class="col-md-6 col-lg-5">
-      <div class="card h-100 shadow-lg border-0 rounded-4">
-        <div class="card-body text-center p-4">
+  <!-- Member Access -->
+  <div class="col-md-6 col-lg-5">
+    <div class="card h-100 shadow-lg border-0 rounded-4">
+      <div class="card-body text-center p-4">
+
+        <?php if (session()->get('isMemberLoggedIn')): ?>
+          <!-- Logged-in: Show Dashboard card -->
+          <div class="mb-3">
+            <i class="bi bi-speedometer2 text-success" style="font-size:3rem;"></i>
+          </div>
+          <h3 class="fw-bold mb-3">Member Dashboard</h3>
+          <p class="text-muted mb-4">
+            Welcome back <?= esc(session()->get('member_name')) ?>!  
+            Access your dashboard to update details, manage your household, and explore member content.
+          </p>
+          <a href="<?= base_url('account/dashboard') ?>" class="btn btn-success btn-lg rounded-pill px-4">
+            <i class="bi bi-house-door-fill me-2"></i> Go to Dashboard
+          </a>
+
+        <?php else: ?>
+          <!-- Not logged in: Show Login card -->
           <div class="mb-3">
             <i class="bi bi-box-arrow-in-right text-primary" style="font-size:3rem;"></i>
           </div>
           <h3 class="fw-bold mb-3">Member Login</h3>
           <p class="text-muted mb-4">
             Already a member? Log in to update your details, link family members, 
-            and access exclusive LCNL content and event information.
+            and access exclusive LCNL events and content.
           </p>
           <a href="<?= base_url('member/login') ?>" class="btn btn-primary btn-lg rounded-pill px-4">
             <i class="bi bi-key-fill me-2"></i> Login
           </a>
-        </div>
+        <?php endif; ?>
+
       </div>
     </div>
-
   </div>
+
+</div>
+
 
   <!-- Life Membership Benefits -->
   <div class="mb-5">

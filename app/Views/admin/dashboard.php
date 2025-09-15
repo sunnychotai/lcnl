@@ -11,7 +11,7 @@
 
 <div class="container py-5">
  
-<?php $role = session()->get('user_role'); ?>
+<?php $role = session()->get('admin_role'); ?>
 
 <div class="row g-4">
 

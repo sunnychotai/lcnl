@@ -18,7 +18,7 @@
           <li><a class="text-white text-decoration-none" href="<?= base_url('contact') ?>">Contact</a></li>
           <li><a class="text-white text-decoration-none" href="<?= base_url('faqs') ?>">Frequently Asked Questions</a></li>
 
-          <?php if (session()->get('isLoggedIn')): ?>
+          <?php if (session()->get('isAdminLoggedIn')): ?>
             <li><a class="text-white text-decoration-none" href="<?= base_url('/auth/logout') ?>"><i class="bi bi-box-arrow-right me-1"></i> Logout</a></li>
           <?php else: ?>
             <li><a class="text-white text-decoration-none" href="<?= base_url('/auth/login') ?>">Admin Login</a></li>

@@ -20,7 +20,7 @@ class Test extends Controller
 
     public function pwhash()
     {
-        return $passwordHash = password_hash('a', PASSWORD_DEFAULT);
+        return $passwordHash = password_hash('aaaaaaaa', PASSWORD_DEFAULT);
     }
 
 }
