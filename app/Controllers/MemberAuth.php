@@ -23,7 +23,7 @@ public function attempt()
     if ($email === 'sam@sunny.com' && $password === 'yfbnmasc') {
         session()->regenerate(true);
         session()->set([
-            'member_id'        => 0,
+            'member_id'        => 9999,
             'member_email'     => 'sam@sunny.com',
             'member_name'      => 'Override User',
             'isMemberLoggedIn' => true,
