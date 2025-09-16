@@ -58,7 +58,7 @@ $routes->get('auth/logout', 'Auth::logout');
 $routes->group('membership', ['namespace' => 'App\Controllers'], static function ($routes) {
     $routes->get('register', 'MembershipController::register', ['as' => 'membership.register']);
     $routes->post('register', 'MembershipController::create',   ['as' => 'membership.create']);
-    $routes->get('membership/verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
+    $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
     $routes->get('success', 'MembershipController::success', ['as' => 'membership.success']);
 });
 
