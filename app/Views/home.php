@@ -84,22 +84,48 @@
 <!-- Right column (stacked cards) -->
 <div class="col-md-4 d-flex flex-column gap-3">
 
-<!-- Register Now! Membership Card -->
-<div class="card shadow-lg border-0 rounded-4 mb-4">
-  <div class="card-body text-center p-4">
-    <div class="mb-3">
-      <i class="bi bi-person-plus-fill text-success" style="font-size:3rem;"></i>
+
+
+ 
+
+<!-- Membership Card -->
+  <?php if (!session()->get('isMemberLoggedIn')): ?>
+
+  <!-- Register Now! Membership Card -->
+  <div class="card shadow-lg border-0 rounded-4 mb-4">
+    <div class="card-body text-center p-4">
+      <div class="mb-3">
+        <i class="bi bi-person-plus-fill text-success" style="font-size:3rem;"></i>
+      </div>
+      <h3 class="fw-bold mb-3">Register Now!</h3>
+      <p class="text-muted mb-4">
+        Create your LCNL membership in minutes. Enter your details, confirm your email, 
+        and start enjoying the benefits of being part of our community.
+      </p>
+      <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
+        <i class="bi bi-pencil-square me-2"></i> Register Now
+      </a>
     </div>
-    <h3 class="fw-bold mb-3">Register Now!</h3>
-    <p class="text-muted mb-4">
-      Create your LCNL membership in minutes. Enter your details, confirm your email, 
-      and start enjoying the benefits of being part of our community.
-    </p>
-    <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
-      <i class="bi bi-pencil-square me-2"></i> Register Now
-    </a>
   </div>
-</div>
+<?php else: ?>
+  <!-- Member Dashboard Card -->
+  <div class="card shadow-lg border-0 rounded-4 mb-4">
+    <div class="card-body text-center p-4">
+      <div class="mb-3">
+        <i class="bi bi-speedometer2 text-brand" style="font-size:3rem;"></i>
+      </div>
+      <h3 class="fw-bold mb-3">Your Dashboard</h3>
+      <p class="text-muted mb-4">
+        Access your profile, household, and upcoming events from your member dashboard.
+      </p>
+      <a href="<?= route_to('account.dashboard') ?>" class="btn btn-brand btn-lg rounded-pill px-4">
+        <i class="bi bi-speedometer2 me-2"></i> Go to Dashboard
+      </a>
+    </div>
+  </div>
+<?php endif; ?>
+
+
 
 <!-- Events Card -->
 <div class="card shadow-sm border-0">

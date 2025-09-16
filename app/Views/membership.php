@@ -41,18 +41,18 @@
 
   <!-- Member Access -->
   <div class="col-md-6 col-lg-5">
-    <div class="card h-100 shadow-lg border-0 rounded-4">
+    <div class="lcnl-card h-100 shadow-lg border-0 rounded-4">
       <div class="card-body text-center p-4">
 
         <?php if (session()->get('isMemberLoggedIn')): ?>
           <!-- Logged-in: Show Dashboard card -->
-          <div class="mb-3">
+          <div class="mb-2">
             <i class="bi bi-speedometer2 text-success" style="font-size:3rem;"></i>
           </div>
-          <h3 class="fw-bold mb-3">Member Dashboard</h3>
+          <h3 class="fw-bold mb-2">Member Dashboard</h3>
           <p class="text-muted mb-4">
             Welcome back <?= esc(session()->get('member_name')) ?>!  
-            Access your dashboard to update details, manage your household, and explore member content.
+            
           </p>
           <a href="<?= base_url('account/dashboard') ?>" class="btn btn-success btn-lg rounded-pill px-4">
             <i class="bi bi-house-door-fill me-2"></i> Go to Dashboard
