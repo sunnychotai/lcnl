@@ -47,7 +47,7 @@ class ContactController extends BaseController
         // Queue the email
         $queue = new EmailQueueModel();
         $queue->enqueue([
-    'to_email'  => 'info@lcnl.org',
+    'to_email'  => 'sunny@aricer.com',
     'to_name'   => 'LCNL Admin',
     'subject'   => 'LCNL Website Contact Form',
     'body_html' => $bodyHtml,
