@@ -31,16 +31,27 @@ class Test extends Controller
     {
         $queue = new EmailQueueModel();
 
+        $subject  = 'LCNL Styled Test Email';
+        $bodyHtml = view('emails/test_email', [
+            'name'    => 'Sunny',
+            'subject' => $subject,
+            'ctaLink' => base_url('events'),
+            'email' => 's@s.com',
+            'subject' => $subject,
+            'message' => 'This is a test email - message'
+        ]);
+        $bodyText = "Hello Sunny,\n\nThis is the plain text version of the test email.\nVisit: " . base_url('events');
+
         $id = $queue->enqueue([
             'to_email'  => 'test@example.com',
-            'to_name'   => 'Test User',
-            'subject'   => 'Test LCNL Email',
-            'body_html' => '<p>This is a <b>test</b> email.</p>',
-            'body_text' => "This is a test email.",
+            'to_name'   => 'Sunny',
+            'subject'   => $subject,
+            'body_html' => $bodyHtml,
+            'body_text' => $bodyText,
             'priority'  => 1,
         ]);
 
-        return "Inserted email queue row ID: " . $id;
+        return "Inserted test email queue row ID: " . $id;
     }
 
 }
