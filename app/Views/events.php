@@ -17,9 +17,8 @@
       <div class="d-flex overflow-auto gap-3 pb-2">
         <?php foreach ($events as $event): ?>
           <a href="<?= base_url('events/'.$event['id']) ?>" 
-             class="text-decoration-none flex-shrink-0" 
-             style="width: 280px;">
-            <div class="card shadow-sm border-0 h-100 event-card">
+             class="text-decoration-none flex-shrink-0 event-card-link">
+            <div class="card shadow-sm border-0 event-card">
               <?php if (!empty($event['image'])): ?>
                 <?php
   // Work out image path

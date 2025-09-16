@@ -2,40 +2,37 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>LCNL Contact Us Enquiry</title>
+  <title><?= esc($subject ?? 'LCNL Test Email') ?></title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f6f6f6; margin: 0; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; }
+    .header { background: #7a1d3c; color: #fff; padding: 20px; text-align: center; }
+    .header img { max-height: 60px; margin-bottom: 10px; }
+    .content { padding: 20px; color: #333; }
+    .footer { background: #f0f0f0; color: #666; font-size: 12px; padding: 15px; text-align: center; }
+  </style>
 </head>
-<body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f9f9f9; color:#333;">
-  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-      <td align="center" style="padding:20px 0;">
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="border:1px solid #e0e0e0; border-radius:8px; background:#ffffff; overflow:hidden;">
-          <tr>
-            <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
-              <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">LCNL - Contact Us Form Submission</h1>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:30px;">
-              <p style="font-size:16px; margin:0 0 20px 0;"><em>This message was sent to LCNL from the LCNL website (Contact Us) page</em></p>
-
-              <p style="font-size:16px; margin:0 0 20px 0;">
-                <p><strong>Name:</strong> <?= esc($name) ?></p>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="<?= base_url('assets/img/lcnl-placeholder-320.png') ?>" alt="LCNL Logo">
+      <h1>LCNL - Message from LCNL Website</h1>
+    </div>
+    <div class="content">
+      <p>Hello <?= esc($name ?? 'Friend') ?>,</p>
+      <p><strong>Name:</strong> <?= esc($name) ?></p>
 <p><strong>Email:</strong> <?= esc($email) ?></p>
 <p><strong>Subject:</strong> <?= esc($subject) ?></p>
 <hr>
 <p><?= $message ?></p>
-              </p>
-
-            </td>
-          </tr>
-          <tr>
-            <td style="background-color:#f0f0f0; padding:15px; text-align:center; font-size:12px; color:#666;">
-              &copy; <?= date('Y') ?> Lohana Community North London. All rights reserved.
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+   
+    </div>
+    <div class="footer">
+      &copy; <?= date('Y') ?> Lohana Community of North London. All rights reserved.
+    </div>
+  </div>
 </body>
 </html>
+
+
+

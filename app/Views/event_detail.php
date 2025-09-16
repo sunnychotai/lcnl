@@ -58,43 +58,46 @@
 ?>
 
 
-  <!-- Row 1: Image + Description -->
-  <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
-    <div class="card-body">
-      <div class="row g-4 align-items-start">
-        <!-- Image -->
-        <div class="col-md-auto">
-          <a href="#" class="d-inline-block" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>" title="Click to enlarge">
-            <div class="event-img-wrapper" style="width:250px; max-width:100%;">
-              <img
-  src="<?= base_url($img) ?>"
-  class="img-fluid rounded"
-  alt="<?= esc($event['title'] ?? 'Event image') ?>"
->
-            </div>
-          </a>
-        </div>
+<!-- Row 1: Description (left) + Image (right on desktop) -->
+<div class="border-0 lcnl-card mb-4">
+  <div class="card-body">
+    <div class="row g-4 align-items-start">
 
-        <!-- Description -->
-        <div class="col">
-          <h4 class="mb-3">
-            <i class="bi bi-info-circle me-2"></i>About this event
-          </h4>
+      <!-- Description -->
+      <div class="col">
+        <h4 class="mb-3">
+          <i class="bi bi-info-circle me-2"></i>About this event
+        </h4>
 
-          <?php if (!empty($event['description'])): ?>
-            <div class="fs-6">
-              <?= nl2br(esc($event['description'])) ?>
-            </div>
-          <?php else: ?>
-            <p class="text-muted mb-0">More details coming soon.</p>
-          <?php endif; ?>
-        </div>
+        <?php if (!empty($event['description'])): ?>
+          <div class="fs-6">
+            <?= nl2br(esc($event['description'])) ?>
+          </div>
+        <?php else: ?>
+          <p class="text-muted mb-0">More details coming soon.</p>
+        <?php endif; ?>
       </div>
+
+      <!-- Image (right on desktop, below text on mobile) -->
+      <div class="col-md-auto order-md-last">
+        <a href="#" class="d-inline-block" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>" title="Click to enlarge">
+          <div class="event-img-wrapper" style="width:250px; max-width:100%;">
+            <img
+              src="<?= base_url($img) ?>"
+              class="img-fluid rounded"
+              alt="<?= esc($event['title'] ?? 'Event image') ?>"
+            >
+          </div>
+        </a>
+      </div>
+
     </div>
   </div>
+</div>
+
 
   <!-- Row 2: Terms -->
-  <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
+  <div class="border-0 lcnl-card mb-4">
     <div class="card-body">
       <h4 class="mb-3">
         <i class="bi bi-file-earmark-text me-2"></i>Event Terms
@@ -113,7 +116,7 @@
   <!-- Row 3: Tickets + Contact -->
   <div class="row g-4">
     <div class="col-lg-6">
-      <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
+      <div class="border-0 lcnl-card mb-4">
         <div class="card-body">
           <h4 class="mb-3">
             <i class="bi bi-ticket-perforated me-2"></i>Ticket Information
@@ -131,7 +134,7 @@
     </div>
 
     <div class="col-lg-6">
-      <div class="card shadow-sm border-0 no-hover colourful-card mb-4">
+      <div class="border-0 lcnl-card mb-4">
         <div class="card-body">
           <h4 class="mb-3">
             <i class="bi bi-telephone-inbound me-2"></i>Contact Information

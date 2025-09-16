@@ -153,17 +153,11 @@
 }
 .constitution-box:hover{ transform: translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,.1); }
 
-/* Colourful card variant (subtle gradient) */
-.colourful-card{
-  background: linear-gradient(180deg,#fff,var(--muted));
-  border-radius: var(--radius);
-  padding:.5rem;
-}
-.colourful-card h4{ font-weight:700; border-bottom:1px solid rgba(0,0,0,.05); padding-bottom:.5rem; margin-bottom:1rem; }
-.colourful-card h4 i.bi-info-circle{ color:var(--brand); border-left:6px solid var(--brand); padding-left:.5rem; }
-.colourful-card h4 i.bi-file-earmark-text{ color:var(--accent1); border-left:6px solid var(--accent1); padding-left:.5rem; }
-.colourful-card h4 i.bi-ticket-perforated{ color:#198754; border-left:6px solid #198754; padding-left:.5rem; }
-.colourful-card h4 i.bi-telephone-inbound{ color:#0d6efd; border-left:6px solid #0d6efd; padding-left:.5rem; }
+
+.lcnl-card h4 i.bi-info-circle{ color:var(--brand); border-left:6px solid var(--brand); padding-left:.5rem; }
+.lcnl-card h4 i.bi-file-earmark-text{ color:var(--accent1); border-left:6px solid var(--accent1); padding-left:.5rem; }
+.lcnl-card h4 i.bi-ticket-perforated{ color:#198754; border-left:6px solid #198754; padding-left:.5rem; }
+.lcnl-card h4 i.bi-telephone-inbound{ color:#0d6efd; border-left:6px solid #0d6efd; padding-left:.5rem; }
 
 .lcnl-card {
   position:relative;
@@ -208,13 +202,7 @@
 
 .lcnl-card > :last-child{ margin-bottom:0; }/* trim trailing gap */
 
-/* Neutralise the old colourful icon/border accents on headings */
-.lcnl-card h4 i[class^="bi-"],
-.lcnl-card h4 i[class*=" bi-"]{
-  color:currentColor;         /* inherit text colour */
-  border-left:0;
-  padding-left:0;
-}
+
 
 
 
@@ -402,16 +390,16 @@
 .d-flex.overflow-auto::-webkit-scrollbar-thumb{ background-color:var(--brand); border-radius:10px; }
 
 /* Event cards in upcoming scroller (unified) */
-.event-card-link{ width:280px; flex-shrink:0; }
+.event-card-link{ width:200px; flex-shrink:0; }
 .event-card{
-  height:350px; display:flex; flex-direction:column;
+  height:250px; display:flex; flex-direction:column;
 }
 .event-card .event-img-wrapper{
   flex:1; display:flex; align-items:center; justify-content:center;
   overflow:hidden; border-radius:var(--radius); position:relative;
 }
 .event-card .event-img-wrapper img{
-  width:100%; height:350px; object-fit:contain;
+  width:90%; height:300px; object-fit:contain;
 }
 .event-card .event-overlay{ position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.6); padding:.5rem; text-align:center; }
 
