@@ -25,7 +25,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
       <div class="card shadow-sm border-0 auth-card no-hover">
-        <div class="card-header bg-brand text-white">
+        <div class="card-header bg-accent1 text-white">
           <h4 class="mb-0">
             <i class="bi bi-door-open-fill me-2"></i>Sign in
           </h4>
@@ -81,7 +81,7 @@
               <a class="small text-decoration-none" href="<?= base_url('member/forgot') ?>">Forgot password?</a>
             </div>
 
-            <button class="btn btn-brand btn-lg rounded-pill px-4 w-100" type="submit">
+            <button class="btn btn-accent btn-lg rounded-pill px-4 w-100" type="submit">
               <i class="bi bi-door-open-fill me-2"></i>Login
             </button>
           </form>

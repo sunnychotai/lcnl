@@ -4,6 +4,10 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use Config\Database;
 
+use App\Controllers\BaseController;
+use App\Models\EmailQueueModel;
+
+
 class Test extends Controller
 {
     public function dbcheck()
@@ -21,6 +25,22 @@ class Test extends Controller
     public function pwhash()
     {
         return $passwordHash = password_hash('aaaaaaaa', PASSWORD_DEFAULT);
+    }
+
+    public function email()
+    {
+        $queue = new EmailQueueModel();
+
+        $id = $queue->enqueue([
+            'to_email'  => 'test@example.com',
+            'to_name'   => 'Test User',
+            'subject'   => 'Test LCNL Email',
+            'body_html' => '<p>This is a <b>test</b> email.</p>',
+            'body_text' => "This is a test email.",
+            'priority'  => 1,
+        ]);
+
+        return "Inserted email queue row ID: " . $id;
     }
 
 }

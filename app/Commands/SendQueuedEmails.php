@@ -14,30 +14,25 @@ class SendQueuedEmails extends BaseCommand
 
     public function run(array $params)
     {
-        helper('text');
+        $cfg      = config('EmailQueue');
+        $emailCfg = config('Email');
+        $batch    = (int) (CLI::getOption('batch') ?? $cfg->batchSize);
+        $now      = date('Y-m-d H:i:s');
 
-        $cfg     = config('EmailQueue');
-        $emailCfg= config('Email'); // CI Email config
-        $batch   = (int) (CLI::getOption('batch') ?? $cfg->batchSize);
-        $now     = date('Y-m-d H:i:s');
+        $model    = new EmailQueueModel();
 
-        $model   = new EmailQueueModel();
-
-        // DAILY LIMIT: count sent since midnight
-        $midnight = date('Y-m-d 00:00:00');
-        $sentToday = $model->where('status', 'sent')
-                           ->where('sent_at >=', $midnight)
-                           ->countAllResults();
-
-        $remaining = max(0, $cfg->dailyLimit - $sentToday);
+        $midnight   = date('Y-m-d 00:00:00');
+        $sentToday  = $model->where('status', 'sent')
+                            ->where('sent_at >=', $midnight)
+                            ->countAllResults();
+        $remaining  = max(0, $cfg->dailyLimit - $sentToday);
         if ($remaining <= 0) {
-            CLI::write('Daily limit reached. Exiting.', 'yellow');
+            CLI::write("Daily limit reached. Exiting.", 'yellow');
             return;
         }
 
         $take = min($batch, $remaining);
 
-        // Fetch pending ready-to-send
         $rows = $model->where('status', 'pending')
                       ->groupStart()
                         ->where('scheduled_at', null)
@@ -48,37 +43,43 @@ class SendQueuedEmails extends BaseCommand
                       ->findAll($take);
 
         if (empty($rows)) {
-            CLI::write('No emails to send.', 'green');
+            CLI::write("No emails to send.", 'green');
             return;
         }
 
         $email = \Config\Services::email();
 
-        $sentCount = 0;
+        $processed = 0;
+        $sent = 0;
+        $failed = 0;
+
         foreach ($rows as $row) {
-            // lock row: mark as sending (best effort)
-            $model->update($row['id'], ['status' => 'sending', 'attempts' => (int)$row['attempts'] + 1]);
+            $model->update($row['id'], [
+                'status'   => 'sending',
+                'attempts' => (int) $row['attempts'] + 1
+            ]);
 
             try {
                 if ($cfg->dryRun || ! $cfg->sendEnabled) {
-                    // Pretend-send on DEV: log and mark sent
-                    log_message('info', "[DRY-RUN] Email to {$row['to_email']} | Subject: {$row['subject']}");
                     $model->update($row['id'], [
-                        'status'   => 'sent',
-                        'sent_at'  => date('Y-m-d H:i:s'),
+                        'status'     => 'sent',
+                        'sent_at'    => date('Y-m-d H:i:s'),
                         'last_error' => 'DRY-RUN',
                     ]);
+                    $sent++;
                 } else {
-                    // Real send (PROD)
                     $email->clear(true);
                     $email->setFrom($emailCfg->fromEmail, $emailCfg->fromName);
                     $email->setTo($row['to_email'], $row['to_name'] ?? null);
                     $email->setSubject($row['subject']);
 
-                    if (!empty($row['body_html'])) $email->setMessage($row['body_html']);
-                    if (!empty($row['body_text'])) $email->setAltMessage($row['body_text']);
+                    if (!empty($row['body_html'])) {
+                        $email->setMessage($row['body_html']);
+                    }
+                    if (!empty($row['body_text'])) {
+                        $email->setAltMessage($row['body_text']);
+                    }
 
-                    // Optional extra headers
                     if (!empty($row['headers_json'])) {
                         $headers = json_decode($row['headers_json'], true) ?: [];
                         foreach ($headers as $k => $v) {
@@ -88,31 +89,33 @@ class SendQueuedEmails extends BaseCommand
 
                     if ($email->send()) {
                         $model->update($row['id'], [
-                            'status'  => 'sent',
-                            'sent_at' => date('Y-m-d H:i:s'),
+                            'status'     => 'sent',
+                            'sent_at'    => date('Y-m-d H:i:s'),
                             'last_error' => null,
                         ]);
+                        $sent++;
                     } else {
-                        $err = $email->printDebugger(['headers', 'subject']);
+                        $err = $email->printDebugger(['headers', 'subject', 'body']);
                         $model->update($row['id'], [
                             'status'     => 'failed',
                             'last_error' => substr($err, 0, 65535),
                         ]);
+                        $failed++;
                     }
                 }
 
-                $sentCount++;
-                if ($sentCount >= $take) break;
+                $processed++;
+                if ($processed >= $take) break;
 
             } catch (\Throwable $e) {
                 $model->update($row['id'], [
                     'status'     => 'failed',
                     'last_error' => substr($e->getMessage(), 0, 65535),
                 ]);
-                log_message('error', 'Email queue error: '.$e->getMessage());
+                $failed++;
             }
         }
 
-        CLI::write("Processed {$sentCount} email(s).", 'green');
+        CLI::write("Emails processed: {$processed} | Sent: {$sent} | Failed: {$failed}", 'green');
     }
 }

@@ -15,8 +15,9 @@
 
 /* --- Basics/Utilities --- */
 .bg-brand { background: var(--brand) !important; }
+.bg-accent1 { background: var(--accent1) !important; }
 .text-brand { color: var(--brand) !important; }
-.text-accent { color: var(--accent1) !important; } /* unified */
+.text-accent1 { color: var(--accent1) !important; } /* unified */
 .text-pink { color: #e4405f !important; }          /* Mahila */
 .text-primary { color: #0d6efd !important; }       /* YLS */
 /* NOTE: .text-danger below was being used for Bereavement.
@@ -312,6 +313,25 @@
   padding: var(--btn-py) var(--btn-px); transform:none; box-shadow:none;
 }
 
+.lcnl-header .btn {
+  font-size: 0.85rem;       /* smaller text */
+  padding: 0.25rem 0.6rem;  /* tighter padding */
+  line-height: 1.2;
+}
+
+.lcnl-header .btn i {
+  font-size: 0.95rem;       /* icons slightly smaller */
+}
+
+@media (max-width: 420px) {
+  .lcnl-header .btn {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
+
+
+
 /* =========================
    BUTTONS
    ========================= */
@@ -365,8 +385,8 @@
 }
 
 /* Accent button (gold) */
-.btn-accent{ background:var(--accent1); color:#000; border:none; }
-.btn-accent:hover{ background:#c9a227; color:#000; }
+.btn-accent{ background:var(--accent1); color:#fff; border:none; }
+.btn-accent:hover{ background:#c9a227; color:var(--brand); }
 
 /* =========================
    EVENTS / GALLERY

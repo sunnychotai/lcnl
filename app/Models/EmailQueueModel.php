@@ -1,30 +1,39 @@
 <?php
+
 namespace App\Models;
+
 use CodeIgniter\Model;
-use App\Models\EmailQueueModel;
 
-$queue = new EmailQueueModel();
+class EmailQueueModel extends Model
+{
+    protected $table            = 'email_queue';
+    protected $primaryKey       = 'id';
+    protected $useAutoIncrement = true;
 
-// Build your activation link (token generation not shown here)
-$activationUrl = base_url('membership/verify/'.$token);
+    protected $allowedFields    = [
+        'to_email',
+        'to_name',
+        'subject',
+        'body_html',
+        'body_text',
+        'priority',
+        'status',
+        'scheduled_at',
+        'sent_at',
+    ];
 
-// Simple HTML/text bodies
-$bodyHtml = view('emails/member_activation_html', [
-    'first_name'    => $member['first_name'],
-    'activationUrl' => $activationUrl,
-]);
+    protected $useTimestamps = true;
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
 
-$bodyText = "Hi {$member['first_name']},\n\n".
-            "Please activate your LCNL account:\n{$activationUrl}\n\n".
-            "If you didn’t create this account, ignore this email.\n— LCNL";
+    /**
+     * Enqueue an email (array style).
+     */
+    public function enqueue(array $data): int
+    {
+        $data['status']   = $data['status']   ?? 'pending';
+        $data['priority'] = $data['priority'] ?? 1;
 
-$queue->enqueue([
-    'to_email'  => $member['email'],
-    'to_name'   => trim(($member['first_name'] ?? '').' '.($member['last_name'] ?? '')),
-    'subject'   => 'Activate your LCNL account',
-    'body_html' => $bodyHtml,
-    'body_text' => $bodyText,
-    'priority'  => 2, // higher priority
-    // 'scheduled_at' => date('Y-m-d H:i:s', time()+300), // optional: delay 5 mins
-]);
-
+        return $this->insert($data, true);
+    }
+}

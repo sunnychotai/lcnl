@@ -91,6 +91,21 @@
   </div>
     <?php endif; ?>
 
+    <?php if ($role === 'ADMIN'): ?>
+<div class="col-md-3">
+  <a href="<?= base_url('admin/emails') ?>" class="text-decoration-none">
+    <div class="card shadow-sm h-100 text-center border-0 hover-card">
+      <div class="card-body d-flex flex-column align-items-center justify-content-center">
+        <i class="bi bi-envelope-fill fs-1 text-brand mb-3"></i>
+        <h5 class="card-title text-dark mb-1">Manage Emails</h5>
+        <p class="text-muted small">View, retry, delete queued emails</p>
+      </div>
+    </div>
+  </a>
+</div>
+<?php endif; ?>
+
+
 </div>
 
 

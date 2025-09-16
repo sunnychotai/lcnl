@@ -22,11 +22,16 @@ $routes->get('/membership', 'Home::membership'); // landing page
 $routes->get('/mahila', 'Home::mahila');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/bereavement', 'Home::bereavement');
+// Test routes
 $routes->get('/dbcheck', 'Test::dbcheck');
 $routes->get('/pwhash', 'Test::pwhash');
+$routes->get('/email', 'Test::email');
+
 $routes->get('/aboutus', 'Home::aboutUs');
 $routes->get('/sample', 'Home::sample');
 $routes->get('/privacy', 'Home::privacy');
+$routes->post('contact/send', 'ContactController::send');
+
 
 $routes->get('/committee', 'Home::committee');
 $routes->get('/yls', 'Home::yls');
@@ -97,6 +102,11 @@ $routes->group('admin', ['filter' => 'authAdmin'], function($routes) {
     // Dashboard
         $routes->get('dashboard', 'Admin::dashboard');
 
+    // Email module admin panel
+        $routes->get('emails', 'Admin\Emails::index');
+        $routes->get('emails/view/(:num)', 'Admin\Emails::view/$1');
+        $routes->get('emails/retry/(:num)', 'Admin\Emails::retry/$1');
+        $routes->get('emails/delete/(:num)', 'Admin\Emails::delete/$1');
     // Committee CRUD
         $routes->group('committee', function($routes) {
         $routes->get('', 'Admin\CommitteeController::index');

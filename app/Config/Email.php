@@ -6,16 +6,17 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = 'sunny@aricer.com';
-    public string $fromName   = 'Lohana Community North London';
+    public string $fromEmail  = '';
+    public string $fromName   = '';
     public string $recipients = '';
 
-    public string $protocol   = 'smtp';
-    public string $SMTPHost   = 'smtp.hostinger.com';
-    public string $SMTPUser   = 'sunny@aricer.com';
-    public string $SMTPPass   = ''; // <-- set via .env in PROD
-    public int    $SMTPPort   = 465;
-    public string $SMTPCrypto = 'ssl';
+    // use null so .env overrides properly
+    public ?string $protocol   = null;
+    public ?string $SMTPHost   = null;
+    public ?string $SMTPUser   = null;
+    public ?string $SMTPPass   = null; // set via .env in PROD
+    public ?int    $SMTPPort   = null;
+    public ?string $SMTPCrypto = null;
 
     public string $mailType   = 'html';
     public string $charset    = 'utf-8';

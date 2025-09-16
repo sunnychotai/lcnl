@@ -20,7 +20,7 @@
           </a>
 
           <!-- Socials + Auth -->
-          <div class="d-flex flex-wrap align-items-center gap-3 pt-1">
+          <div class="d-flex flex-nowrap align-items-center gap-2 pt-1">
 
             <!-- Socials -->
             <div class="d-flex align-items-center gap-2 socials">
