@@ -52,6 +52,20 @@ $routes->get('auth/login', 'Auth::login');
 $routes->post('auth/attemptLogin', 'Auth::attemptLogin');
 $routes->get('auth/logout', 'Auth::logout');
 
+/* -----------------------
+   Forgot / Reset Password
+------------------------*/
+// MEMBER auth (public endpoints)
+$routes->get('member/login', 'MemberAuth::login', ['as' => 'member.login']);
+$routes->post('member/login', 'MemberAuth::attempt');
+$routes->get('member/logout', 'MemberAuth::logout');
+
+$routes->get('member/forgot', 'Account\PasswordController::forgot', ['as' => 'member.forgot']);
+$routes->post('member/forgot', 'Account\PasswordController::sendReset');
+$routes->get('member/reset/(:segment)', 'Account\PasswordController::reset/$1', ['as' => 'member.reset']);
+$routes->post('member/reset', 'Account\PasswordController::doReset');
+
+
 /* ---------------------------------------------------------
    PUBLIC: Membership (keep OUTSIDE admin group)
 ----------------------------------------------------------*/
@@ -64,10 +78,7 @@ $routes->group('membership', ['namespace' => 'App\Controllers'], static function
 
 });
 
-// MEMBER auth (public endpoints)
-$routes->get('member/login',  'MemberAuth::login');
-$routes->post('member/attempt','MemberAuth::attempt');
-$routes->get('member/logout', 'MemberAuth::logout');
+
 
 // Account shortcut → dashboard
 $routes->get('account', 'Account\DashboardController::index', ['as'=>'account.root']);

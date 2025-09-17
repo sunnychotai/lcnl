@@ -32,7 +32,8 @@
         </div>
 
         <div class="card-body p-4">
-          <form method="post" action="<?= base_url('member/attempt') ?>" novalidate>
+          <form method="post" action="<?= route_to('member.login') ?>">
+
             <?= csrf_field() ?>
 
             <div class="mb-3">
@@ -78,8 +79,9 @@
                 <label class="form-check-label" for="remember">Remember me</label>
               </div>
               <!-- Update href if your route differs -->
-              <a class="small text-decoration-none" href="<?= base_url('member/forgot') ?>">Forgot password?</a>
-            </div>
+ <a href="<?= route_to('member.forgot') ?>" class="text-decoration-none">
+    <i class="bi bi-question-circle me-1"></i> Forgot your password?
+  </a>            </div>
 
             <button class="btn btn-accent btn-lg rounded-pill px-4 w-100" type="submit">
               <i class="bi bi-door-open-fill me-2"></i>Login

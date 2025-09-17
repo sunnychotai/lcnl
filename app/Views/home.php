@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       <!-- Left column -->
       <div class="col-md-8">
-        <div class="p-4 bg-light rounded shadow-sm">
+        <div class="lcnl-card rounded border-0 shadow-sm">
           <h4 class="fw-bold mb-3">Message from the President</h4>
 
 <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>" 
@@ -148,12 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
   <?php if (!session()->get('isMemberLoggedIn')): ?>
 
   <!-- Register Now! Membership Card -->
-  <div class="card shadow-lg border-0 rounded-4 mb-4">
-    <div class="card-body text-center p-4">
-      <div class="mb-3">
-        <i class="bi bi-person-plus-fill text-success" style="font-size:3rem;"></i>
-      </div>
-      <h3 class="fw-bold mb-3">Register Now!</h3>
+  <div class="lcnl-card shadow-lg border-0">
+    <div class="card-body text-center">
+      
+      <h3 class="fw-bold mb-3"><i class="bi bi-person-plus-fill text-success"></i> Register Now!</h3>
       <p class="text-muted mb-4">
         Create your LCNL membership in minutes. Enter your details, confirm your email, 
         and start enjoying the benefits of being part of our community.
