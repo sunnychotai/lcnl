@@ -28,7 +28,7 @@ class FaqAdmin extends BaseController
         $groupedFaqs[$faq['faq_group']][] = $faq;
     }
 
-    return view('admin/faqs/index', [
+    return view('admin/content/faqs/index', [
         'groupedFaqs' => $groupedFaqs
     ]);
 }
@@ -36,7 +36,7 @@ class FaqAdmin extends BaseController
 
     public function create()
 {
-    return view('admin/faqs/create', [
+    return view('admin/content/faqs/create', [
         'groups' => $this->faqGroups
     ]);
 }
@@ -51,7 +51,7 @@ class FaqAdmin extends BaseController
             return redirect()->back()->with('errors', $faqModel->errors())->withInput();
         }
 
-        return redirect()->to('/admin/faqs')->with('success', 'FAQ added successfully.');
+        return redirect()->to('/admin/content/faqs')->with('success', 'FAQ added successfully.');
     }
 
     public function edit($id)
@@ -60,7 +60,7 @@ class FaqAdmin extends BaseController
     $data['faq'] = $faqModel->find($id);
     $data['groups'] = $this->faqGroups;
 
-    return view('admin/faqs/edit', $data);
+    return view('admin/content/faqs/edit', $data);
 }
 
 
@@ -73,7 +73,7 @@ class FaqAdmin extends BaseController
             return redirect()->back()->with('errors', $faqModel->errors())->withInput();
         }
 
-        return redirect()->to('/admin/faqs')->with('success', 'FAQ updated successfully.');
+        return redirect()->to('/admin/content/faqs')->with('success', 'FAQ updated successfully.');
     }
 
     public function delete($id)
@@ -81,7 +81,7 @@ class FaqAdmin extends BaseController
         $faqModel = new FaqModel();
         $faqModel->delete($id);
 
-        return redirect()->to('/admin/faqs')->with('success', 'FAQ deleted.');
+        return redirect()->to('/admin/content/faqs')->with('success', 'FAQ deleted.');
     }
 
 public function reorder()

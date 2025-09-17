@@ -17,7 +17,7 @@
             <i class="bi bi-calendar-event-fill me-2"></i>
             <?= isset($event['id']) ? 'Edit Event' : 'Add Event' ?>
           </h4>
-          <a href="<?= base_url('admin/events') ?>" class="btn btn-outline-light btn-sm">
+          <a href="<?= base_url('admin/content/events') ?>" class="btn btn-outline-light btn-sm">
             <i class="bi bi-arrow-left"></i> Back
           </a>
         </div>
@@ -122,7 +122,7 @@
 
             <!-- Buttons -->
             <div class="d-flex justify-content-end gap-2 mt-3">
-              <a href="<?= base_url('admin/events') ?>" class="btn btn-secondary">
+              <a href="<?= base_url('admin/content/events') ?>" class="btn btn-secondary">
                 <i class="bi bi-x-circle"></i> Cancel
               </a>
               <button type="submit" class="btn btn-success">

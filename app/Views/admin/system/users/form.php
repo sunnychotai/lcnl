@@ -54,7 +54,7 @@
     </div>
 
     <button type="submit" class="btn btn-brand">Save</button>
-    <a href="<?= base_url('admin/users') ?>" class="btn btn-secondary">Cancel</a>
+    <a href="<?= base_url('admin/system/users') ?>" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
 

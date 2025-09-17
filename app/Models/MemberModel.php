@@ -13,7 +13,7 @@ class MemberModel extends Model
     protected $returnType       = 'array';
 
     protected $allowedFields = [
-        'first_name','last_name','email','mobile','password_hash',
+        'first_name','last_name','email','mobile','password_hash','address1','address2','city',
         'postcode','status','verified_at','verified_by','consent_at',
         'source','last_login','created_at','updated_at','deleted_at'
     ];

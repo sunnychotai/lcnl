@@ -17,7 +17,7 @@
             <i class="bi bi-people-fill me-2"></i>
             <?= !empty($committee['id']) ? 'Edit Committee Member' : 'Add Committee Member' ?>
           </h4>
-          <a href="<?= base_url('admin/committee') ?>" class="btn btn-outline-light btn-sm">
+          <a href="<?= base_url('admin/content/committee') ?>" class="btn btn-outline-light btn-sm">
             <i class="bi bi-arrow-left"></i> Back
           </a>
         </div>
@@ -96,7 +96,7 @@
 
             <!-- Buttons -->
             <div class="d-flex justify-content-end gap-2 mt-3">
-              <a href="<?= base_url('admin/committee') ?>" class="btn btn-secondary">
+              <a href="<?= base_url('admin/content/committee') ?>" class="btn btn-secondary">
                 <i class="bi bi-x-circle"></i> Cancel
               </a>
               <button type="submit" class="btn btn-success">

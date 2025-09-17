@@ -18,7 +18,7 @@
 <?php if (in_array($role, haystack: ['ADMIN', 'WEBSITE'])): ?>
   <!-- Committee -->
   <div class="col-md-3">
-    <a href="<?= base_url('admin/committee') ?>" class="text-decoration-none">
+    <a href="<?= base_url('admin/content/committee') ?>" class="text-decoration-none">
       <div class="card shadow-sm h-100 text-center border-0 hover-card">
         <div class="card-body d-flex flex-column align-items-center justify-content-center">
           <div class="mb-3">
@@ -34,7 +34,7 @@
   
 <?php if (in_array($role, haystack: ['ADMIN', 'WEBSITE'])): ?>
   <div class="col-md-3">
-    <a href="<?= base_url('admin/events') ?>" class="text-decoration-none">
+    <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
       <div class="card shadow-sm h-100 text-center border-0 hover-card">
         <div class="card-body d-flex flex-column align-items-center justify-content-center">
           <i class="bi bi-calendar-event fs-1 text-brand mb-3"></i>
@@ -49,7 +49,7 @@
   <!-- Only for ADMIN -->
   <?php if ($role === 'ADMIN'): ?>
   <div class="col-md-3">
-    <a href="<?= base_url('admin/users') ?>" class="text-decoration-none">
+    <a href="<?= base_url('admin/system/users') ?>" class="text-decoration-none">
       <div class="card shadow-sm h-100 text-center border-0 hover-card">
         <div class="card-body d-flex flex-column align-items-center justify-content-center">
           <i class="bi bi-people-fill fs-1 text-brand mb-3"></i>
@@ -64,7 +64,7 @@
   <!-- ADMIN or WEBSITE -->
   <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
   <div class="col-md-3">
-    <a href="<?= base_url('admin/faqs') ?>" class="text-decoration-none">
+    <a href="<?= base_url('admin/content/faqs') ?>" class="text-decoration-none">
       <div class="card shadow-sm h-100 text-center border-0 hover-card">
         <div class="card-body d-flex flex-column align-items-center justify-content-center">
           <i class="bi bi-question-circle-fill fs-1 text-brand mb-3"></i>
@@ -79,7 +79,8 @@
  <!-- ADMIN or MEMBERSHIP -->
   <?php if (in_array($role, ['ADMIN', 'MEMBERSHIP'])): ?>
   <div class="col-md-3">
-    <a href="<?= route_to('admin.members.index') ?>" class="text-decoration-none">
+    <a href="<?= base_url('admin/membership/membership/members') ?>" class="text-decoration-none">
+
       <div class="card shadow-sm h-100 text-center border-0 hover-card">
         <div class="card-body d-flex flex-column align-items-center justify-content-center">
           <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>
@@ -93,7 +94,7 @@
 
     <?php if ($role === 'ADMIN'): ?>
 <div class="col-md-3">
-  <a href="<?= base_url('admin/emails') ?>" class="text-decoration-none">
+  <a href="<?= base_url('admin/system/emails') ?>" class="text-decoration-none">
     <div class="card shadow-sm h-100 text-center border-0 hover-card">
       <div class="card-body d-flex flex-column align-items-center justify-content-center">
         <i class="bi bi-envelope-fill fs-1 text-brand mb-3"></i>

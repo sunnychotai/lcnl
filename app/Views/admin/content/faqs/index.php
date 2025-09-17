@@ -9,7 +9,7 @@
 </section>
 <div class="container py-4">
   <h2>Manage FAQs</h2>
-  <a href="<?= base_url('admin/faqs/create') ?>" class="btn btn-success mb-3">+ Add FAQ</a>
+  <a href="<?= base_url('admin/content/faqs/create') ?>" class="btn btn-success mb-3">+ Add FAQ</a>
 
   <?php if (session()->getFlashdata('success')): ?>
     <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
@@ -26,8 +26,8 @@
               <?= esc($faq['question']) ?>
             </span>
             <span>
-              <a href="<?= base_url('admin/faqs/edit/'.$faq['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
-              <a href="<?= base_url('admin/faqs/delete/'.$faq['id']) ?>" class="btn btn-sm btn-danger"
+              <a href="<?= base_url('admin/content/faqs/edit/'.$faq['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
+              <a href="<?= base_url('admin/content/faqs/delete/'.$faq['id']) ?>" class="btn btn-sm btn-danger"
                  onclick="return confirm('Delete this FAQ?')">Delete</a>
             </span>
           </li>
@@ -53,7 +53,7 @@ $(function() {
         var order = $list.sortable("toArray", { attribute: "data-id" });
         console.log("Group:", group, "Order:", order);
 
-        $.post("<?= base_url('admin/faqs/reorder') ?>", {
+        $.post("<?= base_url('admin/content/faqs/reorder') ?>", {
           group: group,
           order: order,
           <?= csrf_token() ?>: "<?= csrf_hash() ?>"

@@ -20,16 +20,16 @@ class Events extends BaseController
         $data = [
             'events' => $this->eventModel->orderBy('event_date', 'DESC')->findAll()
         ];
-        return view('admin/events/index', $data);
+        return view('admin/content/events/index', $data);
     }
 
     public function create()
     {
         $data = [
             'event'  => [],
-            'action' => base_url('admin/events/store')
+            'action' => base_url('admin/content/events/store')
         ];
-        return view('admin/events/form', $data);
+        return view('admin/content/events/form', $data);
     }
 
     public function store()
@@ -71,21 +71,21 @@ class Events extends BaseController
         }
 
         $this->eventModel->save($data);
-        return redirect()->to('/admin/events')->with('success', 'Event added successfully');
+        return redirect()->to('/admin/content/events')->with('success', 'Event added successfully');
     }
 
     public function edit($id)
     {
         $event = $this->eventModel->find($id);
         if (! $event) {
-            return redirect()->to('/admin/events')->with('error', 'Event not found');
+            return redirect()->to('/admin/content/events')->with('error', 'Event not found');
         }
 
         $data = [
             'event'  => $event,
-            'action' => base_url('admin/events/update/' . $id)
+            'action' => base_url('admin/content/events/update/' . $id)
         ];
-        return view('admin/events/form', $data);
+        return view('admin/content/events/form', $data);
     }
 
     public function update($id)
@@ -126,25 +126,25 @@ class Events extends BaseController
         }
 
         $this->eventModel->update($id, $data);
-        return redirect()->to('/admin/events')->with('success', 'Event updated successfully');
+        return redirect()->to('/admin/content/events')->with('success', 'Event updated successfully');
     }
 
     public function delete($id)
     {
         $this->eventModel->delete($id);
-        return redirect()->to('/admin/events')->with('success', 'Event deleted');
+        return redirect()->to('/admin/content/events')->with('success', 'Event deleted');
     }
 
     public function clone($id)
     {
         $event = $this->eventModel->find($id);
         if (! $event) {
-            return redirect()->to('/admin/events')->with('error', 'Event not found');
+            return redirect()->to('/admin/content/events')->with('error', 'Event not found');
         }
 
         unset($event['id']); // keeps all other fields, including the new ones
         $this->eventModel->insert($event);
 
-        return redirect()->to('/admin/events')->with('success', 'Event cloned successfully');
+        return redirect()->to('/admin/content/events')->with('success', 'Event cloned successfully');
     }
 }

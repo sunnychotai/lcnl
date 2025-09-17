@@ -12,7 +12,7 @@ class Emails extends BaseController
         $model = new EmailQueueModel();
         $emails = $model->orderBy('id', 'DESC')->paginate(20);
 
-        return view('admin/emails/index', [
+        return view('admin/system/emails/index', [
             'emails' => $emails,
             'pager'  => $model->pager,
         ]);
@@ -24,10 +24,10 @@ class Emails extends BaseController
         $email = $model->find($id);
 
         if (! $email) {
-            return redirect()->to('/admin/emails')->with('error', 'Email not found.');
+            return redirect()->to('/admin/system/emails')->with('error', 'Email not found.');
         }
 
-        return view('admin/emails/view', ['email' => $email]);
+        return view('admin/system/emails/view', ['email' => $email]);
     }
 
     public function retry(int $id)
@@ -40,10 +40,10 @@ class Emails extends BaseController
                 'status'     => 'pending',
                 'last_error' => null,
             ]);
-            return redirect()->to('/admin/emails')->with('message', 'Email queued for retry.');
+            return redirect()->to('/admin/system/emails')->with('message', 'Email queued for retry.');
         }
 
-        return redirect()->to('/admin/emails')->with('error', 'Email not found.');
+        return redirect()->to('/admin/system/emails')->with('error', 'Email not found.');
     }
 
     public function delete(int $id)
@@ -51,6 +51,6 @@ class Emails extends BaseController
         $model = new EmailQueueModel();
         $model->delete($id);
 
-        return redirect()->to('/admin/emails')->with('message', 'Email deleted.');
+        return redirect()->to('/admin/system/emails')->with('message', 'Email deleted.');
     }
 }

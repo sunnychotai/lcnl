@@ -11,7 +11,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2 class="mb-0">Manage Events</h2>
-  <a href="<?= base_url('admin/events/create') ?>" class="btn btn-brand d-inline-flex align-items-center shadow-sm">
+  <a href="<?= base_url('admin/content/events/create') ?>" class="btn btn-brand d-inline-flex align-items-center shadow-sm">
     <i class="bi bi-calendar-plus me-2"></i> Add Event
   </a>
 </div>
@@ -48,9 +48,9 @@
         </td>
         <td><?= $event['is_valid'] ? 'Yes' : 'No' ?></td>
         <td>
-          <a href="<?= base_url('admin/events/edit/'.$event['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
-          <a href="<?= base_url('admin/events/clone/'.$event['id']) ?>" class="btn btn-sm btn-warning">Clone</a>
-          <a href="<?= base_url('admin/events/delete/'.$event['id']) ?>" class="btn btn-sm btn-danger" 
+          <a href="<?= base_url('admin/content/events/edit/'.$event['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
+          <a href="<?= base_url('admin/content/events/clone/'.$event['id']) ?>" class="btn btn-sm btn-warning">Clone</a>
+          <a href="<?= base_url('admin/content/events/delete/'.$event['id']) ?>" class="btn btn-sm btn-danger" 
              onclick="return confirm('Delete this event?')">Delete</a>
         </td>
       </tr>

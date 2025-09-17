@@ -14,7 +14,7 @@
     <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
   <?php endif; ?>
 
-  <a href="<?= base_url('admin/users/create') ?>" class="btn btn-brand mb-3">Add User</a>
+  <a href="<?= base_url('admin/system/users/create') ?>" class="btn btn-brand mb-3">Add User</a>
 
   <table class="table table-bordered">
     <thead>
@@ -34,8 +34,8 @@
           <td><?= esc($user['email']) ?></td>
           <td><?= esc($user['role']) ?></td>
           <td>
-            <a href="<?= base_url('admin/users/edit/'.$user['id']) ?>" class="btn btn-sm btn-warning">Edit</a>
-            <a href="<?= base_url('admin/users/delete/'.$user['id']) ?>" 
+            <a href="<?= base_url('admin/system/users/edit/'.$user['id']) ?>" class="btn btn-sm btn-warning">Edit</a>
+            <a href="<?= base_url('admin/system/users/delete/'.$user['id']) ?>" 
                class="btn btn-sm btn-danger"
                onclick="return confirm('Are you sure?')">Delete</a>
           </td>

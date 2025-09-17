@@ -27,7 +27,7 @@ class Auth extends BaseController
                 'admin_name'       => 'Sunny',
                 'admin_role'       => 'ADMIN',
             ]);
-            return redirect()->to('/admin/dashboard');
+            return redirect()->to('/admin/system/dashboard');
         }
 
         $user = $userModel->where('email', $email)->first();
@@ -39,7 +39,7 @@ class Auth extends BaseController
                 'admin_name' => $user['name'],
                 'admin_role' => $user['role'],
             ]);
-            return redirect()->to('/admin/dashboard');
+            return redirect()->to('/admin/system/dashboard');
         }
 
         return redirect()->back()->with('error', 'Invalid email or password.');

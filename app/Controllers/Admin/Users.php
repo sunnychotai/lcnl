@@ -17,13 +17,13 @@ class Users extends BaseController
     public function index()
     {
         $data['users'] = $this->userModel->findAll();
-        return view('admin/users/index', $data);
+        return view('admin/system/users/index', $data);
     }
 
     public function create()
     {
-        return view('admin/users/form', [
-            'action' => base_url('admin/users/store')
+        return view('admin/system/users/form', [
+            'action' => base_url('admin/system/users/store')
         ]);
     }
 
@@ -42,7 +42,7 @@ class Users extends BaseController
 
         $this->userModel->save($this->request->getPost());
 
-        return redirect()->to('admin/users')->with('success', 'User created successfully.');
+        return redirect()->to('admin/system/users')->with('success', 'User created successfully.');
     }
 
     public function edit($id)
@@ -52,9 +52,9 @@ class Users extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('User not found');
         }
 
-        return view('admin/users/form', [
+        return view('admin/system/users/form', [
             'user'   => $user,
-            'action' => base_url('admin/users/update/'.$id)
+            'action' => base_url('admin/system/users/update/'.$id)
         ]);
     }
 
@@ -83,12 +83,12 @@ class Users extends BaseController
 
         $this->userModel->update($id, $data);
 
-        return redirect()->to('admin/users')->with('success', 'User updated successfully.');
+        return redirect()->to('admin/system/users')->with('success', 'User updated successfully.');
     }
 
     public function delete($id)
     {
         $this->userModel->delete($id);
-        return redirect()->to('admin/users')->with('success', 'User deleted successfully.');
+        return redirect()->to('admin/system/users')->with('success', 'User deleted successfully.');
     }
 }

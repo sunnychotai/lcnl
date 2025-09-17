@@ -46,13 +46,13 @@
                     <td><?= $row['scheduled_at'] ?></td>
                     <td><?= $row['sent_at'] ?></td>
                     <td>
-                        <a href="<?= base_url('admin/emails/view/'.$row['id']) ?>" class="btn btn-sm btn-outline-primary">
+                        <a href="<?= base_url('admin/system/emails/view/'.$row['id']) ?>" class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-eye"></i>
                         </a>
-                        <a href="<?= base_url('admin/emails/retry/'.$row['id']) ?>" class="btn btn-sm btn-outline-warning">
+                        <a href="<?= base_url('admin/system/emails/retry/'.$row['id']) ?>" class="btn btn-sm btn-outline-warning">
                             <i class="bi bi-arrow-repeat"></i>
                         </a>
-                        <a href="<?= base_url('admin/emails/delete/'.$row['id']) ?>" class="btn btn-sm btn-outline-danger" 
+                        <a href="<?= base_url('admin/system/emails/delete/'.$row['id']) ?>" class="btn btn-sm btn-outline-danger" 
                            onclick="return confirm('Delete this email?')">
                             <i class="bi bi-trash"></i>
                         </a>

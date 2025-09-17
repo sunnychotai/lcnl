@@ -31,7 +31,7 @@ class CommitteeController extends BaseController
         'members'        => $members,
     ];
 
-    return view('admin/committee/index', $data);
+    return view('admin/content/committee/index', $data);
 }
 
 public function create()
@@ -42,10 +42,10 @@ public function create()
         'committee'        => [],
         'committees'       => $committeeTypes,
         'selectedCommittee'=> $this->request->getGet('committee'),
-        'action'           => base_url('admin/committee/store') // ✅ new
+        'action'           => base_url('admin/content/committee/store') // ✅ new
     ];
 
-    return view('admin/committee/form', $data);
+    return view('admin/content/committee/form', $data);
 }
 
 
@@ -67,7 +67,7 @@ public function create()
         }
 
         $this->committeeModel->save($this->request->getPost());
-        return redirect()->to('/admin/committee')->with('success', 'Committee member added successfully');
+        return redirect()->to('/admin/content/committee')->with('success', 'Committee member added successfully');
     }
 
     public function edit($id)
@@ -76,17 +76,17 @@ public function create()
     $committeeTypes = ['Executive', 'Mahila', 'YLS', 'RCT', 'LSM', 'LSL', 'LCF', 'YC'];
 
     if (!$committee) {
-        return redirect()->to('/admin/committee')->with('error', 'Committee member not found');
+        return redirect()->to('/admin/content/committee')->with('error', 'Committee member not found');
     }
 
     $data = [
         'committee'        => $committee,
         'committees'       => $committeeTypes,
         'selectedCommittee'=> $committee['committee'],
-        'action'           => base_url('admin/committee/update/'.$committee['id']) // ✅ update
+        'action'           => base_url('admin/content/committee/update/'.$committee['id']) // ✅ update
     ];
 
-    return view('admin/committee/form', $data);
+    return view('admin/content/committee/form', $data);
 }
 
 
@@ -107,13 +107,13 @@ public function create()
         }
 
         $this->committeeModel->update($id, $this->request->getPost());
-        return redirect()->to('/admin/committee')->with('success', 'Committee member updated successfully');
+        return redirect()->to('/admin/content/committee')->with('success', 'Committee member updated successfully');
     }
 
     public function delete($id)
     {
         $this->committeeModel->delete($id);
-        return redirect()->to('/admin/committee')->with('success', 'Committee member deleted');
+        return redirect()->to('/admin/content/committee')->with('success', 'Committee member deleted');
     }
 
 public function clone($id)
@@ -122,7 +122,7 @@ public function clone($id)
     $committeeTypes = ['Executive', 'Mahila', 'YLS', 'RCT', 'LSM', 'LSL', 'LCF', 'YC'];
 
     if (!$committee) {
-        return redirect()->to('/admin/committee')->with('error', 'Committee member not found');
+        return redirect()->to('/admin/content/committee')->with('error', 'Committee member not found');
     }
 
     // ✅ Strip ID so it becomes a new record
@@ -134,10 +134,10 @@ public function clone($id)
         'committee'        => $committee,
         'committees'       => $committeeTypes,
         'selectedCommittee'=> $committee['committee'] ?? null,
-        'action'           => base_url('admin/committee/store') // ✅ always new
+        'action'           => base_url('admin/content/committee/store') // ✅ always new
     ];
 
-    return view('admin/committee/form', $data);
+    return view('admin/content/committee/form', $data);
 }
 
 

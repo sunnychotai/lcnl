@@ -10,6 +10,6 @@ class Admin extends BaseController
             return redirect()->to('/auth/login');
         }
 
-        return view('admin/dashboard');
+        return view('admin/system/dashboard');
     }
 }

@@ -31,7 +31,7 @@
       
       <!-- Left column -->
       <div class="col-md-8">
-        <div class="lcnl-card">
+        <div class="lcnl-card border-0">
         <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
 
         <p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Committee, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
@@ -63,7 +63,7 @@
         </div>
 
         <!-- Constitution Download Section -->
-<div class="lcnl-card container my-4">
+<div class="lcnl-card border-0container my-4">
   
     <h5 class="fw-bold text-brand mb-2">
       <i class="bi bi-file-earmark-text me-2"></i> LCNL Constitution

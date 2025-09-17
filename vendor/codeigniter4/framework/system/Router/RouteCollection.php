@@ -757,7 +757,7 @@ class RouteCollection implements RouteCollectionInterface
      * for grouping items into an admin area, like:
      *
      * Example:
-     *     // Creates route: admin/users
+     *     // Creates route: admin/system/users
      *     $route->group('admin', function() {
      *            $route->resource('users');
      *     });

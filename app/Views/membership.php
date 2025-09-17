@@ -21,7 +21,7 @@
   <?php if (! session()->get('isMemberLoggedIn')): ?>
     <!-- New Registration (only if not logged in) -->
     <div class="col-md-6 col-lg-5">
-      <div class="card h-100 shadow-lg border-0 rounded-4">
+      <div class="lcnl-card h-100 shadow-lg border-0 rounded-4">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="bi bi-person-plus-fill text-success" style="font-size:3rem;"></i>
@@ -83,7 +83,7 @@
   <!-- Life Membership Benefits -->
   <div class="mb-5">
     <h2 class="fw-bold text-center mb-4">
-      <i class="bi bi-trophy-fill text-accent me-2"></i> Life Membership Benefits
+      <i class="bi bi-trophy-fill text-accent me-2"></i> Life Membership Benefits - Coming Soon
     </h2>
     <div class="row g-4 justify-content-center membership-benefits">
 

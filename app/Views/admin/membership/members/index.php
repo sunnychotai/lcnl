@@ -4,7 +4,7 @@
 <div class="container-fluid py-3">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h4 mb-0">Members</h1>
-    <a href="<?= base_url('admin/members?status=pending') ?>" class="btn btn-sm btn-outline-warning">
+    <a href="<?= base_url('admin/membership/members?status=pending') ?>" class="btn btn-sm btn-outline-warning">
       Pending <span class="badge bg-warning text-dark"><?= (int)($counts['pending'] ?? 0) ?></span>
     </a>
   </div>
@@ -57,7 +57,7 @@
         <tr>
           <td class="text-muted small"><?= (int)$r['id'] ?></td>
           <td>
-            <a class="fw-semibold text-decoration-none" href="<?= base_url('admin/members/'.$r['id']) ?>">
+            <a class="fw-semibold text-decoration-none" href="<?= base_url('admin/membership/members/'.$r['id']) ?>">
               <?= esc(($r['first_name']??'').' '.($r['last_name']??'')) ?>
             </a>
           </td>
@@ -74,20 +74,20 @@
           <td class="text-muted small"><?= esc($r['created_at'] ?? '') ?></td>
           <td class="text-end">
             <?php if ($r['status']!=='active'): ?>
-              <form class="d-inline" method="post" action="<?= base_url('admin/members/'.$r['id'].'/activate') ?>">
+              <form class="d-inline" method="post" action="<?= base_url('admin/membership/members/'.$r['id'].'/activate') ?>">
                 <?= csrf_field() ?>
                 <button class="btn btn-sm btn-success"><i class="bi bi-check2-circle me-1"></i> Activate</button>
               </form>
             <?php endif; ?>
 
             <?php if ($r['status']!=='disabled'): ?>
-              <form class="d-inline" method="post" action="<?= base_url('admin/members/'.$r['id'].'/disable') ?>">
+              <form class="d-inline" method="post" action="<?= base_url('admin/membership/members/'.$r['id'].'/disable') ?>">
                 <?= csrf_field() ?>
                 <button class="btn btn-sm btn-outline-danger"><i class="bi bi-slash-circle me-1"></i> Disable</button>
               </form>
             <?php endif; ?>
 
-            <a class="btn btn-sm btn-outline-secondary" href="<?= base_url('admin/members/'.$r['id']) ?>">
+            <a class="btn btn-sm btn-outline-secondary" href="<?= base_url('admin/membership/members/'.$r['id']) ?>">
               <i class="bi bi-eye me-1"></i> View
             </a>
           </td>

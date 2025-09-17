@@ -41,7 +41,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4><?= $type ?> Committee</h4>
-          <a href="<?= base_url('admin/committee/create?committee=' . urlencode($type)) ?>" class="btn btn-brand">
+          <a href="<?= base_url('admin/content/committee/create?committee=' . urlencode($type)) ?>" class="btn btn-brand">
             <i class="bi bi-plus-circle"></i> Add <?= $type ?> Member
           </a>
         </div>
@@ -92,13 +92,13 @@
           <td><?= esc($member['committee']) ?></td>
           
           <td>
-            <a href="<?= base_url('admin/committee/edit/'.$member['id']) ?>" class="btn btn-sm btn-warning">
+            <a href="<?= base_url('admin/content/committee/edit/'.$member['id']) ?>" class="btn btn-sm btn-warning">
               <i class="bi bi-pencil-square"></i>
             </a>
-            <a href="<?= base_url('admin/committee/clone/'.$member['id']) ?>" class="btn btn-sm btn-info">
+            <a href="<?= base_url('admin/content/committee/clone/'.$member['id']) ?>" class="btn btn-sm btn-info">
               <i class="bi bi-files"></i> <!-- ✅ Clone icon -->
             </a>
-            <a href="<?= base_url('admin/committee/delete/'.$member['id']) ?>" 
+            <a href="<?= base_url('admin/content/committee/delete/'.$member['id']) ?>" 
                class="btn btn-sm btn-danger"
                onclick="return confirm('Delete this member?');">
               <i class="bi bi-trash"></i>

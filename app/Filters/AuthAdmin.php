@@ -21,7 +21,7 @@ class AuthAdmin implements FilterInterface
         if ($arguments) {
             $role = $session->get('admin_role');
             if (! in_array($role, $arguments)) {
-                return redirect()->to('/admin/dashboard')
+                return redirect()->to('/admin/system/dashboard')
                     ->with('error', 'Access denied.');
             }
         }

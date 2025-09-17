@@ -4,6 +4,7 @@ namespace App\Controllers\Account;
 
 use App\Controllers\BaseController;
 use App\Services\ChecklistService;
+use App\Models\EventModel;
 
 class DashboardController extends BaseController
 {
@@ -20,9 +21,17 @@ class DashboardController extends BaseController
 
         $tasks = $this->check->memberTasks($memberId);
 
-        return view('account/dashboard', [
-            'tasks'      => $tasks,
-            'memberName' => (string) (session()->get('member_name') ?? 'Member'),
-        ]);
+         // ✅ Upcoming events
+    $events = (new EventModel())
+        ->where('event_date >=', date('Y-m-d'))
+        ->orderBy('event_date', 'ASC')
+        ->limit(3)
+        ->findAll();
+
+    return view('account/dashboard', [
+        'tasks'      => $tasks,
+        'memberName' => (string) (session()->get('member_name') ?? 'Member'),
+        'events'     => $events,
+    ]);
     }
 }

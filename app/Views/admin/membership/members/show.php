@@ -6,18 +6,18 @@
     <h1 class="h4 mb-0">Member #<?= (int)$m['id'] ?></h1>
     <div>
       <?php if (($m['status'] ?? '') !== 'active'): ?>
-        <form class="d-inline" method="post" action="<?= base_url('admin/members/'.$m['id'].'/activate') ?>">
+        <form class="d-inline" method="post" action="<?= base_url('admin/membership/members/'.$m['id'].'/activate') ?>">
           <?= csrf_field() ?>
           <button class="btn btn-success btn-sm"><i class="bi bi-check2-circle me-1"></i> Activate</button>
         </form>
       <?php endif; ?>
       <?php if (($m['status'] ?? '') !== 'disabled'): ?>
-        <form class="d-inline" method="post" action="<?= base_url('admin/members/'.$m['id'].'/disable') ?>">
+        <form class="d-inline" method="post" action="<?= base_url('admin/membership/members/'.$m['id'].'/disable') ?>">
           <?= csrf_field() ?>
           <button class="btn btn-outline-danger btn-sm"><i class="bi bi-slash-circle me-1"></i> Disable</button>
         </form>
       <?php endif; ?>
-      <a class="btn btn-outline-secondary btn-sm" href="<?= base_url('admin/members') ?>">
+      <a class="btn btn-outline-secondary btn-sm" href="<?= base_url('admin/membership/members') ?>">
         <i class="bi bi-arrow-left"></i> Back
       </a>
     </div>
@@ -71,15 +71,15 @@
         <div class="card-body">
           <h6 class="fw-bold mb-2"><i class="bi bi-gear me-1"></i> Actions</h6>
           <div class="d-grid gap-2">
-            <form method="post" action="<?= base_url('admin/members/'.$m['id'].'/activate') ?>">
+            <form method="post" action="<?= base_url('admin/membership/members/'.$m['id'].'/activate') ?>">
               <?= csrf_field() ?>
               <button class="btn btn-success btn-sm w-100"><i class="bi bi-check2-circle me-1"></i> Activate</button>
             </form>
-            <form method="post" action="<?= base_url('admin/members/'.$m['id'].'/disable') ?>">
+            <form method="post" action="<?= base_url('admin/membership/members/'.$m['id'].'/disable') ?>">
               <?= csrf_field() ?>
               <button class="btn btn-outline-danger btn-sm w-100"><i class="bi bi-slash-circle me-1"></i> Disable</button>
             </form>
-            <form method="post" action="<?= base_url('admin/members/'.$m['id'].'/resend') ?>">
+            <form method="post" action="<?= base_url('admin/membership/members/'.$m['id'].'/resend') ?>">
               <?= csrf_field() ?>
               <button class="btn btn-outline-secondary btn-sm w-100" disabled title="Email queue not enabled">Resend Email</button>
             </form>

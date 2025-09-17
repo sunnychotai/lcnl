@@ -11,5 +11,5 @@
     <h5>Text Body</h5>
     <pre class="border p-3"><?= esc($email['body_text']) ?></pre>
 
-    <a href="<?= base_url('admin/emails') ?>" class="btn btn-secondary">Back</a>
+    <a href="<?= base_url('admin/system/emails') ?>" class="btn btn-secondary">Back</a>
 </div>

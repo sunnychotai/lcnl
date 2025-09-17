@@ -50,7 +50,7 @@ class MembersController extends BaseController
             'all'      => (int) $this->members->countAllResults(),
         ];
 
-        return view('admin/members/index', compact('rows','status','q','counts'));
+        return view('admin/membership/members/index', compact('rows','status','q','counts'));
     }
 
     /** Show one member (read-only details + actions) */
@@ -59,9 +59,9 @@ class MembersController extends BaseController
         $id = (int) $id;
         $m  = $this->members->find($id);
         if (! $m) {
-            return redirect()->to('/admin/members')->with('error', 'Member not found.');
+            return redirect()->to('/admin/membership/membership/members')->with('error', 'Member not found.');
         }
-        return view('admin/members/show', compact('m'));
+        return view('admin/membership/members/show', compact('m'));
     }
 
     /** Activate */
