@@ -18,7 +18,7 @@
 
   <?php if ($err = session()->getFlashdata('error')): ?>
     <div class="alert alert-danger shadow-sm">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i><?= esc($err) ?>
+      <i class="bi bi-exclamation-triangle-fill me-2"></i><?= ($err) ?>
     </div>
   <?php endif; ?>
 

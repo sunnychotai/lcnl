@@ -4,10 +4,66 @@
 <!-- Hero Banner -->
 <section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
-    <h1 class="motto">"WE MOVE <span class="script">FORWARD</span> TOGETHER"</h1>
-    <p class="lead fs-5 mb-0">... bringing people together since 1976. Proud of our heritage, <em>we move forward together.</em></p>
+    <h1 id="heroTitle" class="motto"></h1>
+    <p id="heroSubtitle" class="lead fs-5 mb-0"></p>
   </div>
 </section>
+
+<style>
+  #heroTitle, #heroSubtitle {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    transform: translateY(10px);
+  }
+  #heroTitle.show, #heroSubtitle.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const slides = [
+    {
+      title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
+      subtitle: "... bringing people together since 1976. Proud of our heritage, <em>we move forward together.</em>"
+    },
+    {
+      title: `"CELEBRATING <span class='script'>COMMUNITY</span> & CULTURE"`,
+      subtitle: "Uniting Lohanas across North London with festivals, sport and education."
+    },
+    {
+      title: `"SUPPORTING <span class='script'>FAMILIES</span> IN NEED"`,
+      subtitle: "From bereavement care to cultural guidance, LCNL is here for everyone."
+    }
+  ];
+
+  const titleEl = document.getElementById('heroTitle');
+  const subEl   = document.getElementById('heroSubtitle');
+  let idx = 0;
+
+  function showSlide(i) {
+    // fade out
+    titleEl.classList.remove('show');
+    subEl.classList.remove('show');
+
+    setTimeout(() => {
+      titleEl.innerHTML = slides[i].title;
+      subEl.innerHTML   = slides[i].subtitle;
+
+      // fade in
+      titleEl.classList.add('show');
+      subEl.classList.add('show');
+    }, 800); // matches CSS transition
+  }
+
+  showSlide(idx); // show first
+  setInterval(() => {
+    idx = (idx + 1) % slides.length;
+    showSlide(idx);
+  }, 5000); // every 5s
+});
+</script>
 
 <?php if (!empty($upcomingEvents)): ?>
   <section class="container py-3">

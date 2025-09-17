@@ -39,7 +39,7 @@
 
     <!-- Left: Contact Form -->
     <div class="col-lg-7">
-      <div class="constitution-box">
+      <div class="lcnl-card border-0 mb-4">
         <h3 class="fw-bold mb-3"><i class="bi bi-send-fill me-2 text-brand"></i>Send us a message</h3>
 
         <form action="<?= base_url('contact/send') ?>" method="post" autocomplete="on">
@@ -117,7 +117,7 @@
       <div class="d-flex flex-column gap-4">
 
         <!-- Reach Us -->
-        <div class="constitution-box">
+        <div class="lcnl-card">
           <h5 class="fw-bold mb-3">
             <i class="bi bi-telephone-outbound-fill me-2 text-brand"></i>Reach us directly
           </h5>
@@ -140,7 +140,7 @@
         </div>
 
         <!-- Social Media -->
-        <div class="constitution-box">
+       <div class="lcnl-card">
           <h5 class="fw-bold mb-3">
             <i class="bi bi-people-fill me-2 text-brand"></i>Connect with us
           </h5>
@@ -159,7 +159,7 @@
         </div>
 
         <!-- FAQs -->
-        <div class="constitution-box">
+        <div class="lcnl-card">
           <h5 class="fw-bold mb-2">
             <i class="bi bi-question-circle-fill me-2 text-brand"></i>FAQs
           </h5>

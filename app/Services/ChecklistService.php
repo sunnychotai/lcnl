@@ -17,6 +17,12 @@ class ChecklistService
 public function memberTasks(int $memberId): array
 {
     $m = $this->members->find($memberId);
+    if (!$m) {
+        return [
+            'todo' => [],
+            'done' => [],
+        ];
+    }
     $todo = [];
     $done = [];
 
@@ -81,6 +87,26 @@ public function memberTasks(int $memberId): array
     } else {
         $todo[] = $this->task('consent', 'Give communication consent', 'Stay informed about news and events.', 'bi-envelope-fill', $urlProfile);
     }
+
+    // 0) Email verification
+if (!empty($m['verified_at'])) {
+    $done[] = $this->task(
+        'verified_at',
+        'Email verified',
+        'Your email is confirmed.',
+        'bi-envelope-check-fill',
+        '#'
+    );
+} else {
+    $todo[] = $this->task(
+        'verified_at',
+        'Verify your email',
+        'Please confirm your email to unlock access.',
+        'bi-envelope-exclamation-fill',
+        base_url('membership/resend-verification?email=' . urlencode($m['email']))
+    );
+}
+
 
     return ['todo' => $todo, 'done' => $done];
 }

@@ -25,9 +25,9 @@
 .text-danger { color: #d63384 !important; }        /* Bereavement accent */
 
 /* --- Motto (hero headings) --- */
-.motto { font-weight: 700; font-size: 2rem; color: #fff; }
-.motto .script { font-size: 2rem; color: var(--accent1); }
-.motto-sub { font-size: 1.25rem; font-weight: 400; color: #f8f9fa; font-style: italic; margin-top: .5rem; }
+.motto { font-weight: 700; font-size: 1.75rem; color: #fff; }
+.motto .script { font-size: 1.75rem; color: var(--accent1); }
+.motto-sub { font-size: 1rem; font-weight: 400; color: #f8f9fa; font-style: italic; margin-top: .5rem; }
 
 /* =========================
    HERO + OVERLAYS

@@ -43,28 +43,28 @@ class ProfileController extends BaseController
         $memberId = (int) (session()->get('member_id') ?? 0);
         if (! $memberId) return redirect()->to('/member/login');
 
+        // 👇 Fix: exclude this member’s own record from unique check
         $rules = [
-            'mobile'   => 'permit_empty|regex_match[/^\+?\d{7,15}$/]|is_unique[members.mobile,id,{id}]',
+            'mobile'   => "permit_empty|regex_match[/^\+?\d{7,15}$/]|is_unique[members.mobile,id,{$memberId}]",
             'postcode' => 'permit_empty|max_length[12]',
             'consent'  => 'permit_empty|in_list[1]',
         ];
 
-        $data = $this->request->getPost();
-        $data['id'] = $memberId; // for is_unique[id,{id}] to ignore self
-
-        if (! $this->validate($rules, [], $data)) {
+        if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $payload = [
-            'id'        => $memberId,
-            'mobile'    => $this->request->getPost('mobile') ?: null,
-            'postcode'  => $this->request->getPost('postcode') ?: null,
-            'consent_at'=> $this->request->getPost('consent') ? date('Y-m-d H:i:s') : null,
+            'id'         => $memberId,
+            'mobile'     => $this->request->getPost('mobile') ?: null,
+            'postcode'   => $this->request->getPost('postcode') ?: null,
+            'consent_at' => $this->request->getPost('consent') ? date('Y-m-d H:i:s') : null,
         ];
 
         (new MemberModel())->save($payload);
 
-        return redirect()->to(route_to('account.dashboard'))->with('message', 'Profile updated.');
+        return redirect()
+            ->to(route_to('account.dashboard'))
+            ->with('message', 'Profile updated.');
     }
 }

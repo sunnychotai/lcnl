@@ -11,21 +11,18 @@ class DashboardController extends BaseController
 
     public function index()
     {
-        
         log_message('debug', 'SESSION AT DASHBOARD: ' . print_r(session()->get(), true));
-        return view('account/dashboard', [
-        'memberName' => session()->get('member_name') ?? 'Guest',
-        'tasks'      => ['todo'=>[], 'done'=>[]], // placeholder
-    ]);
 
         $memberId = (int) (session()->get('member_id') ?? 0);
-        if (! $memberId) return redirect()->to('/member/login');
+        if (! $memberId) {
+            return redirect()->to('/member/login');
+        }
 
         $tasks = $this->check->memberTasks($memberId);
 
         return view('account/dashboard', [
-            'tasks'     => $tasks,
-            'memberName'=> (string) (session()->get('member_name') ?? 'Member'),
+            'tasks'      => $tasks,
+            'memberName' => (string) (session()->get('member_name') ?? 'Member'),
         ]);
     }
 }

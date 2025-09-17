@@ -60,6 +60,8 @@ $routes->group('membership', ['namespace' => 'App\Controllers'], static function
     $routes->post('register', 'MembershipController::create',   ['as' => 'membership.create']);
     $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
     $routes->get('success', 'MembershipController::success', ['as' => 'membership.success']);
+    $routes->get('resend-verification', 'MembershipController::resendVerification', ['as' => 'membership.resend']);
+
 });
 
 // MEMBER auth (public endpoints)

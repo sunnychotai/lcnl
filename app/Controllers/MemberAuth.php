@@ -62,10 +62,14 @@ public function attempt()
         return redirect()->back()->withInput()->with('error', 'Invalid email or password.');
     }
 
-    // Status must be active
-    if (($member['status'] ?? 'pending') !== 'active') {
-        return redirect()->back()->with('error', 'Your membership is not active yet.');
-    }
+// Status must be active
+if (($member['status'] ?? 'pending') !== 'active') {
+    $resendUrl = base_url('membership/resend-verification?email=' . urlencode($member['email']));
+    $msg = 'Your membership is not active yet. Please verify your account. 
+            <a href="' . $resendUrl . '">Resend verification email</a>';
+    return redirect()->back()->with('error', $msg);
+}
+
 
     // Establish member session (separate from admin)
     session()->regenerate(true);
