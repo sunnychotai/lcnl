@@ -203,6 +203,10 @@
 .lcnl-card > :last-child{ margin-bottom:0; }/* trim trailing gap */
 
 
+.promo-banner img {
+  width: 600px;
+  height: auto;
+}
 
 
 
