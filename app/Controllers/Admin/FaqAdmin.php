@@ -12,7 +12,7 @@ class FaqAdmin extends BaseController
     'Membership',
     'Events',
     'Committee',
-    'YLA & Youth',
+    'YLS & Youth',
     'DLC & RCT'
 ];
     public function index()

@@ -8,6 +8,12 @@ use App\Models\EventModel;
 class Events extends BaseController
 {
     protected $eventModel;
+    protected $committeeOptions = [
+        'LCNL'   => 'LCNL',
+        'YLS'    => 'YLS',
+        'Mahila' => 'Mahila',
+        'Youth'  => 'Youth',
+    ];
 
     public function __construct()
     {
@@ -26,8 +32,9 @@ class Events extends BaseController
     public function create()
     {
         $data = [
-            'event'  => [],
-            'action' => base_url('admin/content/events/store')
+            'event'            => [],
+            'action'           => base_url('admin/content/events/store'),
+            'committeeOptions' => $this->committeeOptions,
         ];
         return view('admin/content/events/form', $data);
     }
@@ -37,11 +44,10 @@ class Events extends BaseController
         $validationRules = [
             'title'       => 'required|min_length[3]',
             'event_date'  => 'required|valid_date',
-            // New free-text fields (optional)
             'ticketinfo'  => 'permit_empty',
             'eventterms'  => 'permit_empty',
             'contactinfo' => 'permit_empty',
-            // Image optional-if-present, must be valid when provided
+            'committee'   => 'required|in_list[LCNL,YLS,Mahila,Youth]',
             'image'       => 'if_exist|uploaded[image]|is_image[image]|max_size[image,2048]|mime_in[image,image/jpg,image/jpeg,image/png,image/gif,image/webp]',
         ];
 
@@ -49,25 +55,21 @@ class Events extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Whitelist posted fields explicitly (safer than grabbing everything)
         $data = $this->request->getPost([
-            'title', 'event_date', 'time_from', 'time_to', 'committee', 'location', 'description',
+            'title', 'description', 'event_date', 'location',
+            'time_from', 'time_to', 'committee',
             'ticketinfo', 'eventterms', 'contactinfo'
         ]);
 
-        // Handle file upload
         $file = $this->request->getFile('image');
         if ($file && $file->isValid() && ! $file->hasMoved()) {
-            $newName = $file->getRandomName();
-
-            // Ensure target directory exists
+            $newName   = $file->getRandomName();
             $targetDir = rtrim((string) getenv('UPLOAD_PATH'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'events';
             if (! is_dir($targetDir)) {
                 @mkdir($targetDir, 0755, true);
             }
-
             $file->move($targetDir, $newName);
-            $data['image'] = '/uploads/events/' . $newName; // public URL you use elsewhere
+            $data['image'] = '/uploads/events/' . $newName;
         }
 
         $this->eventModel->save($data);
@@ -82,8 +84,9 @@ class Events extends BaseController
         }
 
         $data = [
-            'event'  => $event,
-            'action' => base_url('admin/content/events/update/' . $id)
+            'event'            => $event,
+            'action'           => base_url('admin/content/events/update/' . $id),
+            'committeeOptions' => $this->committeeOptions,
         ];
         return view('admin/content/events/form', $data);
     }
@@ -93,11 +96,10 @@ class Events extends BaseController
         $validationRules = [
             'title'       => 'required|min_length[3]',
             'event_date'  => 'required|valid_date',
-            // New free-text fields (optional)
             'ticketinfo'  => 'permit_empty',
             'eventterms'  => 'permit_empty',
             'contactinfo' => 'permit_empty',
-            // Image optional; validated only if present
+            'committee'   => 'required|in_list[LCNL,YLS,Mahila,Youth]',
             'image'       => 'if_exist|is_image[image]|max_size[image,2048]|mime_in[image,image/jpg,image/jpeg,image/png,image/gif,image/webp]',
         ];
 
@@ -105,22 +107,19 @@ class Events extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Whitelist posted fields
         $data = $this->request->getPost([
-            'title', 'event_date', 'time_from', 'time_to', 'committee', 'location', 'description',
+            'title', 'description', 'event_date', 'location',
+            'time_from', 'time_to', 'committee',
             'ticketinfo', 'eventterms', 'contactinfo'
         ]);
 
-        // Handle new file upload (replace old if uploaded)
         $file = $this->request->getFile('image');
         if ($file && $file->isValid() && ! $file->hasMoved()) {
-            $newName = $file->getRandomName();
-
+            $newName   = $file->getRandomName();
             $targetDir = rtrim((string) getenv('UPLOAD_PATH'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'events';
             if (! is_dir($targetDir)) {
                 @mkdir($targetDir, 0755, true);
             }
-
             $file->move($targetDir, $newName);
             $data['image'] = '/uploads/events/' . $newName;
         }
@@ -142,7 +141,7 @@ class Events extends BaseController
             return redirect()->to('/admin/content/events')->with('error', 'Event not found');
         }
 
-        unset($event['id']); // keeps all other fields, including the new ones
+        unset($event['id']);
         $this->eventModel->insert($event);
 
         return redirect()->to('/admin/content/events')->with('success', 'Event cloned successfully');

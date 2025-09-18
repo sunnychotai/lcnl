@@ -71,11 +71,18 @@
             </div>
 
             <!-- Committee -->
-            <div class="mb-3">
-              <label for="committee" class="form-label fw-semibold"><i class="bi bi-diagram-3 me-1"></i> Committee</label>
-              <input type="text" id="committee" name="committee" class="form-control"
-                     value="<?= old('committee', $event['committee'] ?? '') ?>">
-            </div>
+           <div class="mb-3">
+    <label for="committee" class="form-label">Committee</label>
+    <select name="committee" id="committee" class="form-select" required>
+        <option value="">-- Select Committee --</option>
+        <?php foreach ($committeeOptions as $value => $label): ?>
+            <option value="<?= esc($value) ?>" 
+                <?= isset($event['committee']) && $event['committee'] === $value ? 'selected' : '' ?>>
+                <?= esc($label) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</div>
 
             <!-- Description -->
             <div class="mb-3">
