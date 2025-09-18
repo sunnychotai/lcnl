@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>New Contact Form Message</title>
 </head>
-<body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f9f9f9; color:#333;">
+<body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f9f9f9; color:#333;">
   <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
       <td align="center" style="padding:20px 0;">
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600"
-               style="border:1px solid #e0e0e0; border-radius:8px; background:#ffffff; overflow:hidden;">
+               style="border:1px solid #e0e0e0; border-radius:8px; background:#ffffff;">
+          
           <!-- Header -->
           <tr>
             <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
@@ -22,12 +23,9 @@
           <!-- Body -->
           <tr>
             <td style="padding:30px;">
-              <p style="font-size:16px; margin:0 0 20px 0;">
-                You have received a new contact form message:
-              </p>
+              <p style="font-size:16px; margin:0 0 20px 0;">You have received a new contact form message:</p>
 
-              <table cellpadding="6" cellspacing="0" border="0" width="100%"
-                     style="border-collapse:collapse; font-size:15px;">
+              <table cellpadding="6" cellspacing="0" border="0" width="100%" style="border-collapse:collapse; font-size:15px;">
                 <tr>
                   <td style="width:120px; font-weight:bold; color:#555;">Name:</td>
                   <td><?= esc($name) ?></td>
@@ -56,6 +54,7 @@
               &copy; <?= date('Y') ?> Lohana Community North London. All rights reserved.
             </td>
           </tr>
+
         </table>
       </td>
     </tr>
