@@ -26,11 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const slides = [
     {
       title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
-      subtitle: "... bringing people together since 1976. Proud of our heritage, <em>we move forward together.</em>"
+      subtitle: "... bringing people together since 1976. Proud of our heritage"
     },
     {
       title: `"CELEBRATING <span class='script'>COMMUNITY</span> & CULTURE"`,
-      subtitle: "Uniting Lohanas across North London with festivals, sport and education."
+      subtitle: "Uniting Lohanas across North London"
     },
     {
       title: `"SUPPORTING <span class='script'>FAMILIES</span> IN NEED"`,
