@@ -48,9 +48,6 @@
   <a href="<?= base_url('member/login') ?>" class="btn btn-sm btn-brand rounded-pill">
     <i class="bi bi-box-arrow-in-right me-1"></i> Login
   </a>
-  <a href="<?= base_url('membership/register') ?>" class="btn btn-sm btn-outline-brand rounded-pill">
-    <i class="bi bi-person-plus me-1"></i> Register
-  </a>
 <?php endif; ?>
 
 
