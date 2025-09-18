@@ -13,14 +13,12 @@
       <!-- Right block -->
       <div class="col">
         <div class="d-flex flex-column align-items-end text-end">
-<?php
-$host = service('request')->getServer('HTTP_HOST');
-echo $host;
-?>
+
           <!-- Title -->
-          <a href="<?= base_url('/') ?>" class="text-decoration-none site-title mb-2 mb-lg-3">
-            <span class="fw-bold fs-4 text-dark d-block">Lohana Community - North London</span>
+           <a href="<?= base_url('/') ?>" class="text-decoration-none site-title mb-2 mb-lg-3">
+            <span class="fw-bold fs-4 text-dark d-block"><?= esc(config('App')->siteTitle) ?></span>
           </a>
+
 
           <!-- Socials + Auth -->
           <div class="d-flex flex-nowrap align-items-center gap-2 pt-1">

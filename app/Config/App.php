@@ -17,6 +17,7 @@ class App extends BaseConfig
      * E.g., http://example.com/
      */
     public string $baseURL = '';
+    public string $siteTitle = 'Lohana Community - North London';
 
     public function __construct()
 {
