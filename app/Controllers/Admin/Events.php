@@ -51,7 +51,7 @@ class Events extends BaseController
 
         // Whitelist posted fields explicitly (safer than grabbing everything)
         $data = $this->request->getPost([
-            'title', 'event_date', 'time', 'location', 'description',
+            'title', 'event_date', 'time_from', 'time_to', 'committee', 'location', 'description',
             'ticketinfo', 'eventterms', 'contactinfo'
         ]);
 
