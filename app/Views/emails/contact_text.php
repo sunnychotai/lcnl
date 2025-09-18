@@ -1,6 +1,6 @@
 Name: <?= $name ?>
 
-Email: <?= $email ?>
+Email Address: <?= $email ?>
 
 Subject: <?= $subject ?>
 
