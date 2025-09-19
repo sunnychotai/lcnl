@@ -42,12 +42,23 @@
       <h3 class="text-center mb-4">LYC Committee 2025–2027</h3>
 
       <!-- Committee Image -->
-      <div class="text-center mb-4">
-        <img src="<?= base_url('assets/img/youth-committee-25-27.jpg') ?>" 
-             alt="Lohana Youth Committee 2025–2027" 
-             class="img-fluid rounded shadow-sm" 
-             style="max-height:400px; object-fit:cover;">
-      </div>
+<div class="text-center mb-4">
+  <div class="row justify-content-center g-3">
+    <div class="col-md-6">
+      <img src="<?= base_url('assets/img/youth-committee-25-27.jpg') ?>" 
+           alt="Lohana Youth Committee 2025–2027 (Photo 1)" 
+           class="img-fluid rounded shadow-sm w-100" 
+           style="max-height:400px; object-fit:contain">
+    </div>
+    <div class="col-md-6">
+      <img src="<?= base_url('assets/img/youth-committee-25-27-2.jpg') ?>" 
+           alt="Lohana Youth Committee 2025–2027 (Photo 2)" 
+           class="img-fluid rounded shadow-sm w-100" 
+           style="max-height:400px; object-fit:cover;">
+    </div>
+  </div>
+</div>
+
 
       <p class="text-center mb-5">
         We are excited to introduce our new committee. Together, we are committed to creating meaningful
@@ -56,84 +67,62 @@
 
       <div class="row g-4">
 
-  <div class="col-md-6">
-    <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
-      <div class="card-body text-center p-4">
-        <div class="mb-3">
-          <i class="bi bi-person-circle text-brand" style="font-size:2.5rem;"></i>
-        </div>
-        <h5 class="fw-bold mb-2">Nina Valanju</h5>
-        <p class="text-muted">
-          Nina works as a Programme Director in Finance and is excited to help the youth of our community build strong, lasting connections.
-        </p>
-      </div>
-    </div>
-  </div>
+  <?php 
+    $committee = [
+      [
+        'name' => 'Nina Valanju',
+        'bio'  => 'Nina works as a Programme Director in Finance and is excited to help the youth of our community build strong, lasting connections.',
+        'image'=> 'nina-valanju.jpg',
+      ],
+      [
+        'name' => 'Vishali Sodha',
+        'bio'  => 'Vishali is passionate about creating inspiring opportunities for young people. She is committed to strengthening community bonds and co-running initiatives for the LYC.',
+        'image'=> 'vishali-sodha.jpg',
+      ],
+      [
+        'name' => 'Neal Rajdev',
+        'bio'  => 'Neal has served the Lohana community in South London and chaired his children’s school PTA for five years, building a network of over 20 PTAs. He brings valuable experience in fostering collaboration and empowering youth.',
+        'image'=> 'neal-rajdev.jpg',
+      ],
+      [
+        'name' => 'Leena Tanna',
+        'bio'  => 'Leena has been part of the LYC since its inception. She believes it offers young people a valuable chance to connect with their community and culture while forming lifelong friendships.',
+        'image'=> 'leena-tanna.jpg',
+      ],
+      [
+        'name' => 'Neil Morjaria',
+        'bio'  => 'Neil is actively involved in initiatives such as the Lohana Table Tennis Club, the LCUK Sports Festival and the Raghuvanshi Charitable Trust. He is committed to strengthening family engagement and building connections among the youth.',
+        'image'=> 'neil-morjaria.jpg',
+      ],
+    ];
 
-  <div class="col-md-6">
-    <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
-      <div class="card-body text-center p-4">
-        <div class="mb-3">
-          <i class="bi bi-people-fill text-brand" style="font-size:2.5rem;"></i>
-        </div>
-        <h5 class="fw-bold mb-2">Vishali Sodha</h5>
-        <p class="text-muted">
-          Vishali is passionate about creating inspiring opportunities for young people. She is committed to strengthening community bonds and co-running initiatives for the LYC.
-        </p>
-      </div>
-    </div>
-  </div>
+    $basePath = 'assets/img/committee/';
+    $placeholder = $basePath . 'lcnl-placeholder.png';
+  ?>
 
-  <div class="col-md-6">
-    <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
-      <div class="card-body text-center p-4">
-        <div class="mb-3">
-          <i class="bi bi-lightbulb text-brand" style="font-size:2.5rem;"></i>
+  <?php foreach ($committee as $c): ?>
+    <?php 
+      $filePath = $basePath . $c['image'];
+      $photo = is_file(FCPATH . $filePath) ? $filePath : $placeholder;
+    ?>
+    <div class="col-md-6">
+      <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <img src="<?= base_url($photo) ?>" 
+                 alt="<?= esc($c['name']) ?>" 
+                 class="rounded-circle shadow-sm" 
+                 style="width:120px; height:120px; object-fit:cover;">
+          </div>
+          <h5 class="fw-bold mb-2"><?= esc($c['name']) ?></h5>
+          <p class="text-muted"><?= esc($c['bio']) ?></p>
         </div>
-        <h5 class="fw-bold mb-2">Neal Rajdev</h5>
-        <p class="text-muted">
-          Neal has served the Lohana community in South London and chaired his children’s school PTA for five years, building a network of over 20 PTAs. He brings valuable experience in fostering collaboration and empowering youth.
-        </p>
       </div>
     </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
-      <div class="card-body text-center p-4">
-        <div class="mb-3">
-          <i class="bi bi-heart-fill text-brand" style="font-size:2.5rem;"></i>
-        </div>
-        <h5 class="fw-bold mb-2">Leena Tanna</h5>
-        <p class="text-muted">
-          Leena has been part of the LYC since its inception. She believes it offers young people a valuable chance to connect with their community and culture while forming lifelong friendships.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
-      <div class="card-body text-center p-4">
-        <div class="mb-3">
-          <i class="bi bi-trophy text-brand" style="font-size:2.5rem;"></i>
-        </div>
-        <h5 class="fw-bold mb-2">Neil Morjaria</h5>
-        <p class="text-muted">
-          Neil is actively involved in initiatives such as the Lohana Table Tennis Club, the LCUK Sports Festival and the Raghuvanshi Charitable Trust. He is committed to strengthening family engagement and building connections among the youth.
-        </p>
-      </div>
-    </div>
-  </div>
+  <?php endforeach; ?>
 
 </div>
 
-
-      <p class="text-center mt-5">
-        Please come and introduce yourselves when you see us — we’d love to meet you!<br>
-        <strong>Nina, Vishali, Neal, Leena &amp; Neil</strong>
-      </p>
-    </div>
 
     <!-- Events Tab -->
     <div class="tab-pane fade" id="events" role="tabpanel">
