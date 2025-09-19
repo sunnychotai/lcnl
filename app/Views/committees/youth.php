@@ -30,12 +30,19 @@
 
     <!-- About Tab (now includes committee content) -->
     <div class="tab-pane fade show active" id="about" role="tabpanel">
-      <h2>About Us</h2>
-      <p>
-        The Lohana Youth Committee (LYC) is dedicated to supporting, inspiring and empowering
-        young people within our community. We aim to create opportunities for connection,
-        personal growth and lasting friendships through cultural, social and sporting initiatives.
-      </p>
+      <div class="text-center mb-4">
+  <img src="<?= base_url('assets/img/committee/lyc.jpg') ?>" 
+       alt="Lohana Youth Committee Logo" 
+       class="img-fluid rounded shadow-sm mb-3" 
+       style="max-height:150px; object-fit:contain;">
+</div>
+
+<p>
+  The Lohana Youth Committee (LYC) is dedicated to supporting, inspiring and empowering
+  young people within our community. We aim to create opportunities for connection,
+  personal growth and lasting friendships through cultural, social and sporting initiatives.
+</p>
+
 
       <hr class="my-5">
 
