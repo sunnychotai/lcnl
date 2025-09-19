@@ -28,10 +28,10 @@
             <li><a class="dropdown-item" href="<?= base_url('/mahila') ?>">Mahila Committee</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/yls') ?>">Young Lohana Society</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/youth') ?>">Youth Committee</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/') ?>">Senior Mens</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/') ?>">Senior Ladies</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/') ?>">Raghuvanshi Charitable Trust</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/') ?>">Lohana Charitable Foundation</a></li>
+            <!-- <li><a class="dropdown-item" href="">Senior Mens</a></li>
+            <li><a class="dropdown-item" href="">Senior Ladies</a></li>
+            <li><a class="dropdown-item" href="">Raghuvanshi Charitable Trust</a></li>
+            <li><a class="dropdown-item" href="">Lohana Charitable Foundation</a></li> -->
           </ul>
         </li>
 

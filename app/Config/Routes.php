@@ -15,6 +15,7 @@ $routes->setAutoRoute(false);
 $routes->get('/', 'Home::index');
 $routes->get('/events', 'Home::events');
 $routes->get('/events/(:num)', 'Home::eventDetail/$1');
+$routes->get('sitemap.xml', 'Sitemap::index');
 
 $routes->get('/gallery', 'Home::gallery');
 $routes->get('/contact', 'Home::contact');
