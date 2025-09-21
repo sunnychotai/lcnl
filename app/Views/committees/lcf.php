@@ -21,8 +21,7 @@
     <h2>LCF Trustees 2025-2027</h2>
     <?php foreach ($members as $m): ?>
       <div class="col-md-3 col-sm-6">
-        <div class="card h-100 text-center">
-          <?php 
+<div class="card h-100 text-center">            <?php 
             // Base path for committee images
             $basePath = 'assets/img/committee/';
             $imagePath = $basePath . ($m['image'] ?? '');
