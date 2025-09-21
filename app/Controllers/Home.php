@@ -83,6 +83,15 @@ public function mahila()
 
     public function aboutus() { return view('aboutus'); }
 
+    public function lcf() { $committeeModel = new CommitteeModel();
+        $members = $committeeModel
+        ->where('committee', 'LCF')   // 👈 filter
+        ->orderBy('id', 'ASC')              // or whatever column you use
+        ->findAll();
+        return view('committees/lcf', [
+            'members' => $members
+        ]); }
+
 
     public function committee() { 
         
