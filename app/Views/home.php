@@ -112,7 +112,42 @@ document.addEventListener('DOMContentLoaded', () => {
       <!-- Left column (Promo + President) -->
       <div class="col-md-8">
 
-        <!-- Promo Banner -->
+<?php if (!empty($videoId)): ?>
+  <!-- Auto Daily Live Stream Embed -->
+  <div class="mb-4 text-center">
+    <div class="lcnl-card border-0 shadow-lg overflow-hidden mx-auto rounded-4" style="max-width:900px;">
+      
+      <!-- Header -->
+      <div class="bg-brand text-white py-2 px-3 text-start">
+        <h5 class="fw-bold mb-0 text-white">
+          <i class="bi bi-broadcast me-2 text-white"></i>
+          Live Stream – Day <?= esc($dayNumber) ?>
+        </h5>
+      </div>
+
+      <!-- Video -->
+      <div class="ratio ratio-16x9">
+        <iframe 
+            src="https://www.youtube.com/embed/<?= esc($videoId) ?>?autoplay=1&modestbranding=1&rel=0" 
+            title="YouTube Live Stream - Day <?= esc($dayNumber) ?>"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            class="rounded-0">
+        </iframe>
+      </div>
+
+      <!-- Footer -->
+      <div class="card-body bg-dark text-white py-2">
+        <small class="d-block">
+          <i class="bi bi-info-circle me-1"></i> Streaming now on <strong>LCNL YouTube</strong>
+        </small>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
+
+        <!-- Promo Banner
         <div class="mb-3 text-center">
           <a href="<?= base_url('events/13') ?>" class="text-decoration-none d-inline-block">
             <div class="card border-0 shadow-sm overflow-hidden promo-banner" style="max-width:700px;">
@@ -127,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
           </a>
-        </div>
+        </div> -->
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
