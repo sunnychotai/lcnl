@@ -14,25 +14,39 @@
 </section>
 
 <div class="container py-5">
+<h2 class="fw-bold text-center mb-4">
+  <i class="bi bi-envelope-heart-fill text-accent me-2"></i>
+  Join the LCNL Mailing List
+</h2>
+
+<div class="text-center mx-auto mb-4" style="max-width:700px;">
+  <p class="lead text-muted">
+    Our <strong>Membership section</strong> is coming soon — but you don’t have to wait to get involved!  
+    By joining the LCNL mailing list, you’ll be the first to hear about <em>events, festivals, announcements, and community news</em>.
+  </p>
+  <p class="small text-muted">
+    Stay connected and celebrate with us — sign up today and be kept updated with all things <strong>Lohana Community of North London</strong>.
+  </p>
+</div>
 
 <!-- Membership Options -->
-<div class="row g-4 justify-content-center mb-5">
+<div class="row g-3 justify-content-center mb-4">
+ 
 
   <?php if (! session()->get('isMemberLoggedIn')): ?>
     <!-- New Registration (only if not logged in) -->
-    <div class="col-md-6 col-lg-5">
-      <div class="lcnl-card h-100 shadow-lg border-0 rounded-4">
-        <div class="card-body text-center p-4">
-          <div class="mb-3">
-            <i class="bi bi-person-plus-fill text-success" style="font-size:3rem;"></i>
+    <div class="col-md-5 col-lg-4">
+      <div class="lcnl-card h-100 shadow-sm border-0 rounded-3" style="max-width:380px; margin:auto;">
+        <div class="card-body text-center p-3">
+          <div class="mb-2">
+            <i class="bi bi-person-plus-fill text-success" style="font-size:2rem;"></i>
           </div>
-          <h3 class="fw-bold mb-3">Register Now</h3>
-          <p class="text-muted mb-4">
-            Join LCNL in minutes. Enter your details, confirm your email, 
-            and start enjoying member benefits.
+          <h5 class="fw-bold mb-2">Register Now</h5>
+          <p class="text-muted mb-3 small">
+            Join the LCNL mailing in minutes.
           </p>
-          <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
-            <i class="bi bi-pencil-square me-2"></i> Register
+          <a href="<?= base_url('membership/register') ?>" class="btn btn-success rounded-pill px-3 py-1">
+            <i class="bi bi-pencil-square me-1"></i> Register
           </a>
         </div>
       </div>
@@ -40,36 +54,34 @@
   <?php endif; ?>
 
   <!-- Member Access -->
-  <div class="col-md-6 col-lg-5">
-    <div class="lcnl-card h-100 shadow-lg border-0 rounded-4">
-      <div class="card-body text-center p-4">
+  <div class="col-md-5 col-lg-4">
+    <div class="lcnl-card h-100 shadow-sm border-0 rounded-3" style="max-width:380px; margin:auto;">
+      <div class="card-body text-center p-3">
 
         <?php if (session()->get('isMemberLoggedIn')): ?>
           <!-- Logged-in: Show Dashboard card -->
           <div class="mb-2">
-            <i class="bi bi-speedometer2 text-success" style="font-size:3rem;"></i>
+            <i class="bi bi-speedometer2 text-success" style="font-size:2rem;"></i>
           </div>
-          <h3 class="fw-bold mb-2">Member Dashboard</h3>
-          <p class="text-muted mb-4">
-            Welcome back <?= esc(session()->get('member_name')) ?>!  
-            
+          <h5 class="fw-bold mb-2">Member Dashboard</h5>
+          <p class="text-muted mb-3 small">
+            Welcome back <?= esc(session()->get('member_name')) ?>!
           </p>
-          <a href="<?= base_url('account/dashboard') ?>" class="btn btn-success btn-lg rounded-pill px-4">
-            <i class="bi bi-house-door-fill me-2"></i> Go to Dashboard
+          <a href="<?= base_url('account/dashboard') ?>" class="btn btn-success rounded-pill px-3 py-1">
+            <i class="bi bi-house-door-fill me-1"></i> Dashboard
           </a>
 
         <?php else: ?>
           <!-- Not logged in: Show Login card -->
-          <div class="mb-3">
-            <i class="bi bi-box-arrow-in-right text-primary" style="font-size:3rem;"></i>
+          <div class="mb-2">
+            <i class="bi bi-box-arrow-in-right text-primary" style="font-size:2rem;"></i>
           </div>
-          <h3 class="fw-bold mb-3">Member Login</h3>
-          <p class="text-muted mb-4">
-            Already a member? Log in to update your details, link family members, 
-            and access exclusive LCNL events and content.
+          <h5 class="fw-bold mb-2">Member Login</h5>
+          <p class="text-muted mb-3 small">
+            Already signed up? Log in to update your details.
           </p>
-          <a href="<?= base_url('member/login') ?>" class="btn btn-primary btn-lg rounded-pill px-4">
-            <i class="bi bi-key-fill me-2"></i> Login
+          <a href="<?= base_url('member/login') ?>" class="btn btn-primary rounded-pill px-3 py-1">
+            <i class="bi bi-key-fill me-1"></i> Login
           </a>
         <?php endif; ?>
 
@@ -79,6 +91,7 @@
 
 </div>
 
+<hr>
 
   <!-- Life Membership Benefits -->
   <div class="mb-5">
@@ -130,35 +143,6 @@
     </div>
   </div>
 
-  <!-- Family Enrolment -->
-  <div class="mb-5">
-    <h2 class="fw-bold text-center mb-4">
-      <i class="bi bi-people-heart-fill text-accent me-2"></i> Together as a Family
-    </h2>
-
-    <div class="row justify-content-center">
-      <!-- Join LCNL (full width on desktop) -->
-      <div class="col-12 col-lg-10">
-        <div class="card h-100 shadow-lg border-0 rounded-4">
-          <div class="card-body text-center p-4">
-            <div class="mb-3">
-              <i class="bi bi-people-fill text-brand" style="font-size:3rem;"></i>
-            </div>
-            <h3 class="fw-bold mb-3">Join LCNL</h3>
-            <p class="text-muted mb-4">
-              Adults can register with LCNL to access events, contribute to community programmes, 
-              and be part of one of the largest Lohana groups outside India.  
-              We also encourage households to enrol <strong>all family members aged 18 and under</strong> 
-              into YLS to build the next generation of our community.
-            </p>
-            <a href="<?= base_url('membership/register') ?>" class="btn btn-brand btn-lg rounded-pill px-4 fw-bold">
-              <i class="bi bi-people-fill me-2"></i> Join LCNL
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Contact / Updates -->
   <div class="text-center">
