@@ -4,8 +4,8 @@
 <!-- Hero Banner -->
 <section class="hero-lcnl-watermark hero-overlay-cobalt d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">LCF Trustees</h1>
-    <p class="lead fs-5 mb-0">Lohana Charitable Foundation Trustees</p>
+    <h1 class="fw-bold display-6 mb-2">Lohana Charitable Foundation</h1>
+    <p class="lead fs-5 mb-0"></p>
   </div>
 </section>
 
