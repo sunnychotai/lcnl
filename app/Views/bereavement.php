@@ -121,7 +121,20 @@
             </li>
           </ul>
         </div>
+ 
+        <div class="col-md-6">
+          <h6 class="mb-1">Arvindbhai Sawjani</h6>
+          <p class="mb-2 text-muted"><strong>Bereavement Committee</strong></p>
+          <ul class="list-unstyled mb-0">
+            
+            <li class="mb-0">
+              <i class="bi bi-telephone-fill me-2 text-brand"></i>
+              <a href="tel:+447956847764" class="text-reset">+44 7956 217782</a>
+            </li>
+          </ul>
+        </div>
       </div>
+
     </div>
   </div>
 
