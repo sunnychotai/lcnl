@@ -162,7 +162,7 @@ $routes->group('admin/content', ['filter' => 'authAdmin'], function($routes) {
     });
 });
 
-$routes->group('admin/membership/membership', ['filter' => 'authAdmin'], function($routes) {
+$routes->group('admin/membership', ['filter' => 'authAdmin'], function($routes) {
     // Members
     $routes->group('members', function($routes) {
         $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
