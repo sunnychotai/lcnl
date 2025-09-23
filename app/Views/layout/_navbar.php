@@ -105,7 +105,7 @@
 
 <!-- Membership Section -->
 <li class="nav-item">
-  <a class="nav-link" href="<?= base_url('admin/membership/membership/members') ?>">
+  <a class="nav-link" href="<?= base_url('admin/membership/members') ?>">
     <i class="bi bi-person-lines-fill me-1"></i> Members
   </a>
 </li>

@@ -59,7 +59,7 @@ class MembersController extends BaseController
         $id = (int) $id;
         $m  = $this->members->find($id);
         if (! $m) {
-            return redirect()->to('/admin/membership/membership/members')->with('error', 'Member not found.');
+            return redirect()->to('/admin/membership/members')->with('error', 'Member not found.');
         }
         return view('admin/membership/members/show', compact('m'));
     }
