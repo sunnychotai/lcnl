@@ -12,7 +12,54 @@
 <div class="container py-5">
  
 <?php $role = session()->get('admin_role'); ?>
+<!-- Stats Row -->
+<div class="row g-4 mb-4">
 
+  <!-- Active Members -->
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body">
+        <i class="bi bi-person-check-fill fs-2 text-success mb-2"></i>
+        <h6 class="fw-bold mb-0">Active Members</h6>
+        <p class="display-6 fw-bold mb-0"><?= (int)($stats['active_members'] ?? 0) ?></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Members -->
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body">
+        <i class="bi bi-hourglass-split fs-2 text-warning mb-2"></i>
+        <h6 class="fw-bold mb-0">Pending Members</h6>
+        <p class="display-6 fw-bold mb-0"><?= (int)($stats['pending_members'] ?? 0) ?></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emails Sent -->
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body">
+        <i class="bi bi-envelope-paper-fill fs-2 text-primary mb-2"></i>
+        <h6 class="fw-bold mb-0">Emails Sent</h6>
+        <p class="display-6 fw-bold mb-0"><?= (int)($stats['emails_sent'] ?? 0) ?></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cool Extra: Last Login -->
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body">
+        <i class="bi bi-clock-history fs-2 text-dark mb-2"></i>
+        <h6 class="fw-bold mb-0">Last Admin Login</h6>
+        <p class="fw-bold mb-0 small"><?= esc($stats['last_login'] ?? '-') ?></p>
+      </div>
+    </div>
+  </div>
+
+</div>
 <div class="row g-4">
 
 <?php if (in_array($role, haystack: ['ADMIN', 'WEBSITE'])): ?>

@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\MemberModel;
+use App\Models\EmailQueueModel;
+
 class Admin extends BaseController
 {
     public function dashboard()
@@ -10,6 +13,20 @@ class Admin extends BaseController
             return redirect()->to('/auth/login');
         }
 
-        return view('admin/system/dashboard');
+        // Models
+        $memberModel = new MemberModel();
+        $emailModel  = new EmailQueueModel();
+
+        // Stats
+        $stats = [
+            'active_members'  => $memberModel->where('status', 'active')->countAllResults(),
+            'pending_members' => $memberModel->where('status', 'pending')->countAllResults(),
+            'emails_sent'     => $emailModel->where('status', 'sent')->countAllResults(),
+            'last_login'      => session()->get('last_login') ?? '-'  // fallback if not stored
+        ];
+
+        return view('admin/system/dashboard', [
+            'stats' => $stats
+        ]);
     }
 }
