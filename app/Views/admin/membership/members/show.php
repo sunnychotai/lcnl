@@ -80,9 +80,11 @@
               <button class="btn btn-outline-danger btn-sm w-100"><i class="bi bi-slash-circle me-1"></i> Disable</button>
             </form>
             <form method="post" action="<?= base_url('admin/membership/members/'.$m['id'].'/resend') ?>">
-              <?= csrf_field() ?>
-              <button class="btn btn-outline-secondary btn-sm w-100" disabled title="Email queue not enabled">Resend Email</button>
-            </form>
+  <?= csrf_field() ?>
+  <button class="btn btn-outline-secondary btn-sm w-100">
+    <i class="bi bi-envelope me-1"></i> Resend Email
+  </button>
+</form>
           </div>
         </div>
       </div>
