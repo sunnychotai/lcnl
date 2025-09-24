@@ -44,19 +44,19 @@ class ContactController extends BaseController
             'message' => $payload['message'],
         ]);
 
-        // Queue the email
-        $queue = new EmailQueueModel();
-        $queue->enqueue([
-    'to_email'  => 'info@lcnl.co.uk',
-    'to_name'   => 'LCNL Admin',
-    'subject'   => 'LCNL Website Contact Form',
-    'body_html' => $bodyHtml,
-    'body_text' => $bodyText,
-    'priority'  => 1,
-    'headers_json' => json_encode([
-        'Reply-To' => $payload['email']
-    ])
-]);
+   foreach (['info@lcnl.co.uk', 'info@lcnl.org'] as $recipient) {
+    $queue->enqueue([
+        'to_email'  => $recipient,
+        'to_name'   => 'LCNL Admin',
+        'subject'   => 'LCNL Website Contact Form',
+        'body_html' => $bodyHtml,
+        'body_text' => $bodyText,
+        'priority'  => 1,
+        'headers_json' => json_encode([
+            'Reply-To' => $payload['email']
+        ])
+    ]);
+}
 
 
         return redirect()->back()->with('success', 'Your message has been sent successfully. We’ll reply soon.');
