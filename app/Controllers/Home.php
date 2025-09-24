@@ -110,15 +110,10 @@ public function mahila()
 
     public function aboutus() { return view('aboutus'); }
 
-    public function lcf() { $committeeModel = new CommitteeModel();
-        $members = $committeeModel
-        ->where('committee', 'LCF')   // 👈 filter
-        ->orderBy('id', 'ASC')              // or whatever column you use
-        ->findAll();
-        return view('committees/lcf', [
-            'members' => $members
-        ]); }
-
+    public function lcf() {    
+        $data = ['metaDescription' => 'The Lohana Charitable Foundation (LCF) oversees governance, community assets, and the Dhamecha Lohana Centre. Meet our trustees and learn about our charitable work.'];
+        return view('committees/lcf', $data);
+     }
 
     public function committee() { 
         

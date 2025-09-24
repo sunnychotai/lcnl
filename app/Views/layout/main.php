@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= esc($title ?? 'LCNL') ?></title>
-
+  <meta name="description" content="<?= esc($metaDescription ?? 'Lohana Community North London – Bringing people together since 1976. Learn more about our events, membership, and community initiatives.') ?>">
   <!-- Favicons -->
   <link rel="icon" href="<?= base_url('assets/icons/favicon.svg') ?>" type="image/svg+xml">
   <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/icons/favicon-32x32.png') ?>">
