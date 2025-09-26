@@ -10,154 +10,157 @@
 </section>
 
 <div class="container py-5">
- 
-<?php $role = session()->get('admin_role'); ?>
-<!-- Stats Row -->
-<div class="row g-4 mb-4">
+  <?php $role = session()->get('admin_role'); ?>
 
-  <!-- Active Members -->
-  <div class="col-md-3">
-    <div class="card shadow-sm border-0 text-center h-100">
-      <div class="card-body">
-        <i class="bi bi-person-check-fill fs-2 text-success mb-2"></i>
-        <h6 class="fw-bold mb-0">Active Members</h6>
-        <p class="display-6 fw-bold mb-0"><?= (int)($stats['active_members'] ?? 0) ?></p>
+  <!-- =======================
+       Quick Stats
+  ======================== -->
+  <h4 class="fw-bold mb-3">Quick Stats</h4>
+  <div class="row g-4 mb-5">
+
+    <!-- Active Members -->
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0 text-center h-100 bg-light">
+        <div class="card-body">
+          <i class="bi bi-person-check-fill fs-2 text-success mb-2"></i>
+          <h6 class="fw-bold mb-0">Active Members</h6>
+          <p class="display-6 fw-bold mb-0"><?= (int)($stats['active_members'] ?? 0) ?></p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Pending Members -->
-  <div class="col-md-3">
-    <div class="card shadow-sm border-0 text-center h-100">
-      <div class="card-body">
-        <i class="bi bi-hourglass-split fs-2 text-warning mb-2"></i>
-        <h6 class="fw-bold mb-0">Pending Members</h6>
-        <p class="display-6 fw-bold mb-0"><?= (int)($stats['pending_members'] ?? 0) ?></p>
+    <!-- Pending Members -->
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0 text-center h-100 bg-light">
+        <div class="card-body">
+          <i class="bi bi-hourglass-split fs-2 text-warning mb-2"></i>
+          <h6 class="fw-bold mb-0">Pending Members</h6>
+          <p class="display-6 fw-bold mb-0"><?= (int)($stats['pending_members'] ?? 0) ?></p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Emails Sent -->
-  <div class="col-md-3">
-    <div class="card shadow-sm border-0 text-center h-100">
-      <div class="card-body">
-        <i class="bi bi-envelope-paper-fill fs-2 text-primary mb-2"></i>
-        <h6 class="fw-bold mb-0">Emails Sent</h6>
-        <p class="display-6 fw-bold mb-0"><?= (int)($stats['emails_sent'] ?? 0) ?></p>
+    <!-- Emails Sent -->
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0 text-center h-100 bg-light">
+        <div class="card-body">
+          <i class="bi bi-envelope-paper-fill fs-2 text-primary mb-2"></i>
+          <h6 class="fw-bold mb-0">Emails Sent</h6>
+          <p class="display-6 fw-bold mb-0"><?= (int)($stats['emails_sent'] ?? 0) ?></p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Cool Extra: Last Login -->
-  <div class="col-md-3">
-    <div class="card shadow-sm border-0 text-center h-100">
-      <div class="card-body">
-        <i class="bi bi-clock-history fs-2 text-dark mb-2"></i>
-        <h6 class="fw-bold mb-0">Last Admin Login</h6>
-        <p class="fw-bold mb-0 small"><?= esc($stats['last_login'] ?? '-') ?></p>
+    <!-- Last Login -->
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0 text-center h-100 bg-light">
+        <div class="card-body">
+          <i class="bi bi-clock-history fs-2 text-dark mb-2"></i>
+          <h6 class="fw-bold mb-0">Last Admin Login</h6>
+          <p class="fw-bold mb-0 small"><?= esc($stats['last_login'] ?? '-') ?></p>
+        </div>
       </div>
     </div>
+
   </div>
 
-</div>
-<div class="row g-4">
+  <!-- =======================
+       Admin Actions
+  ======================== -->
+  <h4 class="fw-bold mb-3">Admin Actions</h4>
+  <div class="row g-4">
 
-<?php if (in_array($role, haystack: ['ADMIN', 'WEBSITE'])): ?>
-  <!-- Committee -->
-  <div class="col-md-3">
-    <a href="<?= base_url('admin/content/committee') ?>" class="text-decoration-none">
-      <div class="card shadow-sm h-100 text-center border-0 hover-card">
-        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-          <div class="mb-3">
-            <i class="bi bi-people-fill fs-1 text-brand"></i>
+    <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
+    <!-- Committee -->
+    <div class="col-md-3">
+      <a href="<?= base_url('admin/content/committee') ?>" class="text-decoration-none">
+        <div class="card shadow-sm h-100 text-center border-0 hover-card">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-people-fill fs-1 text-brand mb-3"></i>
+            <h5 class="card-title text-dark mb-1">Manage Committee</h5>
+            <p class="text-muted small">View, add, edit, and delete members</p>
           </div>
-          <h5 class="card-title text-dark mb-1">Manage Committee</h5>
-          <p class="text-muted small">View, add, edit, and delete members</p>
         </div>
-      </div>
-    </a>
-  </div>
-  <?php endif; ?>
-  
-<?php if (in_array($role, haystack: ['ADMIN', 'WEBSITE'])): ?>
-  <div class="col-md-3">
-    <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
-      <div class="card shadow-sm h-100 text-center border-0 hover-card">
-        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-          <i class="bi bi-calendar-event fs-1 text-brand mb-3"></i>
-          <h5 class="card-title text-dark mb-1">Events</h5>
-          <p class="text-muted small">Manage community events</p>
-        </div>
-      </div>
-    </a>
-  </div>
-  <?php endif; ?>
+      </a>
+    </div>
+    <?php endif; ?>
 
-  <!-- Only for ADMIN -->
-  <?php if ($role === 'ADMIN'): ?>
-  <div class="col-md-3">
-    <a href="<?= base_url('admin/system/users') ?>" class="text-decoration-none">
-      <div class="card shadow-sm h-100 text-center border-0 hover-card">
-        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-          <i class="bi bi-people-fill fs-1 text-brand mb-3"></i>
-          <h5 class="card-title text-dark mb-1">Manage Users</h5>
-          <p class="text-muted small">Admin only: add, edit, remove accounts</p>
+    <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
+    <!-- Events -->
+    <div class="col-md-3">
+      <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
+        <div class="card shadow-sm h-100 text-center border-0 hover-card">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-calendar-event fs-1 text-brand mb-3"></i>
+            <h5 class="card-title text-dark mb-1">Events</h5>
+            <p class="text-muted small">Manage community events</p>
+          </div>
         </div>
-      </div>
-    </a>
-  </div>
-  <?php endif; ?>
-
-  <!-- ADMIN or WEBSITE -->
-  <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
-  <div class="col-md-3">
-    <a href="<?= base_url('admin/content/faqs') ?>" class="text-decoration-none">
-      <div class="card shadow-sm h-100 text-center border-0 hover-card">
-        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-          <i class="bi bi-question-circle-fill fs-1 text-brand mb-3"></i>
-          <h5 class="card-title text-dark mb-1">Manage FAQs</h5>
-          <p class="text-muted small">Add, edit, reorder FAQs</p>
-        </div>
-      </div>
-    </a>
-  </div>
-  <?php endif; ?>
-
- <!-- ADMIN or MEMBERSHIP -->
-  <?php if (in_array($role, ['ADMIN', 'MEMBERSHIP'])): ?>
-  <div class="col-md-3">
-    <a href="<?= base_url('admin/membership/members') ?>" class="text-decoration-none">
-
-      <div class="card shadow-sm h-100 text-center border-0 hover-card">
-        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-          <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>
-          <h5 class="card-title text-dark mb-1">Membership Admin</h5>
-          <p class="text-muted small">Review pending registrations &amp; activate members</p>
-        </div>
-      </div>
-    </a>
-  </div>
+      </a>
+    </div>
     <?php endif; ?>
 
     <?php if ($role === 'ADMIN'): ?>
-<div class="col-md-3">
-  <a href="<?= base_url('admin/system/emails') ?>" class="text-decoration-none">
-    <div class="card shadow-sm h-100 text-center border-0 hover-card">
-      <div class="card-body d-flex flex-column align-items-center justify-content-center">
-        <i class="bi bi-envelope-fill fs-1 text-brand mb-3"></i>
-        <h5 class="card-title text-dark mb-1">Manage Emails</h5>
-        <p class="text-muted small">View, retry, delete queued emails</p>
-      </div>
+    <!-- Users -->
+    <div class="col-md-3">
+      <a href="<?= base_url('admin/system/users') ?>" class="text-decoration-none">
+        <div class="card shadow-sm h-100 text-center border-0 hover-card">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-person-fill-gear fs-1 text-brand mb-3"></i>
+            <h5 class="card-title text-dark mb-1">Manage Users</h5>
+            <p class="text-muted small">Admin only: add, edit, remove accounts</p>
+          </div>
+        </div>
+      </a>
     </div>
-  </a>
-</div>
-<?php endif; ?>
+    <?php endif; ?>
 
+    <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
+    <!-- FAQs -->
+    <div class="col-md-3">
+      <a href="<?= base_url('admin/content/faqs') ?>" class="text-decoration-none">
+        <div class="card shadow-sm h-100 text-center border-0 hover-card">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-question-circle-fill fs-1 text-brand mb-3"></i>
+            <h5 class="card-title text-dark mb-1">Manage FAQs</h5>
+            <p class="text-muted small">Add, edit, reorder FAQs</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <?php endif; ?>
 
-</div>
+    <?php if (in_array($role, ['ADMIN', 'MEMBERSHIP'])): ?>
+    <!-- Membership -->
+    <div class="col-md-3">
+      <a href="<?= base_url('admin/membership/members') ?>" class="text-decoration-none">
+        <div class="card shadow-sm h-100 text-center border-0 hover-card">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>
+            <h5 class="card-title text-dark mb-1">Membership Admin</h5>
+            <p class="text-muted small">Review pending registrations &amp; activate members</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <?php endif; ?>
 
+    <?php if ($role === 'ADMIN'): ?>
+    <!-- Emails -->
+    <div class="col-md-3">
+      <a href="<?= base_url('admin/system/emails') ?>" class="text-decoration-none">
+        <div class="card shadow-sm h-100 text-center border-0 hover-card">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-envelope-fill fs-1 text-brand mb-3"></i>
+            <h5 class="card-title text-dark mb-1">Manage Emails</h5>
+            <p class="text-muted small">View, retry, delete queued emails</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <?php endif; ?>
 
- 
+  </div>
 </div>
 
 <?= $this->endSection() ?>

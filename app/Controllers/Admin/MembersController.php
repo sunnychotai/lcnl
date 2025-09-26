@@ -18,40 +18,44 @@ class MembersController extends BaseController
     }
 
     /** List members with basic filters & search */
-    public function index()
-    {
-        $status = $this->request->getGet('status') ?: 'pending'; // pending|active|disabled|all
-        $q      = trim((string) $this->request->getGet('q'));
+   public function index()
+{
+    $status = $this->request->getGet('status') ?: 'pending'; // pending|active|disabled|all
+    $q      = trim((string) $this->request->getGet('q'));
 
-        $builder = $this->members->builder();
-        $builder->select('*');
+    // Use model query builder
+    $builder = $this->members;
 
-        if ($status !== 'all') {
-            $builder->where('status', $status);
-        }
-
-        if ($q !== '') {
-            $builder->groupStart()
-                ->like('first_name', $q)
-                ->orLike('last_name', $q)
-                ->orLike('email', $q)
-                ->orLike('mobile', $q)
-            ->groupEnd();
-        }
-
-        $builder->orderBy('created_at', 'DESC');
-        $rows = $builder->get(100)->getResultArray();
-
-        // Quick counts for tabs
-        $counts = [
-            'pending'  => (int) $this->members->where('status','pending')->countAllResults(false),
-            'active'   => (int) $this->members->where('status','active')->countAllResults(false),
-            'disabled' => (int) $this->members->where('status','disabled')->countAllResults(false),
-            'all'      => (int) $this->members->countAllResults(),
-        ];
-
-        return view('admin/membership/members/index', compact('rows','status','q','counts'));
+    if ($status !== 'all') {
+        $builder = $builder->where('status', $status);
     }
+
+    if ($q !== '') {
+        $builder = $builder->groupStart()
+            ->like('first_name', $q)
+            ->orLike('last_name', $q)
+            ->orLike('email', $q)
+            ->orLike('mobile', $q)
+        ->groupEnd();
+    }
+
+    // Use paginate instead of get()
+    $rows = $builder->orderBy('created_at', 'DESC')
+        ->paginate(10); // show 10 per page
+
+    // Quick counts for tabs
+    $counts = [
+        'pending'  => (int) $this->members->where('status','pending')->countAllResults(false),
+        'active'   => (int) $this->members->where('status','active')->countAllResults(false),
+        'disabled' => (int) $this->members->where('status','disabled')->countAllResults(false),
+        'all'      => (int) $this->members->countAllResults(),
+    ];
+
+    // Get pager instance for the view
+    $pager = $this->members->pager;
+
+    return view('admin/membership/members/index', compact('rows','status','q','counts','pager'));
+}
 
     /** Show one member (read-only details + actions) */
     public function show($id)
@@ -83,4 +87,54 @@ class MembersController extends BaseController
     {
         return redirect()->back()->with('message', 'Email queue not enabled yet.');
     }
+
+    public function export()
+{
+    $status = $this->request->getGet('status') ?: 'all';
+    $q      = trim((string) $this->request->getGet('q'));
+
+    $builder = $this->members;
+
+    if ($status !== 'all') {
+        $builder = $builder->where('status', $status);
+    }
+
+    if ($q !== '') {
+        $builder = $builder->groupStart()
+            ->like('first_name', $q)
+            ->orLike('last_name', $q)
+            ->orLike('email', $q)
+            ->orLike('mobile', $q)
+        ->groupEnd();
+    }
+
+    $rows = $builder->orderBy('created_at', 'DESC')->findAll();
+
+    // CSV headers
+    $filename = 'members_export_' . date('Ymd_His') . '.csv';
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment;filename="' . $filename . '"');
+
+    $output = fopen('php://output', 'w');
+
+    // Write header row
+    fputcsv($output, ['ID', 'First Name', 'Last Name', 'Email', 'Mobile', 'Status', 'Created At']);
+
+    // Write data rows
+    foreach ($rows as $r) {
+        fputcsv($output, [
+            $r['id'],
+            $r['first_name'] ?? '',
+            $r['last_name'] ?? '',
+            $r['email'] ?? '',
+            $r['mobile'] ?? '',
+            $r['status'] ?? '',
+            $r['created_at'] ?? ''
+        ]);
+    }
+
+    fclose($output);
+    exit;
+}
+
 }

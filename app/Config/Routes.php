@@ -166,6 +166,7 @@ $routes->group('admin/membership', ['filter' => 'authAdmin'], function($routes) 
     // Members
     $routes->group('members', function($routes) {
         $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
+        $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.members.export']); // ✅ CSV Export
         $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.members.show']);
         $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.members.activate']);
         $routes->post('(:num)/disable',  'Admin\MembersController::disable/$1',  ['as' => 'admin.members.disable']);
@@ -177,6 +178,7 @@ $routes->group('admin/membership', ['filter' => 'authAdmin'], function($routes) 
         $routes->post('merge', 'Admin\FamiliesController::merge', ['as' => 'admin.families.merge']);
     });
 });
+
 
 /* -----------------------
    Environment routes (LAST)
