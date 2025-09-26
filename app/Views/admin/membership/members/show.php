@@ -32,7 +32,7 @@
 
   <div class="row g-3">
     <div class="col-lg-8">
-      <div class="card shadow-sm border-0">
+      <div class="lcnl-card shadow-sm border-0">
         <div class="card-body">
           <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill me-2"></i> Profile</h5>
           <div class="row">
@@ -58,7 +58,7 @@
 
     <!-- Meta -->
     <div class="col-lg-4">
-      <div class="card shadow-sm border-0 mb-3">
+      <div class="lcnl-card shadow-sm border-0 mb-3">
         <div class="card-body">
           <h6 class="fw-bold mb-2"><i class="bi bi-clock-history me-1"></i> Timeline</h6>
           <div class="small text-muted">Created: <?= esc($m['created_at'] ?? '-') ?></div>
@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <div class="card shadow-sm border-0">
+      <div class="lcnl-card shadow-sm border-0">
         <div class="card-body">
           <h6 class="fw-bold mb-2"><i class="bi bi-gear me-1"></i> Actions</h6>
           <div class="d-grid gap-2">
