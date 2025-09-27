@@ -44,12 +44,14 @@ class MembersController extends BaseController
         ->paginate(10); // show 10 per page
 
     // Quick counts for tabs
-    $counts = [
-        'pending'  => (int) $this->members->where('status','pending')->countAllResults(false),
-        'active'   => (int) $this->members->where('status','active')->countAllResults(false),
-        'disabled' => (int) $this->members->where('status','disabled')->countAllResults(false),
-        'all'      => (int) $this->members->countAllResults(),
-    ];
+    // Quick counts for tabs
+$counts = [
+    'pending'  => (int) (new MemberModel())->where('status','pending')->countAllResults(),
+    'active'   => (int) (new MemberModel())->where('status','active')->countAllResults(),
+    'disabled' => (int) (new MemberModel())->where('status','disabled')->countAllResults(),
+    'all'      => (int) (new MemberModel())->countAllResults(),
+];
+
 
     // Get pager instance for the view
     $pager = $this->members->pager;

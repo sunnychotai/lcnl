@@ -17,40 +17,58 @@
 
 
   <!-- Stats Overview -->
-  <div class="row g-3 mb-4">
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-body text-center">
-          <h6 class="text-muted mb-1">Active</h6>
-          <h3 class="fw-bold text-success"><?= (int)($counts['active'] ?? 0) ?></h3>
+ <div class="row g-3 mb-4">
+
+  <!-- Pending -->
+  <div class="col-md-3">
+    <a href="<?= site_url('admin/membership/members?status=pending') ?>" class="text-decoration-none">
+      <div class="card shadow-sm border-0 text-center h-100 <?= $status === 'pending' ? 'bg-light' : '' ?>">
+        <div class="card-body">
+          <i class="bi bi-hourglass-split fs-2 text-warning mb-2"></i>
+          <h6 class="fw-bold mb-0">Pending (<?= $counts['pending'] ?>)</h6>
         </div>
       </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-body text-center">
-          <h6 class="text-muted mb-1">Pending</h6>
-          <h3 class="fw-bold text-warning"><?= (int)($counts['pending'] ?? 0) ?></h3>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-body text-center">
-          <h6 class="text-muted mb-1">Disabled</h6>
-          <h3 class="fw-bold text-secondary"><?= (int)($counts['disabled'] ?? 0) ?></h3>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-body text-center">
-          <h6 class="text-muted mb-1">Total</h6>
-          <h3 class="fw-bold"><?= array_sum($counts ?? []) ?></h3>
-        </div>
-      </div>
-    </div>
+    </a>
   </div>
+
+  <!-- Active -->
+  <div class="col-md-3">
+    <a href="<?= site_url('admin/membership/members?status=active') ?>" class="text-decoration-none">
+      <div class="card shadow-sm border-0 text-center h-100 <?= $status === 'active' ? 'bg-light' : '' ?>">
+        <div class="card-body">
+          <i class="bi bi-person-check-fill fs-2 text-success mb-2"></i>
+          <h6 class="fw-bold mb-0">Active (<?= $counts['active'] ?>)</h6>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Disabled -->
+  <div class="col-md-3">
+    <a href="<?= site_url('admin/membership/members?status=disabled') ?>" class="text-decoration-none">
+      <div class="card shadow-sm border-0 text-center h-100 <?= $status === 'disabled' ? 'bg-light' : '' ?>">
+        <div class="card-body">
+          <i class="bi bi-person-dash-fill fs-2 text-danger mb-2"></i>
+          <h6 class="fw-bold mb-0">Disabled (<?= $counts['disabled'] ?>)</h6>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- All -->
+  <div class="col-md-3">
+    <a href="<?= site_url('admin/membership/members?status=all') ?>" class="text-decoration-none">
+      <div class="card shadow-sm border-0 text-center h-100 <?= $status === 'all' ? 'bg-light' : '' ?>">
+        <div class="card-body">
+          <i class="bi bi-people-fill fs-2 text-primary mb-2"></i>
+          <h6 class="fw-bold mb-0">All (<?= $counts['all'] ?>)</h6>
+        </div>
+      </div>
+    </a>
+  </div>
+
+</div>
+
 
   <!-- Flash Messages -->
   <?php if ($msg = session()->getFlashdata('message')): ?>
