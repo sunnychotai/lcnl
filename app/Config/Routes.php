@@ -24,6 +24,7 @@ $routes->get('/mahila', 'Home::mahila');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/lcf', 'Home::lcf');
 $routes->get('/bereavement', 'Home::bereavement');
+$routes->get('/tabletennis', 'Home::tabletennis');
 
 // Test routes
 $routes->get('/dbcheck', 'Test::dbcheck');

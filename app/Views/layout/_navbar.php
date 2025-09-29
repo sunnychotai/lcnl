@@ -38,7 +38,24 @@
         </li>
 
         <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('membership') ?>">Membership</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('bereavement') ?>">Bereavement</a></li>
+
+        <!-- Services Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link fw-semibold dropdown-toggle" href="#" id="servicesDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            Services
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+            <li><a class="dropdown-item" href="<?= base_url('/bereavement') ?>">Bereavement</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('/tabletennis') ?>">Table Tennis</a></li>
+            <!-- <li><a class="dropdown-item" href="">Senior Mens</a></li>
+            <li><a class="dropdown-item" href="">Senior Ladies</a></li>
+            <li><a class="dropdown-item" href="">Raghuvanshi Charitable Trust</a></li>
+            <li><a class="dropdown-item" href="">Lohana Charitable Foundation</a></li> -->
+          </ul>
+        </li>
+
+        
         <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('contact') ?>">Contact</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('aboutus') ?>">About Us</a></li>
       </ul>

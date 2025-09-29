@@ -103,8 +103,14 @@ public function mahila()
         {
             $faqModel = new FaqModel();
             $data['faqs'] = $faqModel->getByGroup('Bereavement'); // <-- pull from DB
-            return view('bereavement', $data); // <-- point to your updated bereavement view
+            return view('services/bereavement', $data); // <-- point to your updated bereavement view
         }    
+
+    public function tabletennis()
+        {
+            return view('services/tabletennis'); 
+        }    
+
     
     public function membership() { return view('membership'); }
 

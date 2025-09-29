@@ -612,3 +612,20 @@ footer a:hover{ opacity:1; }
 .trustee-card img:hover {
   filter: brightness(0.9);
 }
+
+.hero-sports {
+  background: url('/assets/img/services/tabletennis.png') center center/cover no-repeat;
+  min-height: 300px;
+  position: relative;
+}
+
+.hero-sports::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* dark overlay for text readability */
+}
+.hero-sports .container {
+  position: relative;
+  z-index: 2;
+}
