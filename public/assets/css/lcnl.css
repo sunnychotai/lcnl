@@ -378,7 +378,7 @@
 
 /* Accent button (gold) */
 .btn-accent{ background:var(--accent1); color:#fff; border:none; }
-.btn-accent:hover{ background:#c9a227; color:var(--brand); }
+.btn-accent:hover{ background:#c9a227;}
 
 /* =========================
    EVENTS / GALLERY

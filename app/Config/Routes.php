@@ -17,6 +17,11 @@ $routes->get('/events', 'Home::events');
 $routes->get('/events/(:num)', 'Home::eventDetail/$1');
 $routes->get('sitemap.xml', 'Sitemap::index');
 
+$routes->get('events/register/chopda-pujan', 'EventRegistrationController::register');
+$routes->post('events/register/submit', 'EventRegistrationController::submit');
+$routes->get('events/register/chopda-pujan/thankyou', 'EventRegistrationController::thankyou');
+
+
 $routes->get('/gallery', 'Home::gallery');
 $routes->get('/contact', 'Home::contact');
 $routes->get('/membership', 'Home::membership'); // landing page

@@ -12,32 +12,6 @@ public function index()
     $eventModel = new EventModel();
     $data['upcomingEvents'] = $eventModel->getUpcomingEvents([], 10);
 
-    // === Live Stream Auto Selection ===
-    $streams = [
-        1  => 'VW0mUF6P1Zk',
-        2  => '1pT6vJt4LW0',
-        3  => 'nln_27kmOsI',
-        4  => 'Ti7OZCj_6nc',
-        5  => 'QdGwgvrBxDg',
-        6  => 'O7sYOYHj5s8',
-        7  => 'yMnTesCsfMs',
-        8  => 'k_DHIPRGhIc',   // Aatham
-        9  => 'aZGgF0Mvksc',
-        10 => 'R4CqwOBXj0g',   // Sharad Poonam
-    ];
-
-    // Define Day 1 date (Navratri start)
-    $startDate = new \DateTime('2025-09-22'); 
-    $today     = new \DateTime();
-
-    // Work out which day we are on
-    $diff = $startDate->diff($today)->days + 1; // 1-based index
-    $dayNumber = min(max($diff, 1), count($streams));
-
-    // Get video ID
-    $data['videoId']   = $streams[$dayNumber] ?? null;
-    $data['dayNumber'] = $dayNumber;
-
     return view('home', $data);
 }
 
