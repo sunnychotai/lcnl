@@ -112,57 +112,57 @@ document.addEventListener('DOMContentLoaded', () => {
       <!-- Left column (Promo + President) -->
       <div class="col-md-8">
 
-<?php if (!empty($videoId)): ?>
-  <!-- Auto Daily Live Stream Embed -->
-  <div class="mb-4 text-center">
-    <div class="lcnl-card border-0 shadow-lg overflow-hidden mx-auto rounded-4" style="max-width:900px;">
-      
-      <!-- Header -->
-      <div class="bg-brand text-white py-2 px-3 text-start">
-        <h5 class="fw-bold mb-0 text-white">
-          <i class="bi bi-broadcast me-2 text-white"></i>
-          Live Stream – Day <?= esc($dayNumber) ?>
-        </h5>
+<!-- Chopda Pujan 2025 Feature Banner -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center justify-content-center g-4">
+
+      <!-- Left: Event flier (clickable) -->
+      <div class="col-lg-6 text-center">
+        <a href="https://lcnl.org/events/27" target="_blank" rel="noopener">
+
+          <img src="<?= base_url('assets/img/events/chopda_pujan.png') ?>"
+               alt="LCNL Chopda Pujan 2025"
+               class="img-fluid rounded shadow-sm hover-shadow"
+               style="max-height:450px; object-fit:cover; transition:transform 0.3s ease, box-shadow 0.3s ease;">
+        </a>
       </div>
 
-      <!-- Video -->
-      <div class="ratio ratio-16x9">
-        <iframe 
-            src="https://www.youtube.com/embed/<?= esc($videoId) ?>?autoplay=1&modestbranding=1&rel=0" 
-            title="YouTube Live Stream - Day <?= esc($dayNumber) ?>"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            class="rounded-0">
-        </iframe>
+      <!-- Right: Details + CTA -->
+      <div class="col-lg-6">
+        <h2 class="fw-bold mb-3 text-brand">
+          <i class="bi bi-journal-check me-2"></i>Chopda Pujan 2025
+        </h2>
+        <p class="lead mb-3">
+          Join us for this sacred annual ceremony to mark the start of a prosperous New Year.  
+          We welcome all community members to this auspicious event.
+        </p>
+
+        <ul class="list-unstyled mb-4">
+          <li><i class="bi bi-calendar-event text-accent me-2"></i><strong>Monday 20 October 2025</strong></li>
+          <li><i class="bi bi-clock text-accent me-2"></i>Registration: 5:00 PM – 6:00 PM | Pooja: 6:00 PM – 7:30 PM</li>
+          <li><i class="bi bi-geo-alt-fill text-accent me-2"></i>J.V. Gokal Hall, Dhamecha Lohana Centre, Harrow</li>
+          <li><i class="bi bi-currency-pound text-accent me-2"></i>£25 per pooja (max 2 participants per Yajman)</li>
+        </ul>
+
+        <a href="<?= base_url('events/register/chopda-pujan') ?>"
+           class="btn btn-brand btn-lg rounded-pill px-4 fw-semibold">
+          <i class="bi bi-pencil-square me-2"></i>Register Now
+        </a>
       </div>
 
-      <!-- Footer -->
-      <div class="card-body bg-dark text-white py-2">
-        <small class="d-block">
-          <i class="bi bi-info-circle me-1"></i> Streaming now on <strong>LCNL YouTube</strong>
-        </small>
-      </div>
     </div>
   </div>
-<?php endif; ?>
+</section>
 
-        <!-- Promo Banner
-        <div class="mb-3 text-center">
-          <a href="<?= base_url('events/13') ?>" class="text-decoration-none d-inline-block">
-            <div class="card border-0 shadow-sm overflow-hidden promo-banner" style="max-width:700px;">
-              <img src="<?= base_url('assets/img/navratri-2025.jpg') ?>" 
-                   class="w-100" 
-                   alt="Navratri 2025" 
-                   style="height:auto;">
-              <div class="card-img-overlay d-flex flex-column justify-content-end p-2" 
-                   style="background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 60%);">
-                <h6 class="text-white fw-bold mb-1">Navratri 2025</h6>
-                <small class="text-light">Click to see full details</small>
-              </div>
-            </div>
-          </a>
-        </div> -->
+<!-- Optional subtle hover effect -->
+<style>
+  .hover-shadow:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+</style>
+
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
