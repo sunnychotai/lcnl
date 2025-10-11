@@ -124,7 +124,7 @@
 
           <?php if (!empty($event['ticketinfo'])): ?>
             <div class="fs-6">
-              <?= nl2br(esc($event['ticketinfo'])) ?>
+              <?= nl2br(($event['ticketinfo'])) ?>
             </div>
           <?php else: ?>
             <p class="text-muted mb-0">Ticket details will be announced.</p>
