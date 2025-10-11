@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       <!-- Left: Event flier (clickable) -->
       <div class="col-lg-6 text-center">
-        <a href="https://lcnl.org/events/27" target="_blank" rel="noopener">
+        <a href="<?= base_url('events/register/chopda-pujan') ?>" target="_blank" rel="noopener">
 
           <img src="<?= base_url('assets/img/events/chopda_pujan.png') ?>"
                alt="LCNL Chopda Pujan 2025"
