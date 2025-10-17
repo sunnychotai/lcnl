@@ -25,7 +25,7 @@
         <p>
           We collect your contact and household information, and where applicable, information about your
           children who take part in youth activities. We use this data only to manage membership, organise
-          events, communicate with you, and meet our legal duties as a registered charity.
+          events, communicate with you, and meet our legal and organisational obligations.
         </p>
         <p>
           Your information is stored securely in an encrypted database with strict access controls, managed by
@@ -42,7 +42,6 @@
       <div class="constitution-box mb-4">
         <p class="mb-2 text-muted small">
           <strong>Last updated:</strong> October 2025<br>
-          <strong>Registered Charity Number:</strong> 1161788<br>
           <strong>Registered Address:</strong> Dhamecha Lohana Centre, Brember Road, Harrow, HA2 8AX<br>
           <strong>Data Protection Officers:</strong> Mr Ashok Dattani and Mr Amit Chandarana
         </p>
@@ -67,8 +66,8 @@
       <div class="constitution-box mb-4" id="controller">
         <h3 class="h5 fw-bold mb-2"><i class="bi bi-building me-2 text-brand"></i>Data Controller</h3>
         <p class="mb-2">
-          The data controller is <strong>Lohana Community of North London (LCNL)</strong>, Registered Charity No. 1161788,
-          located at Dhamecha Lohana Centre, Brember Road, Harrow, HA2 8AX.
+          The data controller is <strong>Lohana Community of North London (LCNL)</strong>, located at 
+          Dhamecha Lohana Centre, Brember Road, Harrow, HA2 8AX.
         </p>
         <p class="mb-0">
           LCNL has appointed <strong>Mr Ashok Dattani</strong> and <strong>Mr Amit Chandarana</strong> as joint Data Protection
@@ -112,7 +111,7 @@
         <ul class="mb-2">
           <li><strong>Contractual necessity</strong>: to manage membership and provide services you request</li>
           <li><strong>Legitimate interests</strong>: to run effective community activities and communications</li>
-          <li><strong>Legal obligations</strong>: to meet statutory requirements (e.g., Gift Aid, accounting, charity law)</li>
+          <li><strong>Legal obligations</strong>: to meet statutory requirements (e.g., Gift Aid, accounting, regulatory compliance)</li>
           <li><strong>Consent</strong>: for optional uses such as newsletters, event photography, or non-essential cookies</li>
         </ul>
         <p class="mb-0">
@@ -171,7 +170,7 @@
         <ul class="mb-0">
           <li>Trusted service providers (e.g., email systems, event platforms, website hosting) under confidentiality agreements</li>
           <li>Event partners only where necessary to deliver an event you have booked</li>
-          <li>Regulators or authorities where legally required (e.g., HMRC, Charity Commission, ICO)</li>
+          <li>Regulators or authorities where legally required (e.g., HMRC, ICO, or other statutory bodies)</li>
         </ul>
       </div>
 
@@ -195,7 +194,7 @@
           <li><strong>Membership records</strong>: normally retained for up to <strong>three years</strong> after membership ends, unless law requires longer retention</li>
           <li><strong>Event/booking records</strong>: retained in line with financial record-keeping requirements</li>
           <li><strong>Contact form enquiries</strong>: typically retained for up to 24 months</li>
-          <li><strong>Financial records</strong>: retained as required by HMRC and charity accounting regulations</li>
+          <li><strong>Financial records</strong>: retained as required by HMRC and relevant accounting regulations</li>
         </ul>
         <p class="mb-0">
           We may retain data longer if required by law or to establish, exercise, or defend legal claims.
