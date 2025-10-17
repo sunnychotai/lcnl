@@ -42,7 +42,7 @@
           </div>
           <div class="col-6">
             <ul class="list-unstyled">
-              <li><a class="text-white text-decoration-none" href="<?= base_url('privacy') ?>">Privacy Policy</a></li>
+              <li><a class="text-white text-decoration-none" href="<?= base_url('privacy') ?>">Privacy Policy/GDPR</a></li>
               <li><a class="text-white text-decoration-none" href="<?= base_url('faqs') ?>">FAQs</a></li>
               <li><a class="text-white text-decoration-none" href="<?= base_url('contact') ?>">Contact</a></li>
               <?php if (session()->get('isAdminLoggedIn')): ?>
