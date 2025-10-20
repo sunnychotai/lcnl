@@ -9,8 +9,37 @@
   </div>
 </section>
 
+<!-- Video Section -->
+<section class="py-3 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-sm border-0 no-hover">
+          <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+              <i class="bi bi-play-circle text-brand fs-1 mb-3"></i>
+              <h2 class="h3 fw-bold mb-2 text-brand">LCNL Chopda Pujan 2025 Live</h2>
+            </div>
+            
+            <!-- YouTube Video Embed - Replace VIDEO_ID with actual YouTube video ID -->
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="https://www.youtube.com/embed/nkGjAz0cFsA" 
+                title="Chopda Pujan Video" 
+                allowfullscreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Ceremony Documents -->
-<section class="py-5">
+<section class="py-3">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
@@ -47,37 +76,10 @@
   </div>
 </section>
 
-<!-- Video Section -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="card shadow-sm border-0 no-hover">
-          <div class="card-body p-4 p-md-5">
-            <div class="text-center mb-4">
-              <i class="bi bi-play-circle text-brand fs-1 mb-3"></i>
-              <h2 class="h3 fw-bold mb-2 text-brand">LCNL Chopda Pujan 2025</h2>
-            </div>
-            
-            <!-- YouTube Video Embed - Replace VIDEO_ID with actual YouTube video ID -->
-            <div class="ratio ratio-16x9">
-              <iframe 
-                src="https://youtube.com/live/nkGjAz0cFsA?feature=share" 
-                title="Chopda Pujan Video" 
-                allowfullscreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                loading="lazy">
-              </iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- Event Context -->
-<section class="py-5 bg-light">
+<section class="py-3 bg-light">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
