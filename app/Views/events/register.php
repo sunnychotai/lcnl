@@ -9,6 +9,73 @@
   </div>
 </section>
 
+<!-- Ceremony Documents -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-sm border-0 no-hover">
+          <div class="card-body p-4 p-md-5 text-center">
+            <i class="bi bi-file-earmark-pdf text-brand fs-1 mb-3"></i>
+            <h2 class="h3 fw-bold mb-3 text-brand">Ceremony Documents</h2>
+            <p class="mb-4">Download the Chopda Pujan ceremony guide in your preferred language</p>
+            
+            <div class="row g-3 justify-content-center">
+              <div class="col-md-5">
+                <a href="<?= base_url('assets/documents/chopda-pujan/english.pdf') ?>" 
+                   class="btn btn-outline-brand btn-lg w-100 d-flex align-items-center justify-content-center" 
+                   download
+                   target="_blank">
+                  <i class="bi bi-download me-2"></i>
+                  Download English Version
+                </a>
+              </div>
+              <div class="col-md-5">
+                <a href="<?= base_url('assets/documents/chopda-pujan/gujarati.pdf') ?>" 
+                   class="btn btn-outline-brand btn-lg w-100 d-flex align-items-center justify-content-center" 
+                   download
+                   target="_blank">
+                  <i class="bi bi-download me-2"></i>
+                  Download Gujarati Version
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-sm border-0 no-hover">
+          <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+              <i class="bi bi-play-circle text-brand fs-1 mb-3"></i>
+              <h2 class="h3 fw-bold mb-2 text-brand">LCNL Chopda Pujan 2025</h2>
+            </div>
+            
+            <!-- YouTube Video Embed - Replace VIDEO_ID with actual YouTube video ID -->
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="https://www.youtube.com/embed/VIDEO_ID" 
+                title="Chopda Pujan Video" 
+                allowfullscreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Event Context -->
 <section class="py-5 bg-light">
   <div class="container">
@@ -67,24 +134,20 @@
   </div>
 </section>
 
-<!-- Registration Form -->
-<section class="py-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <h3 class="text-center mb-4">Complete Your Registration</h3>
-        <iframe src="https://www.cognitoforms.com/f/K8NtvjObHUG_pd--VmcMAg/296" allow="payment" style="border:0;width:100%;" height="1174"></iframe>
-        <script src="https://www.cognitoforms.com/f/iframe.js"></script>
-      </div>
-    </div>
-  </div>
-</section>
-
 <style>
   .auth-card { border-left: 6px solid var(--brand); border-radius: var(--radius); }
   .card-header.bg-accent1 { background-color: var(--accent1); }
   .card-header.bg-brand { background-color: var(--brand); }
   .text-brand { color: var(--brand); }
+  .btn-outline-brand {
+    color: var(--brand);
+    border-color: var(--brand);
+  }
+  .btn-outline-brand:hover {
+    background-color: var(--brand);
+    border-color: var(--brand);
+    color: white;
+  }
 </style>
 
 <?= $this->endSection() ?>
