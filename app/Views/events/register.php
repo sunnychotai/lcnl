@@ -62,7 +62,7 @@
             <!-- YouTube Video Embed - Replace VIDEO_ID with actual YouTube video ID -->
             <div class="ratio ratio-16x9">
               <iframe 
-                src="https://www.youtube.com/embed/VIDEO_ID" 
+                src="https://youtube.com/live/nkGjAz0cFsA?feature=share" 
                 title="Chopda Pujan Video" 
                 allowfullscreen
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
