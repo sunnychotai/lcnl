@@ -112,48 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <!-- Left column (Promo + President) -->
       <div class="col-md-8">
 
-<!-- Chopda Pujan 2025 Feature Banner -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <div class="row align-items-center justify-content-center g-4">
 
-      <!-- Left: Event flier (clickable) -->
-      <div class="col-lg-6 text-center">
-        <a href="<?= base_url('events/register/chopda-pujan') ?>" target="_blank" rel="noopener">
-
-          <img src="<?= base_url('assets/img/events/chopda_pujan.png') ?>"
-               alt="LCNL Chopda Pujan 2025"
-               class="img-fluid rounded shadow-sm hover-shadow"
-               style="max-height:450px; object-fit:cover; transition:transform 0.3s ease, box-shadow 0.3s ease;">
-        </a>
-      </div>
-
-      <!-- Right: Details + CTA -->
-      <div class="col-lg-6">
-        <h2 class="fw-bold mb-3 text-brand">
-          <i class="bi bi-journal-check me-2"></i>Chopda Pujan 2025
-        </h2>
-        <p class="lead mb-3">
-          Join us for this sacred annual ceremony to mark the start of a prosperous New Year.  
-          We welcome all community members to this auspicious event.
-        </p>
-
-        <ul class="list-unstyled mb-4">
-          <li><i class="bi bi-calendar-event text-accent me-2"></i><strong>Monday 20 October 2025</strong></li>
-          <li><i class="bi bi-clock text-accent me-2"></i>Registration: 5:00 PM – 6:00 PM | Pooja: 6:00 PM – 7:30 PM</li>
-          <li><i class="bi bi-geo-alt-fill text-accent me-2"></i>J.V. Gokal Hall, Dhamecha Lohana Centre, Harrow</li>
-          <li><i class="bi bi-currency-pound text-accent me-2"></i>£25 per pooja (max 2 participants per Yajman)</li>
-        </ul>
-
-        <a href="<?= base_url('events/register/chopda-pujan') ?>"
-           class="btn btn-brand btn-lg rounded-pill px-4 fw-semibold">
-          <i class="bi bi-pencil-square me-2"></i>Register Now
-        </a>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- Optional subtle hover effect -->
 <style>
