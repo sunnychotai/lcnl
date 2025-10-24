@@ -101,6 +101,7 @@ class ComposerStaticInit657ac079313fab046eb8c29fe1d6992b
 
     public static $classMap = array (
         'App\\Commands\\SendQueuedEmails' => __DIR__ . '/../..' . '/app/Commands/SendQueuedEmails.php',
+        'App\\Commands\\TestEmail' => __DIR__ . '/../..' . '/app/Commands/TestEmail.php',
         'App\\Controllers\\Account\\DashboardController' => __DIR__ . '/../..' . '/app/Controllers/Account/DashboardController.php',
         'App\\Controllers\\Account\\HouseholdController' => __DIR__ . '/../..' . '/app/Controllers/Account/HouseholdController.php',
         'App\\Controllers\\Account\\PasswordController' => __DIR__ . '/../..' . '/app/Controllers/Account/PasswordController.php',
@@ -117,6 +118,7 @@ class ComposerStaticInit657ac079313fab046eb8c29fe1d6992b
         'App\\Controllers\\BaseController' => __DIR__ . '/../..' . '/app/Controllers/BaseController.php',
         'App\\Controllers\\Committee' => __DIR__ . '/../..' . '/app/Controllers/Committee.php',
         'App\\Controllers\\ContactController' => __DIR__ . '/../..' . '/app/Controllers/ContactController.php',
+        'App\\Controllers\\EventRegistrationController' => __DIR__ . '/../..' . '/app/Controllers/EventRegistrationController.php',
         'App\\Controllers\\FaqController' => __DIR__ . '/../..' . '/app/Controllers/FaqController.php',
         'App\\Controllers\\Home' => __DIR__ . '/../..' . '/app/Controllers/Home.php',
         'App\\Controllers\\MemberAuth' => __DIR__ . '/../..' . '/app/Controllers/MemberAuth.php',
@@ -129,6 +131,7 @@ class ComposerStaticInit657ac079313fab046eb8c29fe1d6992b
         'App\\Models\\CommitteeModel' => __DIR__ . '/../..' . '/app/Models/CommitteeModel.php',
         'App\\Models\\EmailQueueModel' => __DIR__ . '/../..' . '/app/Models/EmailQueueModel.php',
         'App\\Models\\EventModel' => __DIR__ . '/../..' . '/app/Models/EventModel.php',
+        'App\\Models\\EventRegistrationModel' => __DIR__ . '/../..' . '/app/Models/EventRegistrationModel.php',
         'App\\Models\\FamilyMemberModel' => __DIR__ . '/../..' . '/app/Models/FamilyMemberModel.php',
         'App\\Models\\FamilyModel' => __DIR__ . '/../..' . '/app/Models/FamilyModel.php',
         'App\\Models\\FaqModel' => __DIR__ . '/../..' . '/app/Models/FaqModel.php',

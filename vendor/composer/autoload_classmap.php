@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Commands\\SendQueuedEmails' => $baseDir . '/app/Commands/SendQueuedEmails.php',
+    'App\\Commands\\TestEmail' => $baseDir . '/app/Commands/TestEmail.php',
     'App\\Controllers\\Account\\DashboardController' => $baseDir . '/app/Controllers/Account/DashboardController.php',
     'App\\Controllers\\Account\\HouseholdController' => $baseDir . '/app/Controllers/Account/HouseholdController.php',
     'App\\Controllers\\Account\\PasswordController' => $baseDir . '/app/Controllers/Account/PasswordController.php',
@@ -23,6 +24,7 @@ return array(
     'App\\Controllers\\BaseController' => $baseDir . '/app/Controllers/BaseController.php',
     'App\\Controllers\\Committee' => $baseDir . '/app/Controllers/Committee.php',
     'App\\Controllers\\ContactController' => $baseDir . '/app/Controllers/ContactController.php',
+    'App\\Controllers\\EventRegistrationController' => $baseDir . '/app/Controllers/EventRegistrationController.php',
     'App\\Controllers\\FaqController' => $baseDir . '/app/Controllers/FaqController.php',
     'App\\Controllers\\Home' => $baseDir . '/app/Controllers/Home.php',
     'App\\Controllers\\MemberAuth' => $baseDir . '/app/Controllers/MemberAuth.php',
@@ -35,6 +37,7 @@ return array(
     'App\\Models\\CommitteeModel' => $baseDir . '/app/Models/CommitteeModel.php',
     'App\\Models\\EmailQueueModel' => $baseDir . '/app/Models/EmailQueueModel.php',
     'App\\Models\\EventModel' => $baseDir . '/app/Models/EventModel.php',
+    'App\\Models\\EventRegistrationModel' => $baseDir . '/app/Models/EventRegistrationModel.php',
     'App\\Models\\FamilyMemberModel' => $baseDir . '/app/Models/FamilyMemberModel.php',
     'App\\Models\\FamilyModel' => $baseDir . '/app/Models/FamilyModel.php',
     'App\\Models\\FaqModel' => $baseDir . '/app/Models/FaqModel.php',
