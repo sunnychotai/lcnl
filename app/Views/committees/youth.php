@@ -22,14 +22,12 @@
 </section>
 
 <div class="container py-5">
-
   <!-- About Section (logo removed from here) -->
   <p class="text-center mb-4">
     The Lohana Youth Committee (LYC) is dedicated to supporting, inspiring and empowering
     young people within our community. We aim to create opportunities for connection,
     personal growth and lasting friendships through cultural, social and sporting initiatives.
   </p>
-
   <!-- Join Us Section -->
   <div class="my-5">
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
