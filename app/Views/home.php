@@ -10,59 +10,62 @@
 </section>
 
 <style>
-  #heroTitle, #heroSubtitle {
+  #heroTitle,
+  #heroSubtitle {
     opacity: 0;
     transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
     transform: translateY(10px);
   }
-  #heroTitle.show, #heroSubtitle.show {
+
+  #heroTitle.show,
+  #heroSubtitle.show {
     opacity: 1;
     transform: translateY(0);
   }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const slides = [
-    {
-      title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
-      subtitle: "... bringing people together since 1976. Proud of our heritage"
-    },
-    {
-      title: `"CELEBRATING <span class='script'>COMMUNITY</span> & CULTURE"`,
-      subtitle: "Uniting Lohanas across North London"
-    },
-    {
-      title: `"SUPPORTING <span class='script'>FAMILIES</span> IN NEED"`,
-      subtitle: "From bereavement care to cultural guidance, LCNL is here for everyone."
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = [
+      {
+        title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
+        subtitle: "... bringing people together since 1976. Proud of our heritage"
+      },
+      {
+        title: `"CELEBRATING <span class='script'>COMMUNITY</span> & CULTURE"`,
+        subtitle: "Uniting Lohanas across North London"
+      },
+      {
+        title: `"SUPPORTING <span class='script'>FAMILIES</span> IN NEED"`,
+        subtitle: "From bereavement care to cultural guidance, LCNL is here for everyone."
+      }
+    ];
+
+    const titleEl = document.getElementById('heroTitle');
+    const subEl = document.getElementById('heroSubtitle');
+    let idx = 0;
+
+    function showSlide(i) {
+      // fade out
+      titleEl.classList.remove('show');
+      subEl.classList.remove('show');
+
+      setTimeout(() => {
+        titleEl.innerHTML = slides[i].title;
+        subEl.innerHTML = slides[i].subtitle;
+
+        // fade in
+        titleEl.classList.add('show');
+        subEl.classList.add('show');
+      }, 800); // matches CSS transition
     }
-  ];
 
-  const titleEl = document.getElementById('heroTitle');
-  const subEl   = document.getElementById('heroSubtitle');
-  let idx = 0;
-
-  function showSlide(i) {
-    // fade out
-    titleEl.classList.remove('show');
-    subEl.classList.remove('show');
-
-    setTimeout(() => {
-      titleEl.innerHTML = slides[i].title;
-      subEl.innerHTML   = slides[i].subtitle;
-
-      // fade in
-      titleEl.classList.add('show');
-      subEl.classList.add('show');
-    }, 800); // matches CSS transition
-  }
-
-  showSlide(idx); // show first
-  setInterval(() => {
-    idx = (idx + 1) % slides.length;
-    showSlide(idx);
-  }, 5000); // every 5s
-});
+    showSlide(idx); // show first
+    setInterval(() => {
+      idx = (idx + 1) % slides.length;
+      showSlide(idx);
+    }, 5000); // every 5s
+  });
 </script>
 
 <?php if (!empty($upcomingEvents)): ?>
@@ -75,21 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="d-flex overflow-auto gap-3 pb-2">
       <?php foreach ($upcomingEvents as $event): ?>
-        <a href="<?= base_url('events/'.$event['id']) ?>" 
-           class="text-decoration-none flex-shrink-0 event-card-link">
+        <a href="<?= base_url('events/' . $event['id']) ?>" class="text-decoration-none flex-shrink-0 event-card-link">
           <div class="card shadow-sm border-0 event-card">
             <div class="event-img-wrapper">
               <?php
-                $imagePath = $event['image'] ?? '';
-                $fullPath  = FCPATH . ltrim($imagePath, '/');
+              $imagePath = $event['image'] ?? '';
+              $fullPath = FCPATH . ltrim($imagePath, '/');
 
-                if (empty($imagePath) || !is_file($fullPath)) {
-                    $imagePath = 'assets/img/lcnl-placeholder-320.png';
-                }
+              if (empty($imagePath) || !is_file($fullPath)) {
+                $imagePath = 'assets/img/lcnl-placeholder-320.png';
+              }
               ?>
-              <img src="<?= base_url($imagePath) ?>" 
-                   class="card-img-top" 
-                   alt="<?= esc($event['title']) ?>">
+              <img src="<?= base_url($imagePath) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
 
               <div class="event-overlay">
                 <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
@@ -114,33 +114,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-<!-- Optional subtle hover effect -->
-<style>
-  .hover-shadow:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  }
-</style>
+        <!-- Optional subtle hover effect -->
+        <style>
+          .hover-shadow:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+          }
+        </style>
 
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
           <h4 class="fw-bold mb-3">Message from the President</h4>
 
-          <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>" 
-               class="mx-auto d-block d-md-inline float-md-start me-md-3 mb-2 rounded-circle shadow-sm" 
-               style="width:220px; height:220px; object-fit:cover; object-position: top;" 
-               alt="President Photo">
+          <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>"
+            class="mx-auto d-block d-md-inline float-md-start me-md-3 mb-2 rounded-circle shadow-sm"
+            style="width:220px; height:220px; object-fit:cover; object-position: top;" alt="President Photo">
 
           <p>Jai Shree Krishna | Jai Shree Ram | Jai Jalaram</p>
 
-          <p>It is an honour to serve as the youngest, and first UK-born, LCNL President as we mark our 50th year. This milestone is a reflection of the dedication of past presidents, committees and members.</p>
+          <p>It is an honour to serve as the youngest, and first UK-born, LCNL President as we mark our 50th year. This
+            milestone is a reflection of the dedication of past presidents, committees and members.</p>
 
-          <p>We have introduced a portfolio system where each Executive Committee member leads or supports an area of activity. This ensures events and services are well-managed and gives everyone the chance to contribute.</p>
+          <p>We have introduced a portfolio system where each Executive Committee member leads or supports an area of
+            activity. This ensures events and services are well-managed and gives everyone the chance to contribute.</p>
 
-          <p>Our focus will be to maintain LCNL’s cultural and religious programmes, while also introducing new initiatives that appeal to all generations—especially children and youth, who are key to our future.</p>
+          <p>Our focus will be to maintain LCNL’s cultural and religious programmes, while also introducing new
+            initiatives that appeal to all generations—especially children and youth, who are key to our future.</p>
 
-          <p>I encourage all members to take part, share ideas, and support our events. Together we can keep LCNL thriving for the next 50 years.</p>
+          <p>I encourage all members to take part, share ideas, and support our events. Together we can keep LCNL
+            thriving for the next 50 years.</p>
 
           <p class="fw-bold mb-0">Ronak Paw</p>
           <p class="mb-0">LCNL President 2025 – 2027</p>
@@ -156,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="card-body text-center">
               <h3 class="fw-bold mb-3"><i class="bi bi-person-plus-fill text-success"></i> Register Now!</h3>
               <p class="text-muted mb-4">
-                Create your LCNL membership in minutes. Enter your details, confirm your email, 
+                Create your LCNL membership in minutes. Enter your details, confirm your email,
                 and start enjoying the benefits of being part of our community.
               </p>
               <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
@@ -252,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-controller text-warning fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Youth Committee</h5>
+                <h5 class="card-title mb-1">Lohana Youth Committee</h5>
                 <p class="card-text text-muted small">Activities & events for 13–18 year olds.</p>
               </div>
             </div>
@@ -265,3 +268,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </section>
 
 <?= $this->endSection() ?>
+

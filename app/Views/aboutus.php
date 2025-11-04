@@ -15,11 +15,9 @@
   <!-- Committee Image -->
   <div class="mb-2 text-center">
     <!-- Small thumbnail, clickable -->
-    <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" 
-         alt="LCNL Executive Committee"
-         class="img-fluid rounded shadow committee-img"
-         style="max-width: 100%;"
-         data-bs-toggle="modal" data-bs-target="#committeeModal">
+    <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" alt="LCNL Executive Committee"
+      class="img-fluid rounded shadow committee-img" style="max-width: 100%;" data-bs-toggle="modal"
+      data-bs-target="#committeeModal">
     <!-- Subtext caption -->
     <p class="mt-1 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
   </div>
@@ -28,53 +26,63 @@
 <section class="py-0">
   <div class="container">
     <div class="row g-4 align-items-start">
-      
+
       <!-- Left column -->
       <div class="col-md-8">
         <div class="lcnl-card border-0">
-        <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the years, it has grown into a prominent voluntary organisation serving thousands of families across North London and Middlesex.</p>
+          <p>The Lohana Community North London (LCNL) was founded in 1976 as an offshoot of the Lohana Union. Over the
+            years, it has grown into a prominent voluntary organisation serving thousands of families across North
+            London and Middlesex.</p>
 
-        <p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide relief to those in need. We achieve this through our charitable trust, Mahila Committee, Sports Club, Young Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
+          <p>Our aim is to promote charitable causes, advance Hindu religion and culture, support education, and provide
+            relief to those in need. We achieve this through our charitable trust, Mahila Committee, Sports Club, Young
+            Lohana Society, senior citizens’ groups, and a wide range of subcommittees.</p>
 
-        <p>LCNL connects with over 2,300 families through regular News & Events, the Raghuvanshi Diwali Magazine, and annual festivals. We come together for Navratri, Diwali, Janmashtami, Hanuman Jayanti, and many more religious and cultural celebrations.</p>
+          <p>LCNL connects with over 2,300 families through regular News & Events, the Raghuvanshi Diwali Magazine, and
+            annual festivals. We come together for Navratri, Diwali, Janmashtami, Hanuman Jayanti, and many more
+            religious and cultural celebrations.</p>
 
-        <p>We are proud of our contributions to local and international charities, the establishment of the RCT Sports Centre in Harrow, and most recently, the acquisition of a new community centre to serve future generations.</p>
+          <p>We are proud of our contributions to local and international charities, the establishment of the RCT Sports
+            Centre in Harrow, and most recently, the acquisition of a new community centre to serve future generations.
+          </p>
 
-        <p>Rooted in a long tradition of unity and service, LCNL continues to move forward together, honouring our history while building for the future.</p>
+          <p>Rooted in a long tradition of unity and service, LCNL continues to move forward together, honouring our
+            history while building for the future.</p>
 
-        <p>There are various affiliated commitees under the LCNL, these are:</p>
-        <ul>
-          <li>Mahila Committee</li>
-          <li>Young Lohana Society</li>
-          <li>Youth Committee</li>
-          <li>Senior Mens</li>
-          <li>Senior Ladies</li>
-          <li>Raghuvanshi Charitable Trust</li>
-          <li>Lohana Charity Foundation</li>
-        </ul>
-        
+          <p>There are various affiliated commitees under the LCNL, these are:</p>
+          <ul>
+            <li>Mahila Committee</li>
+            <li>Young Lohana Society</li>
+            <li>Lohana Youth Committee</li>
+            <li>Senior Mens</li>
+            <li>Senior Ladies</li>
+            <li>Raghuvanshi Charitable Trust</li>
+            <li>Lohana Charity Foundation</li>
+          </ul>
 
-        <div class="container text-left my-3">
-          <blockquote class="blockquote">
-            <p class="mb-0 fs-5 fw-bold text-brand">-- “We Move Forward Together”</p>
-          </blockquote>
-        </div>
+
+          <div class="container text-left my-3">
+            <blockquote class="blockquote">
+              <p class="mb-0 fs-5 fw-bold text-brand">-- “We Move Forward Together”</p>
+            </blockquote>
+          </div>
 
         </div>
 
         <!-- Constitution Download Section -->
-<div class="lcnl-card border-0container my-4">
-  
-    <h5 class="fw-bold text-brand mb-2">
-      <i class="bi bi-file-earmark-text me-2"></i> LCNL Constitution
-    </h5>
-    <p class="mb-3 text-muted">Read our guiding principles and values as outlined in the latest LCNL Constitution.</p>
-    <a href="<?= base_url('assets/documents/LCNL Constitution February 2023.pdf') ?>" 
-       class="btn btn-brand btn-sm" target="_blank">
-      <i class="bi bi-download me-1"></i> Download Constitution (PDF)
-    </a>
-  
-</div>
+        <div class="lcnl-card border-0container my-4">
+
+          <h5 class="fw-bold text-brand mb-2">
+            <i class="bi bi-file-earmark-text me-2"></i> LCNL Constitution
+          </h5>
+          <p class="mb-3 text-muted">Read our guiding principles and values as outlined in the latest LCNL Constitution.
+          </p>
+          <a href="<?= base_url('assets/documents/LCNL Constitution February 2023.pdf') ?>" class="btn btn-brand btn-sm"
+            target="_blank">
+            <i class="bi bi-download me-1"></i> Download Constitution (PDF)
+          </a>
+
+        </div>
 
 
       </div>
@@ -106,7 +114,7 @@
           </a>
         </div>
 
-          <!-- Gallery
+        <!-- Gallery
         <div class="card shadow-sm border-0">
           <a href="<?= base_url('gallery') ?>" class="stretched-link text-decoration-none text-dark">
             <div class="card-body d-flex align-items-center">
@@ -178,3 +186,4 @@
 </section>
 
 <?= $this->endSection() ?>
+
