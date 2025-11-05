@@ -120,7 +120,7 @@
 
             <div class="row g-4">
               <!-- Online Form -->
-              <div class="col-md-6">
+              <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-primary shadow-sm hover-lift">
                   <div class="card-body text-center p-4">
                     <div class="mb-3">
@@ -133,14 +133,14 @@
                     <a href="https://forms.office.com/e/wYZczqhxtg" target="_blank"
                       class="btn btn-primary btn-lg rounded-pill px-4 shadow-sm">
                       <i class="bi bi-box-arrow-up-right me-2"></i>
-                      Complete Online Form
+                      Complete Form
                     </a>
                   </div>
                 </div>
               </div>
 
               <!-- PDF Download -->
-              <div class="col-md-6">
+              <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-danger shadow-sm hover-lift">
                   <div class="card-body text-center p-4">
                     <div class="mb-3">
@@ -153,8 +153,45 @@
                     <a href="<?= base_url('assets/documents/lcnl_tabletennis_membership_jan25.pdf') ?>" target="_blank"
                       class="btn btn-danger btn-lg rounded-pill px-4 shadow-sm">
                       <i class="bi bi-download me-2"></i>
-                      Download PDF Form
+                      Download PDF
                     </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Club Information -->
+              <div class="col-md-12 col-lg-4">
+                <div class="card h-100 border-success shadow-sm hover-lift">
+                  <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                      <i class="bi bi-info-circle text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Club Info</h4>
+                    <p class="text-muted mb-4">
+                      Learn more about membership and club details
+                    </p>
+                    <a href="<?= base_url('assets/documents/lcnl_tabletennis_clubinformation_jan25.pdf') ?>"
+                      target="_blank" class="btn btn-success btn-lg rounded-pill px-4 shadow-sm">
+                      <i class="bi bi-download me-2"></i>
+                      Download Info
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="row justify-content-center mt-5">
+              <div class="col-md-8 col-lg-6">
+                <div class="card border-0 shadow-sm rounded-4 bg-light">
+                  <div class="card-body text-center p-4">
+                    <h5 class="fw-bold mb-3">
+                      <i class="bi bi-qr-code me-2 text-primary"></i>
+                      Quick Access
+                    </h5>
+                    <p class="text-muted mb-3">Scan to join or share with friends!</p>
+                    <img src="<?= base_url('assets/img/tabletennis_qr.jpeg') ?>" alt="LCNL Table Tennis QR Code"
+                      class="img-fluid rounded-3 shadow-sm" style="max-width: 300px;">
                   </div>
                 </div>
               </div>
