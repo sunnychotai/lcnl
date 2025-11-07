@@ -6,10 +6,11 @@
     <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
     <h2 class="fw-bold">Account Verified!</h2>
     <p class="lead">Your LCNL membership has been activated successfully.</p>
-    <a href="<?= base_url('member/login') ?>" class="btn btn-brand mt-3">
+    <a href="<?= base_url('membership/login') ?>" class="btn btn-brand mt-3">
       <i class="bi bi-box-arrow-in-right me-1"></i> Login Now
     </a>
   </div>
 </div>
 
 <?= $this->endSection() ?>
+

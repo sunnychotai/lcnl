@@ -13,37 +13,42 @@ $routes->setAutoRoute(false);
    Public pages
 ------------------------*/
 $routes->get('/', 'Home::index');
-$routes->get('/events', 'Home::events');
-$routes->get('/events/(:num)', 'Home::eventDetail/$1');
+$routes->get('/events', 'Events::index');
+$routes->get('/events/(:num)', 'Events::eventDetail/$1');
 $routes->get('sitemap.xml', 'Sitemap::index');
+$routes->get('/aboutus', 'Home::aboutUs');
+$routes->get('/sample', 'Home::sample');
+$routes->get('/privacy', 'Home::privacy');
+$routes->post('contact/send', 'ContactController::send');
+$routes->get('/gallery', 'Home::gallery');
+$routes->get('/contact', 'Home::contact');
+$routes->get('/membership', 'Home::membership'); // landing page
+$routes->get('/faq', 'Home::faq');
+$routes->get('/lcf', 'Home::lcf');
+$routes->get('/bereavement', 'Home::bereavement');
+$routes->get('/tabletennis', 'Home::tabletennis');
+
+/* Committee Routes */
+$routes->get('/committee', 'Committee::committee');
+$routes->get('/yls', 'Committee::yls');
+$routes->get('/youth', 'Committee::youth');
+$routes->get('/mahila', 'Committee::mahila');
 
 $routes->get('events/register/chopda-pujan', 'EventRegistrationController::register');
 $routes->post('events/register/submit', 'EventRegistrationController::submit');
 $routes->get('events/register/chopda-pujan/thankyou', 'EventRegistrationController::thankyou');
 
 
-$routes->get('/gallery', 'Home::gallery');
-$routes->get('/contact', 'Home::contact');
-$routes->get('/membership', 'Home::membership'); // landing page
-$routes->get('/mahila', 'Home::mahila');
-$routes->get('/faq', 'Home::faq');
-$routes->get('/lcf', 'Home::lcf');
-$routes->get('/bereavement', 'Home::bereavement');
-$routes->get('/tabletennis', 'Home::tabletennis');
 
-// Test routes
+
+/* Testing / Dev Routes for Sunny */
 $routes->get('/dbcheck', 'Test::dbcheck');
 $routes->get('/pwhash', 'Test::pwhash');
 $routes->get('/email', 'Test::email');
 
-$routes->get('/aboutus', 'Home::aboutUs');
-$routes->get('/sample', 'Home::sample');
-$routes->get('/privacy', 'Home::privacy');
-$routes->post('contact/send', 'ContactController::send');
 
-$routes->get('/committee', 'Home::committee');
-$routes->get('/yls', 'Home::yls');
-$routes->get('/youth', 'Home::youth');
+
+
 
 /* -----------------------
    FAQs (public)
@@ -64,37 +69,37 @@ $routes->get('auth/logout', 'Auth::logout');
    Forgot / Reset Password
 ------------------------*/
 // MEMBER auth (public endpoints)
-$routes->get('member/login', 'MemberAuth::login', ['as' => 'member.login']);
-$routes->post('member/login', 'MemberAuth::attempt');
-$routes->get('member/logout', 'MemberAuth::logout');
+$routes->get('membership/login', 'MemberAuth::login', ['as' => 'membership.login']);
+$routes->post('membership/login', 'MemberAuth::attempt');
+$routes->get('membership/logout', 'MemberAuth::logout');
 
-$routes->get('member/forgot', 'Account\PasswordController::forgot', ['as' => 'member.forgot']);
-$routes->post('member/forgot', 'Account\PasswordController::sendReset');
-$routes->get('member/reset/(:segment)', 'Account\PasswordController::reset/$1', ['as' => 'member.reset']);
-$routes->post('member/reset', 'Account\PasswordController::doReset');
+$routes->get('membership/forgot', 'Account\PasswordController::forgot', ['as' => 'member.forgot']);
+$routes->post('membership/forgot', 'Account\PasswordController::sendReset');
+$routes->get('membership/reset/(:segment)', 'Account\PasswordController::reset/$1', ['as' => 'member.reset']);
+$routes->post('membership/reset', 'Account\PasswordController::doReset');
 
 /* ---------------------------------------------------------
    PUBLIC: Membership (keep OUTSIDE admin group)
 ----------------------------------------------------------*/
 $routes->group('membership', ['namespace' => 'App\Controllers'], static function ($routes) {
     $routes->get('register', 'MembershipController::register', ['as' => 'membership.register']);
-    $routes->post('register', 'MembershipController::create',   ['as' => 'membership.create']);
+    $routes->post('register', 'MembershipController::create', ['as' => 'membership.create']);
     $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
     $routes->get('success', 'MembershipController::success', ['as' => 'membership.success']);
     $routes->get('resend-verification', 'MembershipController::resendVerification', ['as' => 'membership.resend']);
 });
 
 // Account shortcut → dashboard
-$routes->get('account', 'Account\DashboardController::index', ['as'=>'account.root']);
+$routes->get('account', 'Account\DashboardController::index', ['as' => 'account.root']);
 
 // ACCOUNT: Member dashboard & profile (requires MEMBER login)
 $routes->group('account', [
     'namespace' => 'App\Controllers\Account',
-    'filter'    => 'authMember'
+    'filter' => 'authMember'
 ], static function ($routes) {
     $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
     // Profile edit
-    $routes->get('profile',  'ProfileController::edit',   ['as' => 'account.profile.edit']);
+    $routes->get('profile', 'ProfileController::edit', ['as' => 'account.profile.edit']);
     $routes->post('profile', 'ProfileController::update', ['as' => 'account.profile.update']);
 });
 
@@ -112,10 +117,10 @@ $routes->group('account', [
 /* ---------------------------------------------------------
    🔒 Admin Area (split groups)
 ----------------------------------------------------------*/
-$routes->group('admin/system', ['filter' => 'authAdmin'], function($routes) {
+$routes->group('admin/system', ['filter' => 'authAdmin'], function ($routes) {
     // Core dashboard
     $routes->get('dashboard', 'Admin::dashboard');
-    
+
     // Email queue admin
     $routes->get('emails', 'Admin\Emails::index');
     $routes->get('emails/view/(:num)', 'Admin\Emails::view/$1');
@@ -123,7 +128,7 @@ $routes->group('admin/system', ['filter' => 'authAdmin'], function($routes) {
     $routes->get('emails/delete/(:num)', 'Admin\Emails::delete/$1');
 
     // Admin users (system accounts)
-    $routes->group('users', function($routes) {
+    $routes->group('users', function ($routes) {
         $routes->get('', 'Admin\Users::index');
         $routes->get('create', 'Admin\Users::create');
         $routes->post('store', 'Admin\Users::store');
@@ -133,9 +138,9 @@ $routes->group('admin/system', ['filter' => 'authAdmin'], function($routes) {
     });
 });
 
-$routes->group('admin/content', ['filter' => 'authAdmin'], function($routes) {
+$routes->group('admin/content', ['filter' => 'authAdmin'], function ($routes) {
     // Committee
-    $routes->group('committee', function($routes) {
+    $routes->group('committee', function ($routes) {
         $routes->get('', 'Admin\CommitteeController::index');
         $routes->get('create', 'Admin\CommitteeController::create');
         $routes->post('store', 'Admin\CommitteeController::store');
@@ -146,7 +151,7 @@ $routes->group('admin/content', ['filter' => 'authAdmin'], function($routes) {
     });
 
     // Events
-    $routes->group('events', function($routes) {
+    $routes->group('events', function ($routes) {
         $routes->get('', 'Admin\Events::index');
         $routes->get('create', 'Admin\Events::create');
         $routes->post('store', 'Admin\Events::store');
@@ -157,7 +162,7 @@ $routes->group('admin/content', ['filter' => 'authAdmin'], function($routes) {
     });
 
     // FAQs
-    $routes->group('faqs', function($routes) {
+    $routes->group('faqs', function ($routes) {
         $routes->get('', 'Admin\FaqAdmin::index');
         $routes->get('create', 'Admin\FaqAdmin::create');
         $routes->post('store', 'Admin\FaqAdmin::store');
@@ -168,19 +173,19 @@ $routes->group('admin/content', ['filter' => 'authAdmin'], function($routes) {
     });
 });
 
-$routes->group('admin/membership', ['filter' => 'authAdmin'], function($routes) {
+$routes->group('admin/membership', ['filter' => 'authAdmin'], function ($routes) {
     // Members
-    $routes->group('members', function($routes) {
+    $routes->group('members', function ($routes) {
         $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
         $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.members.export']); // ✅ CSV Export
         $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.members.show']);
         $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.members.activate']);
-        $routes->post('(:num)/disable',  'Admin\MembersController::disable/$1',  ['as' => 'admin.members.disable']);
-        $routes->post('(:num)/resend',   'Admin\MembersController::resend/$1',   ['as' => 'admin.members.resend']);
+        $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.members.disable']);
+        $routes->post('(:num)/resend', 'Admin\MembersController::resend/$1', ['as' => 'admin.members.resend']);
     });
 
     // Families (future Life Membership module)
-    $routes->group('families', function($routes) {
+    $routes->group('families', function ($routes) {
         $routes->post('merge', 'Admin\FamiliesController::merge', ['as' => 'admin.families.merge']);
     });
 });

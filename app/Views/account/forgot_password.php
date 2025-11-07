@@ -37,7 +37,7 @@
           </form>
 
           <div class="mt-3 text-center">
-            <a href="<?= base_url('member/login') ?>" class="text-decoration-none">
+            <a href="<?= base_url('membership/login') ?>" class="text-decoration-none">
               <i class="bi bi-arrow-left"></i> Back to Login
             </a>
           </div>
@@ -49,3 +49,4 @@
 </div>
 
 <?= $this->endSection() ?>
+

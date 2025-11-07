@@ -10,8 +10,8 @@ class AuthMember implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (! session()->get('isMemberLoggedIn')) {
-            return redirect()->to('/member/login')
+        if (!session()->get('isMemberLoggedIn')) {
+            return redirect()->to('/membership/login')
                 ->with('error', 'Please login to access your account.');
         }
     }

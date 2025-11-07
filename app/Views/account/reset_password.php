@@ -32,7 +32,8 @@
 
             <div class="mb-3">
               <label for="password_confirm" class="form-label fw-semibold">Confirm Password</label>
-              <input type="password" name="password_confirm" id="password_confirm" class="form-control" minlength="8" required>
+              <input type="password" name="password_confirm" id="password_confirm" class="form-control" minlength="8"
+                required>
             </div>
 
             <div class="d-grid">
@@ -43,7 +44,7 @@
           </form>
 
           <div class="mt-3 text-center">
-            <a href="<?= base_url('member/login') ?>" class="text-decoration-none">
+            <a href="<?= base_url('membership/login') ?>" class="text-decoration-none">
               <i class="bi bi-arrow-left"></i> Back to Login
             </a>
           </div>
@@ -55,3 +56,4 @@
 </div>
 
 <?= $this->endSection() ?>
+
