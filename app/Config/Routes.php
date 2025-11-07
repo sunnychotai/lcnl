@@ -24,7 +24,7 @@ $routes->get('/gallery', 'Home::gallery');
 $routes->get('/contact', 'Home::contact');
 $routes->get('/membership', 'Home::membership'); // landing page
 $routes->get('/faq', 'Home::faq');
-$routes->get('/lcf', 'Home::lcf');
+$routes->get('/lcf', 'Committee::lcf');
 $routes->get('/bereavement', 'Home::bereavement');
 $routes->get('/tabletennis', 'Home::tabletennis');
 
