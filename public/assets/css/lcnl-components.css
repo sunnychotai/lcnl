@@ -224,7 +224,7 @@
     content: "";
     position: absolute;
     inset: -3px;
-    background: linear-gradient(135deg, var(--brand), var(--accent1));
+    background: linear-gradient(135deg, var(--accent1), #fff);
     border-radius: inherit;
     z-index: -1;
 }

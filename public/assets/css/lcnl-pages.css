@@ -63,6 +63,13 @@
     position: relative;
     overflow: hidden;
     transition: all .3s ease;
+
+    .btn-brand.btn-lg:hover {
+        color: #fff !important;
+        /* Forces white text on hover */
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(122, 29, 60, 0.4);
+    }
 }
 
 .btn-brand.btn-lg::before {
@@ -86,6 +93,7 @@
 .btn-brand.btn-lg:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(122, 29, 60, .4);
+    color: #fff;
 }
 
 /* --- Bottom Cards (info sections) --- */

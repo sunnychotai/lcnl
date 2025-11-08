@@ -204,7 +204,7 @@
             <p class="text-muted small mb-3">
               If you're an existing member and don't know your password, click below to reset it.
             </p>
-            <a href="<?= base_url('membership/forgot-password') ?>"
+            <a href="<?= base_url('membership/forgot') ?>"
               class="btn btn-outline-warning rounded-pill px-4 mb-2">
               <i class="bi bi-arrow-clockwise me-2"></i> Forgot Password
             </a>
