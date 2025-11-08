@@ -163,16 +163,20 @@ $routes->group('admin/content', ['filter' => 'authAdmin:ADMIN,EVENTS,WEBSITE'], 
 
 /* --- Membership area (ADMIN + MEMBERSHIP) --- */
 $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], function ($routes) {
-
-    $routes->group('members', function ($routes) {
-        $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
-        $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.members.export']);
-        $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.members.show']);
-        $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.members.activate']);
-        $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.members.disable']);
-        $routes->post('(:num)/resend', 'Admin\MembersController::resend/$1', ['as' => 'admin.members.resend']);
-    });
+    $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.membership.index']);
+    $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.membership.export']);
+    $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.membership.show']);
+    $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.membership.activate']);
+    $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.membership.disable']);
+    $routes->post('(:num)/resend', 'Admin\MembersController::resend/$1', ['as' => 'admin.membership.resend']);
+    // In Config/Routes.php inside the admin/membership group
+    $routes->get('(:num)/edit', 'Admin\MembersController::edit/$1', ['as' => 'admin.membership.edit']);
+    $routes->post('(:num)/update', 'Admin\MembersController::update/$1', ['as' => 'admin.membership.update']);
 });
+
+
+
+
 
 /* --- Finance area (ADMIN + FINANCE) --- */
 $routes->group('admin/finance', ['filter' => 'authAdmin:ADMIN,FINANCE'], function ($routes) {

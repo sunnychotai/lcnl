@@ -125,7 +125,7 @@
           <?php if (hasRole('ADMIN', 'MEMBERSHIP')): ?>
             <!-- Membership Section -->
             <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/membership/members') ?>">
+              <a class="nav-link" href="<?= base_url('admin/membership') ?>">
                 <i class="bi bi-person-lines-fill me-1"></i> Members
               </a>
             </li>

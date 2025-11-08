@@ -122,7 +122,7 @@
     <?php if (hasRole('ADMIN', 'MEMBERSHIP')): ?>
       <!-- Members -->
       <div class="col-md-3">
-        <a href="<?= base_url('admin/membership/members') ?>" class="text-decoration-none">
+        <a href="<?= base_url('admin/membership') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
               <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>

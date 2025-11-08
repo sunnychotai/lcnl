@@ -7,23 +7,51 @@
 
 /* --- Core Theme Tokens --- */
 :root {
-  --brand: #7a1d3c;        /* LCNL maroon */
-  --brand-600: #6c1936;    /* hover */
-  --brand-700: #5e1630;    /* active */
-  --accent1: #d4af37;      /* gold */
+  --brand: #7a1d3c;
+  /* LCNL maroon */
+  --brand-600: #6c1936;
+  /* hover */
+  --brand-700: #5e1630;
+  /* active */
+  --accent1: #d4af37;
+  /* gold */
   --accent: var(--accent1);
   --muted: #f6f2f2;
   --radius: 14px;
 }
 
 /* --- Color Utilities --- */
-.bg-brand     { background: var(--brand) !important; }
-.bg-accent1   { background: var(--accent1) !important; }
-.text-brand   { color: var(--brand) !important; }
-.text-accent1 { color: var(--accent1) !important; }
-.text-pink    { color: #e4405f !important; }  /* Mahila */
-.text-primary { color: #0d6efd !important; }  /* YLS */
-.text-bereavement { color: #d63384 !important; } /* replaces .text-danger */
+.bg-brand {
+  background: var(--brand) !important;
+}
+
+.bg-accent1 {
+  background: var(--accent1) !important;
+}
+
+.text-brand {
+  color: var(--brand) !important;
+}
+
+.text-accent1 {
+  color: var(--accent1) !important;
+}
+
+.text-pink {
+  color: #e4405f !important;
+}
+
+/* Mahila */
+.text-primary {
+  color: #0d6efd !important;
+}
+
+/* YLS */
+.text-bereavement {
+  color: #d63384 !important;
+}
+
+/* replaces .text-danger */
 
 /* --- Motto Headings --- */
 .motto {
@@ -53,11 +81,13 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
   transition: transform .3s ease, box-shadow .3s ease;
 }
+
 .card:hover {
   transform: scale(1.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
   z-index: 2;
 }
+
 .card.no-hover,
 .card.no-hover:hover {
   transform: none !important;
@@ -74,6 +104,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
   transition: transform .2s ease, box-shadow .2s ease;
 }
+
 .constitution-box:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, .1);
@@ -89,12 +120,18 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
   transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .lcnl-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
 }
-.lcnl-card h1, .lcnl-card h2, .lcnl-card h3,
-.lcnl-card h4, .lcnl-card h5, .lcnl-card h6 {
+
+.lcnl-card h1,
+.lcnl-card h2,
+.lcnl-card h3,
+.lcnl-card h4,
+.lcnl-card h5,
+.lcnl-card h6 {
   margin-top: 0;
   margin-bottom: .75rem;
   font-weight: 700;
@@ -102,22 +139,29 @@
   border-bottom: 1px solid rgba(0, 0, 0, .06);
   padding-bottom: .35rem;
 }
+
 .lcnl-card p {
   margin-bottom: .85rem;
   line-height: 1.65;
   color: #333;
 }
-.lcnl-card ul, .lcnl-card ol {
+
+.lcnl-card ul,
+.lcnl-card ol {
   margin-bottom: .85rem;
   padding-left: 1.1rem;
 }
-.lcnl-card > :last-child { margin-bottom: 0; }
+
+.lcnl-card> :last-child {
+  margin-bottom: 0;
+}
 
 /* Hover utility */
 .hover-card {
   transition: transform .2s ease, box-shadow .2s ease;
   border-radius: var(--radius);
 }
+
 .hover-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
@@ -135,6 +179,7 @@
   border: none;
   border-radius: var(--radius);
 }
+
 .btn-outline-brand {
   --bs-btn-color: var(--brand);
   --bs-btn-border-color: var(--brand);
@@ -143,12 +188,14 @@
   border: 2px solid var(--brand);
   border-radius: var(--radius);
 }
+
 .btn-outline-brand:hover,
 .btn-outline-brand:focus {
   color: #fff !important;
   background-color: var(--brand) !important;
   border-color: var(--brand) !important;
 }
+
 .btn-accent {
   background: linear-gradient(135deg, var(--accent1) 0%, #c9a227 100%);
   color: #fff;
@@ -157,15 +204,18 @@
   letter-spacing: .5px;
   transition: all .3s ease;
 }
+
 .btn-accent:hover {
   background: linear-gradient(135deg, #c9a227 0%, var(--accent1) 100%);
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(212, 175, 55, .3);
 }
+
 .btn-link-brand {
   color: var(--brand) !important;
   font-weight: 600;
 }
+
 .btn-link-brand:hover {
   color: var(--brand-600) !important;
   text-decoration: underline;
@@ -187,6 +237,7 @@
   margin-top: 2rem;
   gap: .4rem;
 }
+
 .page-link {
   border-radius: var(--radius);
   border: 1px solid rgba(0, 0, 0, .1);
@@ -197,6 +248,7 @@
   transition: all .25s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, .05);
 }
+
 .page-link:hover {
   color: #fff;
   background-color: var(--brand);
@@ -204,12 +256,14 @@
   box-shadow: 0 3px 8px rgba(122, 29, 60, .25);
   transform: translateY(-1px);
 }
+
 .page-item.active .page-link {
   background-color: var(--accent1);
   border-color: var(--accent1);
   color: #fff;
   box-shadow: 0 3px 8px rgba(212, 175, 55, .3);
 }
+
 .page-item.disabled .page-link {
   color: #aaa;
   background-color: #f9f9f9;
@@ -225,6 +279,7 @@
   border-left: 5px solid #28a745 !important;
   box-shadow: 0 4px 12px rgba(40, 167, 69, .15);
 }
+
 hr.my-4 {
   border: 0;
   height: 2px;
@@ -235,9 +290,17 @@ hr.my-4 {
 
 /* Animations */
 @keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }
+
 .text-center h2 i {
   display: inline-block;
   animation: bounce 2s ease-in-out infinite;
@@ -245,9 +308,23 @@ hr.my-4 {
 
 /* Accessibility: reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  *,*::before,*::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* =======================================
+   LCNL — REMOVE HOVER MOTION ON CARDS
+   ======================================= */
+
+.card,
+.card:hover {
+  transform: none !important;
+  transition: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
 }
