@@ -493,3 +493,75 @@ footer a:hover {
     letter-spacing: 0.3px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* ==========================================
+   LCNL ADMIN — DETAIL VIEW TYPOGRAPHY FIXES
+   ========================================== */
+
+.detail-label {
+    color: #4a4a4a;
+    /* darker grey, readable but not overpowering */
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+    display: block;
+}
+
+.detail-value {
+    color: #333;
+    /* slightly softer black */
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+/* LCNL — Button pills (consistent height, no clipping) */
+.btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .55rem 1.1rem;
+    /* balanced height */
+    border-radius: 999px;
+    /* full pill */
+    line-height: 1.2;
+    /* prevents vertical cut-off */
+    white-space: nowrap;
+    /* no wrap inside */
+}
+
+.btn-brand {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+
+.btn-brand:hover {
+    background: var(--brand-600);
+    border-color: var(--brand-600);
+    color: #fff;
+}
+
+.btn-outline-brand {
+    color: var(--brand);
+    background: #fff;
+    border-color: var(--brand);
+}
+
+.btn-outline-brand:hover {
+    background: var(--brand);
+    color: #fff;
+}
+
+.btn-outline-secondary {
+    background: #fff;
+}
+
+/* ensure no fill */
+.btn-pill i {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* icon align */

@@ -4,14 +4,15 @@
 <div class="container-fluid py-4">
 
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <h1 class="h4 mb-0 text-brand d-flex align-items-center">
-            <i class="bi bi-pencil-square me-2"></i>
-            Edit Member #<?= (int)$m['id'] ?>
+            <i class="bi bi-pencil-square me-2 fs-4"></i>
+            Edit Member
         </h1>
-        <a href="<?= base_url('admin/membership/' . $m['id']) ?>" class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Back
+        <a href="<?= base_url('admin/membership/' . $m['id']) ?>" class="btn btn-outline-brand btn-pill">
+            <i class="bi bi-arrow-left"></i> Back
         </a>
+
     </div>
 
     <?php if ($err = session()->getFlashdata('error')): ?>
@@ -20,14 +21,13 @@
 
     <!-- Summary Banner -->
     <div class="alert bg-light border-start border-4 border-brand shadow-sm mb-4 py-3 px-4">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div class="fw-semibold text-brand fs-5">
                 <?= esc($m['first_name'] . ' ' . $m['last_name']) ?>
             </div>
             <div>
                 <span class="badge-lcnl-id">LCNL<?= (int)$m['id'] ?></span>
             </div>
-
             <div>
                 <span class="badge bg-<?=
                                         $m['status'] === 'active' ? 'success' : ($m['status'] === 'pending' ? 'warning text-dark' : 'secondary')
@@ -48,19 +48,19 @@
             <div class="card-body bg-white p-4">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">First Name</label>
+                        <label class="detail-label">First Name</label>
                         <input name="first_name" class="form-control" value="<?= esc($m['first_name']) ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">Last Name</label>
+                        <label class="detail-label">Last Name</label>
                         <input name="last_name" class="form-control" value="<?= esc($m['last_name']) ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">Email</label>
+                        <label class="detail-label">Email</label>
                         <input type="email" name="email" class="form-control" value="<?= esc($m['email']) ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">Mobile</label>
+                        <label class="detail-label">Mobile</label>
                         <input name="mobile" class="form-control" value="<?= esc($m['mobile']) ?>">
                     </div>
                 </div>
@@ -75,19 +75,19 @@
             <div class="card-body p-4 bg-white">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">Address Line 1</label>
+                        <label class="detail-label">Address Line 1</label>
                         <input name="address1" class="form-control" value="<?= esc($m['address1']) ?>">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">Address Line 2</label>
+                        <label class="detail-label">Address Line 2</label>
                         <input name="address2" class="form-control" value="<?= esc($m['address2']) ?>">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">City</label>
+                        <label class="detail-label">City</label>
                         <input name="city" class="form-control" value="<?= esc($m['city']) ?>">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small text-muted">Postcode</label>
+                        <label class="detail-label">Postcode</label>
                         <input name="postcode" class="form-control" value="<?= esc($m['postcode']) ?>">
                     </div>
                 </div>
@@ -102,10 +102,12 @@
             <div class="card-body p-4 bg-white">
                 <div class="row g-3">
                     <div class="col-md-4">
-                        <label class="form-label small text-muted">Status</label>
+                        <label class="detail-label">Status</label>
                         <select name="status" class="form-select">
                             <?php foreach (['pending', 'active', 'disabled'] as $s): ?>
-                                <option value="<?= $s ?>" <?= $m['status'] === $s ? 'selected' : '' ?>><?= ucfirst($s) ?></option>
+                                <option value="<?= $s ?>" <?= $m['status'] === $s ? 'selected' : '' ?>>
+                                    <?= ucfirst($s) ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -115,10 +117,12 @@
 
         <!-- Actions -->
         <div class="d-flex gap-2 mt-3">
-            <button class="btn btn-brand text-white px-4">
-                <i class="bi bi-save me-1"></i> Save Changes
+            <button class="btn btn-brand btn-pill">
+                <i class="bi bi-save"></i> Save Changes
             </button>
-            <a href="<?= base_url('admin/membership/' . $m['id']) ?>" class="btn btn-outline-secondary px-4">Cancel</a>
+            <a href="<?= base_url('admin/membership/' . $m['id']) ?>" class="btn btn-outline-secondary btn-pill">
+                Cancel
+            </a>
         </div>
 
     </form>
