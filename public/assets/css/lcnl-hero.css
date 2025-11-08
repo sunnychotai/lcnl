@@ -1,0 +1,424 @@
+/* =========================================
+   LCNL HERO SECTIONS & OVERLAYS
+   -----------------------------------------
+   Watermark heroes, overlay palettes,
+   rangoli backgrounds, hero variants
+   ========================================= */
+
+/* --- Base Hero Container --- */
+.hero-lcnl-watermark {
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    min-height: 200px;
+    border-radius: 0;
+    background: linear-gradient(135deg, rgba(122, 29, 60, 0.85) 0%, rgba(122, 29, 60, 0.75) 100%),
+        url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(212,175,55,0.15)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+}
+
+/* Overlay placeholder for gradients */
+.hero-lcnl-watermark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-lcnl-watermark .random-logo {
+    position: absolute;
+    opacity: 0.15 !important;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: screen;
+}
+
+/* Hero Content Positioning */
+.hero-lcnl-watermark .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-lcnl-watermark h1 {
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.hero-lcnl-watermark p.lead {
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-weight: 400;
+}
+
+/* Animated Gradient Accent Line */
+.hero-lcnl-watermark::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+            var(--accent1) 0%,
+            #f0c75e 25%,
+            var(--accent1) 50%,
+            #f0c75e 75%,
+            var(--accent1) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    z-index: 3;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* --- Hero Typography / Structure --- */
+.hero h4 {
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .5);
+}
+
+.hero .row {
+    flex-wrap: nowrap;
+}
+
+.hero .col {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.hero .col-lg-4 {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+}
+
+.hero img {
+    max-width: 175px;
+    height: auto;
+}
+
+.hero .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .3);
+    z-index: 1;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================
+   HERO OVERLAY PALETTES
+   (alphabetically ordered)
+   ========================= */
+
+.hero-overlay-amber::before {
+    background: radial-gradient(circle, rgba(255, 160, 30, .9), rgba(150, 80, 0, .65));
+}
+
+.hero-overlay-amethyst::before {
+    background: radial-gradient(circle at top, rgba(70, 0, 100, .95), rgba(40, 0, 60, .6));
+}
+
+.hero-overlay-arctic::before {
+    background: radial-gradient(circle at top, rgba(0, 150, 255, .85), rgba(0, 60, 120, .6));
+}
+
+.hero-overlay-blue::before {
+    background: radial-gradient(circle at top, rgba(13, 110, 253, .85) 20%, rgba(13, 110, 253, .3) 100%);
+}
+
+.hero-overlay-bronze::before {
+    background: linear-gradient(135deg, rgba(120, 60, 20, .9), rgba(180, 100, 40, .65));
+}
+
+.hero-overlay-burgundy::before {
+    background: radial-gradient(circle, rgba(80, 0, 20, .95), rgba(120, 0, 40, .65));
+}
+
+.hero-overlay-charcoal::before {
+    background: linear-gradient(135deg, rgba(20, 20, 20, .9), rgba(60, 60, 60, .6));
+}
+
+.hero-overlay-chocolate::before {
+    background: radial-gradient(circle at top, rgba(80, 40, 10, .95), rgba(40, 20, 5, .7));
+}
+
+.hero-overlay-cobalt::before {
+    background: radial-gradient(ellipse at center, rgba(0, 50, 150, .9), rgba(0, 20, 90, .65));
+}
+
+.hero-overlay-copper::before {
+    background: linear-gradient(135deg, rgba(120, 60, 20, .9), rgba(90, 40, 15, .7));
+}
+
+.hero-overlay-crimsonsunset::before {
+    background: radial-gradient(ellipse at center, rgba(120, 0, 30, .9), rgba(255, 80, 60, .6));
+}
+
+.hero-overlay-darkred::before {
+    background: linear-gradient(to top, rgba(100, 0, 20, .9), rgba(150, 0, 40, .6));
+}
+
+.hero-overlay-emerald::before {
+    background: linear-gradient(to bottom right, rgba(0, 80, 50, .9), rgba(0, 120, 70, .6));
+}
+
+.hero-overlay-emeraldmist::before {
+    background: radial-gradient(ellipse at bottom, rgba(0, 120, 70, .9), rgba(0, 40, 20, .6));
+}
+
+.hero-overlay-forest::before {
+    background: linear-gradient(to top right, rgba(20, 60, 20, .9), rgba(40, 100, 40, .6));
+}
+
+.hero-overlay-garnet::before {
+    background: radial-gradient(circle at center, rgba(90, 0, 20, .95), rgba(40, 0, 10, .65));
+}
+
+.hero-overlay-gold::before {
+    background: radial-gradient(circle, rgba(160, 120, 20, .9), rgba(90, 60, 10, .7));
+}
+
+.hero-overlay-green::before {
+    background: linear-gradient(to right, rgba(25, 135, 84, .85), rgba(40, 167, 69, .5));
+}
+
+.hero-overlay-indigo::before {
+    background: radial-gradient(circle at center, rgba(30, 0, 80, .95), rgba(15, 0, 50, .6));
+}
+
+.hero-overlay-jade::before {
+    background: linear-gradient(to bottom right, rgba(0, 60, 40, .95), rgba(0, 100, 70, .65));
+}
+
+.hero-overlay-lavender::before {
+    background: linear-gradient(to top, rgba(180, 160, 230, .9), rgba(120, 100, 180, .65));
+}
+
+.hero-overlay-magenta::before {
+    background: linear-gradient(to bottom left, rgba(200, 0, 150, .9), rgba(100, 0, 80, .65));
+}
+
+.hero-overlay-midnight::before {
+    background: radial-gradient(circle at top left, rgba(40, 0, 70, .95), rgba(25, 0, 40, .6));
+}
+
+.hero-overlay-midnightindigo::before {
+    background: radial-gradient(ellipse at center, rgba(30, 0, 60, .95), rgba(10, 0, 30, .7));
+}
+
+.hero-overlay-midnight-teal::before {
+    background: radial-gradient(ellipse at center, rgba(0, 50, 60, .95), rgba(0, 30, 40, .6));
+}
+
+.hero-overlay-moss::before {
+    background: radial-gradient(ellipse at center, rgba(40, 70, 40, .9), rgba(90, 140, 90, .6));
+}
+
+.hero-overlay-nightsky::before {
+    background: linear-gradient(to bottom, rgba(10, 10, 50, .9), rgba(0, 0, 0, .85));
+}
+
+.hero-overlay-ocean::before {
+    background: radial-gradient(ellipse at center, rgba(0, 30, 80, .95), rgba(0, 70, 120, .65));
+}
+
+.hero-overlay-obsidian::before {
+    background: radial-gradient(ellipse at center, rgba(10, 10, 20, .95) 40%, rgba(0, 0, 0, .7) 100%);
+}
+
+.hero-overlay-obsidianred::before {
+    background: linear-gradient(135deg, rgba(50, 0, 0, .95), rgba(100, 0, 20, .7));
+}
+
+.hero-overlay-onyx::before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, .95), rgba(50, 50, 50, .7));
+}
+
+.hero-overlay-orange::before {
+    background: linear-gradient(rgba(253, 126, 20, .8), rgba(253, 126, 20, .8)), url("/assets/patterns/noise-texture.png");
+    background-size: auto, 200px 200px;
+}
+
+.hero-overlay-peacock::before {
+    background: linear-gradient(135deg, rgba(0, 70, 100, .95), rgba(0, 100, 70, .65));
+}
+
+.hero-overlay-pearl::before {
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, .95), rgba(230, 230, 230, .7));
+}
+
+.hero-overlay-platinum::before {
+    background: linear-gradient(to bottom, rgba(180, 180, 180, .9), rgba(90, 90, 90, .6));
+}
+
+.hero-overlay-red::before {
+    background: linear-gradient(135deg, rgba(220, 53, 69, .85), rgba(220, 53, 69, .4));
+}
+
+.hero-overlay-rosewood::before {
+    background: linear-gradient(135deg, rgba(80, 20, 40, .9), rgba(150, 50, 80, .65));
+}
+
+.hero-overlay-royalgold::before {
+    background: linear-gradient(to right, rgba(200, 150, 20, .9), rgba(120, 80, 10, .65));
+}
+
+.hero-overlay-royalblue::before {
+    background: radial-gradient(circle at center, rgba(15, 40, 120, .9), rgba(15, 40, 120, .6));
+}
+
+.hero-overlay-ruby::before {
+    background: radial-gradient(ellipse at center, rgba(120, 0, 30, .95), rgba(80, 0, 20, .6));
+}
+
+.hero-overlay-sand::before {
+    background: linear-gradient(to bottom, rgba(180, 120, 60, .9), rgba(100, 60, 30, .7));
+}
+
+.hero-overlay-sapphire::before {
+    background: radial-gradient(circle at center, rgba(15, 60, 150, .95), rgba(10, 30, 80, .65));
+}
+
+.hero-overlay-silverfrost::before {
+    background: linear-gradient(135deg, rgba(210, 210, 210, .9), rgba(140, 140, 140, .6));
+}
+
+.hero-overlay-slateblue::before {
+    background: linear-gradient(to bottom, rgba(70, 90, 140, .9), rgba(50, 70, 110, .6));
+}
+
+.hero-overlay-slatestorm::before {
+    background: linear-gradient(160deg, rgba(70, 70, 80, .9), rgba(30, 30, 40, .7));
+}
+
+.hero-overlay-smoke::before {
+    background: radial-gradient(ellipse at center, rgba(80, 80, 80, .8), rgba(20, 20, 20, .9));
+}
+
+.hero-overlay-steel::before {
+    background: radial-gradient(ellipse at center, rgba(50, 70, 100, .95), rgba(30, 40, 60, .6));
+}
+
+.hero-overlay-storm::before {
+    background: radial-gradient(circle at center, rgba(50, 50, 60, .95), rgba(20, 20, 30, .7));
+}
+
+.hero-overlay-teal::before {
+    background: linear-gradient(to right, rgba(0, 70, 70, .9), rgba(0, 120, 120, .6));
+}
+
+.hero-overlay-tealocean::before {
+    background: radial-gradient(circle at center, rgba(0, 100, 120, .9), rgba(0, 50, 70, .6));
+}
+
+.hero-overlay-turquoise::before {
+    background: radial-gradient(circle at center, rgba(0, 180, 160, .85), rgba(0, 100, 80, .65));
+}
+
+.hero-overlay-velvet::before {
+    background: radial-gradient(circle, rgba(60, 0, 80, .95), rgba(30, 0, 50, .6));
+}
+
+.hero-overlay-vignette::before {
+    background: radial-gradient(circle at center, rgba(0, 0, 0, .6) 70%, rgba(0, 0, 0, .95) 100%);
+}
+
+.hero-overlay-wine::before {
+    background: linear-gradient(to top, rgba(70, 0, 20, .9), rgba(120, 20, 40, .65));
+}
+
+/* =========================
+   RANGOLI BACKGROUNDS
+   ========================= */
+.hero-rangoli-pink {
+    background: var(--accent1) url("/assets/patterns/rangoli-pink.svg") repeat;
+}
+
+.hero-rangoli-blue {
+    background: var(--accent1) url("/assets/patterns/rangoli-blue.svg") repeat;
+}
+
+.hero-rangoli-purple {
+    background: var(--accent1) url("/assets/patterns/rangoli-purple.svg") repeat;
+}
+
+.hero-rangoli-grey {
+    background: var(--accent1) url("/assets/patterns/rangoli-grey.svg") repeat;
+}
+
+.hero-rangoli-red {
+    background: var(--accent1) url("/assets/patterns/rangoli-red.svg") repeat;
+}
+
+.hero-rangoli-orange {
+    background: var(--accent1) url("/assets/patterns/rangoli-orange.svg") repeat;
+}
+
+.hero-rangoli-green {
+    background: var(--accent1) url("/assets/patterns/rangoli-green.svg") repeat;
+}
+
+.hero-rangoli-yellow {
+    background: var(--accent1) url("/assets/patterns/rangoli-yellow.svg") repeat;
+}
+
+/* Optional decorative variant */
+.hero-radial {
+    background-image: repeating-radial-gradient(circle, var(--brand), var(--brand) 20px, var(--accent1) 20px, var(--accent1) 40px);
+}
+
+/* =========================
+   PAGE-SPECIFIC HEROES
+   ========================= */
+.hero-events {
+    background: linear-gradient(135deg, var(--brand), #9c2b52);
+}
+
+.hero-membership {
+    background: linear-gradient(135deg, var(--accent1), #f5d35c);
+}
+
+.hero-bereavement {
+    background: linear-gradient(135deg, #333, #555);
+}
+
+.hero-about {
+    background: linear-gradient(135deg, #005f73, #0a9396);
+}
+
+.hero-sports {
+    background: url('/assets/img/services/tabletennis.png') center center/cover no-repeat;
+    min-height: 300px;
+    position: relative;
+}
+
+.hero-sports::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.hero-sports .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* --- Responsive --- */
+@media (max-width:768px) {
+    .hero-lcnl-watermark {
+        min-height: 180px;
+    }
+}

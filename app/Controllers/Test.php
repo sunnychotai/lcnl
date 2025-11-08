@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use CodeIgniter\Controller;
 use Config\Database;
 
@@ -53,5 +54,4 @@ class Test extends Controller
 
         return "Inserted test email queue row ID: " . $id;
     }
-
 }

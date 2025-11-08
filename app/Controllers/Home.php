@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\FaqModel;
 use App\Models\CommitteeModel;
 use App\Models\EventModel;
@@ -14,6 +15,15 @@ class Home extends BaseController
 
         return view('home', $data);
     }
+
+    public function accessDenied()
+    {
+        return view('errors/access_denied', [
+            'title' => 'Access Denied',
+            'message' => 'You do not have permission to access this page. Please contact an administrator if you believe this is an error.'
+        ]);
+    }
+
 
     public function gallery()
     {
@@ -63,5 +73,4 @@ class Home extends BaseController
     {
         return view('privacy');
     }
-
 }

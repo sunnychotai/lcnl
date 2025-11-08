@@ -1,0 +1,441 @@
+/* =========================================
+   LCNL COMPONENTS
+   -----------------------------------------
+   Event cards, committees, tabs, benefits,
+   CTA sections, carousel tweaks, accordions,
+   misc reusable components
+   ========================================= */
+
+/* =========================
+   EVENTS + GALLERY
+   ========================= */
+.event-card-link {
+    width: 200px;
+    flex-shrink: 0;
+}
+
+.event-card {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card .event-img-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--radius);
+    position: relative;
+}
+
+.event-card .event-img-wrapper img {
+    width: 90%;
+    height: 300px;
+    object-fit: contain;
+}
+
+.event-card .event-overlay,
+.event-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .6);
+    padding: .5rem;
+    text-align: center;
+    color: #fff;
+}
+
+/* Scrollbar styling for horizontal lists */
+.d-flex.overflow-auto {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand) #f1f1f1;
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar {
+    height: 8px;
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar-thumb {
+    background-color: var(--brand);
+    border-radius: 10px;
+}
+
+/* =========================
+   COMMITTEE / TRUSTEES
+   ========================= */
+.committee-photo {
+    height: 300px;
+    width: 100%;
+    object-fit: contain;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: var(--radius);
+}
+
+.trustee-photo {
+    object-fit: cover;
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
+}
+
+.trustee-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.trustee-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+}
+
+.trustee-name {
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+.trustee-card img:hover {
+    filter: brightness(.9);
+}
+
+/* =========================
+   THEMED TABS
+   ========================= */
+.nav-tabs {
+    border: 0;
+    --bs-nav-tabs-border-color: transparent;
+    --bs-nav-tabs-link-active-border-color: var(--brand);
+}
+
+.nav-tabs .nav-link {
+    color: var(--brand);
+    font-weight: 600;
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: .6rem 1rem;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--brand-600);
+    background: rgba(122, 29, 60, .06);
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #fff;
+    background: var(--brand);
+    border: 1px solid var(--brand);
+    border-bottom-color: transparent;
+}
+
+.nav-tabs .nav-link:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(122, 29, 60, .25);
+}
+
+.nav-tabs+.tab-content {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-top: 0;
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+@media (max-width: 576px) {
+    .nav-tabs .nav-link {
+        padding: .5rem .75rem;
+    }
+}
+
+/* =========================
+   BENEFIT CARDS + CTA
+   ========================= */
+.membership-benefits .benefit-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-top: 5px solid var(--brand);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .05);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.membership-benefits .benefit-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+}
+
+.membership-benefits .benefit-card.accent-gold {
+    border-top-color: var(--accent1);
+}
+
+.membership-benefits .benefit-icon {
+    font-size: 2.4rem;
+    color: var(--brand);
+    margin-right: .5rem;
+}
+
+.membership-benefits .benefit-title {
+    font-weight: 700;
+    margin: 0;
+}
+
+.membership-benefits .benefit-body {
+    margin-top: .35rem;
+    color: #333;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.membership-benefits .benefit-cta .btn {
+    margin-top: .5rem;
+}
+
+/* Enhanced CTA Card */
+.cta-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 50%, #f8f9fa 100%);
+    border: 3px solid transparent !important;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.cta-card::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(135deg, var(--brand), var(--accent1));
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.cta-card::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    animation: glow 4s ease-in-out infinite;
+}
+
+.cta-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(122, 29, 60, .2);
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: .5;
+    }
+
+    50% {
+        transform: scale(1.1) rotate(180deg);
+        opacity: .8;
+    }
+}
+
+/* =========================
+   MISC COMPONENTS
+   ========================= */
+footer a {
+    opacity: .9;
+    transition: opacity .2s ease;
+}
+
+footer a:hover {
+    opacity: 1;
+}
+
+.accordion-button {
+    background: #f1f1f1;
+    font-weight: 600;
+    transition: background .2s ease;
+}
+
+.accordion-button:not(.collapsed) {
+    background: #ddd;
+}
+
+/* Carousel Tweaks */
+#galleryCarousel {
+    position: relative;
+}
+
+#galleryCarousel .carousel-control-prev,
+#galleryCarousel .carousel-control-next {
+    width: 10%;
+}
+
+#galleryCarousel .carousel-control-prev-icon,
+#galleryCarousel .carousel-control-next-icon {
+    filter: invert(1);
+}
+
+/* Subtle Secondary CTA (Dashed) */
+.my-4.py-3 {
+    background: linear-gradient(135deg, rgba(122, 29, 60, 0.03), rgba(212, 175, 55, 0.03));
+    border-radius: 20px;
+    padding: 2rem !important;
+    border: 2px dashed rgba(122, 29, 60, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.my-4.py-3::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.my-4.py-3 h3 {
+    position: relative;
+    z-index: 1;
+    color: var(--brand);
+    font-weight: 800;
+}
+
+/* Benefit Cards Enhancement */
+.benefit-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-top: 5px solid var(--brand);
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.benefit-card::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.benefit-card:hover::before {
+    opacity: 1;
+}
+
+.benefit-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(122, 29, 60, 0.15);
+    border-top-color: var(--accent1);
+}
+
+/* Benefit Icon Wrapper Enhancement */
+.benefit-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(122, 29, 60, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(122, 29, 60, 0.1);
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon-wrapper {
+    transform: rotate(360deg) scale(1.1);
+    background: linear-gradient(135deg, rgba(122, 29, 60, 0.08) 0%, rgba(212, 175, 55, 0.08) 100%);
+    box-shadow: 0 6px 20px rgba(122, 29, 60, 0.2);
+}
+
+.benefit-icon-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand), var(--accent1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.benefit-card:hover .benefit-icon-wrapper::before {
+    opacity: 0.2;
+}
+
+.benefit-icon {
+    font-size: 2.5rem;
+    color: var(--brand);
+    filter: drop-shadow(0 2px 4px rgba(122, 29, 60, 0.2));
+    transition: all 0.3s ease;
+}
+
+/* Keep icon dark on hover for better contrast */
+.benefit-card:hover .benefit-icon {
+    color: var(--brand-700);
+    filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.4)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+    transform: scale(1.05);
+}
+
+/* Benefit Text Enhancement */
+.benefit-card h5 {
+    color: var(--brand);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    transition: color 0.3s ease;
+}
+
+.benefit-card:hover h5 {
+    color: #9c2b52;
+}
+
+.benefit-card p {
+    color: #555;
+    line-height: 1.6;
+    transition: color 0.3s ease;
+}
+
+.benefit-card:hover p {
+    color: #333;
+}

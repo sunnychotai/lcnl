@@ -10,15 +10,12 @@
 </section>
 
 <div class="container py-5">
-  <?php $role = session()->get('admin_role'); ?>
 
   <!-- =======================
        Quick Stats
   ======================== -->
   <h4 class="fw-bold mb-3">Quick Stats</h4>
   <div class="row g-4 mb-5">
-
-    <!-- Active Members -->
     <div class="col-md-3">
       <div class="card shadow-sm border-0 text-center h-100 bg-light">
         <div class="card-body">
@@ -29,7 +26,6 @@
       </div>
     </div>
 
-    <!-- Pending Members -->
     <div class="col-md-3">
       <div class="card shadow-sm border-0 text-center h-100 bg-light">
         <div class="card-body">
@@ -40,7 +36,6 @@
       </div>
     </div>
 
-    <!-- Emails Sent -->
     <div class="col-md-3">
       <div class="card shadow-sm border-0 text-center h-100 bg-light">
         <div class="card-body">
@@ -51,7 +46,6 @@
       </div>
     </div>
 
-    <!-- Last Login -->
     <div class="col-md-3">
       <div class="card shadow-sm border-0 text-center h-100 bg-light">
         <div class="card-body">
@@ -61,7 +55,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- =======================
@@ -70,94 +63,106 @@
   <h4 class="fw-bold mb-3">Admin Actions</h4>
   <div class="row g-4">
 
-    <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
-    <!-- Committee -->
-    <div class="col-md-3">
-      <a href="<?= base_url('admin/content/committee') ?>" class="text-decoration-none">
-        <div class="card shadow-sm h-100 text-center border-0 hover-card">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <i class="bi bi-people-fill fs-1 text-brand mb-3"></i>
-            <h5 class="card-title text-dark mb-1">Manage Committee</h5>
-            <p class="text-muted small">View, add, edit, and delete members</p>
+    <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
+      <!-- Committee -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/committee') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-people-fill fs-1 text-brand mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Committee</h5>
+              <p class="text-muted small">Manage committee members</p>
+            </div>
           </div>
-        </div>
-      </a>
-    </div>
+        </a>
+      </div>
+
+      <!-- FAQs -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/faqs') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-question-circle-fill fs-1 text-brand mb-3"></i>
+              <h5 class="card-title text-dark mb-1">FAQs</h5>
+              <p class="text-muted small">Manage FAQs</p>
+            </div>
+          </div>
+        </a>
+      </div>
     <?php endif; ?>
 
-    <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
-    <!-- Events -->
-    <div class="col-md-3">
-      <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
-        <div class="card shadow-sm h-100 text-center border-0 hover-card">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <i class="bi bi-calendar-event fs-1 text-brand mb-3"></i>
-            <h5 class="card-title text-dark mb-1">Events</h5>
-            <p class="text-muted small">Manage community events</p>
+    <?php if (hasRole('ADMIN')): ?>
+      <!-- Users -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/system/users') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-person-fill-gear fs-1 text-brand mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Users</h5>
+              <p class="text-muted small">Admin only: manage accounts</p>
+            </div>
           </div>
-        </div>
-      </a>
-    </div>
+        </a>
+      </div>
+
+      <!-- Emails -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/system/emails') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-envelope-fill fs-1 text-brand mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Emails</h5>
+              <p class="text-muted small">View & retry queued emails</p>
+            </div>
+          </div>
+        </a>
+      </div>
     <?php endif; ?>
 
-    <?php if ($role === 'ADMIN'): ?>
-    <!-- Users -->
-    <div class="col-md-3">
-      <a href="<?= base_url('admin/system/users') ?>" class="text-decoration-none">
-        <div class="card shadow-sm h-100 text-center border-0 hover-card">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <i class="bi bi-person-fill-gear fs-1 text-brand mb-3"></i>
-            <h5 class="card-title text-dark mb-1">Manage Users</h5>
-            <p class="text-muted small">Admin only: add, edit, remove accounts</p>
+    <?php if (hasRole('ADMIN', 'MEMBERSHIP')): ?>
+      <!-- Members -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/membership/members') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Members</h5>
+              <p class="text-muted small">Review & approve members</p>
+            </div>
           </div>
-        </div>
-      </a>
-    </div>
+        </a>
+      </div>
     <?php endif; ?>
 
-    <?php if (in_array($role, ['ADMIN', 'WEBSITE'])): ?>
-    <!-- FAQs -->
-    <div class="col-md-3">
-      <a href="<?= base_url('admin/content/faqs') ?>" class="text-decoration-none">
-        <div class="card shadow-sm h-100 text-center border-0 hover-card">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <i class="bi bi-question-circle-fill fs-1 text-brand mb-3"></i>
-            <h5 class="card-title text-dark mb-1">Manage FAQs</h5>
-            <p class="text-muted small">Add, edit, reorder FAQs</p>
+
+    <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
+      <!-- Events -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-calendar-event fs-1 text-brand mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Events</h5>
+              <p class="text-muted small">Manage community events</p>
+            </div>
           </div>
-        </div>
-      </a>
-    </div>
+        </a>
+      </div>
     <?php endif; ?>
 
-    <?php if (in_array($role, ['ADMIN', 'MEMBERSHIP'])): ?>
-    <!-- Membership -->
-    <div class="col-md-3">
-      <a href="<?= base_url('admin/membership/members') ?>" class="text-decoration-none">
-        <div class="card shadow-sm h-100 text-center border-0 hover-card">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>
-            <h5 class="card-title text-dark mb-1">Membership Admin</h5>
-            <p class="text-muted small">Review pending registrations &amp; activate members</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <?php endif; ?>
 
-    <?php if ($role === 'ADMIN'): ?>
-    <!-- Emails -->
-    <div class="col-md-3">
-      <a href="<?= base_url('admin/system/emails') ?>" class="text-decoration-none">
-        <div class="card shadow-sm h-100 text-center border-0 hover-card">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <i class="bi bi-envelope-fill fs-1 text-brand mb-3"></i>
-            <h5 class="card-title text-dark mb-1">Manage Emails</h5>
-            <p class="text-muted small">View, retry, delete queued emails</p>
+    <?php if (hasRole('FINANCE')): ?>
+      <!-- Finance (Inactive Dummy) -->
+      <div class="col-md-3">
+        <div class="card shadow-sm h-100 text-center border-0 hover-none bg-light-subtle opacity-75">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center position-relative">
+            <i class="bi bi-cash-coin fs-1 text-secondary mb-3"></i>
+            <h5 class="card-title text-muted mb-1">Finance (Coming Soon)</h5>
+            <p class="text-muted small">Module under development</p>
+            <span class="badge bg-secondary position-absolute top-0 end-0 m-2">Inactive</span>
           </div>
         </div>
-      </a>
-    </div>
+      </div>
     <?php endif; ?>
 
   </div>

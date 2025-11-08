@@ -1,0 +1,671 @@
+/* =========================
+   ENHANCED CONTACT PAGE STYLING
+   Beautiful, professional, engaging contact form
+   ========================= */
+
+/* =========================
+   HERO BANNER
+   ========================= */
+.hero-lcnl-watermark.hero-overlay-steel {
+    background: linear-gradient(135deg,
+            rgba(122, 29, 60, 0.92) 0%,
+            rgba(80, 100, 140, 0.88) 100%),
+        url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="envelope-pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 10 10 L 25 20 L 40 10 M 10 10 L 10 30 L 40 30 L 40 10" fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23envelope-pattern)"/></svg>');
+    min-height: 220px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated gradient overlay */
+.hero-lcnl-watermark.hero-overlay-steel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg,
+            transparent 30%,
+            rgba(212, 175, 55, 0.1) 50%,
+            transparent 70%);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Gold accent line at bottom */
+.hero-lcnl-watermark.hero-overlay-steel::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+            var(--accent1) 0%,
+            #f0c75e 25%,
+            var(--accent1) 50%,
+            #f0c75e 75%,
+            var(--accent1) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    z-index: 3;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Hero content */
+.hero-lcnl-watermark h1 {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.hero-lcnl-watermark p.lead {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   ALERTS
+   ========================= */
+.alert {
+    border-radius: 12px;
+    animation: slideInDown 0.4s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d1e7dd 0%, #e8f5e9 100%);
+    border-left: 5px solid #28a745 !important;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da 0%, #fce8ea 100%);
+    border-left: 5px solid #dc3545 !important;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+}
+
+.shadow-soft {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* =========================
+   CONTACT FORM CONTAINER
+   ========================= */
+.lcnl-card {
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+}
+
+.col-lg-7 .lcnl-card {
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, var(--brand), var(--accent1)) border-box;
+}
+
+.col-lg-7 .lcnl-card::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    background: linear-gradient(135deg, var(--brand), var(--accent1));
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.col-lg-7 .lcnl-card:hover::before {
+    opacity: 0.15;
+}
+
+/* Form title */
+.lcnl-card h3 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.lcnl-card h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand), var(--accent1));
+    border-radius: 2px;
+}
+
+/* =========================
+   FORM INPUTS
+   ========================= */
+.form-label {
+    color: #333;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.form-control,
+.form-control-lg {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background-color: #fafbfc;
+    font-size: 1rem;
+}
+
+.form-control:focus,
+.form-control-lg:focus {
+    border-color: var(--brand);
+    background-color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(122, 29, 60, 0.1),
+        0 4px 12px rgba(122, 29, 60, 0.08);
+    transform: translateY(-1px);
+}
+
+.form-control::placeholder,
+.form-control-lg::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Input hover effect */
+.form-control:hover,
+.form-control-lg:hover {
+    border-color: rgba(122, 29, 60, 0.3);
+    background-color: #fff;
+}
+
+/* Textarea specific */
+textarea.form-control {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.6;
+}
+
+/* Form text helper */
+.form-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.form-text::before {
+    content: "ℹ️";
+    font-size: 0.85rem;
+}
+
+/* =========================
+   SUBMIT BUTTON
+   ========================= */
+.btn-brand.btn-lg {
+    background: linear-gradient(135deg, var(--brand) 0%, #9c2b52 100%);
+    border: none;
+    box-shadow: 0 4px 15px rgba(122, 29, 60, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Ripple effect */
+.btn-brand.btn-lg::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-brand.btn-lg:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-brand.btn-lg:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(122, 29, 60, 0.4);
+}
+
+.btn-brand.btn-lg:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(122, 29, 60, 0.3);
+}
+
+/* Icon animation */
+.btn-brand i.bi-send-check {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.btn-brand:hover i.bi-send-check {
+    transform: translateX(3px);
+}
+
+/* =========================
+   RIGHT SIDE CARDS
+   ========================= */
+.col-lg-5 .lcnl-card {
+    padding: 1.5rem;
+    border-left: 5px solid var(--brand);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+}
+
+.col-lg-5 .lcnl-card:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 8px 30px rgba(122, 29, 60, 0.15) !important;
+    border-left-color: var(--accent1);
+}
+
+/* Card titles */
+.col-lg-5 .lcnl-card h5 {
+    font-size: 1.1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.col-lg-5 .lcnl-card h5::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent1);
+    transition: width 0.3s ease;
+}
+
+.col-lg-5 .lcnl-card:hover h5::after {
+    width: 100%;
+}
+
+/* Icon styling in cards */
+.col-lg-5 .lcnl-card i.bi {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.col-lg-5 .lcnl-card:hover i.bi-telephone-outbound-fill,
+.col-lg-5 .lcnl-card:hover i.bi-people-fill,
+.col-lg-5 .lcnl-card:hover i.bi-question-circle-fill {
+    transform: scale(1.15);
+    color: var(--accent1) !important;
+}
+
+/* =========================
+   CONTACT INFO STYLING
+   ========================= */
+.col-lg-5 .lcnl-card ul li {
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.05);
+    transition: padding-left 0.3s ease;
+}
+
+.col-lg-5 .lcnl-card ul li:last-child {
+    border-bottom: none;
+}
+
+.col-lg-5 .lcnl-card:hover ul li {
+    padding-left: 0.5rem;
+}
+
+/* Email link enhancement */
+.col-lg-5 .lcnl-card a[href^="mailto"] {
+    position: relative;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.col-lg-5 .lcnl-card a[href^="mailto"]::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--brand);
+    transition: width 0.3s ease;
+}
+
+.col-lg-5 .lcnl-card a[href^="mailto"]:hover::after {
+    width: 100%;
+}
+
+/* =========================
+   SOCIAL MEDIA ICONS
+   ========================= */
+.socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(122, 29, 60, 0.05), rgba(212, 175, 55, 0.05));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.socials a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand), var(--accent1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.socials a:hover::before {
+    opacity: 0.15;
+}
+
+.socials a:hover {
+    transform: translateY(-5px) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(122, 29, 60, 0.2);
+}
+
+.socials a i {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.socials a:hover i {
+    color: var(--brand) !important;
+}
+
+/* Staggered animation for social icons */
+.socials a:nth-child(1) {
+    animation: fadeInUp 0.4s ease-out 0.1s both;
+}
+
+.socials a:nth-child(2) {
+    animation: fadeInUp 0.4s ease-out 0.2s both;
+}
+
+.socials a:nth-child(3) {
+    animation: fadeInUp 0.4s ease-out 0.3s both;
+}
+
+/* =========================
+   FAQ LINK ENHANCEMENT
+   ========================= */
+.col-lg-5 .lcnl-card a[href*="faqs"] {
+    text-decoration: none;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.col-lg-5 .lcnl-card a[href*="faqs"]::after {
+    content: "→";
+    margin-left: 0.25rem;
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.col-lg-5 .lcnl-card a[href*="faqs"]:hover::after {
+    transform: translateX(4px);
+}
+
+/* =========================
+   PRIVACY POLICY LINK
+   ========================= */
+.text-muted a.text-brand {
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.text-muted a.text-brand::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--brand);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.text-muted a.text-brand:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* =========================
+   ICON COLORS
+   ========================= */
+.text-accent1 {
+    color: var(--accent1) !important;
+    filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.2));
+}
+
+.text-brand {
+    color: var(--brand) !important;
+}
+
+i.bi-send-fill,
+i.bi-envelope-fill,
+i.bi-clock-fill,
+i.bi-telephone-outbound-fill,
+i.bi-people-fill,
+i.bi-question-circle-fill {
+    transition: all 0.3s ease;
+}
+
+/* =========================
+   REQUIRED ASTERISK
+   ========================= */
+.text-danger {
+    font-weight: 700;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* =========================
+   FORM VALIDATION STATES
+   ========================= */
+.form-control:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+}
+
+.form-control:valid:not(:placeholder-shown) {
+    border-color: #28a745;
+    background-color: #f0fff4;
+}
+
+/* =========================
+   LOADING STATE (Optional)
+   ========================= */
+.btn-brand.btn-lg:disabled {
+    background: linear-gradient(135deg, #999 0%, #777 100%);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-brand.btn-lg:disabled:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   RESPONSIVE ADJUSTMENTS
+   ========================= */
+@media (max-width: 991.98px) {
+    .hero-lcnl-watermark.hero-overlay-steel {
+        min-height: 180px;
+    }
+
+    .col-lg-5 .lcnl-card:hover {
+        transform: translateY(-5px) translateX(0);
+    }
+
+    .d-flex.gap-4 {
+        gap: 1.5rem !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .lcnl-card {
+        padding: 1.25rem !important;
+    }
+
+    .btn-brand.btn-lg {
+        width: 100%;
+    }
+
+    .form-control-lg {
+        font-size: 0.95rem;
+    }
+
+    .socials a {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-lcnl-watermark h1 {
+        font-size: 1.75rem !important;
+    }
+
+    .hero-lcnl-watermark p.lead {
+        font-size: 1rem !important;
+    }
+}
+
+/* =========================
+   ACCESSIBILITY
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+.form-control:focus-visible,
+.btn:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--accent1);
+    outline-offset: 3px;
+}
+
+/* =========================
+   PRINT STYLES
+   ========================= */
+@media print {
+
+    .hero-lcnl-watermark,
+    .btn,
+    .socials {
+        display: none !important;
+    }
+
+    .lcnl-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+}
+
+/* =========================
+   DARK MODE SUPPORT (Future)
+   ========================= */
+@media (prefers-color-scheme: dark) {
+    /* Add dark mode styles if needed */
+}

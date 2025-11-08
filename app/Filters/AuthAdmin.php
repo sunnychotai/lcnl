@@ -12,19 +12,31 @@ class AuthAdmin implements FilterInterface
     {
         $session = session();
 
+        // --- 1. Not logged in → go to login ---
         if (! $session->get('isAdminLoggedIn')) {
-            return redirect()->to('/auth/login')
-                ->with('error', 'Please login as an administrator.');
+            return redirect()->to('/auth/login');
         }
 
-        // Optionally enforce roles
-        if ($arguments) {
-            $role = $session->get('admin_role');
-            if (! in_array($role, $arguments)) {
-                return redirect()->to('/admin/system/dashboard')
-                    ->with('error', 'Access denied.');
+        // --- 2. Role-restricted route handling ---
+        if (!empty($arguments)) {
+            $userRole = strtoupper($session->get('admin_role') ?? '');
+            $allowed  = array_map('strtoupper', $arguments);
+
+            // If not authorised and not already on dashboard, send them there
+            if (!in_array($userRole, $allowed)) {
+                $currentPath = $request->getUri()->getPath();
+                // prevent redirect loop
+                if ($currentPath !== 'admin/system/dashboard') {
+                    return redirect()->to('/admin/system/dashboard')
+                        ->with('error', 'Access denied for your role.');
+                }
+                // Already on dashboard, just allow so they see “access denied” message
+                return;
             }
         }
+
+        // --- 3. Otherwise allow through ---
+        return;
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

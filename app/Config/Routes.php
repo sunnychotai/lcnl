@@ -6,7 +6,6 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// Recommended hardening
 $routes->setAutoRoute(false);
 
 /* -----------------------
@@ -22,7 +21,7 @@ $routes->get('/privacy', 'Home::privacy');
 $routes->post('contact/send', 'ContactController::send');
 $routes->get('/gallery', 'Home::gallery');
 $routes->get('/contact', 'Home::contact');
-$routes->get('/membership', 'Home::membership'); // landing page
+$routes->get('/membership', 'Home::membership');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/lcf', 'Committee::lcf');
 $routes->get('/bereavement', 'Home::bereavement');
@@ -34,29 +33,23 @@ $routes->get('/yls', 'Committee::yls');
 $routes->get('/youth', 'Committee::youth');
 $routes->get('/mahila', 'Committee::mahila');
 
+/* Event registrations */
 $routes->get('events/register/chopda-pujan', 'EventRegistrationController::register');
 $routes->post('events/register/submit', 'EventRegistrationController::submit');
 $routes->get('events/register/chopda-pujan/thankyou', 'EventRegistrationController::thankyou');
 
-
-
-
-/* Testing / Dev Routes for Sunny */
+/* Dev / test utilities */
 $routes->get('/dbcheck', 'Test::dbcheck');
 $routes->get('/pwhash', 'Test::pwhash');
 $routes->get('/email', 'Test::email');
 
-
-
-
-
 /* -----------------------
    FAQs (public)
 ------------------------*/
-$routes->get('faqs', 'Home::faq');                           // grouped view
-$routes->get('faqs/all', 'FaqController::all');              // all FAQs
-$routes->get('faqs/(:segment)', 'FaqController::group/$1');  // FAQs by group
-$routes->get('bereavement', 'FaqController::bereavement');   // single definitive route
+$routes->get('faqs', 'Home::faq');
+$routes->get('faqs/all', 'FaqController::all');
+$routes->get('faqs/(:segment)', 'FaqController::group/$1');
+$routes->get('bereavement', 'FaqController::bereavement');
 
 /* -----------------------
    Auth
@@ -68,7 +61,6 @@ $routes->get('auth/logout', 'Auth::logout');
 /* -----------------------
    Forgot / Reset Password
 ------------------------*/
-// MEMBER auth (public endpoints)
 $routes->get('membership/login', 'MemberAuth::login', ['as' => 'membership.login']);
 $routes->post('membership/login', 'MemberAuth::attempt');
 $routes->get('membership/logout', 'MemberAuth::logout');
@@ -89,45 +81,36 @@ $routes->group('membership', ['namespace' => 'App\Controllers'], static function
     $routes->get('resend-verification', 'MembershipController::resendVerification', ['as' => 'membership.resend']);
 });
 
-// Account shortcut → dashboard
+/* -----------------------
+   Member account area
+------------------------*/
 $routes->get('account', 'Account\DashboardController::index', ['as' => 'account.root']);
-
-// ACCOUNT: Member dashboard & profile (requires MEMBER login)
 $routes->group('account', [
     'namespace' => 'App\Controllers\Account',
-    'filter' => 'authMember'
+    'filter'    => 'authMember'
 ], static function ($routes) {
     $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
-    // Profile edit
     $routes->get('profile', 'ProfileController::edit', ['as' => 'account.profile.edit']);
     $routes->post('profile', 'ProfileController::update', ['as' => 'account.profile.update']);
 });
 
-// Household routes reserved for Life Membership module
-// $routes->group('account/household', [
-//     'namespace' => 'App\Controllers\Account',
-//     'filter'    => 'authMember'
-// ], static function ($routes) {
-//     $routes->get('/', 'HouseholdController::index', ['as' => 'account.household']);
-//     $routes->post('create', 'HouseholdController::create');
-//     $routes->post('add-dependent', 'HouseholdController::addDependent');
-//     $routes->post('link', 'HouseholdController::linkExisting');
-// });
-
 /* ---------------------------------------------------------
-   🔒 Admin Area (split groups)
+   🔒 ADMIN AREA — ROLE-BASED GROUPS
 ----------------------------------------------------------*/
 $routes->group('admin/system', ['filter' => 'authAdmin'], function ($routes) {
-    // Core dashboard
     $routes->get('dashboard', 'Admin::dashboard');
+});
 
-    // Email queue admin
+/* --- System / Core admin (ADMIN only) --- */
+$routes->group('admin/system', ['filter' => 'authAdmin:ADMIN'], function ($routes) {
+
+    // Emails Admin
     $routes->get('emails', 'Admin\Emails::index');
     $routes->get('emails/view/(:num)', 'Admin\Emails::view/$1');
     $routes->get('emails/retry/(:num)', 'Admin\Emails::retry/$1');
     $routes->get('emails/delete/(:num)', 'Admin\Emails::delete/$1');
 
-    // Admin users (system accounts)
+    // Users Admin
     $routes->group('users', function ($routes) {
         $routes->get('', 'Admin\Users::index');
         $routes->get('create', 'Admin\Users::create');
@@ -138,8 +121,10 @@ $routes->group('admin/system', ['filter' => 'authAdmin'], function ($routes) {
     });
 });
 
-$routes->group('admin/content', ['filter' => 'authAdmin'], function ($routes) {
-    // Committee
+/* --- Content (ADMIN + WEBSITE) --- */
+$routes->group('admin/content', ['filter' => 'authAdmin:ADMIN,WEBSITE'], function ($routes) {
+
+    // Committee Admin
     $routes->group('committee', function ($routes) {
         $routes->get('', 'Admin\CommitteeController::index');
         $routes->get('create', 'Admin\CommitteeController::create');
@@ -148,17 +133,6 @@ $routes->group('admin/content', ['filter' => 'authAdmin'], function ($routes) {
         $routes->post('update/(:num)', 'Admin\CommitteeController::update/$1');
         $routes->get('delete/(:num)', 'Admin\CommitteeController::delete/$1');
         $routes->get('clone/(:num)', 'Admin\CommitteeController::clone/$1');
-    });
-
-    // Events
-    $routes->group('events', function ($routes) {
-        $routes->get('', 'Admin\Events::index');
-        $routes->get('create', 'Admin\Events::create');
-        $routes->post('store', 'Admin\Events::store');
-        $routes->get('edit/(:num)', 'Admin\Events::edit/$1');
-        $routes->post('update/(:num)', 'Admin\Events::update/$1');
-        $routes->get('delete/(:num)', 'Admin\Events::delete/$1');
-        $routes->get('clone/(:num)', 'Admin\Events::clone/$1');
     });
 
     // FAQs
@@ -173,23 +147,43 @@ $routes->group('admin/content', ['filter' => 'authAdmin'], function ($routes) {
     });
 });
 
-$routes->group('admin/membership', ['filter' => 'authAdmin'], function ($routes) {
-    // Members
+$routes->group('admin/content', ['filter' => 'authAdmin:ADMIN,EVENTS,WEBSITE'], function ($routes) {
+
+    // Events
+    $routes->group('events', function ($routes) {
+        $routes->get('', 'Admin\Events::index');
+        $routes->get('create', 'Admin\Events::create');
+        $routes->post('store', 'Admin\Events::store');
+        $routes->get('edit/(:num)', 'Admin\Events::edit/$1');
+        $routes->post('update/(:num)', 'Admin\Events::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Events::delete/$1');
+        $routes->get('clone/(:num)', 'Admin\Events::clone/$1');
+    });
+});
+
+/* --- Membership area (ADMIN + MEMBERSHIP) --- */
+$routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], function ($routes) {
+
     $routes->group('members', function ($routes) {
         $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.members.index']);
-        $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.members.export']); // ✅ CSV Export
+        $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.members.export']);
         $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.members.show']);
         $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.members.activate']);
         $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.members.disable']);
         $routes->post('(:num)/resend', 'Admin\MembersController::resend/$1', ['as' => 'admin.members.resend']);
     });
-
-    // Families (future Life Membership module)
-    $routes->group('families', function ($routes) {
-        $routes->post('merge', 'Admin\FamiliesController::merge', ['as' => 'admin.families.merge']);
-    });
 });
 
+/* --- Finance area (ADMIN + FINANCE) --- */
+$routes->group('admin/finance', ['filter' => 'authAdmin:ADMIN,FINANCE'], function ($routes) {
+    $routes->get('', 'Admin\FinanceController::index');
+    $routes->get('reports', 'Admin\FinanceController::reports');
+});
+
+/* -----------------------
+   Access Denied (safe public route)
+------------------------*/
+$routes->get('access-denied', 'Home::accessDenied');
 
 /* -----------------------
    Environment routes (LAST)

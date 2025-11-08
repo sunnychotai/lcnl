@@ -26,10 +26,6 @@
             <li><a class="dropdown-item" href="<?= base_url('/youth') ?>">Lohana Youth Committee</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/lcf') ?>">Lohana Charitable Foundation</a></li>
 
-            <!-- <li><a class="dropdown-item" href="">Senior Mens</a></li>
-            <li><a class="dropdown-item" href="">Senior Ladies</a></li>
-            <li><a class="dropdown-item" href="">Raghuvanshi Charitable Trust</a></li>
-            <li><a class="dropdown-item" href="">Lohana Charitable Foundation</a></li> -->
           </ul>
         </li>
 
@@ -59,7 +55,7 @@
   </div>
 </nav>
 
-<?php if (session()->get('isAdminLoggedIn') && session()->get('admin_role') === 'ADMIN'): ?>
+<?php if (session()->get('isAdminLoggedIn')): ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-darkblue py-2 shadow-sm">
     <div class="container-fluid">
       <!-- Admin nav toggler -->
@@ -74,50 +70,66 @@
         <ul class="navbar-nav gap-4">
           <li class="nav-item d-flex align-items-center">
             <span class="navbar-text text-light fw-semibold me-3">
-              👋 Welcome, <?= esc(session()->get('firstname') ?? 'Admin') ?>
+              👋 Welcome, <?= esc(session()->get('admin_name') ?? 'Admin') ?>
             </span>
           </li>
 
-          <!-- System Section -->
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/system/dashboard') ?>">
-              <i class="bi bi-speedometer2 me-1"></i> Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/system/users') ?>">
-              <i class="bi bi-person-gear me-1"></i> Users
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/system/emails') ?>">
-              <i class="bi bi-envelope-fill me-1"></i> Emails
-            </a>
-          </li>
+          <?php if (hasRole('ADMIN', 'WEBSITE', 'FINANCE', 'MEMBERSHIP', 'EVENTS')): ?>
+            <!-- System Section -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/system/dashboard') ?>">
+                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+              </a>
+            </li>
+          <?php endif; ?>
 
-          <!-- Content Section -->
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/content/committee') ?>">
-              <i class="bi bi-people-fill me-1"></i> Committees
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/content/events') ?>">
-              <i class="bi bi-calendar-event-fill me-1"></i> Events
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/content/faqs') ?>">
-              <i class="bi bi-question-circle-fill me-1"></i> FAQs
-            </a>
-          </li>
+          <?php if (hasRole('ADMIN')): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/system/users') ?>">
+                <i class="bi bi-person-gear me-1"></i> Users
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/system/emails') ?>">
+                <i class="bi bi-envelope-fill me-1"></i> Emails
+              </a>
+            </li>
+          <?php endif; ?>
 
-          <!-- Membership Section -->
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/membership/members') ?>">
-              <i class="bi bi-person-lines-fill me-1"></i> Members
-            </a>
-          </li>
+          <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
+
+            <!-- Content Section -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/content/committee') ?>">
+                <i class="bi bi-people-fill me-1"></i> Committees
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/content/faqs') ?>">
+                <i class="bi bi-question-circle-fill me-1"></i> FAQs
+              </a>
+            </li>
+
+          <?php endif; ?>
+
+          <?php if (hasRole('ADMIN', 'EVENTS')): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/content/events') ?>">
+                <i class="bi bi-calendar-event-fill me-1"></i> Events
+              </a>
+            </li>
+          <?php endif; ?>
+
+
+          <?php if (hasRole('ADMIN', 'MEMBERSHIP')): ?>
+            <!-- Membership Section -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/membership/members') ?>">
+                <i class="bi bi-person-lines-fill me-1"></i> Members
+              </a>
+            </li>
+          <?php endif; ?>
 
 
           <!-- Logout -->
@@ -134,7 +146,7 @@
 
 <!-- Optional: toggler label script -->
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     function wireLabel(toggler) {
       const label = toggler?.querySelector('.navbar-toggler-text');
       const target = document.querySelector(toggler?.getAttribute('data-bs-target'));

@@ -1,0 +1,218 @@
+/* =========================================
+   LCNL AUTHENTICATION FORMS
+   -----------------------------------------
+   Registration, Login, Password Reset,
+   Consent, Validation, Responsiveness
+   ========================================= */
+
+/* --- Auth Card Container --- */
+.auth-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border-left: 5px solid var(--brand);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+}
+
+/* Gradient Header */
+.bg-gradient {
+    background: linear-gradient(135deg, var(--accent1) 0%, var(--brand) 100%);
+}
+
+/* --- Form Sections --- */
+.form-section {
+    padding: 1rem;
+    border-radius: 8px;
+    background: #fafbfc;
+    border: 1px solid #e9ecef;
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    color: var(--brand);
+    font-weight: 600;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 1rem;
+}
+
+/* --- Input Groups --- */
+.input-group-text {
+    border-right: 0;
+    min-width: 45px;
+    justify-content: center;
+    transition: all .2s ease;
+}
+
+.input-group .form-control {
+    border-left: 0;
+    transition: all .2s ease;
+}
+
+.input-group .form-control:focus {
+    box-shadow: none;
+    border-color: var(--brand);
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: var(--brand);
+    background-color: #e7f3ff;
+}
+
+.input-group .form-control:focus+button,
+.input-group .form-control:focus+.btn {
+    border-color: var(--brand);
+}
+
+/* --- Form Controls --- */
+.form-control::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+.form-control:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 .2rem rgba(122, 29, 60, .25);
+}
+
+/* --- Password Toggle Buttons --- */
+.btn-outline-secondary {
+    border-left: 0;
+    transition: all .2s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    color: #495057;
+}
+
+/* --- Password Strength Indicator --- */
+.password-strength {
+    margin-top: .5rem;
+}
+
+.password-strength .progress {
+    height: 4px;
+    border-radius: 2px;
+    background-color: #e9ecef;
+}
+
+.password-strength .progress-bar {
+    transition: width .3s ease, background-color .3s ease;
+}
+
+.password-strength .strength-text {
+    display: block;
+    margin-top: .25rem;
+    font-weight: 500;
+    font-size: .875rem;
+}
+
+/* --- Validation Feedback --- */
+.invalid-feedback,
+.valid-feedback {
+    display: none;
+    font-weight: 500;
+}
+
+.form-control.is-invalid~.invalid-feedback {
+    display: block;
+}
+
+.form-control.is-valid~.valid-feedback {
+    display: block;
+}
+
+/* --- Consent / Checkbox Group --- */
+.form-check {
+    transition: all .2s ease;
+    border-radius: 6px;
+    padding: .5rem;
+}
+
+.form-check:has(input:checked) {
+    background-color: #e7f3ff;
+    border-color: var(--brand);
+}
+
+.form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: .15rem;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--brand);
+    border-color: var(--brand);
+}
+
+.form-check-label {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* --- Helper Text / Asterisk --- */
+.form-text {
+    font-size: .875rem;
+    margin-top: .375rem;
+    color: #6c757d;
+}
+
+.text-danger {
+    font-weight: 600;
+}
+
+/* --- Alert Animation --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert {
+    animation: fadeIn .3s ease;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .auth-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .form-section {
+        padding: .75rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .auth-card:hover {
+        transform: none;
+    }
+}
+
+/* --- Accessibility: Reduce Motion --- */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

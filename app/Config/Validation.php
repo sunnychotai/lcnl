@@ -51,7 +51,10 @@ class Validation extends BaseConfig
         'mobile'       => ['label' => 'Mobile',            'rules' => 'permit_empty|regex_match[/^\+?\d{7,15}$/]|is_unique[members.mobile]'],
         'password'     => ['label' => 'Password',          'rules' => 'required|min_length[8]'],
         'pass_confirm' => ['label' => 'Confirm Password',  'rules' => 'required|matches[password]'],
-        'postcode'     => ['label' => 'Postcode',          'rules' => 'permit_empty|max_length[12]'],
+        'address1'     => ['label' => 'Address Line 1', 'rules' => 'required|min_length[3]|max_length[150]'],
+        'address2'     => ['label' => 'Address Line 2', 'rules' => 'permit_empty|max_length[150]'],
+        'city'         => ['label' => 'City',           'rules' => 'required|min_length[2]|max_length[100]'],
+        'postcode'     => ['label' => 'Postcode',       'rules' => 'required|max_length[12]'],
         'consent'      => ['label' => 'Consent',           'rules' => 'required'],
     ];
 
@@ -83,6 +86,17 @@ class Validation extends BaseConfig
         'consent' => [
             'required'    => 'Please tick to consent to LCNL storing your details.',
         ],
+        'address1' => [
+            'required'    => 'Please enter the first line of your address.',
+            'min_length'  => 'Address Line 1 must be at least 3 characters long.'
+        ],
+        'city' => [
+            'required'    => 'Please enter your town or city.',
+        ],
+        'postcode' => [
+            'required'    => 'Please enter your postcode.',
+        ],
+
     ];
 
     // --------------------------------------------------------------------
