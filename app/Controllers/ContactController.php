@@ -22,7 +22,40 @@ class ContactController extends BaseController
                 ->with('errors', $this->validator->getErrors());
         }
 
-        // Honeypot check (basic spam filter)
+        // ------------------------------------------
+// IP THROTTLING (limit abuse from same IP)
+// ------------------------------------------
+        $ip = $this->request->getIPAddress();
+        $key = 'contact_ip_' . md5($ip);
+
+        // How many attempts so far?
+        $attempts = cache($key) ?? 0;
+
+        // Too many requests → silent block
+        if ($attempts > 5) {   // allow 5 submissions per hour
+            return redirect()->back()
+                ->with('success', 'Thank you — your message has been received.');
+        }
+
+        // Increase counter & store for 1 hour
+        cache()->save($key, $attempts + 1, 3600);
+        // ------------------------------------------
+
+
+        // ------------------------------------------
+        // TIME-BASED HONEYPOT (Anti-spam)
+        // ------------------------------------------
+        $submittedAt = (int) $this->request->getPost('form_time');
+        $now = time();
+
+        // If the form was submitted in under 3 seconds → it's a bot
+        if ($submittedAt === 0 || ($now - $submittedAt) < 3) {
+            // Pretend everything worked (don’t alert bots)
+            return redirect()->back()->with('success', 'Thank you — your message has been received.');
+        }
+        // ------------------------------------------
+
+        // Still keep your existing honeypot field as extra defence
         if (!empty($this->request->getPost('website'))) {
             return redirect()->back()->with('success', 'Thank you — your message has been received.');
         }
@@ -46,7 +79,6 @@ class ContactController extends BaseController
 
         $queue = new EmailQueueModel();
 
-
         foreach (['info@lcnl.co.uk', 'info@lcnl.org'] as $recipient) {
             $queue->enqueue([
                 'to_email' => $recipient,
@@ -57,10 +89,11 @@ class ContactController extends BaseController
                 'priority' => 1,
                 'headers_json' => json_encode([
                     'Reply-To' => $payload['email']
-                ])
+                ]),
             ]);
         }
 
         return redirect()->back()->with('success', 'Your message has been sent successfully. We’ll reply soon.');
     }
+
 }
