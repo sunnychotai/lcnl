@@ -175,7 +175,7 @@
               </div>
               <h3 class="fw-bold mb-3">Your Dashboard</h3>
               <p class="text-muted mb-4">
-                Access your profile, household, and upcoming events from your member dashboard.
+                Access your profile and upcoming events from your member dashboard.
               </p>
               <a href="<?= route_to('account.dashboard') ?>" class="btn btn-brand btn-lg rounded-pill px-4">
                 <i class="bi bi-speedometer2 me-2"></i> Go to Dashboard
