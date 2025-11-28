@@ -24,7 +24,20 @@ class MembershipController extends BaseController
 
     public function create()
     {
-        if (! $this->validate('memberRegister')) {
+        // Throttle: max 3 attempts per minute per IP
+        $throttler = service('throttler');
+        if ($throttler->check('register-' . $this->request->getIPAddress(), 3, MINUTE) === false) {
+            return redirect()->back()->withInput()->with('errors', ['Too many attempts. Please try again shortly.']);
+        }
+
+        // Honeypot: hidden field 'website' should be empty
+        if (!empty($this->request->getPost('website'))) {
+            // silently succeed (anti-bot)
+            return redirect()->to(route_to('membership.success'))
+                ->with('message', 'Please check your email to verify your account.');
+        }
+
+        if (!$this->validate('memberRegisterV2')) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
@@ -34,7 +47,7 @@ class MembershipController extends BaseController
         $payload['source'] = $this->request->getGet('src') ?? 'web';
 
         try {
-            // 1) Create pending member
+            // 1) Create pending member + pending membership + (optional) family
             $memberId = $this->svc->createPending($payload);
 
             // 2) Send verification email
@@ -50,7 +63,7 @@ class MembershipController extends BaseController
                 ->with('message', 'Please check your email to verify your account.');
 
         } catch (\Throwable $e) {
-            log_message('error', '[MembershipController::create] ' . $e->getMessage());
+            log_message('error', '[MembershipController::create V2] ' . $e->getMessage());
 
             return redirect()->back()
                 ->withInput()
@@ -60,45 +73,42 @@ class MembershipController extends BaseController
         }
     }
 
-    public function success()
-    {
-        return view('membership/success');
-    }
-
     public function verify(string $token)
     {
         $verifications = new MemberVerificationModel();
         $row = $verifications->findValidToken($token);
 
-        if (! $row) {
+        if (!$row) {
             return view('membership/verify_failed');
         }
 
         // Mark token as used
         $verifications->markUsed((int) $row['id']);
 
-        // Mark member as verified + activate
-        $memberModel = new MemberModel();
-        $memberModel->update((int) $row['member_id'], [
-            'verified_at' => date('Y-m-d H:i:s'),
-            'status'      => 'active', // 🚀 auto-activate after email verification
-        ]);
+        // Activate member + activate most recent membership record
+        $this->svc->activate((int) $row['member_id'], null);
 
         return view('membership/verify_success');
+    }
+
+
+    public function success()
+    {
+        return view('membership/success');
     }
 
     public function resendVerification()
     {
         $email = strtolower(trim($this->request->getGet('email') ?? ''));
 
-        if (! $email) {
+        if (!$email) {
             return redirect()->back()->with('error', 'No email provided.');
         }
 
         $members = new MemberModel();
-        $member  = $members->where('email', $email)->first();
+        $member = $members->where('email', $email)->first();
 
-        if (! $member) {
+        if (!$member) {
             return redirect()->back()->with('error', 'No member found for that email.');
         }
 
@@ -128,8 +138,8 @@ class MembershipController extends BaseController
         // 2) Store verification entry
         $verifications = new MemberVerificationModel();
         $verifications->insert([
-            'member_id'  => $memberId,
-            'token'      => $token,
+            'member_id' => $memberId,
+            'token' => $token,
             'created_at' => date('Y-m-d H:i:s'),
             'expires_at' => date('Y-m-d H:i:s', strtotime('+2 days')),
         ]);
@@ -138,7 +148,7 @@ class MembershipController extends BaseController
         $link = base_url('membership/verify/' . $token);
 
         // 4) Prepare email content
-        $subject  = 'Verify your LCNL account';
+        $subject = 'Verify your LCNL account';
         $bodyHtml = view('emails/verify_member', [
             'link' => $link,
             'name' => $firstName,
@@ -151,12 +161,12 @@ class MembershipController extends BaseController
         // 5) Enqueue email
         $queue = new EmailQueueModel();
         $queue->enqueue([
-            'to_email'  => $email,
-            'to_name'   => trim($firstName . ' ' . $lastName),
-            'subject'   => $subject,
+            'to_email' => $email,
+            'to_name' => trim($firstName . ' ' . $lastName),
+            'subject' => $subject,
             'body_html' => $bodyHtml,
             'body_text' => $bodyText,
-            'priority'  => 2,
+            'priority' => 2,
         ]);
     }
 }

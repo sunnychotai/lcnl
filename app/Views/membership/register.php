@@ -44,6 +44,8 @@
         <div class="card-body p-4 p-md-5">
           <form method="post" action="<?= route_to('membership.create') ?>" novalidate id="registerForm">
             <?= csrf_field() ?>
+            <input type="text" name="website" value="" class="d-none" tabindex="-1" autocomplete="off"
+              aria-hidden="true">
 
             <!-- Personal Information -->
             <div class="form-section">
@@ -58,14 +60,8 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-person-fill text-brand"></i></span>
-                    <input type="text"
-                      id="first_name"
-                      name="first_name"
-                      value="<?= esc(old('first_name') ?? '') ?>"
-                      class="form-control"
-                      autocomplete="given-name"
-                      placeholder="John"
-                      required>
+                    <input type="text" id="first_name" name="first_name" value="<?= esc(old('first_name') ?? '') ?>"
+                      class="form-control" autocomplete="given-name" placeholder="John" required>
                   </div>
                 </div>
 
@@ -75,14 +71,8 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-person-fill text-brand"></i></span>
-                    <input type="text"
-                      id="last_name"
-                      name="last_name"
-                      value="<?= esc(old('last_name') ?? '') ?>"
-                      class="form-control"
-                      autocomplete="family-name"
-                      placeholder="Smith"
-                      required>
+                    <input type="text" id="last_name" name="last_name" value="<?= esc(old('last_name') ?? '') ?>"
+                      class="form-control" autocomplete="family-name" placeholder="Smith" required>
                   </div>
                 </div>
 
@@ -92,14 +82,8 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-envelope-fill text-brand"></i></span>
-                    <input type="email"
-                      id="email"
-                      name="email"
-                      value="<?= esc(old('email') ?? '') ?>"
-                      class="form-control"
-                      inputmode="email"
-                      autocomplete="email"
-                      placeholder="john.smith@example.com"
+                    <input type="email" id="email" name="email" value="<?= esc(old('email') ?? '') ?>"
+                      class="form-control" inputmode="email" autocomplete="email" placeholder="john.smith@example.com"
                       required>
                   </div>
                   <div class="form-text">We'll never share your email with anyone else.</div>
@@ -109,14 +93,8 @@
                   <label class="form-label fw-semibold" for="mobile">Mobile Number</label>
                   <div class="input-group">
                     <span class="input-group-text bg-light"><i class="bi bi-telephone-fill text-brand"></i></span>
-                    <input type="tel"
-                      id="mobile"
-                      name="mobile"
-                      value="<?= esc(old('mobile') ?? '') ?>"
-                      class="form-control"
-                      inputmode="tel"
-                      autocomplete="tel"
-                      placeholder="+447123456789"
+                    <input type="tel" id="mobile" name="mobile" value="<?= esc(old('mobile') ?? '') ?>"
+                      class="form-control" inputmode="tel" autocomplete="tel" placeholder="+447123456789"
                       pattern="^\+?\d{7,15}$">
                   </div>
                   <div class="form-text">
@@ -139,14 +117,8 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill text-brand"></i></span>
-                    <input type="text"
-                      id="address1"
-                      name="address1"
-                      value="<?= esc(old('address1') ?? '') ?>"
-                      class="form-control"
-                      autocomplete="address-line1"
-                      placeholder="123 High Street"
-                      required>
+                    <input type="text" id="address1" name="address1" value="<?= esc(old('address1') ?? '') ?>"
+                      class="form-control" autocomplete="address-line1" placeholder="123 High Street" required>
                   </div>
                 </div>
 
@@ -154,13 +126,8 @@
                   <label class="form-label fw-semibold" for="address2">Address Line 2</label>
                   <div class="input-group">
                     <span class="input-group-text bg-light"><i class="bi bi-geo-fill text-brand"></i></span>
-                    <input type="text"
-                      id="address2"
-                      name="address2"
-                      value="<?= esc(old('address2') ?? '') ?>"
-                      class="form-control"
-                      autocomplete="address-line2"
-                      placeholder="Apartment, suite, unit, etc.">
+                    <input type="text" id="address2" name="address2" value="<?= esc(old('address2') ?? '') ?>"
+                      class="form-control" autocomplete="address-line2" placeholder="Apartment, suite, unit, etc.">
                   </div>
                 </div>
 
@@ -170,14 +137,8 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-building text-brand"></i></span>
-                    <input type="text"
-                      id="city"
-                      name="city"
-                      value="<?= esc(old('city') ?? '') ?>"
-                      class="form-control"
-                      autocomplete="address-level2"
-                      placeholder="London"
-                      required>
+                    <input type="text" id="city" name="city" value="<?= esc(old('city') ?? '') ?>" class="form-control"
+                      autocomplete="address-level2" placeholder="London" required>
                   </div>
                 </div>
 
@@ -187,19 +148,14 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-mailbox text-brand"></i></span>
-                    <input type="text"
-                      id="postcode"
-                      name="postcode"
-                      value="<?= esc(old('postcode') ?? '') ?>"
-                      class="form-control"
-                      autocomplete="postal-code"
-                      placeholder="SW1A 1AA"
-                      maxlength="12"
-                      required>
+                    <input type="text" id="postcode" name="postcode" value="<?= esc(old('postcode') ?? '') ?>"
+                      class="form-control" autocomplete="postal-code" placeholder="SW1A 1AA" maxlength="12" required>
                   </div>
                 </div>
               </div>
             </div>
+
+
 
             <!-- Security -->
             <div class="form-section">
@@ -214,16 +170,9 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-key-fill text-brand"></i></span>
-                    <input type="password"
-                      id="password"
-                      name="password"
-                      class="form-control"
-                      autocomplete="new-password"
-                      placeholder="Enter password"
-                      required>
-                    <button class="btn btn-outline-secondary"
-                      type="button"
-                      id="togglePassword"
+                    <input type="password" id="password" name="password" class="form-control"
+                      autocomplete="new-password" placeholder="Enter password" required>
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword"
                       aria-label="Show password">
                       <i class="bi bi-eye"></i>
                     </button>
@@ -245,16 +194,9 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-key-fill text-brand"></i></span>
-                    <input type="password"
-                      id="pass_confirm"
-                      name="pass_confirm"
-                      class="form-control"
-                      autocomplete="new-password"
-                      placeholder="Re-enter password"
-                      required>
-                    <button class="btn btn-outline-secondary"
-                      type="button"
-                      id="toggleConfirm"
+                    <input type="password" id="pass_confirm" name="pass_confirm" class="form-control"
+                      autocomplete="new-password" placeholder="Re-enter password" required>
+                    <button class="btn btn-outline-secondary" type="button" id="toggleConfirm"
                       aria-label="Show password">
                       <i class="bi bi-eye"></i>
                     </button>
@@ -272,14 +214,10 @@
             <!-- Consent -->
             <div class="form-section">
               <div class="form-check p-3 bg-light rounded border">
-                <input class="form-check-input"
-                  type="checkbox"
-                  name="consent"
-                  id="consent"
-                  value="1"
-                  required>
+                <input class="form-check-input" type="checkbox" name="consent" id="consent" value="1" required>
                 <label class="form-check-label" for="consent">
-                  <strong>I consent</strong> to LCNL storing my details and contacting me about membership, events and other community related activities.
+                  <strong>I consent</strong> to LCNL storing my details and contacting me about membership, events and
+                  other community related activities.
 
                 </label>
               </div>
@@ -312,7 +250,7 @@
 </div>
 
 <script>
-  (function() {
+  (function () {
     'use strict';
 
     // Password Toggle Functionality
@@ -322,7 +260,7 @@
 
       if (!btn || !input) return;
 
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         const isPassword = input.type === 'password';
         input.type = isPassword ? 'text' : 'password';
 
@@ -343,7 +281,7 @@
       const progressBar = strengthIndicator.querySelector('.progress-bar');
       const strengthText = strengthIndicator.querySelector('.strength-text');
 
-      passwordInput.addEventListener('input', function() {
+      passwordInput.addEventListener('input', function () {
         const password = this.value;
 
         if (password.length === 0) {
@@ -421,7 +359,7 @@
     const form = document.getElementById('registerForm');
 
     if (form) {
-      form.addEventListener('submit', function(e) {
+      form.addEventListener('submit', function (e) {
         if (!form.checkValidity()) {
           e.preventDefault();
           e.stopPropagation();
@@ -434,7 +372,7 @@
       const requiredInputs = form.querySelectorAll('input[required]');
 
       requiredInputs.forEach(input => {
-        input.addEventListener('blur', function() {
+        input.addEventListener('blur', function () {
           if (this.value.trim() === '') {
             this.classList.add('is-invalid');
           } else {
@@ -442,7 +380,7 @@
           }
         });
 
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
           if (this.classList.contains('is-invalid') && this.value.trim() !== '') {
             this.classList.remove('is-invalid');
           }
@@ -463,3 +401,4 @@
 </script>
 
 <?= $this->endSection() ?>
+

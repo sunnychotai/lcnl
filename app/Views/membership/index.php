@@ -15,21 +15,6 @@
 
 <div class="container py-5">
 
-  <!-- Main Value Proposition -->
-  <div class="text-center mb-4">
-    <h2 class="fw-bold mb-3">
-      <i class="bi bi-star-fill text-accent me-2"></i>
-      Become a Life Member Today
-    </h2>
-    <p class="lead text-muted mb-2" style="max-width: 700px; margin: 0 auto;">
-      Join our vibrant community and enjoy <strong>lifetime benefits</strong> for a one-time fee of just <span
-        class="text-brand fw-bold fs-4">£75</span>
-    </p>
-    <p class="text-muted small">
-      Connect with fellow Lohanas, participate in cultural events, and help shape the future of our community
-    </p>
-  </div>
-
   <?php if (!session()->get('isMemberLoggedIn')): ?>
     <!-- Primary CTA - Register (Only shown to non-members) -->
     <div class="row justify-content-center mb-4">
@@ -44,7 +29,7 @@
               Register now to become a life member and unlock all the benefits of the LCNL community
             </p>
             <a href="<?= base_url('membership/register') ?>" class="btn btn-brand btn-lg rounded-pill px-5 py-2 shadow">
-              <i class="bi bi-pencil-square me-2"></i> Register Now - £75
+              <i class="bi bi-pencil-square me-2"></i> Register Nowj
             </a>
             <p class="text-muted small mt-2 mb-0">
               <i class="bi bi-shield-check me-1"></i> Secure registration • Lifetime access • One-time payment
@@ -61,15 +46,33 @@
           <i class="bi bi-check-circle-fill fs-1 text-success"></i>
           <div>
             <h5 class="fw-bold mb-1">Welcome back, <?= esc(session()->get('member_name')) ?>!</h5>
-            <p class="mb-2">You're already a valued LCNL life member.</p>
+
             <a href="<?= base_url('account/dashboard') ?>" class="btn btn-success btn-sm rounded-pill px-4">
               <i class="bi bi-speedometer2 me-2"></i> Go to Dashboard
             </a>
+
           </div>
         </div>
       </div>
     </div>
   <?php endif; ?>
+
+  <!-- Main Value Proposition -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold mb-3">
+      <i class="bi bi-star-fill text-accent me-2"></i>
+      Become a Life Member Today
+    </h2>
+    <p class="lead text-muted mb-2" style="max-width: 700px; margin: 0 auto;">
+      Join our vibrant community and enjoy <strong>lifetime benefits</strong> for a one-time fee of just <span
+        class="text-brand fw-bold fs-4">£75</span>
+    </p>
+    <p class="text-muted small">
+      Connect with fellow Lohanas, participate in cultural events, and help shape the future of our community
+    </p>
+  </div>
+
+
 
   <hr class="my-4">
 
@@ -204,8 +207,7 @@
             <p class="text-muted small mb-3">
               If you're an existing member and don't know your password, click below to reset it.
             </p>
-            <a href="<?= base_url('membership/forgot') ?>"
-              class="btn btn-outline-warning rounded-pill px-4 mb-2">
+            <a href="<?= base_url('membership/forgot') ?>" class="btn btn-outline-warning rounded-pill px-4 mb-2">
               <i class="bi bi-arrow-clockwise me-2"></i> Forgot Password
             </a>
             <hr class="my-2">
