@@ -48,7 +48,7 @@ class Validation extends BaseConfig
         'last_name' => ['label' => 'Surname', 'rules' => 'required|min_length[2]|max_length[100]'],
         'email' => ['label' => 'Email', 'rules' => 'required|valid_email|is_unique[members.email]'],
         // E.164-ish: allow optional + and 7–15 digits. Unique only if provided.
-        'mobile' => ['label' => 'Mobile', 'rules' => 'permit_empty|regex_match[/^\+?\d{7,15}$/]|is_unique[members.mobile]'],
+        'mobile' => ['label' => 'Mobile', 'rules' => 'permit_empty|regex_match[/^\+?\d{7,15}$/]'],
         'password' => ['label' => 'Password', 'rules' => 'required|min_length[8]'],
         'pass_confirm' => ['label' => 'Confirm Password', 'rules' => 'required|matches[password]'],
         'address1' => ['label' => 'Address Line 1', 'rules' => 'required|min_length[3]|max_length[150]'],
@@ -103,7 +103,7 @@ class Validation extends BaseConfig
         'first_name' => ['label' => 'First name', 'rules' => 'trim|required|min_length[2]|max_length[100]'],
         'last_name' => ['label' => 'Surname', 'rules' => 'trim|required|min_length[2]|max_length[100]'],
         'email' => ['label' => 'Email', 'rules' => 'trim|required|valid_email|is_unique[members.email]'],
-        'mobile' => ['label' => 'Mobile', 'rules' => 'permit_empty|regex_match[/^\+?\d{7,15}$/]|is_unique[members.mobile]'],
+        'mobile' => ['label' => 'Mobile', 'rules' => 'permit_empty|regex_match[/^\+?\d{7,15}$/]'],
         'password' => ['label' => 'Password', 'rules' => 'required|min_length[8]'],
         'pass_confirm' => ['label' => 'Confirm Password', 'rules' => 'required|matches[password]'],
 

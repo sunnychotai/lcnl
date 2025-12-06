@@ -30,7 +30,7 @@ class ProfileController extends BaseController
 
         // Validation rules
         $rules = [
-            'mobile' => "permit_empty|regex_match[/^\+?\d{7,15}$/]|is_unique[members.mobile,id,{$memberId}]",
+            'mobile' => "permit_empty|regex_match[/^\+?\d{7,15}$/]",
             'postcode' => 'permit_empty|max_length[12]',
             'city' => 'permit_empty|max_length[100]',
             'address1' => 'permit_empty|max_length[255]',

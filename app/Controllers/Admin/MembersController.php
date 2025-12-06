@@ -14,14 +14,14 @@ class MembersController extends BaseController
     public function __construct()
     {
         $this->members = new MemberModel();
-        $this->svc     = new MemberService();
+        $this->svc = new MemberService();
     }
 
     /** List members with filters, search, AJAX */
     public function index()
     {
         $status = $this->request->getGet('status') ?: 'pending'; // pending|active|disabled|all
-        $q      = trim((string) $this->request->getGet('q'));
+        $q = trim((string) $this->request->getGet('q'));
 
         $builder = $this->members;
 
@@ -43,15 +43,15 @@ class MembersController extends BaseController
         $pager = $this->members->pager;
 
         $counts = [
-            'pending'  => (int) (new MemberModel())->where('status', 'pending')->countAllResults(),
-            'active'   => (int) (new MemberModel())->where('status', 'active')->countAllResults(),
+            'pending' => (int) (new MemberModel())->where('status', 'pending')->countAllResults(),
+            'active' => (int) (new MemberModel())->where('status', 'active')->countAllResults(),
             'disabled' => (int) (new MemberModel())->where('status', 'disabled')->countAllResults(),
-            'all'      => (int) (new MemberModel())->countAllResults(),
+            'all' => (int) (new MemberModel())->countAllResults(),
         ];
 
         // AJAX mode (for dynamic search/filter)
         if ($this->request->isAJAX() || $this->request->getGet('ajax')) {
-            $rowsHtml  = view('admin/membership/_rows', [
+            $rowsHtml = view('admin/membership/_rows', [
                 'rows' => $rows,
                 'status' => $status,
                 'q' => $q,
@@ -59,7 +59,7 @@ class MembersController extends BaseController
             ]);
             $pagerHtml = $pager->links('default', 'default_full');
             return $this->response->setJSON([
-                'rowsHtml'  => $rowsHtml,
+                'rowsHtml' => $rowsHtml,
                 'pagerHtml' => $pagerHtml,
             ]);
         }
@@ -71,8 +71,8 @@ class MembersController extends BaseController
     public function show($id)
     {
         $id = (int) $id;
-        $m  = $this->members->find($id);
-        if (! $m) {
+        $m = $this->members->find($id);
+        if (!$m) {
             return redirect()->to('/admin/membership')->with('error', 'Member not found.');
         }
         return view('admin/membership/show', compact('m'));
@@ -82,8 +82,8 @@ class MembersController extends BaseController
     public function edit($id)
     {
         $id = (int) $id;
-        $m  = $this->members->find($id);
-        if (! $m) {
+        $m = $this->members->find($id);
+        if (!$m) {
             return redirect()->to('/admin/membership')->with('error', 'Member not found.');
         }
         return view('admin/membership/edit', compact('m'));
@@ -97,17 +97,17 @@ class MembersController extends BaseController
 
         $rules = [
             'first_name' => 'required|min_length[2]',
-            'last_name'  => 'required|min_length[2]',
-            'email'      => "required|valid_email|is_unique[members.email,id,{$id}]",
-            'mobile'     => "permit_empty|is_unique[members.mobile,id,{$id}]",
-            'status'     => 'required|in_list[pending,active,disabled]',
-            'postcode'   => 'permit_empty|max_length[12]',
-            'city'       => 'permit_empty|max_length[100]',
-            'address1'   => 'permit_empty|max_length[255]',
-            'address2'   => 'permit_empty|max_length[255]',
+            'last_name' => 'required|min_length[2]',
+            'email' => "required|valid_email|is_unique[members.email,id,{$id}]",
+            'mobile' => "permit_empty|regex_match[/^\+?\d{7,15}$/]",
+            'status' => 'required|in_list[pending,active,disabled]',
+            'postcode' => 'permit_empty|max_length[12]',
+            'city' => 'permit_empty|max_length[100]',
+            'address1' => 'permit_empty|max_length[255]',
+            'address2' => 'permit_empty|max_length[255]',
         ];
 
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return redirect()->back()
                 ->withInput()
                 ->with('error', implode(' ', $this->validator->getErrors()));
@@ -145,7 +145,7 @@ class MembersController extends BaseController
     public function export()
     {
         $status = $this->request->getGet('status') ?: 'all';
-        $q      = trim((string) $this->request->getGet('q'));
+        $q = trim((string) $this->request->getGet('q'));
 
         $builder = $this->members;
 
@@ -213,7 +213,8 @@ class MembersController extends BaseController
         fputcsv($fh, $headers);
         foreach ($rows as $r) {
             $line = [];
-            foreach ($headers as $h) $line[] = $r[$h] ?? '';
+            foreach ($headers as $h)
+                $line[] = $r[$h] ?? '';
             fputcsv($fh, $line);
         }
         rewind($fh);

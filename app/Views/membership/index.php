@@ -29,7 +29,7 @@
               Register now to become a life member and unlock all the benefits of the LCNL community
             </p>
             <a href="<?= base_url('membership/register') ?>" class="btn btn-brand btn-lg rounded-pill px-5 py-2 shadow">
-              <i class="bi bi-pencil-square me-2"></i> Register Nowj
+              <i class="bi bi-pencil-square me-2"></i> Register Now
             </a>
             <p class="text-muted small mt-2 mb-0">
               <i class="bi bi-shield-check me-1"></i> Secure registration • Lifetime access • One-time payment
