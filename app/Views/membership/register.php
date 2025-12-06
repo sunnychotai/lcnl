@@ -101,6 +101,38 @@
                     <i class="bi bi-info-circle me-1"></i>Use international format, e.g. +447...
                   </div>
                 </div>
+                <!-- DOB + Gender (optional) -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="date_of_birth">
+                    Date of Birth <span class="text-muted">(optional)</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-calendar-date text-brand"></i></span>
+                    <input type="date"
+                      id="date_of_birth"
+                      name="date_of_birth"
+                      value="<?= esc(old('date_of_birth') ?? '') ?>"
+                      class="form-control"
+                      autocomplete="bday">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="gender">
+                    Gender <span class="text-muted">(optional)</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-gender-ambiguous text-brand"></i></span>
+                    <select id="gender" name="gender" class="form-select">
+                      <option value="">— Select —</option>
+                      <option value="male" <?= old('gender') === 'male' ? 'selected' : '' ?>>Male</option>
+                      <option value="female'             <?= old('gender') === 'female' ? 'selected' : '' ?>>Female</option>
+      <option value=" other" <?= old('gender') === 'other' ? 'selected' : '' ?>>Other</option>
+                      <option value="prefer_not_to_say" <?= old('gender') === 'prefer_not_to_say' ? 'selected' : '' ?>>Prefer not to say</option>
+                    </select>
+                  </div>
+                </div>
+
               </div>
             </div>
 
@@ -250,7 +282,7 @@
 </div>
 
 <script>
-  (function () {
+  (function() {
     'use strict';
 
     // Password Toggle Functionality
@@ -260,7 +292,7 @@
 
       if (!btn || !input) return;
 
-      btn.addEventListener('click', function () {
+      btn.addEventListener('click', function() {
         const isPassword = input.type === 'password';
         input.type = isPassword ? 'text' : 'password';
 
@@ -281,7 +313,7 @@
       const progressBar = strengthIndicator.querySelector('.progress-bar');
       const strengthText = strengthIndicator.querySelector('.strength-text');
 
-      passwordInput.addEventListener('input', function () {
+      passwordInput.addEventListener('input', function() {
         const password = this.value;
 
         if (password.length === 0) {
@@ -359,7 +391,7 @@
     const form = document.getElementById('registerForm');
 
     if (form) {
-      form.addEventListener('submit', function (e) {
+      form.addEventListener('submit', function(e) {
         if (!form.checkValidity()) {
           e.preventDefault();
           e.stopPropagation();
@@ -372,7 +404,7 @@
       const requiredInputs = form.querySelectorAll('input[required]');
 
       requiredInputs.forEach(input => {
-        input.addEventListener('blur', function () {
+        input.addEventListener('blur', function() {
           if (this.value.trim() === '') {
             this.classList.add('is-invalid');
           } else {
@@ -380,7 +412,7 @@
           }
         });
 
-        input.addEventListener('input', function () {
+        input.addEventListener('input', function() {
           if (this.classList.contains('is-invalid') && this.value.trim() !== '') {
             this.classList.remove('is-invalid');
           }
@@ -401,4 +433,3 @@
 </script>
 
 <?= $this->endSection() ?>
-

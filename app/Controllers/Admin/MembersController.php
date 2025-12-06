@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\MemberModel;
+use App\Models\MemberFamilyModel;
 use App\Services\MemberService;
 
 class MembersController extends BaseController
@@ -70,24 +71,48 @@ class MembersController extends BaseController
     /** Show one member */
     public function show($id)
     {
-        $id = (int) $id;
-        $m = $this->members->find($id);
+        $memberModel = new MemberModel();
+        $familyModel = new MemberFamilyModel();
+
+        $m = $memberModel->find($id);
         if (!$m) {
-            return redirect()->to('/admin/membership')->with('error', 'Member not found.');
+            return redirect()->back()->with('error', 'Member not found.');
         }
-        return view('admin/membership/show', compact('m'));
+
+        // 👇 ADD THIS – LOAD FAMILY MEMBERS
+        $family = $familyModel
+            ->where('member_id', $id)
+            ->orderBy('name', 'ASC')
+            ->findAll();
+
+        return view('admin/membership/show', [
+            'm'      => $m,
+            'family' => $family, // 👈 MUST BE PASSED
+        ]);
     }
 
-    /** Edit form */
+
     public function edit($id)
     {
         $id = (int) $id;
-        $m = $this->members->find($id);
-        if (!$m) {
+        $m  = $this->members->find($id);
+
+        if (! $m) {
             return redirect()->to('/admin/membership')->with('error', 'Member not found.');
         }
-        return view('admin/membership/edit', compact('m'));
+
+        // Load family members
+        $family = (new \App\Models\MemberFamilyModel())
+            ->where('member_id', $id)
+            ->orderBy('id', 'ASC')
+            ->findAll();
+
+        return view('admin/membership/edit', [
+            'm' => $m,
+            'family' => $family
+        ]);
     }
+
 
     /** Update submission */
     public function update($id)
@@ -105,6 +130,8 @@ class MembersController extends BaseController
             'city' => 'permit_empty|max_length[100]',
             'address1' => 'permit_empty|max_length[255]',
             'address2' => 'permit_empty|max_length[255]',
+            'date_of_birth' => 'permit_empty|valid_date[Y-m-d]',
+            'gender'        => 'permit_empty|in_list[male,female,other,prefer_not_to_say]',
         ];
 
         if (!$this->validate($rules)) {
@@ -120,6 +147,8 @@ class MembersController extends BaseController
         return redirect()->to(base_url("admin/membership/{$id}"))
             ->with('message', 'Member updated successfully.');
     }
+
+
 
     /** Activate */
     public function activate($id)

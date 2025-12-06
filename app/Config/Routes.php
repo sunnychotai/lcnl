@@ -92,6 +92,11 @@ $routes->group('account', [
     $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
     $routes->get('profile', 'ProfileController::edit', ['as' => 'account.profile.edit']);
     $routes->post('profile', 'ProfileController::update', ['as' => 'account.profile.update']);
+    // Family Management (member-side)
+    $routes->get('family', 'FamilyController::index', ['as' => 'account.family']);
+    $routes->post('family/create', 'FamilyController::create', ['as' => 'account.family.create']);
+    $routes->post('family/update/(:num)', 'FamilyController::update/$1', ['as' => 'account.family.update']);
+    $routes->post('family/delete/(:num)', 'FamilyController::delete/$1', ['as' => 'account.family.delete']);
 });
 
 /* ---------------------------------------------------------
@@ -172,6 +177,14 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     // In Config/Routes.php inside the admin/membership group
     $routes->get('(:num)/edit', 'Admin\MembersController::edit/$1', ['as' => 'admin.membership.edit']);
     $routes->post('(:num)/update', 'Admin\MembersController::update/$1', ['as' => 'admin.membership.update']);
+    // Family Management (admin-side)
+    $routes->post('(:num)/family/create', 'Admin\FamilyController::create/$1', ['as' => 'admin.family.create']);
+    $routes->post('(:num)/family/update/(:num)', 'Admin\FamilyController::update/$1/$2', ['as' => 'admin.family.update']);
+    $routes->post('(:num)/family/delete/(:num)', 'Admin\FamilyController::delete/$1/$2', ['as' => 'admin.family.delete']);
+    $routes->post('data', 'Admin\MemberDataController::list');
+    $routes->post('family/add',    'Admin\MemberFamilyController::add');
+    $routes->post('family/update', 'Admin\MemberFamilyController::update');
+    $routes->post('family/delete', 'Admin\MemberFamilyController::delete');
 });
 
 

@@ -40,6 +40,75 @@
             </div>
           <?php endif; ?>
 
+          <a href="<?= route_to('account.family') ?>" class="btn btn-outline-brand btn-sm rounded-pill mb-3">
+            <i class="bi bi-people me-1"></i> Manage Family
+          </a>
+
+          <!-- ================================
+               PERSONAL OVERVIEW OF DOB + GENDER
+          ================================= -->
+          <div class="border rounded-3 p-3 mb-4 bg-light">
+            <h6 class="fw-bold text-brand mb-3"><i class="bi bi-person-badge me-2"></i>Personal Information</h6>
+
+            <div class="mb-2">
+              <span class="detail-label small text-muted">Date of Birth</span><br>
+              <span class="fw-semibold">
+                <?= $m['date_of_birth'] ? date('d M Y', strtotime($m['date_of_birth'])) : '<span class="text-muted">Not provided</span>' ?>
+              </span>
+            </div>
+
+            <div class="mb-1">
+              <span class="detail-label small text-muted">Gender</span><br>
+              <span class="fw-semibold text-capitalize">
+                <?= $m['gender'] ? esc(str_replace('_', ' ', $m['gender'])) : '<span class="text-muted">Not provided</span>' ?>
+              </span>
+            </div>
+          </div>
+
+          <!-- ================================
+               FAMILY SUMMARY (READ ONLY)
+          ================================= -->
+          <?php if (!empty($family)): ?>
+            <div class="border rounded-3 p-3 mb-4 bg-light">
+              <h6 class="fw-bold text-brand mb-3">
+                <i class="bi bi-people-fill me-2"></i>Family Members
+              </h6>
+
+              <div class="table-responsive">
+                <table class="table table-sm table-borderless align-middle">
+                  <thead class="small text-muted">
+                    <tr>
+                      <th>Name</th>
+                      <th>Relation</th>
+                      <th>YOB</th>
+                      <th>Age</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <?php foreach ($family as $f):
+                      $age = $f['year_of_birth'] ? (date('Y') - (int)$f['year_of_birth']) : null;
+                    ?>
+                      <tr>
+                        <td><?= esc($f['name']) ?></td>
+                        <td><?= esc($f['relation']) ?></td>
+                        <td><?= esc($f['year_of_birth'] ?? '-') ?></td>
+                        <td><?= $age ?: '-' ?></td>
+                        <td><?= esc($f['email'] ?: '-') ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+
+                  </tbody>
+                </table>
+              </div>
+
+              <a href="<?= route_to('account.family') ?>" class="btn btn-sm btn-outline-brand rounded-pill mt-2">
+                <i class="bi bi-pencil-square me-1"></i> Edit Family Members
+              </a>
+            </div>
+          <?php endif; ?>
+
           <!-- FORM -->
           <form method="post" action="<?= route_to('account.profile.update') ?>" class="mt-3">
             <?= csrf_field() ?>
@@ -69,37 +138,63 @@
 
             <!-- Editable Details -->
             <div class="mb-3">
-              <label for="mobile" class="form-label fw-semibold">Mobile</label>
-              <input type="text" name="mobile" id="mobile"
+              <label class="form-label fw-semibold">Mobile</label>
+              <input type="text" name="mobile"
                 value="<?= old('mobile', $m['mobile'] ?? '') ?>"
                 class="form-control">
               <div class="form-text">Format: +447123456789 or 07123456789</div>
             </div>
 
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Date of Birth <span class="text-muted">(optional)</span></label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="bi bi-calendar-date text-brand"></i></span>
+                  <input type="date" name="date_of_birth" class="form-control"
+                    value="<?= esc(old('date_of_birth', $m['date_of_birth'] ?? '')) ?>">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Gender <span class="text-muted">(optional)</span></label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="bi bi-gender-ambiguous text-brand"></i></span>
+                  <select name="gender" class="form-select">
+                    <?php $g = old('gender', $m['gender'] ?? ''); ?>
+                    <option value="">— Select —</option>
+                    <option value="male" <?= $g === 'male' ? 'selected' : '' ?>>Male</option>
+                    <option value="female" <?= $g === 'female' ? 'selected' : '' ?>>Female</option>
+                    <option value="other" <?= $g === 'other' ? 'selected' : '' ?>>Other</option>
+                    <option value="prefer_not_to_say" <?= $g === 'prefer_not_to_say' ? 'selected' : '' ?>>Prefer not to say</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <div class="mb-3">
-              <label for="address1" class="form-label fw-semibold">Address Line 1</label>
-              <input type="text" name="address1" id="address1"
+              <label class="form-label fw-semibold">Address Line 1</label>
+              <input type="text" name="address1"
                 value="<?= old('address1', $m['address1'] ?? '') ?>"
                 class="form-control">
             </div>
 
             <div class="mb-3">
-              <label for="address2" class="form-label fw-semibold">Address Line 2</label>
-              <input type="text" name="address2" id="address2"
+              <label class="form-label fw-semibold">Address Line 2</label>
+              <input type="text" name="address2"
                 value="<?= old('address2', $m['address2'] ?? '') ?>"
                 class="form-control">
             </div>
 
             <div class="mb-3">
-              <label for="city" class="form-label fw-semibold">City</label>
-              <input type="text" name="city" id="city"
+              <label class="form-label fw-semibold">City</label>
+              <input type="text" name="city"
                 value="<?= old('city', $m['city'] ?? '') ?>"
                 class="form-control">
             </div>
 
             <div class="mb-4">
-              <label for="postcode" class="form-label fw-semibold">Postcode</label>
-              <input type="text" name="postcode" id="postcode"
+              <label class="form-label fw-semibold">Postcode</label>
+              <input type="text" name="postcode"
                 value="<?= old('postcode', $m['postcode'] ?? '') ?>"
                 class="form-control">
             </div>
@@ -123,6 +218,7 @@
             </div>
 
           </form>
+
         </div>
       </div>
     </div>

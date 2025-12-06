@@ -30,7 +30,9 @@ class MemberModel extends Model
         'last_login',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'date_of_birth',
+        'gender'
     ];
 
     protected $beforeInsert = ['normalizeFields'];
