@@ -207,6 +207,7 @@ $relationMap = $familyConfig->relations;
                     <th>Relation</th>
                     <th>Age</th>
                     <th>Email</th>
+                    <th>Telephone</th>
                     <th>Gender</th>
                     <th>Notes</th>
                   </tr>
@@ -244,6 +245,7 @@ $relationMap = $familyConfig->relations;
                       </td>
 
                       <td class="small"><?= esc($f['email'] ?? '-') ?></td>
+                      <td class="small"><?= esc($f['telephone'] ?? '-') ?></td>
                       <td class="small text-muted"><?= esc($f['gender'] ?? '-') ?></td>
                       <td class="small text-muted"><?= esc($f['notes'] ?? '-') ?></td>
                     </tr>

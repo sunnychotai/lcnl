@@ -75,6 +75,7 @@ class MemberFamilyController extends BaseController
             'year_of_birth' => $data['year_of_birth'] !== '' ? (int) $data['year_of_birth'] : null,
             'gender' => trim($data['gender'] ?? '') ?: null,
             'notes' => trim($data['notes'] ?? '') ?: null,
+            'telephone' => trim($data['telephone'] ?? '') ?: null,
         ];
 
         $id = $model->insert($row, true);
@@ -123,6 +124,7 @@ class MemberFamilyController extends BaseController
             'year_of_birth' => $dataIn['year_of_birth'] !== '' ? (int) $dataIn['year_of_birth'] : null,
             'gender' => trim($dataIn['gender'] ?? '') ?: null,
             'notes' => trim($dataIn['notes'] ?? '') ?: null,
+            'telephone' => trim($dataIn['telephone'] ?? '') ?: null,
         ];
 
         $model = new MemberFamilyModel();

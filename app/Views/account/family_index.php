@@ -74,6 +74,7 @@ $genders = $familyConfig->genders;
                             <th>Age</th>
                             <th>Gender</th>
                             <th>Email</th>
+                            <th>Telephone</th>
                             <th>Notes</th>
                             <th style="width:130px;"></th>
                         </tr>
@@ -118,6 +119,7 @@ $genders = $familyConfig->genders;
                                     <td class="text-muted small"><?= $age ?: '-' ?></td>
                                     <td><?= esc($f['gender'] ?: '-') ?></td>
                                     <td><?= esc($f['email'] ?: '-') ?></td>
+                                    <td><?= esc($f['telephone'] ?: '-') ?></td>
                                     <td class="text-muted small"><?= esc($f['notes'] ?: '-') ?></td>
 
                                     <td class="text-end">
@@ -127,7 +129,9 @@ $genders = $familyConfig->genders;
                                             data-bs-target="#editFamilyModal" data-id="<?= (int) $f['id'] ?>"
                                             data-name="<?= esc($f['name']) ?>" data-relation="<?= esc($key) ?>"
                                             data-year="<?= esc($f['year_of_birth']) ?>" data-gender="<?= esc($f['gender']) ?>"
-                                            data-email="<?= esc($f['email']) ?>" data-notes="<?= esc($f['notes']) ?>">
+                                            data-email="<?= esc($f['email']) ?>" data-notes="<?= esc($f['notes']) ?>"
+                                            data-telephone="<?= esc($f['telephone']) ?>">
+
                                             <i class="bi bi-pencil"></i>
                                         </button>
 
@@ -223,6 +227,12 @@ $genders = $familyConfig->genders;
                     <input name="email" class="form-control" maxlength="120">
                 </div>
 
+                <!-- Telephone -->
+                <div class="mt-3">
+                    <label class="form-label fw-semibold">Telephone (optional)</label>
+                    <input name="telephone" class="form-control" maxlength="120">
+                </div>
+
                 <!-- Notes -->
                 <div class="mt-3">
                     <label class="form-label fw-semibold">Notes (optional)</label>
@@ -306,6 +316,11 @@ $genders = $familyConfig->genders;
                 </div>
 
                 <div class="mt-3">
+                    <label class="form-label fw-semibold">Telephone</label>
+                    <input id="edit_telephone" name="telephone" class="form-control" maxlength="120">
+                </div>
+
+                <div class="mt-3">
                     <label class="form-label fw-semibold">Notes</label>
                     <input id="edit_notes" name="notes" class="form-control" maxlength="255">
                 </div>
@@ -340,6 +355,7 @@ $genders = $familyConfig->genders;
             const year = btn.dataset.year;
             const gender = btn.dataset.gender;
             const email = btn.dataset.email;
+            const telephone = btn.dataset.telephone;
             const notes = btn.dataset.notes;
 
             form.action = "<?= base_url(route_to('account.family.update', 0)) ?>".replace(/0$/, id);
@@ -350,6 +366,7 @@ $genders = $familyConfig->genders;
             document.getElementById('edit_year').value = year;
             document.getElementById('edit_gender').value = gender;
             document.getElementById('edit_email').value = email || '';
+            document.getElementById('edit_telephone').value = telephone || '';
             document.getElementById('edit_notes').value = notes || '';
         });
 

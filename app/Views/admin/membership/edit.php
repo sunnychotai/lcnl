@@ -184,6 +184,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             <th>Year of Birth</th>
                             <th>Age</th>
                             <th>Email</th>
+                            <th>Telephone</th>
                             <th>Gender</th>
                             <th>Notes</th>
                             <th class="text-end">Actions</th>
@@ -203,7 +204,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             <tr data-id="<?= (int) $f['id'] ?>" data-name="<?= esc($f['name']) ?>"
                                 data-relation="<?= esc($f['relation']) ?>" data-yob="<?= esc($f['year_of_birth']) ?>"
                                 data-email="<?= esc($f['email']) ?>" data-gender="<?= esc($f['gender']) ?>"
-                                data-notes="<?= esc($f['notes']) ?>">
+                                data-notes="<?= esc($f['notes']) ?>" data-telephone="<?= esc($f['telephone']) ?>">
 
                                 <td><?= esc($f['name']) ?></td>
 
@@ -216,6 +217,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                                 <td><?= esc($f['year_of_birth']) ?: '-' ?></td>
                                 <td class="text-muted small"><?= $age ?: '-' ?></td>
                                 <td><?= esc($f['email']) ?: '-' ?></td>
+                                <td><?= esc($f['telephone']) ?: '-' ?></td>
                                 <td><?= esc($f['gender']) ?: '-' ?></td>
                                 <td class="text-muted small"><?= esc($f['notes']) ?: '-' ?></td>
 
@@ -285,6 +287,11 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Email</label>
                         <input type="email" name="email" id="fam_email" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Telephone</label>
+                        <input type="number" name="telephone" id="fam_telephone" class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -394,6 +401,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                 document.getElementById('fam_relation').value = row.dataset.relation; // key
                 document.getElementById('fam_yob').value = row.dataset.yob;
                 document.getElementById('fam_email').value = row.dataset.email;
+                document.getElementById('fam_telephone').value = row.dataset.telephone;
                 document.getElementById('fam_gender').value = row.dataset.gender;
                 document.getElementById('fam_notes').value = row.dataset.notes;
 
@@ -421,6 +429,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                     relation: form.relation.value, // key
                     year_of_birth: form.year_of_birth.value || null,
                     email: form.email.value.trim() || null,
+                    telephone: form.telephone.value.trim() || null,
                     gender: form.gender.value || null,
                     notes: form.notes.value.trim() || null
                 };
@@ -461,6 +470,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             row.dataset.relation = r.relation; // key
                             row.dataset.yob = r.year_of_birth || '';
                             row.dataset.email = r.email || '';
+                            row.dataset.telephone = r.telephone || '';
                             row.dataset.gender = r.gender || '';
                             row.dataset.notes = r.notes || '';
 
@@ -470,6 +480,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             <td>${r.year_of_birth || '-'}</td>
                             <td class="text-muted small">${age}</td>
                             <td>${r.email || '-'}</td>
+                            <td>${r.telephone || '-'}</td>
                             <td>${r.gender || '-'}</td>
                             <td class="text-muted small">${r.notes || '-'}</td>
                             <td class="text-end">
@@ -498,6 +509,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             data-relation="${r.relation || ''}"
                             data-yob="${r.year_of_birth || ''}"
                             data-email="${r.email || ''}"
+                            data-telephone="${r.telephone || ''}"
                             data-gender="${r.gender || ''}"
                             data-notes="${r.notes || ''}">
 
@@ -506,6 +518,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             <td>${r.year_of_birth || '-'}</td>
                             <td class="text-muted small">${age}</td>
                             <td>${r.email || '-'}</td>
+                            <td>${r.telephone || '-'}</td>
                             <td>${r.gender || '-'}</td>
                             <td class="text-muted small">${r.notes || '-'}</td>
 

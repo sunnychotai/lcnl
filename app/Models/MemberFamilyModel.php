@@ -21,6 +21,7 @@ class MemberFamilyModel extends Model
         'notes',
         'created_at',
         'updated_at',
+        'telephone'
     ];
 
     protected $useTimestamps = true;
@@ -49,6 +50,8 @@ class MemberFamilyModel extends Model
             'year_of_birth' => "permit_empty|integer|greater_than_equal_to[1900]|less_than_equal_to[$currentYear]",
             'gender' => "permit_empty|in_list[$genderList]",
             'notes' => 'permit_empty|max_length[255]',
+            'telephone' => 'permit_empty|min_length[5]|max_length[30]',
+
         ];
     }
 }

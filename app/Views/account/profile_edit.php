@@ -83,19 +83,21 @@
                       <th>YOB</th>
                       <th>Age</th>
                       <th>Email</th>
+                      <th>Telephone</th>
                     </tr>
                   </thead>
                   <tbody>
 
                     <?php foreach ($family as $f):
-                      $age = $f['year_of_birth'] ? (date('Y') - (int)$f['year_of_birth']) : null;
-                    ?>
+                      $age = $f['year_of_birth'] ? (date('Y') - (int) $f['year_of_birth']) : null;
+                      ?>
                       <tr>
                         <td><?= esc($f['name']) ?></td>
                         <td><?= esc($f['relation']) ?></td>
                         <td><?= esc($f['year_of_birth'] ?? '-') ?></td>
                         <td><?= $age ?: '-' ?></td>
                         <td><?= esc($f['email'] ?: '-') ?></td>
+                        <td><?= esc($f['telephone'] ?: '-') ?></td>
                       </tr>
                     <?php endforeach; ?>
 
@@ -116,20 +118,20 @@
             <!-- Readonly Details -->
             <div class="mb-3">
               <label class="form-label fw-semibold">First Name</label>
-              <input type="text" class="form-control bg-light"
-                value="<?= esc($m['first_name'] ?? '') ?>" readonly title="Cannot be edited">
+              <input type="text" class="form-control bg-light" value="<?= esc($m['first_name'] ?? '') ?>" readonly
+                title="Cannot be edited">
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Last Name</label>
-              <input type="text" class="form-control bg-light"
-                value="<?= esc($m['last_name'] ?? '') ?>" readonly title="Cannot be edited">
+              <input type="text" class="form-control bg-light" value="<?= esc($m['last_name'] ?? '') ?>" readonly
+                title="Cannot be edited">
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Email Address</label>
-              <input type="email" class="form-control bg-light"
-                value="<?= esc($m['email'] ?? '') ?>" readonly title="Cannot be edited">
+              <input type="email" class="form-control bg-light" value="<?= esc($m['email'] ?? '') ?>" readonly
+                title="Cannot be edited">
             </div>
 
             <p class="small text-muted fst-italic mb-4">
@@ -139,9 +141,7 @@
             <!-- Editable Details -->
             <div class="mb-3">
               <label class="form-label fw-semibold">Mobile</label>
-              <input type="text" name="mobile"
-                value="<?= old('mobile', $m['mobile'] ?? '') ?>"
-                class="form-control">
+              <input type="text" name="mobile" value="<?= old('mobile', $m['mobile'] ?? '') ?>" class="form-control">
               <div class="form-text">Format: +447123456789 or 07123456789</div>
             </div>
 
@@ -165,7 +165,8 @@
                     <option value="male" <?= $g === 'male' ? 'selected' : '' ?>>Male</option>
                     <option value="female" <?= $g === 'female' ? 'selected' : '' ?>>Female</option>
                     <option value="other" <?= $g === 'other' ? 'selected' : '' ?>>Other</option>
-                    <option value="prefer_not_to_say" <?= $g === 'prefer_not_to_say' ? 'selected' : '' ?>>Prefer not to say</option>
+                    <option value="prefer_not_to_say" <?= $g === 'prefer_not_to_say' ? 'selected' : '' ?>>Prefer not to say
+                    </option>
                   </select>
                 </div>
               </div>
@@ -173,29 +174,24 @@
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Address Line 1</label>
-              <input type="text" name="address1"
-                value="<?= old('address1', $m['address1'] ?? '') ?>"
+              <input type="text" name="address1" value="<?= old('address1', $m['address1'] ?? '') ?>"
                 class="form-control">
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Address Line 2</label>
-              <input type="text" name="address2"
-                value="<?= old('address2', $m['address2'] ?? '') ?>"
+              <input type="text" name="address2" value="<?= old('address2', $m['address2'] ?? '') ?>"
                 class="form-control">
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">City</label>
-              <input type="text" name="city"
-                value="<?= old('city', $m['city'] ?? '') ?>"
-                class="form-control">
+              <input type="text" name="city" value="<?= old('city', $m['city'] ?? '') ?>" class="form-control">
             </div>
 
             <div class="mb-4">
               <label class="form-label fw-semibold">Postcode</label>
-              <input type="text" name="postcode"
-                value="<?= old('postcode', $m['postcode'] ?? '') ?>"
+              <input type="text" name="postcode" value="<?= old('postcode', $m['postcode'] ?? '') ?>"
                 class="form-control">
             </div>
 
@@ -226,3 +222,4 @@
 </div>
 
 <?= $this->endSection() ?>
+

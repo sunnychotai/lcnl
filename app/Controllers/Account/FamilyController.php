@@ -72,6 +72,7 @@ class FamilyController extends BaseController
             'year_of_birth' => 'permit_empty|integer|greater_than_equal_to[1900]|less_than_equal_to[' . date('Y') . ']',
             'gender' => "permit_empty|in_list[$genderKeys]",
             'notes' => 'permit_empty|max_length[255]',
+            'telephone' => 'permit_empty|min_length[5]|max_length[30]',
         ];
 
         if (!$this->validate($rules)) {
@@ -88,6 +89,7 @@ class FamilyController extends BaseController
             'year_of_birth' => $this->request->getPost('year_of_birth') ?: null,
             'gender' => $this->request->getPost('gender') ?: null,
             'notes' => $this->request->getPost('notes') ?: null,
+            'telephone' => $this->request->getPost('telephone') ?: null,
         ];
 
         $model = new MemberFamilyModel();
@@ -126,6 +128,7 @@ class FamilyController extends BaseController
             'year_of_birth' => 'permit_empty|integer|greater_than_equal_to[1900]|less_than_equal_to[' . date('Y') . ']',
             'gender' => "permit_empty|in_list[$genderKeys]",
             'notes' => 'permit_empty|max_length[255]',
+            'telephone' => 'permit_empty|min_length[5]|max_length[30]',
         ];
 
         if (!$this->validate($rules)) {
@@ -142,6 +145,7 @@ class FamilyController extends BaseController
             'year_of_birth' => $this->request->getPost('year_of_birth') ?: null,
             'gender' => $this->request->getPost('gender') ?: null,
             'notes' => $this->request->getPost('notes') ?: null,
+            'telephone' => $this->request->getPost('telephone') ?: null,
         ];
 
         $model->save($payload);
