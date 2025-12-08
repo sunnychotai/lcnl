@@ -87,7 +87,7 @@ $routes->group('membership', ['namespace' => 'App\Controllers'], static function
 $routes->get('account', 'Account\DashboardController::index', ['as' => 'account.root']);
 $routes->group('account', [
     'namespace' => 'App\Controllers\Account',
-    'filter'    => 'authMember'
+    'filter' => 'authMember'
 ], static function ($routes) {
     $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
     $routes->get('profile', 'ProfileController::edit', ['as' => 'account.profile.edit']);
@@ -168,24 +168,38 @@ $routes->group('admin/content', ['filter' => 'authAdmin:ADMIN,EVENTS,WEBSITE'], 
 
 /* --- Membership area (ADMIN + MEMBERSHIP) --- */
 $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], function ($routes) {
+
+    // Listing, export, show
     $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.membership.index']);
     $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.membership.export']);
     $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.membership.show']);
+
+    // Activation / Disable / Resend
     $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.membership.activate']);
     $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.membership.disable']);
     $routes->post('(:num)/resend', 'Admin\MembersController::resend/$1', ['as' => 'admin.membership.resend']);
-    // In Config/Routes.php inside the admin/membership group
+
+    // Edit Profile
     $routes->get('(:num)/edit', 'Admin\MembersController::edit/$1', ['as' => 'admin.membership.edit']);
     $routes->post('(:num)/update', 'Admin\MembersController::update/$1', ['as' => 'admin.membership.update']);
+
+    // ⭐ NEW: Membership Type Update (modal)
+    $routes->post('(:num)/update-type', 'Admin\MembersController::updateMembershipType/$1', [
+        'as' => 'admin.membership.updateType'
+    ]);
+
     // Family Management (admin-side)
     $routes->post('(:num)/family/create', 'Admin\FamilyController::create/$1', ['as' => 'admin.family.create']);
     $routes->post('(:num)/family/update/(:num)', 'Admin\FamilyController::update/$1/$2', ['as' => 'admin.family.update']);
     $routes->post('(:num)/family/delete/(:num)', 'Admin\FamilyController::delete/$1/$2', ['as' => 'admin.family.delete']);
+
+    // Data endpoints
     $routes->post('data', 'Admin\MemberDataController::list');
-    $routes->post('family/add',    'Admin\MemberFamilyController::add');
+    $routes->post('family/add', 'Admin\MemberFamilyController::add');
     $routes->post('family/update', 'Admin\MemberFamilyController::update');
     $routes->post('family/delete', 'Admin\MemberFamilyController::delete');
 });
+
 
 
 

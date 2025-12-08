@@ -15,8 +15,51 @@
 
 <div class="container py-5">
 
-  <?php if (!session()->get('isMemberLoggedIn')): ?>
-    <!-- Primary CTA - Register (Only shown to non-members) -->
+  <?php
+  $loggedIn = session()->get('isMemberLoggedIn');
+  $memberName = session()->get('member_name');
+
+
+  // SESSION
+  $memberId = session()->get('member_id');
+
+  // MODELS
+  $memberModel = new \App\Models\MemberModel();
+  $membershipModel = new \App\Models\MembershipModel();
+
+  // 1️⃣ Get STATUS from MEMBERS table
+  $memberRow = $memberModel->find($memberId);
+  $statusRaw = $memberRow['status'] ?? 'active';
+  $status = ucfirst(strtolower($statusRaw));
+
+  // 2️⃣ Get MEMBERSHIP TYPE from MEMBERSHIPS table (latest record)
+  $membershipRow = $membershipModel
+    ->where('member_id', $memberId)
+    ->orderBy('id', 'DESC')
+    ->first();
+
+  $typeRaw = $membershipRow['membership_type'] ?? 'Standard';
+  $type = ucfirst(strtolower($typeRaw));
+
+
+
+  // Badge colours
+  $badgeClass = match ($status) {
+    'Active' => 'bg-success',
+    'Pending' => 'bg-warning text-dark',
+    'Expired' => 'bg-secondary',
+    'Cancelled' => 'bg-danger',
+    default => 'bg-primary',
+  };
+  ?>
+
+
+  <!-- ==========================================================
+        NOT LOGGED IN — PUBLIC LANDING
+       ========================================================== -->
+  <?php if (!$loggedIn): ?>
+
+    <!-- Primary CTA -->
     <div class="row justify-content-center mb-4">
       <div class="col-lg-8">
         <div class="cta-card lcnl-card shadow-lg border-0 rounded-4 overflow-hidden">
@@ -26,7 +69,7 @@
             </div>
             <h3 class="fw-bold mb-2">Ready to Join?</h3>
             <p class="text-muted mb-3">
-              Register now to become a life member and unlock all the benefits of the LCNL community
+              Register now to become a life member and unlock all the benefits of the LCNL community.
             </p>
             <a href="<?= base_url('membership/register') ?>" class="btn btn-brand btn-lg rounded-pill px-5 py-2 shadow">
               <i class="bi bi-pencil-square me-2"></i> Register Now
@@ -38,39 +81,136 @@
         </div>
       </div>
     </div>
+
   <?php else: ?>
-    <!-- Welcome back message for logged-in members -->
+
+    <!-- ==========================================================
+     LOGGED IN — WELCOME + MEMBERSHIP STATUS (Unified Card)
+     ========================================================== -->
     <div class="row justify-content-center mb-4">
       <div class="col-lg-8">
-        <div class="alert alert-success border-0 shadow-sm rounded-4 d-flex align-items-center gap-3 p-3">
-          <i class="bi bi-check-circle-fill fs-1 text-success"></i>
-          <div>
-            <h5 class="fw-bold mb-1">Welcome back, <?= esc(session()->get('member_name')) ?>!</h5>
 
-            <a href="<?= base_url('account/dashboard') ?>" class="btn btn-success btn-sm rounded-pill px-4">
-              <i class="bi bi-speedometer2 me-2"></i> Go to Dashboard
-            </a>
+        <div class="lcnl-card shadow-sm border-0 rounded-4 p-4">
+
+          <div class="d-flex align-items-center mb-3 gap-3">
+            <i class="bi bi-check-circle-fill fs-1 text-success"></i>
+
+            <div>
+              <h4 class="fw-bold mb-1">
+                Welcome back, <?= esc($memberName) ?>!
+              </h4>
+
+              <!-- MEMBER ID BADGE -->
+              <span class="badge bg-brand text-white px-3 py-2 rounded-pill fs-6 mt-1">
+                <i class="bi bi-person-vcard me-1"></i>
+                Membership ID: <strong>LCNL<?= esc(session()->get('member_id')) ?></strong>
+              </span>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <hr class="my-3" style="border-top: 2px solid rgba(0,0,0,0.08);">
+
+          <!-- Membership Status Section -->
+          <div class="d-flex flex-wrap justify-content-between align-items-center">
+
+            <div class="mb-2">
+              <p class="mb-1">
+                <strong>Membership Type:</strong> <?= esc($type) ?>
+              </p>
+              <p class="mb-0">
+                <strong>Status:</strong>
+                <span class="badge <?= $badgeClass ?>"><?= esc($status) ?></span>
+              </p>
+            </div>
+
+            <div class="text-end mt-3 mt-md-0">
+              <a href="<?= base_url('account/dashboard') ?>" class="btn btn-success btn-sm rounded-pill px-4">
+                <i class="bi bi-speedometer2 me-2"></i> Membership Dashboard
+              </a>
+            </div>
 
           </div>
+
         </div>
+
       </div>
     </div>
+
+
   <?php endif; ?>
 
-  <!-- Main Value Proposition -->
-  <div class="text-center mb-4">
-    <h2 class="fw-bold mb-3">
-      <i class="bi bi-star-fill text-accent me-2"></i>
-      Become a Life Member Today
-    </h2>
-    <p class="lead text-muted mb-2" style="max-width: 700px; margin: 0 auto;">
-      Join our vibrant community and enjoy <strong>lifetime benefits</strong> for a one-time fee of just <span
-        class="text-brand fw-bold fs-4">£75</span>
-    </p>
-    <p class="text-muted small">
-      Connect with fellow Lohanas, participate in cultural events, and help shape the future of our community
-    </p>
-  </div>
+
+  <!-- ==========================================================
+      MAIN VALUE PROPOSITION (Dynamic based on membership type)
+     ========================================================== -->
+  <?php if (!$loggedIn): ?>
+
+    <!-- Public View -->
+    <div class="text-center mb-4">
+      <h2 class="fw-bold mb-3">
+        <i class="bi bi-star-fill text-accent me-2"></i>
+        Become a Life Member Today
+      </h2>
+      <p class="lead text-muted mb-2" style="max-width: 700px; margin: 0 auto;">
+        Join our vibrant community and enjoy <strong>lifetime benefits</strong> for a one-time fee of just
+        <span class="text-brand fw-bold fs-4">£75</span>
+      </p>
+      <p class="text-muted small">
+        Connect with fellow Lohanas, participate in cultural events, and help shape the future of our community.
+      </p>
+    </div>
+
+  <?php elseif ($type === 'Standard'): ?>
+
+    <!-- Standard Members Notice -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8">
+
+        <div class="lcnl-card shadow-sm border-0 rounded-4 p-4 text-center">
+
+          <!-- Icon Header -->
+          <div class="mb-2">
+            <i class="bi bi-star-fill text-accent" style="font-size: 2.2rem;"></i>
+          </div>
+
+          <p class="lead text-muted mb-2" style="max-width: 700px; margin: 0 auto;">
+            Life Membership upgrade for your registration is coming soon.
+          </p>
+
+          <p class="text-muted mb-3" style="max-width: 650px; margin: 0 auto;">
+            You'll be able to become a <strong>LIFE member</strong> soon.
+          </p>
+
+          <!-- Soft Gold Divider -->
+          <hr style="width:160px; margin:auto; border:0; border-top:2px solid var(--accent1); opacity:0.85;">
+
+          <!-- Enquiries -->
+          <p class="text-muted small mt-3">
+            <i class="bi bi-envelope-open text-accent me-1"></i>
+            Any enquiries? Email
+            <a href="mailto:membership@lcnl.org" class="text-decoration-none text-brand fw-semibold">
+              membership@lcnl.org
+            </a>
+          </p>
+
+          <!-- Disabled Upgrade Button -->
+          <button class="btn btn-accent btn-sm rounded-pill px-4 mt-2 opacity-75" style="cursor:not-allowed;" disabled>
+            <i class="bi bi-arrow-up-circle me-1"></i>
+            Upgrade to Life Membership (Coming Soon)
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+
+
+  <?php endif; ?>
+
+
+
+
 
 
 
@@ -80,7 +220,7 @@
   <div class="mb-4">
     <div class="text-center mb-4">
       <h2 class="fw-bold mb-2">
-        <i class="bi bi-trophy-fill text-accent me-2"></i> Your Membership Benefits
+        <i class="bi bi-trophy-fill text-accent me-2"></i> Life Membership Benefits
       </h2>
       <p class="text-muted">Everything you get with LCNL Life Membership</p>
     </div>

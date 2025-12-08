@@ -46,7 +46,6 @@
     let idx = 0;
 
     function showSlide(i) {
-      // fade out
       titleEl.classList.remove('show');
       subEl.classList.remove('show');
 
@@ -54,17 +53,16 @@
         titleEl.innerHTML = slides[i].title;
         subEl.innerHTML = slides[i].subtitle;
 
-        // fade in
         titleEl.classList.add('show');
         subEl.classList.add('show');
-      }, 800); // matches CSS transition
+      }, 800);
     }
 
-    showSlide(idx); // show first
+    showSlide(idx);
     setInterval(() => {
       idx = (idx + 1) % slides.length;
       showSlide(idx);
-    }, 5000); // every 5s
+    }, 5000);
   });
 </script>
 
@@ -84,7 +82,6 @@
               <?php
               $imagePath = $event['image'] ?? '';
               $fullPath = FCPATH . ltrim($imagePath, '/');
-
               if (empty($imagePath) || !is_file($fullPath)) {
                 $imagePath = 'assets/img/lcnl-placeholder-320.png';
               }
@@ -93,9 +90,7 @@
 
               <div class="event-overlay">
                 <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
-                <small class="text-light">
-                  <?= date('d M Y', strtotime($event['event_date'])) ?>
-                </small>
+                <small class="text-light"><?= date('d M Y', strtotime($event['event_date'])) ?></small>
               </div>
             </div>
           </div>
@@ -109,19 +104,8 @@
   <div class="container">
     <div class="row g-4 align-items-start">
 
-      <!-- Left column (Promo + President) -->
+      <!-- Left column -->
       <div class="col-md-8">
-
-
-
-        <!-- Optional subtle hover effect -->
-        <style>
-          .hover-shadow:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-          }
-        </style>
-
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
@@ -150,24 +134,28 @@
         </div>
       </div>
 
-      <!-- Right column (Membership + Other cards) -->
+      <!-- Right column -->
       <div class="col-md-4 d-flex flex-column gap-3">
 
         <!-- Membership Card -->
-        <?php if (!session()->get('isMemberLoggedIn')): ?>
+        <?php if (empty($isLoggedIn)): ?>
           <div class="lcnl-card shadow-lg border-0">
             <div class="card-body text-center">
-              <h3 class="fw-bold mb-3"><i class="bi bi-person-plus-fill text-success"></i> Register Now!</h3>
+              <h3 class="fw-bold mb-3">
+                <i class="bi bi-person-plus-fill text-success"></i> Register Now!
+              </h3>
               <p class="text-muted mb-4">
-                Create your LCNL membership in minutes. Enter your details, confirm your email,
-                and start enjoying the benefits of being part of our community.
+                Create your LCNL membership in minutes. Enter your details,
+                confirm your email, and start enjoying the benefits of our community.
               </p>
               <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
                 <i class="bi bi-pencil-square me-2"></i> Register Now
               </a>
             </div>
           </div>
+
         <?php else: ?>
+
           <div class="card shadow-lg border-0 rounded-4 mb-4">
             <div class="card-body text-center p-4">
               <div class="mb-3">
@@ -182,6 +170,7 @@
               </a>
             </div>
           </div>
+
         <?php endif; ?>
 
         <!-- Events Card -->
@@ -191,13 +180,13 @@
               <i class="bi bi-calendar-event-fill text-brand fs-3 me-3"></i>
               <div>
                 <h5 class="card-title mb-1">Events</h5>
-                <p class="card-text text-muted small">Navratri, Diwali &amp; year-round programmes.</p>
+                <p class="card-text text-muted small">Navratri, Diwali & year-round programmes.</p>
               </div>
             </div>
           </a>
         </div>
 
-        <!-- Membership Info Card -->
+        <!-- Membership Info -->
         <div class="card shadow-sm border-0">
           <a href="<?= base_url('membership') ?>" class="stretched-link text-decoration-none text-dark">
             <div class="card-body d-flex align-items-center">
@@ -236,7 +225,7 @@
           </a>
         </div>
 
-        <!-- Young Lohana Society (YLS) -->
+        <!-- YLS -->
         <div class="card shadow-sm border-0">
           <a href="<?= base_url('yls') ?>" class="stretched-link text-decoration-none text-dark">
             <div class="card-body d-flex align-items-center">
@@ -249,7 +238,7 @@
           </a>
         </div>
 
-        <!-- Youth Committee -->
+        <!-- Youth -->
         <div class="card shadow-sm border-0">
           <a href="<?= base_url('youth') ?>" class="stretched-link text-decoration-none text-dark">
             <div class="card-body d-flex align-items-center">

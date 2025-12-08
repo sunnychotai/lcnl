@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\FaqModel;
-use App\Models\CommitteeModel;
 use App\Models\EventModel;
 
 class Home extends BaseController
@@ -11,7 +10,14 @@ class Home extends BaseController
     public function index()
     {
         $eventModel = new EventModel();
-        $data['upcomingEvents'] = $eventModel->getUpcomingEvents([], 10);
+
+        $data = [
+            'upcomingEvents' => $eventModel->getUpcomingEvents([], 10),
+
+            // SAFE: we never call session() directly
+            'isLoggedIn' => session()->get('isMemberLoggedIn') ?? false,
+            'memberName' => session()->get('member_name') ?? null,
+        ];
 
         return view('home', $data);
     }
@@ -20,24 +26,26 @@ class Home extends BaseController
     {
         return view('errors/access_denied', [
             'title' => 'Access Denied',
-            'message' => 'You do not have permission to access this page. Please contact an administrator if you believe this is an error.'
+            'message' => 'You do not have permission to access this page.'
         ]);
     }
-
 
     public function gallery()
     {
         return view('gallery');
     }
+
     public function contact()
     {
         return view('contact');
     }
+
     public function bereavement()
     {
         $faqModel = new FaqModel();
-        $data['faqs'] = $faqModel->getByGroup('Bereavement'); // <-- pull from DB
-        return view('services/bereavement', $data); // <-- point to your updated bereavement view
+        return view('services/bereavement', [
+            'faqs' => $faqModel->getByGroup('Bereavement')
+        ]);
     }
 
     public function tabletennis()
@@ -47,21 +55,45 @@ class Home extends BaseController
 
     public function membership()
     {
-        return view('membership/index');
+        $memberId = session()->get('member_id');
+
+        $membership = null;
+
+        if ($memberId) {
+            $membershipModel = new \App\Models\MembershipModel();
+
+            $membership = $membershipModel
+                ->where('member_id', $memberId)
+                ->orderBy('id', 'DESC')
+                ->first();
+
+            // Default to Standard + Active if no membership record exists
+            if (!$membership) {
+                $membership = [
+                    'membership_type' => 'Standard',
+                    'status' => 'active'
+                ];
+            }
+        }
+
+        return view('membership/index', [
+            'membership' => $membership,
+        ]);
     }
+
+
 
     public function aboutus()
     {
         return view('aboutus');
     }
 
-
     public function faq()
     {
-        $faqModel = new \App\Models\FaqModel();
-        $data['groupedFaqs'] = $faqModel->getGrouped(); // fetch grouped FAQs
-
-        return view('faqs/index', $data);
+        $faqModel = new FaqModel();
+        return view('faqs/index', [
+            'groupedFaqs' => $faqModel->getGrouped(),
+        ]);
     }
 
     public function sample()

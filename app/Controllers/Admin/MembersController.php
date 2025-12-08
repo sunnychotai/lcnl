@@ -86,7 +86,7 @@ class MembersController extends BaseController
             ->findAll();
 
         return view('admin/membership/show', [
-            'm'      => $m,
+            'm' => $m,
             'family' => $family, // 👈 MUST BE PASSED
         ]);
     }
@@ -95,9 +95,9 @@ class MembersController extends BaseController
     public function edit($id)
     {
         $id = (int) $id;
-        $m  = $this->members->find($id);
+        $m = $this->members->find($id);
 
-        if (! $m) {
+        if (!$m) {
             return redirect()->to('/admin/membership')->with('error', 'Member not found.');
         }
 
@@ -111,6 +111,34 @@ class MembersController extends BaseController
             'm' => $m,
             'family' => $family
         ]);
+    }
+
+    public function updateType($memberId)
+    {
+        $type = $this->request->getPost('membership_type');
+
+        $membershipModel = new \App\Models\MembershipModel();
+
+        // Update the latest record OR create if missing
+        $row = $membershipModel->where('member_id', $memberId)
+            ->orderBy('id', 'DESC')
+            ->first();
+
+        if ($row) {
+            $membershipModel->update($row['id'], [
+                'membership_type' => $type,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        } else {
+            $membershipModel->insert([
+                'member_id' => $memberId,
+                'membership_type' => $type,
+                'status' => 'active',
+                'start_date' => date('Y-m-d'),
+            ]);
+        }
+
+        return redirect()->back()->with('message', 'Membership type updated successfully.');
     }
 
 
@@ -131,7 +159,7 @@ class MembersController extends BaseController
             'address1' => 'permit_empty|max_length[255]',
             'address2' => 'permit_empty|max_length[255]',
             'date_of_birth' => 'permit_empty|valid_date[Y-m-d]',
-            'gender'        => 'permit_empty|in_list[male,female,other,prefer_not_to_say]',
+            'gender' => 'permit_empty|in_list[male,female,other,prefer_not_to_say]',
         ];
 
         if (!$this->validate($rules)) {
@@ -147,6 +175,53 @@ class MembersController extends BaseController
         return redirect()->to(base_url("admin/membership/{$id}"))
             ->with('message', 'Member updated successfully.');
     }
+
+    public function updateMembershipType($memberId)
+    {
+        $type = $this->request->getPost('membership_type');
+        $adminId = session()->get('admin_id'); // your admin session key
+
+        $membershipModel = new \App\Models\MembershipModel();
+        $historyModel = new \App\Models\MembershipHistoryModel();
+
+        $existing = $membershipModel
+            ->where('member_id', $memberId)
+            ->orderBy('id', 'DESC')
+            ->first();
+
+        $oldType = $existing['membership_type'] ?? null;
+
+        // Only record history if the type actually changes
+        if ($oldType !== $type) {
+            $historyModel->insert([
+                'member_id' => $memberId,
+                'changed_by' => $adminId,
+                'old_type' => $oldType,
+                'new_type' => $type,
+                'notes' => 'Membership type updated via admin dashboard',
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
+        // Update membership
+        if ($existing) {
+            $membershipModel->update($existing['id'], [
+                'membership_type' => $type,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        } else {
+            $membershipModel->insert([
+                'member_id' => $memberId,
+                'membership_type' => $type,
+                'status' => 'active',
+                'start_date' => date('Y-m-d'),
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
+        return redirect()->back()->with('message', 'Membership type updated successfully.');
+    }
+
 
 
 

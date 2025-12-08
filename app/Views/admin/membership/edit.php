@@ -1,6 +1,13 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
+<?php
+/** Pull central config once for labels + icons + genders */
+$familyCfg = config('Family');
+$RELATIONS = $familyCfg->relations ?? []; // ['spouse'=>['label'=>'Spouse','icon'=>'bi-heart-fill'], ...]
+$GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say'];
+?>
+
 <div class="container-fluid py-4">
 
     <!-- Header -->
@@ -25,10 +32,11 @@
                 <?= esc($m['first_name'] . ' ' . $m['last_name']) ?>
             </div>
             <div>
-                <span class="badge-lcnl-id">LCNL<?= (int)$m['id'] ?></span>
+                <span class="badge-lcnl-id">LCNL<?= (int) $m['id'] ?></span>
             </div>
             <div>
-                <span class="badge bg-<?= $m['status'] === 'active' ? 'success' : ($m['status'] === 'pending' ? 'warning text-dark' : 'secondary') ?> px-3 py-2">
+                <span
+                    class="badge bg-<?= $m['status'] === 'active' ? 'success' : ($m['status'] === 'pending' ? 'warning text-dark' : 'secondary') ?> px-3 py-2">
                     <?= ucfirst($m['status']) ?>
                 </span>
             </div>
@@ -36,7 +44,8 @@
     </div>
 
     <!-- EDIT FORM -->
-    <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/update') ?>" class="needs-validation" novalidate>
+    <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/update') ?>" class="needs-validation"
+        novalidate>
         <?= csrf_field() ?>
 
         <!-- Basic Info -->
@@ -76,10 +85,11 @@
                             <?php $g = old('gender', $m['gender'] ?? ''); ?>
                             <select name="gender" class="form-select">
                                 <option value="">— Select —</option>
-                                <option value="male" <?= $g === 'male' ? 'selected' : '' ?>>Male</option>
-                                <option value="female" <?= $g === 'female' ? 'selected' : '' ?>>Female</option>
-                                <option value="other" <?= $g === 'other' ? 'selected' : '' ?>>Other</option>
-                                <option value="prefer_not_to_say" <?= $g === 'prefer_not_to_say' ? 'selected' : '' ?>>Prefer not to say</option>
+                                <?php foreach ($GENDERS as $gKey): ?>
+                                    <option value="<?= esc($gKey) ?>" <?= $g === $gKey ? 'selected' : '' ?>>
+                                        <?= ucwords(str_replace('_', ' ', $gKey)) ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -183,18 +193,26 @@
                     <tbody>
 
                         <?php foreach ($family as $f):
-                            $age = (!empty($f['year_of_birth'])) ? (date('Y') - (int)$f['year_of_birth']) : null;
-                        ?>
-                            <tr data-id="<?= (int)$f['id'] ?>"
-                                data-name="<?= esc($f['name']) ?>"
-                                data-relation="<?= esc($f['relation']) ?>"
-                                data-yob="<?= esc($f['year_of_birth']) ?>"
-                                data-email="<?= esc($f['email']) ?>"
-                                data-gender="<?= esc($f['gender']) ?>"
+                            $age = (!empty($f['year_of_birth'])) ? (date('Y') - (int) $f['year_of_birth']) : null;
+
+                            $relKey = $f['relation']; // normalised key in DB
+                            $relMeta = $RELATIONS[$relKey] ?? null;
+                            $relIcon = $relMeta['icon'] ?? 'bi-person';
+                            $relLabel = $relMeta['label'] ?? ucfirst($relKey);
+                            ?>
+                            <tr data-id="<?= (int) $f['id'] ?>" data-name="<?= esc($f['name']) ?>"
+                                data-relation="<?= esc($f['relation']) ?>" data-yob="<?= esc($f['year_of_birth']) ?>"
+                                data-email="<?= esc($f['email']) ?>" data-gender="<?= esc($f['gender']) ?>"
                                 data-notes="<?= esc($f['notes']) ?>">
 
                                 <td><?= esc($f['name']) ?></td>
-                                <td><span class="relation-badge relation-<?= esc($f['relation']) ?>"><?= esc($f['relation']) ?></span></td>
+
+                                <!-- Relation with icon + label from Config\Family -->
+                                <td>
+                                    <i class="bi <?= esc($relIcon) ?> text-brand me-1"></i>
+                                    <?= esc($relLabel) ?>
+                                </td>
+
                                 <td><?= esc($f['year_of_birth']) ?: '-' ?></td>
                                 <td class="text-muted small"><?= $age ?: '-' ?></td>
                                 <td><?= esc($f['email']) ?: '-' ?></td>
@@ -252,17 +270,16 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Relation</label>
                         <select name="relation" id="fam_relation" class="form-select">
-                            <option>Spouse</option>
-                            <option>Child</option>
-                            <option>Parent</option>
-                            <option>Sibling</option>
-                            <option>Other</option>
+                            <?php foreach ($RELATIONS as $rKey => $meta): ?>
+                                <option value="<?= esc($rKey) ?>"><?= esc($meta['label']) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Year of Birth</label>
-                        <input name="year_of_birth" id="fam_yob" type="number" min="1900" max="<?= date('Y') ?>" class="form-control">
+                        <input name="year_of_birth" id="fam_yob" type="number" min="1900" max="<?= date('Y') ?>"
+                            class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -274,10 +291,9 @@
                         <label class="form-label fw-semibold">Gender</label>
                         <select name="gender" id="fam_gender" class="form-select">
                             <option value="">— Select —</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Other</option>
-                            <option>Prefer not to say</option>
+                            <?php foreach ($GENDERS as $g): ?>
+                                <option value="<?= esc($g) ?>"><?= ucwords(str_replace('_', ' ', $g)) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 
@@ -299,38 +315,6 @@
     </div>
 
     <style>
-        .relation-badge {
-            font-size: .775rem;
-            border-radius: 999px;
-            padding: .15rem .5rem;
-            display: inline-block;
-        }
-
-        .relation-Spouse {
-            background: #fff1f3;
-            color: #ba1b42;
-        }
-
-        .relation-Child {
-            background: #eef8ff;
-            color: #0a66c2;
-        }
-
-        .relation-Parent {
-            background: #f5fff2;
-            color: #2e7d32;
-        }
-
-        .relation-Sibling {
-            background: #fff7e6;
-            color: #ad6800;
-        }
-
-        .relation-Other {
-            background: #f4f4f5;
-            color: #444;
-        }
-
         .toast-fixed {
             position: fixed;
             right: 16px;
@@ -355,9 +339,12 @@
     </div>
 
     <script>
+        // Expose relation meta to JS for dynamic row rendering (icon + label)
+        const FAMILY_REL = <?= json_encode($RELATIONS, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+
         document.addEventListener('DOMContentLoaded', () => {
 
-            const memberId = <?= (int)$m['id'] ?>;
+            const memberId = <?= (int) $m['id'] ?>;
 
             let CSRF = {
                 name: '<?= csrf_token() ?>',
@@ -404,7 +391,7 @@
                 document.getElementById('modalTitleText').textContent = 'Edit Family Member';
                 document.getElementById('family_id').value = row.dataset.id;
                 document.getElementById('fam_name').value = row.dataset.name;
-                document.getElementById('fam_relation').value = row.dataset.relation;
+                document.getElementById('fam_relation').value = row.dataset.relation; // key
                 document.getElementById('fam_yob').value = row.dataset.yob;
                 document.getElementById('fam_email').value = row.dataset.email;
                 document.getElementById('fam_gender').value = row.dataset.gender;
@@ -413,8 +400,15 @@
                 familyModal.show();
             });
 
+            function renderRelationCell(relKey) {
+                const meta = FAMILY_REL?.[relKey] || {};
+                const icon = meta.icon || 'bi-person';
+                const label = meta.label || (relKey ? relKey.charAt(0).toUpperCase() + relKey.slice(1) : '');
+                return `<i class="bi ${icon} text-brand me-1"></i>${label}`;
+            }
+
             // Submit ADD/EDIT form
-            document.getElementById('familyForm').addEventListener('submit', function(e) {
+            document.getElementById('familyForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
                 const form = e.target;
@@ -424,7 +418,7 @@
                 const payload = {
                     member_id: memberId,
                     name: form.name.value.trim(),
-                    relation: form.relation.value,
+                    relation: form.relation.value, // key
                     year_of_birth: form.year_of_birth.value || null,
                     email: form.email.value.trim() || null,
                     gender: form.gender.value || null,
@@ -437,14 +431,14 @@
                     "<?= base_url('admin/membership/family/add') ?>";
 
                 fetch(url, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest",
-                            [CSRF.name]: CSRF.hash
-                        },
-                        body: JSON.stringify(payload)
-                    })
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        [CSRF.name]: CSRF.hash
+                    },
+                    body: JSON.stringify(payload)
+                })
                     .then(r => r.json())
                     .then(data => {
                         refreshCsrf(data);
@@ -464,7 +458,7 @@
                                 '-';
 
                             row.dataset.name = r.name;
-                            row.dataset.relation = r.relation;
+                            row.dataset.relation = r.relation; // key
                             row.dataset.yob = r.year_of_birth || '';
                             row.dataset.email = r.email || '';
                             row.dataset.gender = r.gender || '';
@@ -472,7 +466,7 @@
 
                             row.innerHTML = `
                             <td>${r.name}</td>
-                            <td><span class="relation-badge relation-${r.relation}">${r.relation}</span></td>
+                            <td>${renderRelationCell(r.relation)}</td>
                             <td>${r.year_of_birth || '-'}</td>
                             <td class="text-muted small">${age}</td>
                             <td>${r.email || '-'}</td>
@@ -508,7 +502,7 @@
                             data-notes="${r.notes || ''}">
 
                             <td>${r.name}</td>
-                            <td><span class="relation-badge relation-${r.relation}">${r.relation}</span></td>
+                            <td>${renderRelationCell(r.relation)}</td>
                             <td>${r.year_of_birth || '-'}</td>
                             <td class="text-muted small">${age}</td>
                             <td>${r.email || '-'}</td>
@@ -550,16 +544,14 @@
                 if (!confirm("Delete this family member?")) return;
 
                 fetch("<?= base_url('admin/membership/family/delete') ?>", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest",
-                            [CSRF.name]: CSRF.hash
-                        },
-                        body: JSON.stringify({
-                            id
-                        })
-                    })
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        [CSRF.name]: CSRF.hash
+                    },
+                    body: JSON.stringify({ id })
+                })
                     .then(r => r.json())
                     .then(data => {
                         refreshCsrf(data);
@@ -590,3 +582,4 @@
 </div>
 
 <?= $this->endSection() ?>
+

@@ -1,6 +1,29 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
+<?php
+$memberId = session()->get('member_id');
+
+// MODELS
+$memberModel = new \App\Models\MemberModel();
+$membershipModel = new \App\Models\MembershipModel();
+
+// 1️⃣ Get STATUS from MEMBERS table
+$memberRow = $memberModel->find($memberId);
+$statusRaw = $memberRow['status'] ?? 'active';
+$status = ucfirst(strtolower($statusRaw));
+
+// 2️⃣ Get MEMBERSHIP TYPE from MEMBERSHIPS table (latest record)
+$membershipRow = $membershipModel
+  ->where('member_id', $memberId)
+  ->orderBy('id', 'DESC')
+  ->first();
+
+$typeRaw = $membershipRow['membership_type'] ?? 'Standard';
+$type = ucfirst(strtolower($typeRaw));
+?>
+
+
 <!-- Hero Banner -->
 <section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center" style="min-height: 200px;">
   <div class="container position-relative">
@@ -10,7 +33,8 @@
           Welcome back, <?= esc($memberName) ?> 👋
         </h1>
         <?php if (!empty($events)): ?>
-          <div class="d-inline-flex align-items-center bg-white bg-opacity-25 backdrop-blur rounded-pill px-4 py-2 text-white">
+          <div
+            class="d-inline-flex align-items-center bg-white bg-opacity-25 backdrop-blur rounded-pill px-4 py-2 text-white">
             <i class="bi bi-calendar-event-fill me-2 text-accent"></i>
             <span class="fw-semibold">Next Event:</span>
             <span class="ms-2"><?= esc($events[0]['title']) ?></span>
@@ -48,9 +72,34 @@
       </div>
     </div>
   </div>
-</section>
 
+</section>
 <div class="container py-4">
+  <!-- Welcome + Member ID -->
+  <div class="row justify-content-center my-4">
+    <div class="col-lg-12">
+      <div
+        class="lcnl-card shadow-sm border-0 rounded-4 p-4 d-flex align-items-center justify-content-between flex-wrap">
+
+        <div class="d-flex align-items-center gap-3 mb-3 mb-md-0">
+          <i class="bi bi-person-check-fill fs-1 text-brand"></i>
+          <div>
+
+
+            <!-- LCNL Membership ID Badge -->
+            <span class="badge bg-brand text-white px-3 py-2 rounded-pill fs-6">
+              <i class="bi bi-person-vcard me-1"></i>
+              Member ID: <strong>LCNL<?= esc(session()->get('member_id')) ?></strong>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
 
   <!-- Flash messages -->
   <?php if ($msg = session()->getFlashdata('message')): ?>
@@ -70,7 +119,8 @@
   <div class="row g-3 mb-4">
     <!-- My Profile Card -->
     <div class="col-md-6">
-      <div class="card border-0 shadow-sm rounded-4 h-100 lcnl-card-hover" style="background: linear-gradient(135deg, var(--brand) 0%, #982d52 100%);">
+      <div class="card border-0 shadow-sm rounded-4 h-100 lcnl-card-hover"
+        style="background: linear-gradient(135deg, var(--brand) 0%, #982d52 100%);">
         <div class="card-body p-4 text-white">
           <div class="d-flex align-items-center gap-3 mb-3">
             <div class="rounded-circle bg-white bg-opacity-25 p-3">
@@ -90,7 +140,8 @@
 
     <!-- Family Members Card -->
     <div class="col-md-6">
-      <div class="card border-0 shadow-sm rounded-4 h-100 lcnl-card-hover" style="background: linear-gradient(135deg, #0a66c2 0%, #084d92 100%);">
+      <div class="card border-0 shadow-sm rounded-4 h-100 lcnl-card-hover"
+        style="background: linear-gradient(135deg, #0a66c2 0%, #084d92 100%);">
         <div class="card-body p-4 text-white">
           <div class="d-flex align-items-center gap-3 mb-3">
             <div class="rounded-circle bg-white bg-opacity-25 p-3">
@@ -107,6 +158,62 @@
         </div>
       </div>
     </div>
+
+    <!-- Membership Type Card -->
+    <div class="col-md-12">
+      <div class="card border-0 shadow-sm rounded-4 lcnl-card-hover"
+        style="background: linear-gradient(135deg, #d4af37 0%, #b8902c 100%);">
+        <div class="card-body p-4 text-white">
+
+          <!-- Header -->
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+              <i class="bi bi-award-fill fs-2 text-white"></i>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-1 text-white">Membership</h4>
+              <p class="mb-0 small opacity-75">Your LCNL membership status</p>
+            </div>
+          </div>
+
+          <?php if ($type === 'Life'): ?>
+            <!-- LIFE MEMBER -->
+            <div class="p-3 rounded-3 bg-white bg-opacity-10 mb-3 border-start border-accent1"
+              style="border-width: 4px !important;">
+              <p class="mb-0">
+                <i class="bi bi-patch-check-fill me-1 text-white"></i>
+                You are a <strong>LIFE Member</strong>.
+              </p>
+            </div>
+
+            <button class="btn btn-light btn-pill px-4 w-100 fw-semibold text-brand" disabled>
+              <i class="bi bi-award me-2 text-brand"></i>
+              Life Membership Active
+            </button>
+
+          <?php else: ?>
+            <!-- STANDARD MEMBER -->
+            <div class="p-3 rounded-3 bg-white bg-opacity-10 mb-3 border-start border-accent1"
+              style="border-width: 4px !important;">
+              <p class="mb-0">
+                <i class="bi bi-info-circle-fill me-1 text-white"></i>
+                You currently have a <strong>Standard Membership</strong>.
+              </p>
+              <p class="mb-0 small opacity-75 mt-1">Upgrade to LIFE Membership is coming soon.</p>
+            </div>
+
+            <button class="btn btn-outline-light btn-pill px-4 w-100 opacity-75 fw-semibold" disabled
+              style="cursor:not-allowed;">
+              <i class="bi bi-arrow-up-circle me-2"></i>
+              Upgrade to Life Membership (Coming Soon)
+            </button>
+          <?php endif; ?>
+
+        </div>
+      </div>
+    </div>
+
+
   </div>
 
   <!-- OUTSTANDING TASKS -->
@@ -131,7 +238,8 @@
               <div class="card-body p-4">
                 <div class="d-flex gap-3">
                   <div class="flex-shrink-0">
-                    <div class="rounded-3 bg-warning bg-opacity-10 p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <div class="rounded-3 bg-warning bg-opacity-10 p-3 d-flex align-items-center justify-content-center"
+                      style="width: 60px; height: 60px;">
                       <i class="bi <?= esc($t['icon']) ?> fs-3 text-warning"></i>
                     </div>
                   </div>
@@ -151,7 +259,8 @@
     </div>
   <?php else: ?>
     <div class="mb-5">
-      <div class="card border-0 shadow-sm rounded-4" style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);">
+      <div class="card border-0 shadow-sm rounded-4"
+        style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);">
         <div class="card-body p-4">
           <div class="d-flex align-items-center gap-4">
             <div class="rounded-circle bg-success p-4">
@@ -213,7 +322,8 @@
           <div class="col-md-6 col-lg-4">
             <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden lcnl-card-hover">
               <!-- Event Date Badge -->
-              <div class="position-relative" style="background: linear-gradient(135deg, var(--brand) 0%, #982d52 100%); height: 100px;">
+              <div class="position-relative"
+                style="background: linear-gradient(135deg, var(--brand) 0%, #982d52 100%); height: 100px;">
                 <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
                   <div class="fw-bold" style="font-size: 2rem; line-height: 1;">
                     <?= date('d', strtotime($ev['event_date'])) ?>
@@ -290,3 +400,4 @@
 </style>
 
 <?= $this->endSection() ?>
+

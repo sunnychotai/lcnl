@@ -72,13 +72,18 @@ class MemberService
         $memberId = (int) $this->members->getInsertID();
 
         // Create blank/pending membership record
+        // Create initial membership record (Standard + Active)
         $this->memberships->insert([
             'member_id' => $memberId,
-            'membership_type' => null,            // ❗ Admin assigns later
-            'status' => 'pending',
+            'membership_type' => 'Standard',
+            'membership_number' => null, // or generate later; your existing logic handles this elsewhere
+            'start_date' => date('Y-m-d'),
+            'end_date' => null, // keep NULL unless you want annual expiry
+            'status' => 'active',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
 
         return $memberId;
     }
