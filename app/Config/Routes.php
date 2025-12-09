@@ -198,6 +198,29 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->post('family/add', 'Admin\MemberFamilyController::add');
     $routes->post('family/update', 'Admin\MemberFamilyController::update');
     $routes->post('family/delete', 'Admin\MemberFamilyController::delete');
+
+    // REPORT: Email Unknown
+    $routes->get('reports/email-unknown', 'Admin\MembershipReportsController::emailUnknown');
+    $routes->post('reports/email-unknown/data', 'Admin\MembershipReportsController::emailUnknownData');
+    $routes->get('reports/email-unknown/export', 'Admin\MembershipReportsController::emailUnknownExport');
+
+    // REPORT: Mobile Missing
+    $routes->get('reports/mobile-missing', 'Admin\MembershipReportsController::mobileMissing');
+    $routes->post('reports/mobile-missing/data', 'Admin\MembershipReportsController::mobileMissingData');
+    $routes->get('reports/mobile-missing/export', 'Admin\MembershipReportsController::mobileMissingExport');
+
+    // REPORT: Membership Types
+    $routes->get('reports/membership-types', 'Admin\MembershipReportsController::membershipTypes');
+    $routes->post('reports/membership-types/data', 'Admin\MembershipReportsController::membershipTypesData');
+    $routes->get('reports/membership-types/export', 'Admin\MembershipReportsController::membershipTypesExport');
+
+    // REPORT: Cities
+    $routes->get('reports/cities', 'Admin\MembershipReportsController::cities');
+    $routes->post('reports/cities/data', 'Admin\MembershipReportsController::citiesData');
+    $routes->get('reports/cities/export', 'Admin\MembershipReportsController::citiesExport');
+
+    $routes->get('reports', 'Admin\MembershipReportsController::index', ['as' => 'admin.membership.reports']);
+
 });
 
 

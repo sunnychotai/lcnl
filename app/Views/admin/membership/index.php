@@ -1,10 +1,8 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<link rel="stylesheet"
-  href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
-<link rel="stylesheet"
-  href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
 
 <div class="container-fluid py-3">
 
@@ -17,6 +15,23 @@
       <i class="bi bi-download me-1"></i> Export CSV
     </a>
   </div>
+
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a class="nav-link <?= ($activeTab ?? '') === 'members' ? 'active' : '' ?>"
+        href="<?= base_url('admin/membership') ?>">
+        Members
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link <?= ($activeTab ?? '') === 'reports' ? 'active' : '' ?>"
+        href="<?= base_url('admin/membership/reports') ?>">
+        Reports
+      </a>
+    </li>
+  </ul>
+
 
   <!-- Status Summary -->
   <div class="row g-3 mb-4">
@@ -71,8 +86,7 @@
   <!-- Members Table -->
   <div class="lcnl-card shadow-soft border-0">
     <div class="table-responsive">
-      <table id="membersTable"
-        class="table table-striped table-hover align-middle w-100">
+      <table id="membersTable" class="table table-striped table-hover align-middle w-100">
         <thead class="table-light">
           <tr>
             <th>ID</th>
@@ -108,7 +122,7 @@
     table.ajax.reload();
   }
 
-  $(document).ready(function() {
+  $(document).ready(function () {
 
     table = $('#membersTable').DataTable({
       processing: true,
@@ -119,7 +133,7 @@
       ajax: {
         url: "<?= base_url('admin/membership/data') ?>",
         type: "POST",
-        data: function(d) {
+        data: function (d) {
           d.status = $('#filterStatus').val();
           d.searchTerm = $('#filterSearch').val();
           d['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
@@ -127,31 +141,31 @@
       },
 
       columns: [{
-          data: "id"
-        },
-        {
-          data: "name"
-        },
-        {
-          data: "email"
-        },
-        {
-          data: "mobile"
-        },
-        {
-          data: "city"
-        },
-        {
-          data: "status_badge"
-        },
-        {
-          data: "created_at"
-        },
-        {
-          data: "actions",
-          orderable: false,
-          searchable: false
-        }
+        data: "id"
+      },
+      {
+        data: "name"
+      },
+      {
+        data: "email"
+      },
+      {
+        data: "mobile"
+      },
+      {
+        data: "city"
+      },
+      {
+        data: "status_badge"
+      },
+      {
+        data: "created_at"
+      },
+      {
+        data: "actions",
+        orderable: false,
+        searchable: false
+      }
       ],
 
       order: [
@@ -159,15 +173,15 @@
       ]
     });
 
-    $('#btnSearch').on('click', function() {
+    $('#btnSearch').on('click', function () {
       table.ajax.reload();
     });
 
-    $('#filterStatus').on('change', function() {
+    $('#filterStatus').on('change', function () {
       table.ajax.reload();
     });
 
-    $('#filterSearch').on('keyup', _.debounce(function() {
+    $('#filterSearch').on('keyup', _.debounce(function () {
       table.ajax.reload();
     }, 250));
 
@@ -175,3 +189,4 @@
 </script>
 
 <?= $this->endSection() ?>
+
