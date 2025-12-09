@@ -31,7 +31,7 @@ class PasswordController extends BaseController
             'expires_at' => date('Y-m-d H:i:s', strtotime('+2 hours')),
         ]);
 
-        $link = base_url('member/reset/' . $token);
+        $link = base_url('membership/reset/' . $token);
 
         // Queue email
         (new EmailQueueModel())->enqueue([

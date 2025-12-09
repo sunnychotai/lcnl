@@ -21,7 +21,7 @@
             <div class="alert alert-success"><?= esc($msg) ?></div>
           <?php endif; ?>
 
-          <form method="post" action="<?= base_url('member/reset') ?>">
+          <form method="post" action="<?= base_url('membership/reset') ?>">
             <?= csrf_field() ?>
             <input type="hidden" name="token" value="<?= esc($token) ?>">
 

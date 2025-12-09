@@ -21,7 +21,7 @@ class MembersController extends BaseController
     /** List members with filters, search, AJAX */
     public function index()
     {
-        $status = $this->request->getGet('status') ?: 'pending'; // pending|active|disabled|all
+        $status = $this->request->getGet('status') ?: 'all'; // pending|active|disabled|all
         $q = trim((string) $this->request->getGet('q'));
 
         $builder = $this->members;
