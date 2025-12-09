@@ -7,16 +7,16 @@ use CodeIgniter\CLI\CLI;
 
 class TestEmail extends BaseCommand
 {
-    protected $group       = 'Email';
-    protected $name        = 'email:test';
+    protected $group = 'Email';
+    protected $name = 'email:test';
     protected $description = 'Test email configuration with Mailpit';
 
     public function run(array $params)
     {
         $email = service('email');
 
-        $email->setTo('test@example.com');
-        $email->setFrom('no-reply@lcnl.local', 'LCNL');
+        $email->setTo('sunnychotai@me.com');
+        $email->setFrom('info@lcnl.org', 'LCNL');
         $email->setSubject('Test Mail from CLI');
         $email->setMessage('<p>Hello world from LCNL test.</p>');
 
