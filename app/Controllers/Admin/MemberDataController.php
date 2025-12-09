@@ -58,15 +58,16 @@ class MemberDataController extends BaseController
                 ->like('first_name', $searchTerm)
                 ->orLike('last_name', $searchTerm)
 
-                // 🔥 FULL NAME SEARCH (first + last)
-                ->orLike("CONCAT(first_name, ' ', last_name)", $searchTerm, 'both', false)
-                ->orLike("CONCAT(last_name, ' ', first_name)", $searchTerm, 'both', false)
+                // Proper full-name search (RAW SQL, no escaping issues)
+                ->orWhere("CONCAT(first_name, ' ', last_name) LIKE", "%{$searchTerm}%")
+                ->orWhere("CONCAT(last_name, ' ', first_name) LIKE", "%{$searchTerm}%")
 
                 ->orLike('email', $searchTerm)
                 ->orLike('mobile', $searchTerm)
                 ->orLike('city', $searchTerm)
                 ->groupEnd();
         }
+
 
 
         // ---------------------------------------------------------
