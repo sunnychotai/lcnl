@@ -27,9 +27,31 @@ class MembershipReportsController extends BaseController
         $stats = [
             'total' => $this->members->where('deleted_at', null)->countAllResults(),
             'life' => $this->memberships->where('membership_type', 'life')->where('status', 'active')->countAllResults(),
-            'standard' => $this->memberships->where('membership_type', 'standard')->where('status', 'active')->countAllResults(),
+            'standard' => $this->memberships->where('membership_type', 'standard')->countAllResults(),
             'email_unknown' => $this->members->like('email', '@lcnl.org', 'before')->where('deleted_at', null)->countAllResults(),
             'mobile_missing' => $this->members->groupStart()->where('mobile', '')->orWhere('mobile IS NULL', null, false)->groupEnd()->where('deleted_at', null)->countAllResults(),
+        ];
+
+        // Additional stats with corrected DOB check using CAST
+        $stats += [
+            'missing_gender' => $this->members
+                ->groupStart()->where('gender', null)->orWhere('gender', '')->groupEnd()
+                ->where('deleted_at', null)->countAllResults(),
+
+            'missing_dob' => $this->members
+                ->groupStart()
+                ->where('date_of_birth IS NULL', null, false)
+                ->orWhere("CAST(date_of_birth AS CHAR) = '0000-00-00'", null, false)
+                ->orWhere("CAST(date_of_birth AS CHAR) = ''", null, false)
+                ->groupEnd()
+                ->where('deleted_at', null)
+                ->countAllResults(),
+
+            'not_verified' => $this->members->where('verified_at', null)
+                ->where('deleted_at', null)->countAllResults(),
+
+            'pending' => $this->members->where('status', 'pending')
+                ->where('deleted_at', null)->countAllResults(),
         ];
 
         $activeTab = 'reports';
@@ -279,79 +301,207 @@ class MembershipReportsController extends BaseController
         return $this->exportCsvStream($b, $filename);
     }
 
-    /* ==============================
-     *  REPORT: Membership Types
-     * ==============================*/
-    public function membershipTypes()
+    /* =========================
+     *  REPORT: Missing Gender
+     * =========================*/
+    public function missingGender()
     {
         $activeTab = 'reports';
-        return view('admin/membership_reports/membership_types', compact('activeTab'));
+        return view('admin/membership_reports/missing_gender', compact('activeTab'));
     }
 
-    public function membershipTypesData()
+    public function missingGenderData()
     {
         $status = $this->request->getPost('status') ?: 'all';
-        $type = $this->request->getPost('membership_type') ?: 'all'; // can filter by life/standard
+        $type = $this->request->getPost('membership_type') ?: 'all';
         $city = trim((string) $this->request->getPost('city'));
 
         $b = $this->baseMembersWithMembership();
+        $b->groupStart()->where('m.gender', null)->orWhere('m.gender', '')->groupEnd();
         $this->applyCommonFilters($b, $status, $type, $city);
 
         return $this->dtRespond($b, ['m.first_name', 'm.last_name', 'm.email', 'm.mobile', 'm.city', 'ms.membership_type', 'm.status']);
     }
 
-    public function membershipTypesExport()
+    public function missingGenderExport()
     {
         $status = $this->request->getGet('status') ?: 'all';
         $type = $this->request->getGet('membership_type') ?: 'all';
         $city = trim((string) $this->request->getGet('city'));
 
         $b = $this->baseMembersWithMembership();
+        $b->groupStart()->where('m.gender', null)->orWhere('m.gender', '')->groupEnd();
         $this->applyCommonFilters($b, $status, $type, $city);
         $b->orderBy('m.id', 'DESC');
 
-        $filename = 'membership_types_' . date('Ymd_His') . '.csv';
-        return $this->exportCsvStream($b, $filename);
+        return $this->exportCsvStream($b, 'missing_gender_' . date('Ymd_His') . '.csv');
     }
 
-    /* ======================
-     *  REPORT: Cities
-     * ======================*/
-    public function cities()
+    /* =========================
+     *  REPORT: Missing DOB
+     * =========================*/
+    public function missingDob()
     {
         $activeTab = 'reports';
-        return view('admin/membership_reports/cities', compact('activeTab'));
+        return view('admin/membership_reports/missing_dob', compact('activeTab'));
     }
 
-    public function citiesData()
+    public function missingDobData()
     {
-        // aggregation: count by city with filters
         $status = $this->request->getPost('status') ?: 'all';
         $type = $this->request->getPost('membership_type') ?: 'all';
-        $city = trim((string) $this->request->getPost('city')); // used as "starts with"/contains filter
+        $city = trim((string) $this->request->getPost('city'));
 
         $b = $this->baseMembersWithMembership();
+        $b->groupStart()
+            ->where('m.date_of_birth IS NULL', null, false)
+            ->orWhere("CAST(m.date_of_birth AS CHAR) = '0000-00-00'", null, false)
+            ->orWhere("CAST(m.date_of_birth AS CHAR) = ''", null, false)
+            ->groupEnd();
+
         $this->applyCommonFilters($b, $status, $type, $city);
 
-        // convert to grouped city results
-        $b->select('m.city, COUNT(m.id) AS total')->groupBy('m.city')->orderBy('total', 'DESC');
-
-        return $this->dtRespond($b, ['m.city']);
+        return $this->dtRespond($b, ['m.first_name', 'm.last_name', 'm.email', 'm.mobile', 'm.city', 'ms.membership_type', 'm.status']);
     }
 
-    public function citiesExport()
+    public function missingDobExport()
     {
         $status = $this->request->getGet('status') ?: 'all';
         $type = $this->request->getGet('membership_type') ?: 'all';
         $city = trim((string) $this->request->getGet('city'));
 
         $b = $this->baseMembersWithMembership();
-        $this->applyCommonFilters($b, $status, $type, $city);
-        $b->select('m.city, COUNT(m.id) AS total')
-            ->groupBy('m.city')
-            ->orderBy('total', 'DESC');
+        $b->groupStart()
+            ->where('m.date_of_birth IS NULL', null, false)
+            ->orWhere("CAST(m.date_of_birth AS CHAR) = '0000-00-00'", null, false)
+            ->orWhere("CAST(m.date_of_birth AS CHAR) = ''", null, false)
+            ->groupEnd();
 
-        $filename = 'cities_' . date('Ymd_His') . '.csv';
-        return $this->exportCsvStream($b, $filename);
+        $this->applyCommonFilters($b, $status, $type, $city);
+        $b->orderBy('m.id', 'DESC');
+
+        return $this->exportCsvStream($b, 'missing_dob_' . date('Ymd_His') . '.csv');
     }
+
+    /* =========================
+     *  REPORT: Not Verified
+     * =========================*/
+    public function notVerified()
+    {
+        $activeTab = 'reports';
+        return view('admin/membership_reports/not_verified', compact('activeTab'));
+    }
+
+    public function notVerifiedData()
+    {
+        $status = $this->request->getPost('status') ?: 'all';
+        $type = $this->request->getPost('membership_type') ?: 'all';
+        $city = trim((string) $this->request->getPost('city'));
+
+        $b = $this->baseMembersWithMembership();
+        $b->where('m.verified_at', null);
+        $this->applyCommonFilters($b, $status, $type, $city);
+
+        return $this->dtRespond($b, ['m.first_name', 'm.last_name', 'm.email', 'm.mobile', 'm.city', 'ms.membership_type', 'm.status']);
+    }
+
+    public function notVerifiedExport()
+    {
+        $status = $this->request->getGet('status') ?: 'all';
+        $type = $this->request->getGet('membership_type') ?: 'all';
+        $city = trim((string) $this->request->getGet('city'));
+
+        $b = $this->baseMembersWithMembership();
+        $b->where('m.verified_at', null);
+        $this->applyCommonFilters($b, $status, $type, $city);
+        $b->orderBy('m.id', 'DESC');
+
+        return $this->exportCsvStream($b, 'not_verified_' . date('Ymd_His') . '.csv');
+    }
+
+    /* =========================
+     *  REPORT: Still Pending
+     * =========================*/
+    public function pendingMembers()
+    {
+        $activeTab = 'reports';
+        return view('admin/membership_reports/pending_members', compact('activeTab'));
+    }
+
+    public function pendingMembersData()
+    {
+        $status = $this->request->getPost('status') ?: 'all';
+        $type = $this->request->getPost('membership_type') ?: 'all';
+        $city = trim((string) $this->request->getPost('city'));
+
+        $b = $this->baseMembersWithMembership();
+        $b->where('m.status', 'pending');
+        $this->applyCommonFilters($b, $status, $type, $city);
+
+        return $this->dtRespond($b, ['m.first_name', 'm.last_name', 'm.email', 'm.mobile', 'm.city', 'ms.membership_type', 'm.status']);
+    }
+
+    public function pendingMembersExport()
+    {
+        $status = $this->request->getGet('status') ?: 'all';
+        $type = $this->request->getGet('membership_type') ?: 'all';
+        $city = trim((string) $this->request->getGet('city'));
+
+        $b = $this->baseMembersWithMembership();
+        $b->where('m.status', 'pending');
+        $this->applyCommonFilters($b, $status, $type, $city);
+        $b->orderBy('m.id', 'DESC');
+
+        return $this->exportCsvStream($b, 'pending_members_' . date('Ymd_His') . '.csv');
+    }
+
+    public function activeLife()
+    {
+        $activeTab = 'reports';
+        return view('admin/membership_reports/active_life', compact('activeTab'));
+    }
+
+    public function activeLifeData()
+    {
+        $status = $this->request->getPost('status') ?: 'all';
+        $type = 'life'; // force this report
+        $city = trim((string) $this->request->getPost('city'));
+
+        $b = $this->baseMembersWithMembership();
+
+        // Explicit filter (avoid relying on user input)
+        $b->where('ms.membership_type', 'life');
+
+
+        $this->applyCommonFilters($b, $status, $type, $city);
+
+        return $this->dtRespond($b, [
+            'm.first_name',
+            'm.last_name',
+            'm.email',
+            'm.mobile',
+            'm.city',
+            'ms.membership_type',
+            'm.status'
+        ]);
+    }
+    public function activeLifeExport()
+    {
+        $status = $this->request->getGet('status') ?: 'all';
+        $type = 'life';
+        $city = trim((string) $this->request->getGet('city'));
+
+        $b = $this->baseMembersWithMembership();
+
+        $b->where('ms.membership_type', 'Life');
+
+
+        $this->applyCommonFilters($b, $status, $type, $city);
+        $b->orderBy('m.id', 'DESC');
+
+        return $this->exportCsvStream($b, 'active_life_' . date('Ymd_His') . '.csv');
+    }
+
+
+
 }

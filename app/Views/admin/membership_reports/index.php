@@ -30,6 +30,10 @@
             ['STANDARD Members', $stats['standard'] ?? 0, 'bi-award-fill'],
             ['Email Unknown (@lcnl.org)', $stats['email_unknown'] ?? 0, 'bi-envelope-slash'],
             ['Mobile Missing', $stats['mobile_missing'] ?? 0, 'bi-phone'],
+            ['Missing Gender', $stats['missing_gender'] ?? 0, 'bi-gender-ambiguous'],
+            ['Missing DOB', $stats['missing_dob'] ?? 0, 'bi-calendar-x'],
+            ['Not Verified', $stats['not_verified'] ?? 0, 'bi-shield-x'],
+            ['Pending', $stats['pending'] ?? 0, 'bi-hourglass-split'],
         ];
         ?>
         <?php foreach ($cards as [$label, $value, $icon]): ?>
@@ -60,7 +64,24 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="fw-semibold">Email Unknown</td>
+                            <td class="fw-semibold">
+                                <i class="bi bi-star-fill text-warning me-2"></i>
+                                Active Life Members
+                            </td>
+                            <td>All members with LIFE membership that are ACTIVE.</td>
+                            <td class="text-end">
+                                <a href="<?= base_url('admin/membership/reports/active-life') ?>"
+                                    class="btn btn-sm btn-outline-brand">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fw-semibold">
+                                <i class="bi bi-envelope-slash me-2 text-brand"></i>
+                                Email Unknown
+                            </td>
                             <td>Members whose email ends with <code>@lcnl.org</code>.</td>
                             <td class="text-end">
                                 <a href="<?= base_url('admin/membership/reports/email-unknown') ?>"
@@ -69,8 +90,12 @@
                                 </a>
                             </td>
                         </tr>
+
                         <tr>
-                            <td class="fw-semibold">Mobile Missing</td>
+                            <td class="fw-semibold">
+                                <i class="bi bi-telephone-x me-2 text-brand"></i>
+                                Mobile Missing
+                            </td>
                             <td>Members with missing mobile numbers.</td>
                             <td class="text-end">
                                 <a href="<?= base_url('admin/membership/reports/mobile-missing') ?>"
@@ -79,27 +104,65 @@
                                 </a>
                             </td>
                         </tr>
+
                         <tr>
-                            <td class="fw-semibold">Membership Types</td>
-                            <td>Current active membership type per member (Life/Standard).</td>
+                            <td class="fw-semibold">
+                                <i class="bi bi-gender-ambiguous me-2 text-brand"></i>
+                                Missing Gender
+                            </td>
+                            <td>Members with no gender recorded.</td>
                             <td class="text-end">
-                                <a href="<?= base_url('admin/membership/reports/membership-types') ?>"
+                                <a href="<?= base_url('admin/membership/reports/missing-gender') ?>"
                                     class="btn btn-sm btn-outline-brand">
                                     <i class="bi bi-eye"></i> View
                                 </a>
                             </td>
                         </tr>
+
                         <tr>
-                            <td class="fw-semibold">Cities</td>
-                            <td>Distribution by city with counts.</td>
+                            <td class="fw-semibold">
+                                <i class="bi bi-calendar-x me-2 text-brand"></i>
+                                Missing DOB
+                            </td>
+                            <td>Members with no date of birth recorded.</td>
                             <td class="text-end">
-                                <a href="<?= base_url('admin/membership/reports/cities') ?>"
+                                <a href="<?= base_url('admin/membership/reports/missing-dob') ?>"
                                     class="btn btn-sm btn-outline-brand">
                                     <i class="bi bi-eye"></i> View
                                 </a>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td class="fw-semibold">
+                                <i class="bi bi-shield-x me-2 text-brand"></i>
+                                Not Verified
+                            </td>
+                            <td>Members who have not verified their account.</td>
+                            <td class="text-end">
+                                <a href="<?= base_url('admin/membership/reports/not-verified') ?>"
+                                    class="btn btn-sm btn-outline-brand">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fw-semibold">
+                                <i class="bi bi-hourglass-split me-2 text-brand"></i>
+                                Still Pending
+                            </td>
+                            <td>Members whose status is currently <code>pending</code>.</td>
+                            <td class="text-end">
+                                <a href="<?= base_url('admin/membership/reports/pending') ?>"
+                                    class="btn btn-sm btn-outline-brand">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                            </td>
+                        </tr>
+
                     </tbody>
+
                 </table>
             </div>
 

@@ -209,15 +209,32 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->post('reports/mobile-missing/data', 'Admin\MembershipReportsController::mobileMissingData');
     $routes->get('reports/mobile-missing/export', 'Admin\MembershipReportsController::mobileMissingExport');
 
-    // REPORT: Membership Types
-    $routes->get('reports/membership-types', 'Admin\MembershipReportsController::membershipTypes');
-    $routes->post('reports/membership-types/data', 'Admin\MembershipReportsController::membershipTypesData');
-    $routes->get('reports/membership-types/export', 'Admin\MembershipReportsController::membershipTypesExport');
+    // REPORT: Missing Gender
+    $routes->get('reports/missing-gender', 'Admin\MembershipReportsController::missingGender');
+    $routes->post('reports/missing-gender/data', 'Admin\MembershipReportsController::missingGenderData');
+    $routes->get('reports/missing-gender/export', 'Admin\MembershipReportsController::missingGenderExport');
 
-    // REPORT: Cities
-    $routes->get('reports/cities', 'Admin\MembershipReportsController::cities');
-    $routes->post('reports/cities/data', 'Admin\MembershipReportsController::citiesData');
-    $routes->get('reports/cities/export', 'Admin\MembershipReportsController::citiesExport');
+    // REPORT: Missing DOB
+    $routes->get('reports/missing-dob', 'Admin\MembershipReportsController::missingDob');
+    $routes->post('reports/missing-dob/data', 'Admin\MembershipReportsController::missingDobData');
+    $routes->get('reports/missing-dob/export', 'Admin\MembershipReportsController::missingDobExport');
+
+    // REPORT: Not Verified (verified_at IS NULL)
+    $routes->get('reports/not-verified', 'Admin\MembershipReportsController::notVerified');
+    $routes->post('reports/not-verified/data', 'Admin\MembershipReportsController::notVerifiedData');
+    $routes->get('reports/not-verified/export', 'Admin\MembershipReportsController::notVerifiedExport');
+
+    // REPORT: Still Pending (status = 'pending')
+    $routes->get('reports/pending', 'Admin\MembershipReportsController::pendingMembers');
+    $routes->post('reports/pending/data', 'Admin\MembershipReportsController::pendingMembersData');
+    $routes->get('reports/pending/export', 'Admin\MembershipReportsController::pendingMembersExport');
+
+    // REPORT: ACTIVE LIFE MEMBERS
+    $routes->get('reports/active-life', 'Admin\MembershipReportsController::activeLife');
+    $routes->post('reports/active-life/data', 'Admin\MembershipReportsController::activeLifeData');
+    $routes->get('reports/active-life/export', 'Admin\MembershipReportsController::activeLifeExport');
+
+
 
     $routes->get('reports', 'Admin\MembershipReportsController::index', ['as' => 'admin.membership.reports']);
 

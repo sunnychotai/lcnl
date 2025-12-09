@@ -13,14 +13,14 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h5 mb-0">
-            <i class="bi bi-envelope-slash me-2 text-brand"></i> Email Unknown (@lcnl.org)
+            <i class="bi bi-gender-ambiguous me-2 text-brand"></i> Missing Gender
         </h1>
         <a href="<?= base_url('admin/membership/reports') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Back
         </a>
     </div>
 
-    <?= view('admin/membership_reports/_filters') // paste shared filter bar here or inline ?>
+    <?= view('admin/membership_reports/_filters') ?>
 
     <div class="lcnl-card shadow-soft border-0">
         <div class="table-responsive">
@@ -43,7 +43,6 @@
     </div>
 </div>
 
-<!-- DT assets -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -60,7 +59,7 @@
             membership_type: $('#filterType').val(),
             city: $('#filterCity').val()
         }).toString();
-        return "<?= base_url('admin/membership/reports/membership-types/export') ?>?" + qs;
+        return "<?= base_url('admin/membership/reports/missing-gender/export') ?>?" + qs;
     }
 
     $(function () {
@@ -70,7 +69,7 @@
             responsive: true,
             pageLength: 25,
             ajax: {
-                url: "<?= base_url('admin/membership/reports/membership-types/data') ?>",
+                url: "<?= base_url('admin/membership/reports/missing-gender/data') ?>",
                 type: "POST",
                 data: function (d) {
                     d.status = $('#filterStatus').val();

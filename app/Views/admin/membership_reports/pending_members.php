@@ -13,31 +13,36 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h5 mb-0">
-            <i class="bi bi-envelope-slash me-2 text-brand"></i> Email Unknown (@lcnl.org)
+            <i class="bi bi-hourglass-split me-2 text-brand"></i> Still Pending
         </h1>
         <a href="<?= base_url('admin/membership/reports') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Back
         </a>
     </div>
 
-    <?= view('admin/membership_reports/_filters') // paste shared filter bar here or inline ?>
+    <?= view('admin/membership_reports/_filters') ?>
 
     <div class="lcnl-card shadow-soft border-0">
         <div class="table-responsive">
             <table id="reportTable" class="table table-striped table-hover align-middle w-100">
                 <thead class="table-light">
                     <tr>
-                        <th>City</th>
-                        <th>Total</th>
+                        <th data-data="m.id">m.id</th>
+                        <th data-data="m.first_name">m.first_name</th>
+                        <th data-data="m.last_name">m.last_name</th>
+                        <th data-data="m.email">m.email</th>
+                        <th data-data="m.mobile">m.mobile</th>
+                        <th data-data="m.city">m.city</th>
+                        <th data-data="m.status">m.status</th>
+                        <th data-data="ms.membership_type">ms.membership_type</th>
+                        <th data-data="m.created_at">m.created_at</th>
                     </tr>
                 </thead>
-
             </table>
         </div>
     </div>
 </div>
 
-<!-- DT assets -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -54,7 +59,7 @@
             membership_type: $('#filterType').val(),
             city: $('#filterCity').val()
         }).toString();
-        return "<?= base_url('admin/membership/reports/membership-types/export') ?>?" + qs;
+        return "<?= base_url('admin/membership/reports/pending/export') ?>?" + qs;
     }
 
     $(function () {
@@ -64,7 +69,7 @@
             responsive: true,
             pageLength: 25,
             ajax: {
-                url: "<?= base_url('admin/membership/reports/membership-types/data') ?>",
+                url: "<?= base_url('admin/membership/reports/pending/data') ?>",
                 type: "POST",
                 data: function (d) {
                     d.status = $('#filterStatus').val();
@@ -74,11 +79,17 @@
                 }
             },
             columns: [
+                { data: "id", name: "m.id" },
+                { data: "first_name", name: "m.first_name" },
+                { data: "last_name", name: "m.last_name" },
+                { data: "email", name: "m.email" },
+                { data: "mobile", name: "m.mobile" },
                 { data: "city", name: "m.city" },
-                { data: "total" }
+                { data: "status", name: "m.status" },
+                { data: "membership_type", name: "ms.membership_type" },
+                { data: "created_at", name: "m.created_at" },
             ],
-            order: [[1, 'desc']]
-
+            order: [[0, 'desc']]
         });
 
         $('#btnApply').on('click', function () { table.ajax.reload(); });
