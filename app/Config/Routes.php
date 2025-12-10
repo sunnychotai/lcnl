@@ -107,6 +107,10 @@ $routes->group('account', [
 ----------------------------------------------------------*/
 $routes->group('admin/system', ['filter' => 'authAdmin'], function ($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
+    // Cron Logs (ADMIN only)
+    $routes->get('cron-logs', 'Admin\CronController::index');
+    $routes->get('cron-logs/(:num)', 'Admin\CronController::show/$1');
+
 });
 
 /* --- System / Core admin (ADMIN only) --- */

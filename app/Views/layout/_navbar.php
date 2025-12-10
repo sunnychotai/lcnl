@@ -68,6 +68,7 @@
 
       <div class="collapse navbar-collapse justify-content-center" id="adminNav">
         <ul class="navbar-nav gap-4">
+
           <li class="nav-item d-flex align-items-center">
             <span class="navbar-text text-light fw-semibold me-3">
               👋 Welcome, <?= esc(session()->get('admin_name') ?? 'Admin') ?>
@@ -75,7 +76,7 @@
           </li>
 
           <?php if (hasRole('ADMIN', 'WEBSITE', 'FINANCE', 'MEMBERSHIP', 'EVENTS')): ?>
-            <!-- System Section -->
+            <!-- System Dashboard -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/system/dashboard') ?>">
                 <i class="bi bi-speedometer2 me-1"></i> Dashboard
@@ -84,36 +85,49 @@
           <?php endif; ?>
 
           <?php if (hasRole('ADMIN')): ?>
+            <!-- Users -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/system/users') ?>">
                 <i class="bi bi-person-gear me-1"></i> Users
               </a>
             </li>
+
+            <!-- Emails -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/system/emails') ?>">
                 <i class="bi bi-envelope-fill me-1"></i> Emails
               </a>
             </li>
+
+            <!-- ⭐ NEW: CRON JOB LOGS -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/system/cron-logs') ?>">
+                <i class="bi bi-clock-history me-1"></i> Cron Jobs
+              </a>
+            </li>
+
           <?php endif; ?>
 
-          <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
 
-            <!-- Content Section -->
+          <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
+            <!-- Committees -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/content/committee') ?>">
                 <i class="bi bi-people-fill me-1"></i> Committees
               </a>
             </li>
 
+            <!-- FAQs -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/content/faqs') ?>">
                 <i class="bi bi-question-circle-fill me-1"></i> FAQs
               </a>
             </li>
-
           <?php endif; ?>
 
+
           <?php if (hasRole('ADMIN', 'EVENTS')): ?>
+            <!-- Events -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/content/events') ?>">
                 <i class="bi bi-calendar-event-fill me-1"></i> Events
@@ -123,7 +137,7 @@
 
 
           <?php if (hasRole('ADMIN', 'MEMBERSHIP')): ?>
-            <!-- Membership Section -->
+            <!-- Members -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/membership') ?>">
                 <i class="bi bi-person-lines-fill me-1"></i> Members
@@ -131,22 +145,23 @@
             </li>
           <?php endif; ?>
 
-
           <!-- Logout -->
           <li class="nav-item">
             <a class="nav-link text-warning" href="<?= base_url('auth/logout') ?>">
               <i class="bi bi-box-arrow-right me-1"></i> Logout
             </a>
           </li>
+
         </ul>
       </div>
     </div>
   </nav>
 <?php endif; ?>
 
+
 <!-- Optional: toggler label script -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     function wireLabel(toggler) {
       const label = toggler?.querySelector('.navbar-toggler-text');
       const target = document.querySelector(toggler?.getAttribute('data-bs-target'));
