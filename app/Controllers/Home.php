@@ -9,6 +9,7 @@ class Home extends BaseController
 {
     public function index()
     {
+
         $eventModel = new EventModel();
 
         $data = [
@@ -32,6 +33,7 @@ class Home extends BaseController
 
     public function gallery()
     {
+        dd(config('App')->baseURL);
         return view('gallery');
     }
 
