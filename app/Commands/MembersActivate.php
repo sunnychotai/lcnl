@@ -65,8 +65,12 @@ class MembersActivate extends BaseCommand
                 ]);
 
 
-                // Build activation link
-                $link = base_url('membership/reset/' . $token);
+                // Always resolve base URL safely when running from CLI
+                $envBase = getenv('app.baseURL');   // pulled from .env if loaded
+                $base = $envBase ? rtrim($envBase, '/') : 'https://lcnl.org';
+
+                $link = $base . '/membership/reset/' . $token;
+
 
                 // Queue email (adapt to your queue if needed)
                 $subject = 'Activate your LCNL Member Account';
