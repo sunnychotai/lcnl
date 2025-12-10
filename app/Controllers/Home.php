@@ -33,7 +33,6 @@ class Home extends BaseController
 
     public function gallery()
     {
-        echo (config('App')->baseURL);
         return view('gallery');
     }
 
