@@ -6,11 +6,11 @@ use CodeIgniter\Model;
 
 class MemberModel extends Model
 {
-    protected $table            = 'members';
-    protected $primaryKey       = 'id';
-    protected $useSoftDeletes   = true;
-    protected $useTimestamps    = true;
-    protected $returnType       = 'array';
+    protected $table = 'members';
+    protected $primaryKey = 'id';
+    protected $useSoftDeletes = true;
+    protected $useTimestamps = true;
+    protected $returnType = 'array';
 
     protected $allowedFields = [
         'first_name',
@@ -32,7 +32,11 @@ class MemberModel extends Model
         'updated_at',
         'deleted_at',
         'date_of_birth',
-        'gender'
+        'gender',
+        'activation_sent_at',
+        'activated_at',
+        'is_placeholder_email'
+
     ];
 
     protected $beforeInsert = ['normalizeFields'];

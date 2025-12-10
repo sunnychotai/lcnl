@@ -242,8 +242,50 @@ class MembersController extends BaseController
     /** Resend verification */
     public function resend($id)
     {
-        return redirect()->back()->with('message', 'Email queue not enabled yet.');
+        $memberModel = new MemberModel();
+        $member = $memberModel->find($id);
+
+        if (!$member) {
+            return redirect()->back()->with('error', 'Member not found.');
+        }
+
+        if ($member['status'] !== 'pending') {
+            return redirect()->back()->with('error', 'This member is already active.');
+        }
+
+        // Create new token
+        $token = bin2hex(random_bytes(32));
+
+        // Store token for verification flow
+        $verificationModel = new \App\Models\MemberVerificationModel();
+        $verificationModel->insert([
+            'member_id' => $id,
+            'token' => $token,
+            'created_at' => date('Y-m-d H:i:s'),
+            'expires_at' => date('Y-m-d H:i:s', strtotime('+24 hours')),
+        ]);
+
+        // Email link
+        $link = base_url('membership/verify/' . $token);
+
+        // Prepare email content
+        $fullName = trim($member['first_name'] . ' ' . $member['last_name']);
+
+        (new \App\Models\EmailQueueModel())->enqueue([
+            'to_email' => $member['email'],
+            'to_name' => $fullName,
+            'subject' => 'Verify Your LCNL Account',
+            'body_html' => view('emails/account_activation', [
+                'name' => $fullName,
+                'link' => $link,
+            ]),
+            'body_text' => "Please verify your account using this link: $link",
+            'priority' => 2,
+        ]);
+
+        return redirect()->back()->with('message', 'Verification email resent successfully.');
     }
+
 
     /** Export CSV (full dataset except password) */
     public function export()

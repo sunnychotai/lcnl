@@ -79,6 +79,9 @@ $routes->group('membership', ['namespace' => 'App\Controllers'], static function
     $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
     $routes->get('success', 'MembershipController::success', ['as' => 'membership.success']);
     $routes->get('resend-verification', 'MembershipController::resendVerification', ['as' => 'membership.resend']);
+    // Config/Routes.php (public area)
+    $routes->get('activated', 'MembershipController::activated', ['as' => 'membership.activated']);
+
 });
 
 /* -----------------------
@@ -114,6 +117,7 @@ $routes->group('admin/system', ['filter' => 'authAdmin:ADMIN'], function ($route
     $routes->get('emails/view/(:num)', 'Admin\Emails::view/$1');
     $routes->get('emails/retry/(:num)', 'Admin\Emails::retry/$1');
     $routes->get('emails/delete/(:num)', 'Admin\Emails::delete/$1');
+    $routes->post('emails/data', 'Admin\EmailDataController::list');
 
     // Users Admin
     $routes->group('users', function ($routes) {

@@ -22,6 +22,11 @@ class MembershipController extends BaseController
         return view('membership/register');
     }
 
+    public function activated()
+    {
+        return view('membership/activated_success');
+    }
+
     public function create()
     {
         // Throttle: max 3 attempts per minute per IP
