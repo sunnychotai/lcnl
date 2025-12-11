@@ -85,9 +85,9 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             <?php $g = old('gender', $m['gender'] ?? ''); ?>
                             <select name="gender" class="form-select">
                                 <option value="">— Select —</option>
-                                <?php foreach ($GENDERS as $gKey): ?>
-                                    <option value="<?= esc($gKey) ?>" <?= $g === $gKey ? 'selected' : '' ?>>
-                                        <?= ucwords(str_replace('_', ' ', $gKey)) ?>
+                                <?php foreach ($GENDERS as $key => $label): ?>
+                                    <option value="<?= esc($key) ?>" <?= $g === $key ? 'selected' : '' ?>>
+                                        <?= esc($label) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -218,7 +218,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                                 <td class="text-muted small"><?= $age ?: '-' ?></td>
                                 <td><?= esc($f['email']) ?: '-' ?></td>
                                 <td><?= esc($f['telephone']) ?: '-' ?></td>
-                                <td><?= esc($f['gender']) ?: '-' ?></td>
+                                <td><?= esc(ucwords($f['gender'])) ?: '-' ?></td>
                                 <td class="text-muted small"><?= esc($f['notes']) ?: '-' ?></td>
 
                                 <td class="text-end">

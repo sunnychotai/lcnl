@@ -14,13 +14,7 @@ class Family extends BaseConfig
      */
     public array $relations = [
         'spouse' => ['label' => 'Spouse', 'icon' => 'bi-heart-fill'],
-        'son' => ['label' => 'Son', 'icon' => 'bi-person-fill'],
-        'daughter' => ['label' => 'Daughter', 'icon' => 'bi-person-fill'],
-        'mother' => ['label' => 'Mother', 'icon' => 'bi-person-standing-dress'],
-        'father' => ['label' => 'Father', 'icon' => 'bi-person-standing'],
-        'grandparent' => ['label' => 'Grandparent', 'icon' => 'bi-people-fill'],
-        'sibling' => ['label' => 'Sibling', 'icon' => 'bi-people'],
-        'other' => ['label' => 'Other', 'icon' => 'bi-person'],
+        'child' => ['label' => 'Child', 'icon' => 'bi-person-fill'],
     ];
 
     public array $genders = [

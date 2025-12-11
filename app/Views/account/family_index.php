@@ -117,7 +117,7 @@ $genders = $familyConfig->genders;
 
                                     <td><?= esc($f['year_of_birth'] ?: '-') ?></td>
                                     <td class="text-muted small"><?= $age ?: '-' ?></td>
-                                    <td><?= esc($f['gender'] ?: '-') ?></td>
+                                    <td><?= esc(ucfirst($f['gender']) ?: '-') ?></td>
                                     <td><?= esc($f['email'] ?: '-') ?></td>
                                     <td><?= esc($f['telephone'] ?: '-') ?></td>
                                     <td class="text-muted small"><?= esc($f['notes'] ?: '-') ?></td>
