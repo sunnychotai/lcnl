@@ -18,11 +18,28 @@
                     <!-- Header -->
                     <tr>
                         <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
-                            <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
-                                Lohana Community North London
-                            </h1>
+
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                style="text-align:center;">
+                                <tr>
+                                    <td align="center">
+
+                                        <!-- Logo -->
+                                        <img src="https://lcnl.org/assets/img/lcnl-logo.png" alt="LCNL Logo" width="60"
+                                            height="60" style="display:block; margin:0 auto 8px auto;">
+
+                                        <!-- Title -->
+                                        <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
+                                            Lohana Community North London
+                                        </h1>
+
+                                    </td>
+                                </tr>
+                            </table>
+
                         </td>
                     </tr>
+
 
                     <!-- Body -->
                     <tr>

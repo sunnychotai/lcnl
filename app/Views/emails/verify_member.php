@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Verify your LCNL account</title>
 </head>
+
 <body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f9f9f9; color:#333;">
   <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
       <td align="center" style="padding:20px 0;">
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600"
-               style="border:1px solid #e0e0e0; border-radius:8px; background:#ffffff;">
+          style="border:1px solid #e0e0e0; border-radius:8px; background:#ffffff;">
 
           <!-- Header -->
           <tr>
             <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
-              <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">Lohana Community North London</h1>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="text-align:center;">
+                <tr>
+                  <td align="center">
+
+                    <!-- Logo -->
+                    <img src="https://lcnl.org/assets/img/lcnl-logo.png" alt="LCNL Logo" width="60" height="60"
+                      style="display:block; margin:0 auto 8px auto;">
+
+                    <!-- Title -->
+                    <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
+                      Lohana Community North London
+                    </h1>
+
+                  </td>
+                </tr>
+              </table>
+
             </td>
           </tr>
 
@@ -32,7 +51,8 @@
               </p>
 
               <p style="text-align:center; margin:30px 0;">
-                <a href="<?= esc($link) ?>" style="background:#7a1d3c; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:30px; font-size:16px; display:inline-block;">
+                <a href="<?= esc($link) ?>"
+                  style="background:#7a1d3c; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:30px; font-size:16px; display:inline-block;">
                   Verify My Account
                 </a>
               </p>
@@ -60,4 +80,5 @@
     </tr>
   </table>
 </body>
+
 </html>

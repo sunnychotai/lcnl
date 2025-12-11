@@ -11,14 +11,30 @@
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600"
                style="border:1px solid #e0e0e0; border-radius:8px; background:#ffffff;">
 
-          <!-- Header -->
-          <tr>
-            <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
-              <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
-                Lohana Community North London
-              </h1>
-            </td>
-          </tr>
+         <!-- Header -->
+                    <tr>
+                        <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
+
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                style="text-align:center;">
+                                <tr>
+                                    <td align="center">
+
+                                        <!-- Logo -->
+                                        <img src="https://lcnl.org/assets/img/lcnl-logo.png" alt="LCNL Logo" width="60"
+                                            height="60" style="display:block; margin:0 auto 8px auto;">
+
+                                        <!-- Title -->
+                                        <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
+                                            Lohana Community North London
+                                        </h1>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
 
           <!-- Body -->
           <tr>
@@ -31,7 +47,7 @@
               </p>
 
               <!-- Registration Details Table -->
-              <table role="presentation" cellpadding="8" cellspacing="0" border="0" width="100%" 
+              <table role="presentation" cellpadding="8" cellspacing="0" border="0" width="100%"
                      style="border-collapse:collapse; border:1px solid #e0d0d5; border-radius:6px; background-color:#fdfbfa; margin-bottom:25px;">
                 <tr style="background-color:#f7f3f5;">
                   <td width="35%" style="font-weight:bold;">Name</td>
@@ -72,7 +88,7 @@
                   <strong>Sort Code:</strong> 40&nbsp;23&nbsp;13<br>
                   <strong>Account Number:</strong> 2149&nbsp;7995<br>
                   <strong>Payment Reference:</strong> CP–<?= esc($first_name) . esc($last_name) ?><br>
-                  
+
                 </p>
               </div>
 

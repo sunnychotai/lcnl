@@ -33,6 +33,8 @@ class SendQueuedEmails extends BaseCommand
         try {
 
             $cfg = config('EmailQueue');
+            $testEmail = CLI::getOption('test');
+            $isTestMode = !empty($testEmail);
             $emailCfg = config('Email');
             $batch = (int) (CLI::getOption('batch') ?? $cfg->batchSize);
             $now = date('Y-m-d H:i:s');
