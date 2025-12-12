@@ -64,7 +64,7 @@ class MembersActivate extends BaseCommand
          * FETCH MEMBERS
          * --------------------------------------------------------- */
         $members = $model->where('status', 'pending')
-            ->where('is_placeholder_email', 0)
+            ->where('is_valid_email', 1)
             ->where('activation_sent_at', null)
             ->where('email IS NOT', null, false)
             ->where('email <>', '')

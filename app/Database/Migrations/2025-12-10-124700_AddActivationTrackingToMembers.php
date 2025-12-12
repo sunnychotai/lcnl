@@ -11,7 +11,7 @@ class AddActivationTrackingToMembers extends Migration
         $this->forge->addColumn('members', [
             'activation_sent_at' => ['type' => 'DATETIME', 'null' => true, 'after' => 'verified_at'],
             'activated_at' => ['type' => 'DATETIME', 'null' => true, 'after' => 'activation_sent_at'],
-            'is_placeholder_email' => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0, 'null' => false, 'after' => 'email'],
+            'is_valid_email' => ['type' => 'TINYINT', 'constraint' => 0, 'default' => 1, 'null' => false, 'after' => 'email'],
         ]);
 
         // Helpful indexes

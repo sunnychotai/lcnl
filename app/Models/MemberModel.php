@@ -35,7 +35,7 @@ class MemberModel extends Model
         'gender',
         'activation_sent_at',
         'activated_at',
-        'is_placeholder_email'
+        'is_valid_email'
 
     ];
 
