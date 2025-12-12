@@ -4,6 +4,43 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
 
+<style>
+  /* Table density + alignment */
+  #membersTable td {
+    vertical-align: middle;
+    padding: 0.6rem 0.75rem;
+  }
+
+  /* Email cell */
+  .email-primary {
+    font-weight: 600;
+    word-break: break-all;
+  }
+
+
+  .email-primary {
+    font-weight: 600;
+    word-break: break-all;
+  }
+
+  .email-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .email-dot-valid {
+    background-color: #198754;
+    /* Bootstrap success */
+  }
+
+  .email-dot-invalid {
+    background-color: #dc3545;
+    /* Bootstrap danger */
+  }
+</style>
+
 <div class="container-fluid py-3">
 
   <!-- Header -->
@@ -16,6 +53,7 @@
     </a>
   </div>
 
+  <!-- Tabs -->
   <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
       <a class="nav-link <?= ($activeTab ?? '') === 'members' ? 'active' : '' ?>"
@@ -23,7 +61,6 @@
         Members
       </a>
     </li>
-
     <li class="nav-item">
       <a class="nav-link <?= ($activeTab ?? '') === 'reports' ? 'active' : '' ?>"
         href="<?= base_url('admin/membership/reports') ?>">
@@ -32,14 +69,13 @@
     </li>
   </ul>
 
-
   <!-- Status Summary -->
   <div class="row g-3 mb-4">
     <?php foreach (['all', 'pending', 'active', 'disabled'] as $s): ?>
       <div class="col-md-3">
         <a href="#" class="text-decoration-none" onclick="setStatus('<?= $s ?>')">
           <div class="card no-hover border-0 text-center h-100 <?= $status === $s ? 'bg-light' : '' ?>">
-            <div class="card-body">
+            <div class="card-body py-3">
               <i class="bi bi-people fs-2 text-brand mb-2"></i>
               <h6 class="fw-bold mb-0 text-brand">
                 <?= ucfirst($s) ?> (<?= $counts[$s] ?? 0 ?>)
@@ -92,6 +128,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th class="text-center" style="width:70px;">Valid Email</th>
             <th>Mobile</th>
             <th>City</th>
             <th>Status</th>
@@ -106,9 +143,9 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-
-<!-- DataTables Scripts -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<!-- DataTables -->
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
@@ -116,13 +153,12 @@
 <script>
   let table;
 
-  // set status buttons
   function setStatus(s) {
     $('#filterStatus').val(s);
     table.ajax.reload();
   }
 
-  $(document).ready(function () {
+  $(function () {
 
     table = $('#membersTable').DataTable({
       processing: true,
@@ -140,50 +176,89 @@
         }
       },
 
-      columns: [{
-        data: "id"
-      },
-      {
-        data: "name"
-      },
-      {
-        data: "email"
-      },
-      {
-        data: "mobile"
-      },
-      {
-        data: "city"
-      },
-      {
-        data: "status_badge"
-      },
-      {
-        data: "created_at"
-      },
-      {
-        data: "actions",
-        orderable: false,
-        searchable: false
-      }
+      columns: [
+        { data: "id" },
+        { data: "name" },
+
+        /* Email (HTML rendered server-side) */
+        {
+          data: "email_html",
+          orderable: false
+        },
+
+        { data: "email_validity_html", orderable: false, searchable: false },
+
+
+        /* Mobile (normalised) */
+        {
+          data: "mobile",
+          render: function (data) {
+            return data && data !== '0'
+              ? data
+              : '<span class="text-muted">—</span>';
+          }
+        },
+
+        { data: "city" },
+        { data: "status_badge" },
+        { data: "created_at" },
+        {
+          data: "actions",
+          orderable: false,
+          searchable: false
+        }
       ],
 
-      order: [
-        [0, 'desc']
-      ]
+      order: [[0, 'desc']]
     });
 
-    $('#btnSearch').on('click', function () {
-      table.ajax.reload();
-    });
+    $('#btnSearch').on('click', () => table.ajax.reload());
+    $('#filterStatus').on('change', () => table.ajax.reload());
 
-    $('#filterStatus').on('change', function () {
-      table.ajax.reload();
-    });
-
-    $('#filterSearch').on('keyup', _.debounce(function () {
+    $('#filterSearch').on('keyup', _.debounce(() => {
       table.ajax.reload();
     }, 250));
+
+    /* ------------------------------------------------
+     * EMAIL VALIDITY TOGGLE
+     * ------------------------------------------------ */
+    $('#membersTable').on('click', '.js-toggle-email-validity', async function () {
+
+      const btn = $(this);
+      const memberId = btn.data('id');
+      const email = btn.data('email');
+
+      const reason = prompt(
+        `Reason for changing email validity:\n\n${email}`,
+        'Hard bounce'
+      );
+
+      if (reason === null) return;
+
+      const form = new URLSearchParams();
+      form.set('reason', reason);
+      form.set('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+
+      try {
+        const res = await fetch(`<?= base_url('admin/membership') ?>/${memberId}/email-validity`, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: form.toString()
+        });
+
+        const data = await res.json();
+        if (data?.success) {
+          table.ajax.reload(null, false);
+        } else {
+          alert('Failed to update email validity.');
+        }
+      } catch {
+        alert('Network error while updating.');
+      }
+    });
 
   });
 </script>

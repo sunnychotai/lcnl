@@ -1,41 +1,99 @@
 <?php if (!empty($rows)): ?>
     <?php foreach ($rows as $r): ?>
+        <?php
+        $isValid = (int) ($r['is_valid_email'] ?? 0);
+        $email = trim($r['email'] ?? '');
+        $mobile = trim($r['mobile'] ?? '');
+        ?>
         <tr>
-            <td class="text-muted small"><?= (int)$r['id'] ?></td>
+
+            <!-- ID -->
+            <td class="text-muted small"><?= (int) $r['id'] ?></td>
+
+            <!-- Name -->
             <td>
                 <a class="fw-semibold text-decoration-none" href="<?= base_url('admin/membership/' . $r['id']) ?>">
                     <i class="bi bi-person-circle me-1 text-secondary"></i>
                     <?= esc(($r['first_name'] ?? '') . ' ' . ($r['last_name'] ?? '')) ?>
                 </a>
             </td>
-            <td>
-                <div><?= esc($r['email']) ?></div>
-                <div class="text-muted small"><?= esc($r['mobile'] ?? '-') ?></div>
-            </td>
-            <td class="text-muted small"><?= esc($r['city'] ?? '-') ?></td>
-            <td>
-                <span class="badge bg-<?=
-                                        $r['status'] === 'active' ? 'success' : ($r['status'] === 'pending' ? 'warning text-dark' : 'secondary')
-                                        ?>"><?= ucfirst($r['status']) ?></span>
-            </td>
-            <td class="text-muted small"><?= esc($r['created_at'] ?? '') ?></td>
 
+            <!-- Email -->
+            <td>
+                <?php if (!empty($email)): ?>
+                    <span class="email-primary">
+                        <?= esc($email) ?>
+                    </span>
+                <?php else: ?>
+                    <span class="text-muted">—</span>
+                <?php endif; ?>
+            </td>
+            <td class="text-center">
+
+                <?php if (!empty($email)): ?>
+
+                    <!-- Traffic light -->
+                    <span class="email-dot <?= $isValid ? 'email-dot-valid' : 'email-dot-invalid' ?>"
+                        title="<?= $isValid ? 'Email valid' : 'Email invalid' ?>">
+                    </span>
+
+                    <!-- Toggle -->
+                    <button type="button" class="btn btn-sm btn-outline-secondary ms-2 toggle-email-validity"
+                        title="<?= $isValid ? 'Mark email invalid' : 'Mark email valid' ?>" data-id="<?= (int) $r['id'] ?>"
+                        data-email="<?= esc($email) ?>" data-csrf-name="<?= csrf_token() ?>" data-csrf="<?= csrf_hash() ?>">
+
+                        <i class="bi <?= $isValid ? 'bi-envelope-x' : 'bi-envelope-check' ?>"></i>
+
+                    </button>
+
+                <?php else: ?>
+                    <span class="text-muted">—</span>
+                <?php endif; ?>
+
+            </td>
+
+
+
+            <!-- Mobile -->
+            <td class="text-muted small">
+                <?= ($mobile && $mobile !== '0') ? esc($mobile) : '—' ?>
+            </td>
+
+            <!-- City -->
+            <td class="text-muted small">
+                <?= esc($r['city'] ?? '—') ?>
+            </td>
+
+            <!-- Status -->
+            <td>
+                <span class="badge
+                    <?= $r['status'] === 'active'
+                        ? 'bg-success'
+                        : ($r['status'] === 'pending'
+                            ? 'bg-warning text-dark'
+                            : 'bg-secondary') ?>">
+                    <?= ucfirst($r['status']) ?>
+                </span>
+            </td>
+
+            <!-- Created -->
+            <td class="text-muted small">
+                <?= esc($r['created_at'] ?? '') ?>
+            </td>
+
+            <!-- Actions -->
             <td class="text-end">
                 <div class="lcnl-action-group d-inline-flex">
 
-                    <!-- View -->
                     <a href="<?= base_url('admin/membership/' . $r['id']) ?>" class="btn-action" title="View">
                         <i class="bi bi-eye"></i>
                     </a>
 
-                    <!-- Edit -->
                     <a href="<?= base_url('admin/membership/' . $r['id'] . '/edit') ?>" class="btn-action" title="Edit">
                         <i class="bi bi-pencil"></i>
                     </a>
 
-                    <!-- Status Action -->
                     <?php if ($r['status'] === 'active'): ?>
-                        <!-- show disable only -->
                         <form method="post" action="<?= base_url('admin/membership/' . $r['id'] . '/disable') ?>" class="d-inline">
                             <?= csrf_field() ?>
                             <button class="btn-action btn-action-danger" title="Disable">
@@ -43,7 +101,6 @@
                             </button>
                         </form>
                     <?php else: ?>
-                        <!-- show activate only -->
                         <form method="post" action="<?= base_url('admin/membership/' . $r['id'] . '/activate') ?>" class="d-inline">
                             <?= csrf_field() ?>
                             <button class="btn-action btn-action-filled" title="Activate">
@@ -54,10 +111,14 @@
 
                 </div>
             </td>
+
         </tr>
     <?php endforeach; ?>
 <?php else: ?>
     <tr>
-        <td colspan="7" class="text-center text-muted py-4">No members found.</td>
+        <td colspan="8" class="text-center text-muted py-4">
+            No members found.
+        </td>
     </tr>
 <?php endif; ?>
+

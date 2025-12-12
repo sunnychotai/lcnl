@@ -184,6 +184,13 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.membership.export']);
     $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.membership.show']);
 
+    $routes->post(
+        '(:num)/email-validity',
+        'Admin\MembersController::toggleEmailValidity/$1',
+
+    );
+
+
     // Activation / Disable / Resend
     $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.membership.activate']);
     $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.membership.disable']);

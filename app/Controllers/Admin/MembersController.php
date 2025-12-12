@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\MemberModel;
 use App\Models\MemberFamilyModel;
 use App\Services\MemberService;
+use App\Models\MemberAuditLogModel;
 
 class MembersController extends BaseController
 {
@@ -90,6 +91,88 @@ class MembersController extends BaseController
             'family' => $family, // 👈 MUST BE PASSED
         ]);
     }
+
+
+    public function toggleEmailValidity(int $id)
+{
+    // Must be AJAX + POST
+    if (
+        !$this->request->isAJAX()
+        || $this->request->getMethod() !== 'post'
+    ) {
+        return $this->response
+            ->setStatusCode(400)
+            ->setJSON(['success' => false, 'error' => 'Bad request']);
+    }
+
+    $memberModel = new MemberModel();
+    $auditModel  = new MemberAuditLogModel();
+
+    $member = $memberModel->find($id);
+    if (!$member) {
+        return $this->response
+            ->setStatusCode(404)
+            ->setJSON(['success' => false, 'error' => 'Member not found']);
+    }
+
+    // Normalise values
+    $old = (int) ($member['is_valid_email'] ?? 0);
+    $new = $old === 1 ? 0 : 1;
+
+    // Optional reason (sanitised & capped)
+    $reason = trim((string) $this->request->getPost('reason'));
+    if ($reason !== '') {
+        $reason = mb_substr($reason, 0, 255);
+    } else {
+        $reason = null;
+    }
+
+    // Update member
+    $memberModel->update($id, [
+        'is_valid_email' => $new,
+        'updated_at'     => date('Y-m-d H:i:s'),
+    ]);
+
+    // Human labels
+    $oldLabel = $old ? 'VALID' : 'INVALID';
+    $newLabel = $new ? 'VALID' : 'INVALID';
+
+    $description = "Email validity changed from {$oldLabel} to {$newLabel}";
+    if ($reason) {
+        $description .= " ({$reason})";
+    }
+
+    // Resolve admin ID safely
+    $adminId = 0;
+    if (function_exists('user_id') && user_id()) {
+        $adminId = (int) user_id();
+    } elseif (session()->get('user_id')) {
+        $adminId = (int) session()->get('user_id');
+    }
+
+    // Audit log
+    $auditModel->insert([
+        'member_id'   => $id,
+        'type'        => 'email',
+        'field_name'  => 'is_valid_email',
+        'old_value'   => (string) $old,
+        'new_value'   => (string) $new,
+        'description' => $description,
+        'changed_by'  => $adminId,
+        'changed_at'  => date('Y-m-d H:i:s'),
+    ]);
+
+    return $this->response->setJSON([
+        'success'        => true,
+        'is_valid_email' => $new,
+        'label'          => $new ? 'Verified' : 'Invalid',
+        'badge_class'    => $new
+            ? 'bg-success-subtle text-success'
+            : 'bg-danger-subtle text-danger',
+    ]);
+}
+
+
 
 
     public function edit($id)
