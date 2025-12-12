@@ -102,7 +102,7 @@ class MembersController extends BaseController
         }
 
         $memberModel = new MemberModel();
-        
+
 
         $member = $memberModel->find($id);
         if (!$member) {
@@ -232,6 +232,28 @@ class MembersController extends BaseController
 
         unset($payload['password_hash']);
         $payload['updated_at'] = date('Y-m-d H:i:s');
+
+        $before = $this->members->find($id);
+
+        foreach ($payload as $field => $newValue) {
+            if (!array_key_exists($field, $before)) {
+                continue;
+            }
+
+            $oldValue = (string) ($before[$field] ?? '');
+
+            if ((string) $newValue !== $oldValue) {
+                $this->auditMemberChange([
+                    'member_id'   => $id,
+                    'type'        => 'profile',
+                    'field_name'  => $field,
+                    'old_value'   => $oldValue,
+                    'new_value'   => (string) $newValue,
+                    'description' => ucfirst(str_replace('_', ' ', $field)) . ' updated via admin edit',
+                ]);
+            }
+        }
+
 
         $this->members->update($id, $payload);
         return redirect()->to(base_url("admin/membership/{$id}"))
