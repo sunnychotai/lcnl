@@ -4,15 +4,19 @@ namespace App\Services;
 
 use App\Models\MemberModel;
 use App\Models\MembershipModel;
+use App\Models\MemberAuditLogModel;
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\I18n\Time;
 
 class MemberService
 {
+    protected MemberAuditLogModel $audit;
+
     public function __construct(
         private MemberModel $members = new MemberModel(),
         private MembershipModel $memberships = new MembershipModel(),
     ) {
+        $this->audit = new MemberAuditLogModel();
     }
 
     /**
@@ -21,48 +25,50 @@ class MemberService
      */
     private function normaliseMobile(?string $mobile): ?string
     {
-        if (!$mobile)
+        if (!$mobile) {
             return null;
+        }
+
         $m = preg_replace('/[^\d\+]/', '', $mobile);
 
-        // If starts with 0 and has 11 digits, convert to +44
         if (preg_match('/^0(\d{10})$/', $m, $m1)) {
             return '+44' . $m1[1];
         }
-        // If starts with 44 (no +), add +
-        if (preg_match('/^44(\d{9,12})$/', $m, $m2)) {
+
+        if (preg_match('/^44(\d{9,12})$/', $m)) {
             return '+' . $m;
         }
+
         return $m;
     }
 
     /**
-     * Create a pending member + pending membership + optional family rows.
-     * Returns member ID.
+     * Create a pending member + membership
      */
     public function createPending(array $input): int
     {
         $mobile = $input['mobile'] ?? null;
         $mobile = $mobile !== '' ? $this->normaliseMobile($mobile) : null;
 
-        $data = [
-            'first_name' => trim($input['first_name']),
-            'last_name' => trim($input['last_name']),
-            'email' => strtolower(trim($input['email'])),
-            'mobile' => $mobile,
-            'address1' => trim($input['address1']),
-            'address2' => $input['address2'] !== '' ? trim($input['address2']) : null,
-            'city' => trim($input['city']),
-            'postcode' => strtoupper(trim($input['postcode'])),
-            'date_of_birth' => $input['date_of_birth'] ?? null,
-            'gender' => $input['gender'] ?? null,
+        $now = Time::now()->toDateTimeString();
 
+        $data = [
+            'first_name'    => trim($input['first_name']),
+            'last_name'     => trim($input['last_name']),
+            'email'         => strtolower(trim($input['email'])),
+            'mobile'        => $mobile,
+            'address1'      => trim($input['address1']),
+            'address2'      => $input['address2'] !== '' ? trim($input['address2']) : null,
+            'city'          => trim($input['city']),
+            'postcode'      => strtoupper(trim($input['postcode'])),
+            'date_of_birth' => $input['date_of_birth'] ?? null,
+            'gender'        => $input['gender'] ?? null,
             'password_hash' => password_hash($input['password'], PASSWORD_DEFAULT),
-            'status' => 'pending',
-            'consent_at' => date('Y-m-d H:i:s'),
-            'source' => $input['source'] ?? 'web',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            'status'        => 'pending',
+            'consent_at'    => $now,
+            'source'        => $input['source'] ?? 'web',
+            'created_at'    => $now,
+            'updated_at'    => $now,
         ];
 
         if (!$this->members->insert($data, true)) {
@@ -71,61 +77,126 @@ class MemberService
 
         $memberId = (int) $this->members->getInsertID();
 
-        // Create blank/pending membership record
-        // Create initial membership record (Standard + Active)
+        // Initial membership record
         $this->memberships->insert([
-            'member_id' => $memberId,
-            'membership_type' => 'Standard',
-            'membership_number' => null, // or generate later; your existing logic handles this elsewhere
-            'start_date' => date('Y-m-d'),
-            'end_date' => null, // keep NULL unless you want annual expiry
-            'status' => 'active',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            'member_id'         => $memberId,
+            'membership_type'   => 'Standard',
+            'membership_number' => null,
+            'start_date'        => date('Y-m-d'),
+            'end_date'          => null,
+            'status'            => 'active',
+            'created_at'        => $now,
+            'updated_at'        => $now,
         ]);
 
+        // 🔐 AUDIT
+        $this->audit->insert([
+            'member_id'   => $memberId,
+            'type'        => 'member',
+            'field_name'  => 'create',
+            'old_value'   => null,
+            'new_value'   => 'pending',
+            'description' => 'Member created (pending) via registration',
+            'changed_by'  => 0,
+            'changed_at'  => $now,
+        ]);
 
         return $memberId;
     }
 
-
     /**
-     * Activate a member (email verified) and activate membership accordingly.
-     * For 'life' membership we set start_date today and no end_date.
-     * For 'annual'/'senior'/'youth' we set start_date today and end_date +1 year.
+     * Activate a member
      */
     public function activate(int $memberId, ?int $adminId = null): bool
     {
-        // Activate member
+        $now = Time::now()->toDateTimeString();
+
         $ok = (bool) $this->members->update($memberId, [
-            'status' => 'active',
-            'verified_at' => Time::now()->toDateTimeString(),
+            'status'      => 'active',
+            'verified_at' => $now,
             'verified_by' => $adminId,
-            'updated_at' => Time::now()->toDateTimeString(),
+            'updated_at'  => $now,
         ]);
 
-        if (!$ok)
+        if (!$ok) {
             return false;
+        }
 
-        // Membership remains "pending" until ADMIN sets membership_type
+        // 🔐 AUDIT
+        $this->audit->insert([
+            'member_id'   => $memberId,
+            'type'        => 'status',
+            'field_name'  => 'status',
+            'old_value'   => 'pending',
+            'new_value'   => 'active',
+            'description' => 'Member activated',
+            'changed_by'  => $adminId ?? 0,
+            'changed_at'  => $now,
+        ]);
+
         return true;
     }
 
-
-    public function disable(int $memberId): bool
+    /**
+     * Disable a member
+     */
+    public function disable(int $memberId, ?int $adminId = null): bool
     {
-        return (bool) $this->members->update($memberId, [
-            'status' => 'disabled',
-            'updated_at' => Time::now()->toDateTimeString(),
+        $now = Time::now()->toDateTimeString();
+
+        $ok = (bool) $this->members->update($memberId, [
+            'status'     => 'disabled',
+            'updated_at' => $now,
         ]);
+
+        if (!$ok) {
+            return false;
+        }
+
+        // 🔐 AUDIT
+        $this->audit->insert([
+            'member_id'   => $memberId,
+            'type'        => 'status',
+            'field_name'  => 'status',
+            'old_value'   => 'active',
+            'new_value'   => 'disabled',
+            'description' => 'Member disabled',
+            'changed_by'  => $adminId ?? 0,
+            'changed_at'  => $now,
+        ]);
+
+        return true;
     }
 
+    /**
+     * Reactivate a member
+     */
     public function reactivate(int $memberId, ?int $adminId = null): bool
     {
-        return (bool) $this->members->update($memberId, [
-            'status' => 'active',
+        $now = Time::now()->toDateTimeString();
+
+        $ok = (bool) $this->members->update($memberId, [
+            'status'      => 'active',
             'verified_by' => $adminId,
-            'updated_at' => Time::now()->toDateTimeString(),
+            'updated_at'  => $now,
         ]);
+
+        if (!$ok) {
+            return false;
+        }
+
+        // 🔐 AUDIT
+        $this->audit->insert([
+            'member_id'   => $memberId,
+            'type'        => 'status',
+            'field_name'  => 'status',
+            'old_value'   => 'disabled',
+            'new_value'   => 'active',
+            'description' => 'Member reactivated',
+            'changed_by'  => $adminId ?? 0,
+            'changed_at'  => $now,
+        ]);
+
+        return true;
     }
 }
