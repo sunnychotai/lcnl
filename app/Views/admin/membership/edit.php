@@ -85,11 +85,12 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             <?php $g = old('gender', $m['gender'] ?? ''); ?>
                             <select name="gender" class="form-select">
                                 <option value="">— Select —</option>
-                                <?php foreach ($GENDERS as $key => $label): ?>
-                                    <option value="<?= esc($key) ?>" <?= $g === $key ? 'selected' : '' ?>>
-                                        <?= esc($label) ?>
+                                <?php foreach ($GENDERS as $gKey): ?>
+                                    <option value="<?= esc($gKey) ?>" <?= $g === $gKey ? 'selected' : '' ?>>
+                                        <?= esc(ucwords(str_replace('_', ' ', $gKey))) ?>
                                     </option>
                                 <?php endforeach; ?>
+
                             </select>
                         </div>
                     </div>
@@ -200,7 +201,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                             $relMeta = $RELATIONS[$relKey] ?? null;
                             $relIcon = $relMeta['icon'] ?? 'bi-person';
                             $relLabel = $relMeta['label'] ?? ucfirst($relKey);
-                            ?>
+                        ?>
                             <tr data-id="<?= (int) $f['id'] ?>" data-name="<?= esc($f['name']) ?>"
                                 data-relation="<?= esc($f['relation']) ?>" data-yob="<?= esc($f['year_of_birth']) ?>"
                                 data-email="<?= esc($f['email']) ?>" data-gender="<?= esc($f['gender']) ?>"
@@ -416,7 +417,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
             }
 
             // Submit ADD/EDIT form
-            document.getElementById('familyForm').addEventListener('submit', function (e) {
+            document.getElementById('familyForm').addEventListener('submit', function(e) {
                 e.preventDefault();
 
                 const form = e.target;
@@ -440,14 +441,14 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                     "<?= base_url('admin/membership/family/add') ?>";
 
                 fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest",
-                        [CSRF.name]: CSRF.hash
-                    },
-                    body: JSON.stringify(payload)
-                })
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                            [CSRF.name]: CSRF.hash
+                        },
+                        body: JSON.stringify(payload)
+                    })
                     .then(r => r.json())
                     .then(data => {
                         refreshCsrf(data);
@@ -557,14 +558,16 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                 if (!confirm("Delete this family member?")) return;
 
                 fetch("<?= base_url('admin/membership/family/delete') ?>", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest",
-                        [CSRF.name]: CSRF.hash
-                    },
-                    body: JSON.stringify({ id })
-                })
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                            [CSRF.name]: CSRF.hash
+                        },
+                        body: JSON.stringify({
+                            id
+                        })
+                    })
                     .then(r => r.json())
                     .then(data => {
                         refreshCsrf(data);
@@ -595,4 +598,3 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
 </div>
 
 <?= $this->endSection() ?>
-
