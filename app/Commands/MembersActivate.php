@@ -152,7 +152,7 @@ class MembersActivate extends BaseCommand
                     'subject' => $subject,
                     'body_html' => $bodyHtml,
                     'body_text' => strip_tags($bodyHtml),
-                    'from_email' => 'info@lcnl.org',
+                    'from_email' => 'info@lcnl.co.uk',
                     'from_name' => 'LCNL Membership Team',
                 ]);
 

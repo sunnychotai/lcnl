@@ -16,7 +16,7 @@ class TestEmail extends BaseCommand
         $email = service('email');
 
         $email->setTo('sunnychotai@me.com');
-        $email->setFrom('info@lcnl.org', 'LCNL');
+        $email->setFrom('info@lcnl.co.uk', 'LCNL');
         $email->setSubject('Test Mail from CLI');
         $email->setMessage('<p>Hello world from LCNL test.</p>');
 
