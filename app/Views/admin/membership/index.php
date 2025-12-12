@@ -152,13 +152,18 @@
 
 <script>
   let table;
+  // ✅ GLOBAL CSRF HOLDER (important)
+  let CSRF = {
+    name: '<?= csrf_token() ?>',
+    hash: '<?= csrf_hash() ?>'
+  };
 
   function setStatus(s) {
     $('#filterStatus').val(s);
     table.ajax.reload();
   }
 
-  $(function () {
+  $(function() {
 
     table = $('#membersTable').DataTable({
       processing: true,
@@ -169,16 +174,19 @@
       ajax: {
         url: "<?= base_url('admin/membership/data') ?>",
         type: "POST",
-        data: function (d) {
+        data: function(d) {
           d.status = $('#filterStatus').val();
           d.searchTerm = $('#filterSearch').val();
           d['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
         }
       },
 
-      columns: [
-        { data: "id" },
-        { data: "name" },
+      columns: [{
+          data: "id"
+        },
+        {
+          data: "name"
+        },
 
         /* Email (HTML rendered server-side) */
         {
@@ -186,22 +194,32 @@
           orderable: false
         },
 
-        { data: "email_validity_html", orderable: false, searchable: false },
+        {
+          data: "email_validity_html",
+          orderable: false,
+          searchable: false
+        },
 
 
         /* Mobile (normalised) */
         {
           data: "mobile",
-          render: function (data) {
-            return data && data !== '0'
-              ? data
-              : '<span class="text-muted">—</span>';
+          render: function(data) {
+            return data && data !== '0' ?
+              data :
+              '<span class="text-muted">—</span>';
           }
         },
 
-        { data: "city" },
-        { data: "status_badge" },
-        { data: "created_at" },
+        {
+          data: "city"
+        },
+        {
+          data: "status_badge"
+        },
+        {
+          data: "created_at"
+        },
         {
           data: "actions",
           orderable: false,
@@ -209,7 +227,9 @@
         }
       ],
 
-      order: [[0, 'desc']]
+      order: [
+        [0, 'desc']
+      ]
     });
 
     $('#btnSearch').on('click', () => table.ajax.reload());
@@ -220,9 +240,9 @@
     }, 250));
 
     /* ------------------------------------------------
-     * EMAIL VALIDITY TOGGLE
+     * EMAIL VALIDITY TOGGLE (CSRF-safe)
      * ------------------------------------------------ */
-    $('#membersTable').on('click', '.js-toggle-email-validity', async function () {
+    $('#membersTable').on('click', '.js-toggle-email-validity', async function() {
 
       const btn = $(this);
       const memberId = btn.data('id');
@@ -237,7 +257,7 @@
 
       const form = new URLSearchParams();
       form.set('reason', reason);
-      form.set('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+      form.set(CSRF.name, CSRF.hash); // ✅ dynamic CSRF
 
       try {
         const res = await fetch(`<?= base_url('admin/membership') ?>/${memberId}/email-validity`, {
@@ -250,18 +270,26 @@
         });
 
         const data = await res.json();
-        if (data?.success) {
-          table.ajax.reload(null, false);
-        } else {
-          alert('Failed to update email validity.');
+
+        // ✅ Refresh CSRF token after POST
+        if (data?.csrf) {
+          CSRF.name = data.csrf.tokenName;
+          CSRF.hash = data.csrf.tokenHash;
         }
-      } catch {
-        alert('Network error while updating.');
+
+        if (data?.success) {
+          table.ajax.reload(null, false); // keep pagination
+        } else {
+          alert(data?.message || 'Failed to update email validity.');
+        }
+
+      } catch (e) {
+        alert('Network error while updating email validity.');
       }
     });
+
 
   });
 </script>
 
 <?= $this->endSection() ?>
-
