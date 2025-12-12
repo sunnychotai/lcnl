@@ -102,7 +102,7 @@ class MembersController extends BaseController
         }
 
         $memberModel = new MemberModel();
-        $auditModel  = new MemberAuditLogModel();
+        
 
         $member = $memberModel->find($id);
         if (!$member) {
@@ -132,16 +132,15 @@ class MembersController extends BaseController
 
         $adminId = session()->get('user_id') ?: 0;
 
-        $auditModel->insert([
-            'member_id'   => $id,
-            'type'        => 'email',
-            'field_name'  => 'is_valid_email',
-            'old_value'   => (string) $old,
-            'new_value'   => (string) $new,
+        $this->auditMemberChange([
+            'member_id'  => $id,
+            'type'       => 'email',
+            'field_name' => 'is_valid_email',
+            'old_value'  => $old,
+            'new_value'  => $new,
             'description' => $description,
-            'changed_by'  => $adminId,
-            'changed_at'  => date('Y-m-d H:i:s'),
         ]);
+
 
         return $this->response->setJSON([
             'success'        => true,

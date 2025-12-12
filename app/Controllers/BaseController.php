@@ -55,4 +55,20 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = service('session');
     }
+
+    protected function auditMemberChange(array $data): void
+    {
+        $auditModel = new \App\Models\MemberAuditLogModel();
+
+        $auditModel->insert([
+            'member_id'   => $data['member_id'],
+            'type'        => $data['type'],
+            'field_name'  => $data['field_name'],
+            'old_value'   => isset($data['old_value']) ? (string) $data['old_value'] : null,
+            'new_value'   => isset($data['new_value']) ? (string) $data['new_value'] : null,
+            'description' => $data['description'],
+            'changed_by'  => $data['changed_by'] ?? (session()->get('user_id') ?: 0),
+            'changed_at'  => date('Y-m-d H:i:s'),
+        ]);
+    }
 }
