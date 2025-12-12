@@ -48,6 +48,20 @@ class EmailDataController extends BaseController
                 ->groupEnd();
         }
 
+        // Filters
+        $statusFilter = $request->getPost('status');
+        $priorityFilter = $request->getPost('priority');
+
+        // Apply filters
+        if (!empty($statusFilter)) {
+            $builder->where('status', $statusFilter);
+        }
+
+        if (!empty($priorityFilter)) {
+            $builder->where('priority', (int) $priorityFilter);
+        }
+
+
         // Count filtered
         $recordsFiltered = $builder->countAllResults(false);
 
@@ -57,8 +71,8 @@ class EmailDataController extends BaseController
             0 => 'id',
             1 => 'to_email',
             2 => 'subject',
-            3 => 'status',
-            4 => 'priority',
+            3 => 'priority',
+            4 => 'status',
             5 => 'attempts',
             6 => 'scheduled_at',
             7 => 'sent_at'
@@ -84,12 +98,21 @@ class EmailDataController extends BaseController
                     ($r['status'] === 'failed' ? '<span class="badge bg-danger">Failed</span>' :
                         '<span class="badge bg-secondary">' . esc($r['status']) . '</span>'));
 
+            $priorityBadge = match ((int) $r['priority']) {
+                1 => '<span class="badge bg-danger">P1</span>',
+                2 => '<span class="badge bg-warning text-dark">P2</span>',
+                3 => '<span class="badge bg-primary">P3</span>',
+                4 => '<span class="badge bg-secondary">P4</span>',
+                5 => '<span class="badge bg-light text-dark">P5</span>',
+                default => '<span class="badge bg-dark">?</span>',
+            };
+
             return [
                 $r['id'],
                 esc($r['to_name']) . "<br><small>" . esc($r['to_email']) . "</small>",
                 esc($r['subject']),
+                $priorityBadge,
                 $badge,
-                $r['priority'],
                 $r['attempts'],
                 esc($r['scheduled_at']),
                 esc($r['sent_at']),
@@ -108,4 +131,19 @@ class EmailDataController extends BaseController
             'data' => $data
         ]);
     }
+
+    public function stats(): ResponseInterface
+    {
+        $model = new EmailQueueModel();
+        $today = date('Y-m-d 00:00:00');
+
+        return $this->response->setJSON([
+            'pending' => $model->where('status', 'pending')->countAllResults(),
+            'failed' => $model->where('status', 'failed')->countAllResults(),
+            'sentToday' => $model->where('status', 'sent')
+                ->where('sent_at >=', $today)
+                ->countAllResults(),
+        ]);
+    }
+
 }

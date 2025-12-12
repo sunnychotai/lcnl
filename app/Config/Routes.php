@@ -122,6 +122,8 @@ $routes->group('admin/system', ['filter' => 'authAdmin:ADMIN'], function ($route
     $routes->get('emails/retry/(:num)', 'Admin\Emails::retry/$1');
     $routes->get('emails/delete/(:num)', 'Admin\Emails::delete/$1');
     $routes->post('emails/data', 'Admin\EmailDataController::list');
+    $routes->get('emails/stats', 'Admin\EmailDataController::stats');
+
 
     // Users Admin
     $routes->group('users', function ($routes) {
