@@ -20,7 +20,7 @@ class SendQueuedEmails extends BaseCommand
          * --------------------------------------------------------- */
         $HARD_PER_RUN_CAP = 5;          // cron every 1 min => 5/run => 50/10m
         $TEN_MIN_CAP = 50;         // Fasthosts limit in any rolling 10 minutes
-        $DAILY_CAP = 1400;       // Fasthosts limit in rolling 24 hours
+        $DAILY_CAP = 950;       // Fasthosts limit in rolling 24 hours
         $AUTO_PAUSE_AFTER_FAIL = 5;         // consecutive failures to trigger pause
         $AUTO_PAUSE_MINUTES = 10;         // pause duration
         $BACKOFF_ABORT_AFTER = 3;          // abort run after N backoff-worthy SMTP errors
@@ -297,7 +297,6 @@ class SendQueuedEmails extends BaseCommand
                         $result['paused'] = true;
                         break;
                     }
-
                 } catch (\Throwable $e) {
                     $model->update($row['id'], [
                         'status' => 'failed',
@@ -339,7 +338,6 @@ class SendQueuedEmails extends BaseCommand
             } else {
                 $status = 'error';
             }
-
         } catch (\Throwable $e) {
             $result['errors'][] = $e->getMessage();
             $status = 'error';
