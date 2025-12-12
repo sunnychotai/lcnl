@@ -38,13 +38,16 @@
                     </span>
 
                     <!-- Toggle -->
-                    <button type="button" class="btn btn-sm btn-outline-secondary ms-2 toggle-email-validity"
-                        title="<?= $isValid ? 'Mark email invalid' : 'Mark email valid' ?>" data-id="<?= (int) $r['id'] ?>"
-                        data-email="<?= esc($email) ?>" data-csrf-name="<?= csrf_token() ?>" data-csrf="<?= csrf_hash() ?>">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline-secondary ms-2 js-toggle-email-validity"
+                        title="<?= $isValid ? 'Mark email invalid' : 'Mark email valid' ?>"
+                        data-id="<?= (int) $r['id'] ?>"
+                        data-email="<?= esc($email) ?>">
 
                         <i class="bi <?= $isValid ? 'bi-envelope-x' : 'bi-envelope-check' ?>"></i>
-
                     </button>
+
 
                 <?php else: ?>
                     <span class="text-muted">—</span>
@@ -121,4 +124,3 @@
         </td>
     </tr>
 <?php endif; ?>
-

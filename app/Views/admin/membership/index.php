@@ -152,7 +152,8 @@
 
 <script>
   let table;
-  // ✅ GLOBAL CSRF HOLDER (important)
+
+  // Global CSRF holder
   let CSRF = {
     name: '<?= csrf_token() ?>',
     hash: '<?= csrf_hash() ?>'
@@ -165,6 +166,9 @@
 
   $(function() {
 
+    /* --------------------------------------------
+     * DATATABLE INIT (THIS WAS MISSING)
+     * -------------------------------------------- */
     table = $('#membersTable').DataTable({
       processing: true,
       serverSide: true,
@@ -177,7 +181,7 @@
         data: function(d) {
           d.status = $('#filterStatus').val();
           d.searchTerm = $('#filterSearch').val();
-          d['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
+          d[CSRF.name] = CSRF.hash;
         }
       },
 
@@ -187,30 +191,19 @@
         {
           data: "name"
         },
-
-        /* Email (HTML rendered server-side) */
         {
           data: "email_html",
           orderable: false
         },
-
         {
           data: "email_validity_html",
           orderable: false,
           searchable: false
         },
-
-
-        /* Mobile (normalised) */
         {
           data: "mobile",
-          render: function(data) {
-            return data && data !== '0' ?
-              data :
-              '<span class="text-muted">—</span>';
-          }
+          render: d => d && d !== '0' ? d : '<span class="text-muted">—</span>'
         },
-
         {
           data: "city"
         },
@@ -234,14 +227,11 @@
 
     $('#btnSearch').on('click', () => table.ajax.reload());
     $('#filterStatus').on('change', () => table.ajax.reload());
+    $('#filterSearch').on('keyup', _.debounce(() => table.ajax.reload(), 250));
 
-    $('#filterSearch').on('keyup', _.debounce(() => {
-      table.ajax.reload();
-    }, 250));
-
-    /* ------------------------------------------------
-     * EMAIL VALIDITY TOGGLE (CSRF-safe)
-     * ------------------------------------------------ */
+    /* --------------------------------------------
+     * EMAIL VALIDITY TOGGLE (ONE HANDLER ONLY)
+     * -------------------------------------------- */
     $('#membersTable').on('click', '.js-toggle-email-validity', async function() {
 
       const btn = $(this);
@@ -257,39 +247,46 @@
 
       const form = new URLSearchParams();
       form.set('reason', reason);
-      form.set(CSRF.name, CSRF.hash); // ✅ dynamic CSRF
+      form.set(CSRF.name, CSRF.hash);
 
       try {
-        const res = await fetch(`<?= base_url('admin/membership') ?>/${memberId}/email-validity`, {
-          method: 'POST',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: form.toString()
-        });
+        const res = await fetch(
+          `<?= base_url('admin/membership') ?>/${memberId}/email-validity`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: form.toString()
+          }
+        );
+
+        if (!res.ok) {
+          console.error(await res.text());
+          alert('Server rejected the request.');
+          return;
+        }
 
         const data = await res.json();
 
-        // ✅ Refresh CSRF token after POST
-        if (data?.csrf) {
+        if (data.csrf) {
           CSRF.name = data.csrf.tokenName;
           CSRF.hash = data.csrf.tokenHash;
         }
 
-        if (data?.success) {
-          table.ajax.reload(null, false); // keep pagination
+        if (data.success) {
+          table.ajax.reload(null, false);
         } else {
-          alert(data?.message || 'Failed to update email validity.');
+          alert(data.message || 'Failed to update email validity.');
         }
 
-      } catch (e) {
-        alert('Network error while updating email validity.');
+      } catch (err) {
+        console.error(err);
+        alert('Network / JS error.');
       }
     });
 
-
   });
 </script>
+
 
 <?= $this->endSection() ?>
