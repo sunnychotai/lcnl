@@ -18,62 +18,52 @@
                     <!-- Header -->
                     <tr>
                         <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
+                            <img src="https://lcnl.org/assets/img/lcnl-logo.png"
+                                alt="LCNL Logo"
+                                width="60"
+                                height="60"
+                                style="display:block; margin:0 auto 8px auto;">
 
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                                style="text-align:center;">
-                                <tr>
-                                    <td align="center">
-
-                                        <!-- Logo -->
-                                        <img src="https://lcnl.org/assets/img/lcnl-logo.png" alt="LCNL Logo" width="60"
-                                            height="60" style="display:block; margin:0 auto 8px auto;">
-
-                                        <!-- Title -->
-                                        <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
-                                            Lohana Community North London
-                                        </h1>
-
-                                    </td>
-                                </tr>
-                            </table>
-
+                            <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
+                                Lohana Community North London
+                            </h1>
                         </td>
                     </tr>
-
 
                     <!-- Body -->
                     <tr>
                         <td style="padding:30px;">
 
-                            <h2 style="margin:0 0 20px 0; font-size:18px; color:#333;">Activate Your LCNL Online Account
+                            <h2 style="margin:0 0 20px 0; font-size:18px; color:#333;">
+                                Activate Your LCNL Online Account
                             </h2>
 
                             <p style="font-size:15px; margin:0 0 15px 0;">
-                                Dear <?= esc($name ?: 'Member') ?>,
+                                Dear {{member_name}},
                             </p>
 
                             <p style="font-size:15px; margin:0 0 15px 0;">
-                                You are registered with the <strong>Lohana Community North London (LCNL)</strong> as a
-                                member.
+                                You are registered with the <strong>Lohana Community North London (LCNL)</strong> as a member.
                                 We have now moved to a new <strong>online self-service membership portal</strong>.
                             </p>
 
                             <p style="font-size:15px; margin:0 0 15px 0;">
-                                To get started, please activate your account by clicking the button below. You will be
-                                able to set your password and securely log in for the first time.
+                                To get started, please activate your account by clicking the button below.
+                                You will be able to set your password and securely log in for the first time.
                             </p>
 
                             <p style="text-align:center; margin:30px 0;">
-                                <a href="<?= esc($link) ?>" style="background:#7a1d3c; color:#ffffff; text-decoration:none;
-                                    padding:12px 24px; border-radius:30px; font-size:16px; display:inline-block;">
+                                <a href="{{activation_link}}"
+                                    style="background:#7a1d3c; color:#ffffff; text-decoration:none;
+                               padding:12px 24px; border-radius:30px; font-size:16px; display:inline-block;">
                                     Activate My Account
                                 </a>
                             </p>
 
                             <p style="font-size:14px; color:#555;">
                                 Or copy and paste this link into your browser:<br>
-                                <a href="<?= esc($link) ?>" style="color:#7a1d3c; word-break:break-all;">
-                                    <?= esc($link) ?>
+                                <a href="{{activation_link}}" style="color:#7a1d3c; word-break:break-all;">
+                                    {{activation_link}}
                                 </a>
                             </p>
 
@@ -85,26 +75,26 @@
                                 <li>Set your account password</li>
                                 <li>Review and update your personal details</li>
                                 <li>Update family members linked to your account</li>
-                                <li>Recertify your membership (confirm your details annually)</li>
-                                <li>Access your member dashboard and upcoming LCNL updates</li>
+                                <li>Recertify your membership annually</li>
+                                <li>Access your member dashboard and LCNL updates</li>
                             </ul>
 
                             <p style="font-size:14px; color:#777;">
                                 <strong>Security notice:</strong>
-                                This activation link is valid for <strong>24 hours</strong>.
-                                If it expires, please use the “Forgot Password” option on the login page to request a
-                                new link.
+                                This activation link is valid for a limited time.
+                                If it expires, please use the “Forgot Password” option on the login page to request a new link.
                             </p>
 
                             <p style="font-size:14px; color:#777;">
                                 <strong>If you did not expect this email:</strong><br>
-                                It is safe to ignore it. Your account will remain inactive until you choose to activate
-                                it.
+                                It is safe to ignore it. Your account will remain inactive until you choose to activate it.
                             </p>
 
                             <p style="font-size:15px; margin-top:30px;">
-                                If you need any help, contact us at:<br>
-                                <a href="mailto:members@lcnl.org" style="color:#7a1d3c;">membership@lcnl.org</a>
+                                Need help? Contact us at:<br>
+                                <a href="mailto:membership@lcnl.org" style="color:#7a1d3c;">
+                                    membership@lcnl.org
+                                </a>
                             </p>
 
                             <p style="font-size:15px; margin-top:25px;">
@@ -118,8 +108,8 @@
                     <!-- Footer -->
                     <tr>
                         <td style="background-color:#f0f0f0; padding:15px; text-align:center;
-                            font-size:12px; color:#666;">
-                            &copy; <?= date('Y') ?> Lohana Community North London. All rights reserved.
+                        font-size:12px; color:#666;">
+                            &copy; {{current_year}} Lohana Community North London. All rights reserved.
                         </td>
                     </tr>
 
