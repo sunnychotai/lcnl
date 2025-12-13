@@ -2,188 +2,248 @@
 
 namespace App\Commands;
 
+use App\Models\EmailQueueModel;
+use App\Models\CronLogModel;
 use App\Models\MemberModel;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
-use Config\App;
 
-class MembersActivate extends BaseCommand
+class SendQueuedEmails extends BaseCommand
 {
-    protected $group = 'LCNL';
-    protected $name = 'members:activate';
-    protected $description = 'Queue activation emails (password-set links) for pending members in batches.';
-    protected $usage = 'php spark members:activate --batch 50 [--limit 10] [--test] [--testEmail=someone@example.com]';
-    protected $options = [
-        'batch' => 'Number of members to fetch in this run (default 50)',
-        'limit' => 'Maximum number of members to process (default = unlimited)',
-        'test' => 'Enable test mode — emails sent to testEmail, no DB updates',
-        'testEmail' => 'Override the default test email address',
-    ];
+    protected $group = 'Email';
+    protected $name = 'emails:send';
+    protected $description = 'Send queued emails with Fasthosts-safe throttling, backoff, and auto-pause.';
 
     public function run(array $params)
     {
         /* ---------------------------------------------------------
+         * CONFIG / CONSTANTS (Fasthosts-safe)
+         * --------------------------------------------------------- */
+        $HARD_PER_RUN_CAP = 5;
+        $TEN_MIN_CAP = 50;
+        $DAILY_CAP = 950;
+        $AUTO_PAUSE_AFTER_FAIL = 5;
+        $AUTO_PAUSE_MINUTES = 10;
+        $BACKOFF_ABORT_AFTER = 3;
+        $BACKOFF_STEP_MS = 2000;
+
+        $cache = cache();
+        $pauseKey = 'email_queue_paused_until';
+
+        /* ---------------------------------------------------------
          * TEST MODE
          * --------------------------------------------------------- */
-        $isTestMode = CLI::getOption('test') !== null;
-        $testEmail = CLI::getOption('testEmail') ?: 'sunnychotai@me.com';
+        $testParam = CLI::getOption('test');
+        $isTestMode = $testParam !== null;
+        $testAddress = $isTestMode
+            ? (trim((string) $testParam) ?: 'sunnychotai@me.com')
+            : null;
 
         if ($isTestMode) {
-            CLI::write("===============================================", 'yellow');
+            CLI::write(str_repeat('=', 45), 'yellow');
             CLI::write(" TEST MODE ENABLED", 'yellow');
-            CLI::write(" All activation emails will go to: {$testEmail}", 'yellow');
-            CLI::write(" Members WILL NOT be updated.", 'yellow');
-            CLI::write("===============================================", 'yellow');
+            CLI::write(" Redirecting all emails to: {$testAddress}", 'yellow');
+            CLI::write(str_repeat('=', 45), 'yellow');
         }
 
         /* ---------------------------------------------------------
-         * BATCH SIZE
+         * CRON LOGGING – START
          * --------------------------------------------------------- */
-        $batch = (int) (CLI::getOption('batch') ?? 50);
-        if ($batch < 1 || $batch > 2000)
-            $batch = 50;
+        $logModel = new CronLogModel();
+        $jobName = 'emails:send';
+        $started = date('Y-m-d H:i:s');
 
-        /* ---------------------------------------------------------
-         * LIMIT OPTION
-         * --------------------------------------------------------- */
-        $limit = CLI::getOption('limit');
-        $limit = is_numeric($limit) ? (int) $limit : null; // null = unlimited
+        $result = [
+            'processed' => 0,
+            'sent' => 0,
+            'failed' => 0,
+            'errors' => [],
+            'limit_info' => [],
+            'backoff' => [],
+            'paused' => false,
+            'test_mode' => $isTestMode,
+            'test_email' => $testAddress,
+        ];
 
-        if ($limit !== null && $limit < 1) {
-            CLI::write("Invalid --limit value. Must be > 0.", 'red');
-            return;
-        }
+        try {
 
-        if ($limit !== null) {
-            CLI::write("Processing limit: $limit members (max)", 'yellow');
-        }
+            /* ---------------------------------------------------------
+             * PAUSE CHECK
+             * --------------------------------------------------------- */
+            $pausedUntil = $cache->get($pauseKey);
+            if (is_numeric($pausedUntil) && $pausedUntil > time()) {
+                CLI::write("Email sending paused. Exiting.", 'yellow');
+                $result['paused'] = true;
+                $this->writeCronLog($logModel, $jobName, 'success', $result, $started);
+                return;
+            }
 
-        $model = new MemberModel();
+            $cfg = config('EmailQueue');
+            $emailCfg = config('Email');
 
-        /* ---------------------------------------------------------
-         * FETCH MEMBERS
-         * --------------------------------------------------------- */
-        $members = $model->where('status', 'pending')
-            ->where('is_valid_email', 1)
-            ->where('activation_sent_at', null)
-            ->where('email IS NOT', null, false)
-            ->where('email <>', '')
-            ->orderBy('id', 'ASC')
-            ->findAll($batch);
+            $batch = (int) ($cfg->batchSize ?? 50);
+            if ($batch < 1) $batch = 1;
 
-        if (!$members) {
-            CLI::write('No pending members to process.', 'yellow');
-            return;
-        }
+            $model = new EmailQueueModel();
 
-        /* ---------------------------------------------------------
-         * IF LIMIT < batch, reduce the dataset
-         * --------------------------------------------------------- */
-        if ($limit !== null) {
-            $members = array_slice($members, 0, $limit);
-        }
+            /* ---------------------------------------------------------
+             * ROLLING LIMITS
+             * --------------------------------------------------------- */
+            $now = time();
+            $tenMinAgo = date('Y-m-d H:i:s', $now - 600);
+            $dayAgo = date('Y-m-d H:i:s', $now - 86400);
 
-        $db = db_connect();
-        $passwordResets = $db->table('password_resets');
+            $sent24h = $model->where('status', 'sent')->where('sent_at >=', $dayAgo)->countAllResults();
+            $model->resetQuery();
 
-        $queued = 0;
-        $skipped = 0;
-        $errors = 0;
+            $sent10m = $model->where('status', 'sent')->where('sent_at >=', $tenMinAgo)->countAllResults();
+            $model->resetQuery();
 
-        foreach ($members as $m) {
-            try {
-                $email = $m['email'];
-                if (!$email) {
-                    $skipped++;
+            $take = min(
+                $batch,
+                $HARD_PER_RUN_CAP,
+                max(0, $DAILY_CAP - $sent24h),
+                max(0, $TEN_MIN_CAP - $sent10m)
+            );
+
+            if ($take <= 0) {
+                CLI::write("Rate limits reached. Exiting.", 'yellow');
+                $this->writeCronLog($logModel, $jobName, 'success', $result, $started);
+                return;
+            }
+
+            /* ---------------------------------------------------------
+             * FETCH PENDING EMAILS
+             * --------------------------------------------------------- */
+            $rows = $model->where('status', 'pending')
+                ->groupStart()
+                ->where('scheduled_at', null)
+                ->orWhere('scheduled_at <=', date('Y-m-d H:i:s'))
+                ->groupEnd()
+                ->orderBy('priority', 'ASC')
+                ->orderBy('id', 'ASC')
+                ->findAll($take);
+
+            if (!$rows) {
+                CLI::write("No emails to send.", 'green');
+                $this->writeCronLog($logModel, $jobName, 'success', $result, $started);
+                return;
+            }
+
+            $email = service('email');
+
+            foreach ($rows as $row) {
+
+                $toEmail = trim((string) ($row['to_email'] ?? ''));
+                if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+                    $model->update($row['id'], [
+                        'status' => 'invalid',
+                        'last_error' => 'INVALID_EMAIL'
+                    ]);
                     continue;
                 }
 
-                /* ---------------------------------------------------------
-                 * GENERATE TOKEN
-                 * --------------------------------------------------------- */
-                if (!$isTestMode) {
-                    $token = bin2hex(random_bytes(32));
-
-                    $passwordResets->insert([
-                        'member_id' => $m['id'],
-                        'token' => $token,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'expires_at' => date('Y-m-d H:i:s', strtotime('+24 hours')),
-                    ]);
-                } else {
-                    // Fake token for test mode
-                    $token = 'TEST_' . bin2hex(random_bytes(8));
-                }
-
-                /* ---------------------------------------------------------
-                 * Resolve base URL
-                 * --------------------------------------------------------- */
-                $envBase = getenv('app.baseURL');
-                $base = $envBase ? rtrim($envBase, '/') : 'https://lcnl.org';
-
-                $link = $base . '/membership/reset/' . $token;
-
-                /* ---------------------------------------------------------
-                 * Queue email
-                 * --------------------------------------------------------- */
-                $emailQueue = new \App\Models\EmailQueueModel();
-
-                $toEmail = $isTestMode ? $testEmail : $email;
-                $subject = ($isTestMode ? '[TEST] ' : '') . 'Activate your LCNL Member Account';
-
-                $bodyHtml = view('emails/membership_activation', [
-                    'name' => trim($m['first_name'] . ' ' . $m['last_name']),
-                    'link' => $link,
-                ]);
-
-                if ($isTestMode) {
-                    $banner = "
-                        <div style=\"padding:10px;background:#ffdddd;color:#a30000;
-                            border:1px solid #ffaaaa;margin-bottom:15px;font-weight:bold;\">
-                            TEST MODE — Originally intended for {$email}
-                        </div>
-                    ";
-                    $bodyHtml = $banner . $bodyHtml;
-                }
-
-                $emailQueue->enqueue([
-                    'to_email' => $toEmail,
-                    'to_name' => $m['first_name'] . ' ' . $m['last_name'],
-                    'subject' => $subject,
-                    'body_html' => $bodyHtml,
-                    'body_text' => strip_tags($bodyHtml),
-                    'from_email' => 'info@lcnl.co.uk',
-                    'from_name' => 'LCNL Membership Team',
+                $model->update($row['id'], [
+                    'status' => 'sending',
+                    'attempts' => (int) ($row['attempts'] ?? 0) + 1,
                 ]);
 
                 /* ---------------------------------------------------------
-                 * Update member ONLY if not in test mode
+                 * MEMBER ACTIVATION TOKEN (SEND TIME)
                  * --------------------------------------------------------- */
-                if (!$isTestMode) {
-                    $model->update($m['id'], [
-                        'activation_sent_at' => date('Y-m-d H:i:s')
-                    ]);
+                if (($row['type'] ?? null) === 'member_activation') {
+
+                    $memberId = (int) ($row['related_id'] ?? 0);
+                    if ($memberId > 0) {
+
+                        $db = db_connect();
+
+                        $db->table('password_resets')
+                            ->where('member_id', $memberId)
+                            ->delete();
+
+                        $token = bin2hex(random_bytes(32));
+                        $expiresAt = date('Y-m-d H:i:s', strtotime('+24 hours'));
+
+                        $db->table('password_resets')->insert([
+                            'member_id'  => $memberId,
+                            'token'      => $token,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'expires_at' => $expiresAt,
+                        ]);
+
+                        $base = rtrim(config('App')->baseURL, '/');
+                        $link = $base . '/membership/reset/' . $token;
+
+                        $row['body_html'] = str_replace('{{activation_link}}', $link, $row['body_html']);
+                        $row['body_text'] = str_replace('{{activation_link}}', $link, $row['body_text']);
+                    }
                 }
 
-                $queued++;
+                try {
 
-            } catch (\Throwable $e) {
-                $errors++;
-                CLI::error("Error member #{$m['id']} ({$m['email']}): " . $e->getMessage());
+                    $email->clear(true);
+                    $email->setFrom($emailCfg->fromEmail, $emailCfg->fromName);
+
+                    if ($isTestMode) {
+                        $email->setTo($testAddress);
+                        $email->setSubject('[TEST] ' . $row['subject']);
+                        $email->setMessage($row['body_html']);
+                        $email->setAltMessage($row['body_text']);
+                    } else {
+                        $email->setTo($toEmail, $row['to_name'] ?? null);
+                        $email->setSubject($row['subject']);
+                        $email->setMessage($row['body_html']);
+                        $email->setAltMessage($row['body_text']);
+                    }
+
+                    if ($email->send()) {
+                        $model->update($row['id'], [
+                            'status' => 'sent',
+                            'sent_at' => date('Y-m-d H:i:s'),
+                            'last_error' => null,
+                        ]);
+                        $result['sent']++;
+                    } else {
+                        $model->update($row['id'], [
+                            'status' => 'failed',
+                            'last_error' => 'SMTP_ERROR',
+                        ]);
+                        $result['failed']++;
+                    }
+                } catch (\Throwable $e) {
+                    $model->update($row['id'], [
+                        'status' => 'failed',
+                        'last_error' => $e->getMessage(),
+                    ]);
+                    $result['failed']++;
+                }
+
+                $result['processed']++;
+
+                usleep(($cfg->sendDelayMs ?? 0) * 1000);
             }
+
+            $status = $result['failed'] === 0 ? 'success' : 'partial';
+        } catch (\Throwable $e) {
+            $result['errors'][] = $e->getMessage();
+            $status = 'error';
         }
 
         /* ---------------------------------------------------------
-         * RESULTS
+         * CRON LOGGING – END
          * --------------------------------------------------------- */
-        CLI::write("Batch Fetched: " . $batch, 'green');
-        CLI::write("Processed:     " . count($members), 'green');
-        CLI::write("Queued:        {$queued}", 'green');
-        CLI::write("Skipped:       {$skipped}", 'yellow');
-        CLI::write("Errors:        {$errors}", 'red');
+        $this->writeCronLog($logModel, $jobName, $status, $result, $started);
+    }
 
-        if ($isTestMode) {
-            CLI::write("TEST MODE COMPLETE — No database updates performed.", 'yellow');
-        }
+    private function writeCronLog(CronLogModel $logModel, string $jobName, string $status, array $result, string $started)
+    {
+        $logModel->insert([
+            'job_name'    => $jobName,
+            'status'      => $status,
+            'summary'     => json_encode($result, JSON_PRETTY_PRINT),
+            'started_at'  => $started,
+            'finished_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 }
