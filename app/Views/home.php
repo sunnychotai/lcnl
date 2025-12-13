@@ -26,8 +26,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const slides = [
-      {
+    const slides = [{
         title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
         subtitle: "... bringing people together since 1976. Proud of our heritage"
       },
@@ -106,6 +105,43 @@
 
       <!-- Left column -->
       <div class="col-md-8">
+
+        <!-- New Year's Day Bhajans 2026 Advert -->
+        <div class="lcnl-card rounded border-0 shadow-sm mb-4 p-3">
+
+          <h4 class="fw-bold mb-3 text-brand">
+            <i class="bi bi-music-note-beamed text-primary me-2"></i>
+            New Year's Day Bhajans
+          </h4>
+
+          <img src="<?= base_url('assets/img/events/nyd_bhajans_2026.png') ?>"
+            class="img-fluid rounded shadow-sm mb-3"
+            alt="New Year’s Day Bhajans 2026">
+
+          <p class="mb-2">
+            Join us on <strong>Thursday 1st January 2026</strong> for an uplifting open-mic Bhajans session as we welcome the new year with music, blessings, and community spirit.
+          </p>
+
+          <p class="mb-2">
+            <strong>🕒 Time:</strong> 14:00 – 16:00<br>
+            <strong>📍 Venue:</strong> J.V. Gokal Hall, Dhamecha Lohana Centre, Brember Road, HA2 8AX
+          </p>
+
+          <p class="mb-2">
+            Tea and snacks will be served. Everyone is welcome!
+          </p>
+
+          <div class="d-grid gap-2 mt-3">
+            <a href="<?= base_url('events/register/new-year-bhajans') ?>"
+              class="btn btn-accent btn-lg rounded-pill">
+              <i class="bi bi-pencil-square me-2"></i>
+              Register for Bhajans
+            </a>
+          </div>
+
+        </div>
+
+
         <!-- Mahila Mandal Baby Clothing Drive -->
         <div class="lcnl-card rounded border-0 shadow-sm mb-4 p-3">
 
@@ -295,4 +331,3 @@
 </section>
 
 <?= $this->endSection() ?>
-
