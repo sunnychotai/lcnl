@@ -111,15 +111,23 @@
 
           <h4 class="fw-bold mb-3 text-brand">
             <i class="bi bi-music-note-beamed text-primary me-2"></i>
-            New Year's Day Bhajans
+            LCNL New Year's Day Bhajans – 2026
           </h4>
 
-          <img src="<?= base_url('assets/img/events/nyd_bhajans_2026.png') ?>"
-            class="img-fluid rounded shadow-sm mb-3"
-            alt="New Year’s Day Bhajans 2026">
+          <!-- Clickable flyer (smaller) -->
+          <a href="<?= base_url('events/register/new-year-bhajans') ?>"
+            class="d-block text-center mb-3"
+            aria-label="Register for New Year's Day Bhajans 2026">
+
+            <img src="<?= base_url('assets/img/events/nyd_bhajans_2026.png') ?>"
+              class="img-fluid rounded shadow-sm"
+              style="max-width: 600px;"
+              alt="New Year’s Day Bhajans 2026">
+          </a>
 
           <p class="mb-2">
-            Join us on <strong>Thursday 1st January 2026</strong> for an uplifting open-mic Bhajans session as we welcome the new year with music, blessings, and community spirit.
+            Join us on <strong>Thursday 1st January 2026</strong> for an uplifting open-mic Bhajans
+            session as we welcome the new year with music, blessings, and community spirit.
           </p>
 
           <p class="mb-2">
@@ -140,6 +148,7 @@
           </div>
 
         </div>
+
 
 
         <!-- Mahila Mandal Baby Clothing Drive -->
