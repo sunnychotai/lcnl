@@ -272,10 +272,30 @@ class SendQueuedEmails extends BaseCommand
         array $result,
         string $started
     ): void {
+        // Ensure limit_info is never empty
+        if (empty($result['limit_info'])) {
+            $result['limit_info'] = [
+                'sent_last_10_min'   => 0,
+                'remaining_10_min'   => 0,
+                'sent_last_24h'      => 0,
+                'remaining_24h'      => 0,
+                'hard_per_run_cap'   => 0,
+                'batch_requested'    => 0,
+                'take_effective'     => 0,
+                'note' => 'FALLBACK_VALUES'
+            ];
+        }
+
+        $summary = json_encode($result, JSON_PRETTY_PRINT);
+
+        // Debug output to console
+        CLI::write('Logging summary for ' . $jobName . ':');
+        CLI::write($summary);
+
         $logModel->insert([
             'job_name'    => $jobName,
             'status'      => $status,
-            'summary'     => json_encode($result, JSON_PRETTY_PRINT),
+            'summary'     => $summary,
             'started_at'  => $started,
             'finished_at' => date('Y-m-d H:i:s'),
         ]);
