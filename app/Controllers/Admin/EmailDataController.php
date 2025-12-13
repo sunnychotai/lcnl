@@ -61,7 +61,6 @@ class EmailDataController extends BaseController
             $builder->where('priority', (int) $priorityFilter);
         }
 
-
         // Count filtered
         $recordsFiltered = $builder->countAllResults(false);
 
@@ -93,10 +92,8 @@ class EmailDataController extends BaseController
         // Format rows
         $data = array_map(function ($r) {
             $badge =
-                $r['status'] === 'pending' ? '<span class="badge bg-warning">Pending</span>' :
-                ($r['status'] === 'sent' ? '<span class="badge bg-success">Sent</span>' :
-                    ($r['status'] === 'failed' ? '<span class="badge bg-danger">Failed</span>' :
-                        '<span class="badge bg-secondary">' . esc($r['status']) . '</span>'));
+                $r['status'] === 'pending' ? '<span class="badge bg-warning">Pending</span>' : ($r['status'] === 'sent' ? '<span class="badge bg-success">Sent</span>' : ($r['status'] === 'failed' ? '<span class="badge bg-danger">Failed</span>' : ($r['status'] === 'sending' ? '<span class="badge bg-info">Sending</span>' : ($r['status'] === 'invalid' ? '<span class="badge bg-dark">Invalid</span>' :
+                                '<span class="badge bg-secondary">' . esc($r['status']) . '</span>'))));
 
             $priorityBadge = match ((int) $r['priority']) {
                 1 => '<span class="badge bg-danger">P1</span>',
@@ -107,25 +104,44 @@ class EmailDataController extends BaseController
                 default => '<span class="badge bg-dark">?</span>',
             };
 
+            $actions = '<div class="btn-group btn-group-sm" role="group">';
+            $actions .= '<a href="' . base_url("admin/system/emails/view/" . $r['id']) . '" 
+                            class="btn btn-outline-primary" title="View">
+                            <i class="bi bi-eye"></i>
+                         </a>';
+
+            if ($r['status'] === 'failed' || $r['status'] === 'invalid') {
+                $actions .= '<a href="' . base_url("admin/system/emails/retry/" . $r['id']) . '" 
+                                class="btn btn-outline-warning" title="Retry">
+                                <i class="bi bi-arrow-repeat"></i>
+                             </a>';
+            }
+
+            $actions .= '<a href="' . base_url("admin/system/emails/delete/" . $r['id']) . '" 
+                            class="btn btn-outline-danger" 
+                            onclick="return confirm(\'Delete this email?\')" 
+                            title="Delete">
+                            <i class="bi bi-trash"></i>
+                         </a>';
+            $actions .= '</div>';
+
             return [
-                $r['id'],
-                esc($r['to_name']) . "<br><small>" . esc($r['to_email']) . "</small>",
-                esc($r['subject']),
-                $priorityBadge,
-                $badge,
-                $r['attempts'],
-                esc($r['scheduled_at']),
-                esc($r['sent_at']),
-                '
-                <a href="' . base_url("admin/system/emails/view/" . $r['id']) . '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                <a href="' . base_url("admin/system/emails/retry/" . $r['id']) . '" class="btn btn-sm btn-outline-warning"><i class="bi bi-arrow-repeat"></i></a>
-                <a href="' . base_url("admin/system/emails/delete/" . $r['id']) . '" class="btn btn-sm btn-outline-danger" onclick="return confirm(\'Delete this email?\')"><i class="bi bi-trash"></i></a>
-                '
+                'id'           => (int)$r['id'],
+                'to_email'     => esc($r['to_name']) . '<br><small class="text-muted">' . esc($r['to_email']) . '</small>',
+                'subject'      => '<span title="' . esc($r['subject']) . '">' .
+                    (strlen($r['subject']) > 50 ? esc(substr($r['subject'], 0, 50)) . '...' : esc($r['subject'])) .
+                    '</span>',
+                'priority'     => $priorityBadge,
+                'status'       => $badge,
+                'attempts'     => (int)$r['attempts'],
+                'scheduled_at' => $r['scheduled_at'] ? '<small>' . date('Y-m-d H:i', strtotime($r['scheduled_at'])) . '</small>' : '–',
+                'sent_at'      => $r['sent_at'] ? '<small>' . date('Y-m-d H:i', strtotime($r['sent_at'])) . '</small>' : '–',
+                'actions'      => $actions,
             ];
         }, $rows);
 
         return $this->response->setJSON([
-            'draw' => $draw,
+            'draw' => (int)$draw,
             'recordsTotal' => $model->countAll(),
             'recordsFiltered' => $recordsFiltered,
             'data' => $data
@@ -145,5 +161,4 @@ class EmailDataController extends BaseController
                 ->countAllResults(),
         ]);
     }
-
 }
