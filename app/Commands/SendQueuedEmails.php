@@ -89,14 +89,18 @@ class SendQueuedEmails extends BaseCommand
             $tenMinAgo    = date('Y-m-d H:i:s', $nowTs - 600);
             $twentyFourAgo = date('Y-m-d H:i:s', $nowTs - 86400);
 
-            $sentLast24h = $model->where('status', 'sent')
+            $sentLast24h = $model
+                ->where('status', 'sent')
                 ->where('sent_at >=', $twentyFourAgo)
-                ->countAllResults();
+                ->countAllResults(false);
+
             $model->resetQuery();
 
-            $sentLast10 = $model->where('status', 'sent')
+            $sentLast10 = $model
+                ->where('status', 'sent')
                 ->where('sent_at >=', $tenMinAgo)
-                ->countAllResults();
+                ->countAllResults(false);
+
             $model->resetQuery();
 
             $remaining24h = max(0, $DAILY_CAP - $sentLast24h);
