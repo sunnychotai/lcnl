@@ -34,9 +34,10 @@ $routes->get('/youth', 'Committee::youth');
 $routes->get('/mahila', 'Committee::mahila');
 
 /* Event registrations */
-$routes->get('events/register/chopda-pujan', 'EventRegistrationController::register');
+$routes->get('events/register', 'EventRegistrationController::register');
+$routes->get('events/register/(:segment)', 'EventRegistrationController::register/$1');
 $routes->post('events/register/submit', 'EventRegistrationController::submit');
-$routes->get('events/register/chopda-pujan/thankyou', 'EventRegistrationController::thankyou');
+$routes->get('events/thanks', 'EventRegistrationController::thankyou');
 
 /* Dev / test utilities */
 $routes->get('/dbcheck', 'Test::dbcheck');
@@ -81,7 +82,6 @@ $routes->group('membership', ['namespace' => 'App\Controllers'], static function
     $routes->get('resend-verification', 'MembershipController::resendVerification', ['as' => 'membership.resend']);
     // Config/Routes.php (public area)
     $routes->get('activated', 'MembershipController::activated', ['as' => 'membership.activated']);
-
 });
 
 /* -----------------------
@@ -110,7 +110,6 @@ $routes->group('admin/system', ['filter' => 'authAdmin'], function ($routes) {
     // Cron Logs (ADMIN only)
     $routes->get('cron-logs', 'Admin\CronController::index');
     $routes->get('cron-logs/(:num)', 'Admin\CronController::show/$1');
-
 });
 
 /* --- System / Core admin (ADMIN only) --- */
@@ -254,7 +253,6 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
 
 
     $routes->get('reports', 'Admin\MembershipReportsController::index', ['as' => 'admin.membership.reports']);
-
 });
 
 

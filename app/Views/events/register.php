@@ -3,153 +3,208 @@
 
 <!-- Hero -->
 <section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container text-center text-white py-4">
-    <h1 class="fw-bold display-6 mb-1"><i class="bi bi-journal-check me-2"></i>Chopda Pujan Registration</h1>
-    <p class="opacity-75 mb-0">Join us on 20 October 2025 @ 6PM at DLC</p>
+  <div class="container position-relative text-center text-white py-4">
+    <h1 class="fw-bold display-6 mb-1">
+      <i class="bi bi-journal-check me-2"></i>
+      <?= esc(old('event_name', $selectedEvent) ?? 'Event Registration') ?>
+    </h1>
+    <p class="mb-0 opacity-75">Please complete the form below to register</p>
   </div>
 </section>
 
-<!-- Video Section -->
-<section class="py-3 bg-light">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="card shadow-sm border-0 no-hover">
-          <div class="card-body p-4 p-md-5">
-            <div class="text-center mb-4">
-              <i class="bi bi-play-circle text-brand fs-1 mb-3"></i>
-              <h2 class="h3 fw-bold mb-2 text-brand">LCNL Chopda Pujan 2025 Live</h2>
-            </div>
-            
-            <!-- YouTube Video Embed - Replace VIDEO_ID with actual YouTube video ID -->
-            <div class="ratio ratio-16x9">
-              <iframe 
-                src="https://www.youtube.com/embed/nkGjAz0cFsA" 
-                title="Chopda Pujan Video" 
-                allowfullscreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                loading="lazy">
-              </iframe>
-            </div>
-          </div>
+<div class="container py-5">
+
+  <!-- Flash success -->
+  <?php if ($msg = session()->getFlashdata('message')): ?>
+    <div class="alert alert-success shadow-sm alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i><?= esc($msg) ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <?php endif; ?>
+
+  <!-- Validation errors -->
+  <?php if ($errors = session()->getFlashdata('errors')): ?>
+    <div class="alert alert-danger shadow-sm alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <strong>Please fix the following issues:</strong>
+      <ul class="mb-0 mt-2">
+        <?php foreach ($errors as $err): ?>
+          <li><?= esc($err) ?></li>
+        <?php endforeach; ?>
+      </ul>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <?php endif; ?>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+
+      <div class="card shadow-lg border-0 auth-card">
+
+        <!-- Card header -->
+        <div class="card-header bg-gradient py-3">
+          <h3 class="mb-0 d-flex align-items-center">
+            <i class="bi bi-calendar-check me-2"></i>
+            Register for an Event
+          </h3>
+          <p class="mb-0 mt-1 small opacity-90">
+            Fields marked with <span class="text-danger">*</span> are required
+          </p>
         </div>
+
+        <!-- Card body -->
+        <div class="card-body p-4 p-md-5">
+
+          <?php if ($isMember): ?>
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>
+              Your details are pre-filled from your membership record.
+              You may update them for this registration if needed.
+            </div>
+          <?php endif; ?>
+
+          <form method="post" action="<?= site_url('events/register/submit') ?>" novalidate>
+            <?= csrf_field() ?>
+
+            <!-- Event selection -->
+            <div class="form-section mb-4">
+              <h5 class="section-title mb-3">
+                <i class="bi bi-calendar-event me-2"></i>Event Details
+              </h5>
+
+              <label class="form-label fw-semibold">
+                Select Event <span class="text-danger">*</span>
+              </label>
+              <select name="event_name" class="form-select" required>
+                <option value="" disabled <?= old('event_name', $selectedEvent) ? '' : 'selected' ?>>
+                  — Select an event —
+                </option>
+                <?php
+                // TODO: Replace with DB-driven events table
+                $events = [
+                  'New Year Bhajans 2026',
+                ];
+                foreach ($events as $event):
+                ?>
+                  <option value="<?= esc($event) ?>"
+                    <?= old('event_name', $selectedEvent) === $event ? 'selected' : '' ?>>
+                    <?= esc($event) ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+
+            <!-- Personal info -->
+            <div class="form-section mb-4">
+              <h5 class="section-title mb-3">
+                <i class="bi bi-person-fill me-2"></i>Your Details
+              </h5>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">
+                    First Name <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    name="first_name"
+                    class="form-control"
+                    value="<?= old('first_name', $isMember ? session()->get('member_first_name') : '') ?>"
+                    required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">
+                    Surname <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    name="last_name"
+                    class="form-control"
+                    value="<?= old('last_name', $isMember ? session()->get('member_last_name') : '') ?>"
+                    required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">
+                    Email <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    value="<?= old('email', $memberEmail ?? '') ?>"
+                    required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">
+                    Phone <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    name="phone"
+                    class="form-control"
+                    value="<?= old('phone', $isMember ? session()->get('member_phone') : '') ?>"
+                    required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Participation -->
+            <div class="form-section mb-4">
+              <h5 class="section-title mb-3">
+                <i class="bi bi-people-fill me-2"></i>Attendance
+              </h5>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">
+                    Number of Participants <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    name="num_participants"
+                    min="1"
+                    max="10"
+                    class="form-control"
+                    value="<?= old('num_participants', 1) ?>"
+                    required>
+                </div>
+              </div>
+
+              <!-- Guests hidden for now -->
+              <input type="hidden" name="num_guests" value="0">
+            </div>
+
+            <!-- Notes -->
+            <div class="form-section mb-4">
+              <label class="form-label fw-semibold">Notes (optional)</label>
+              <textarea
+                name="notes"
+                class="form-control"
+                rows="3"><?= esc(old('notes') ?? '') ?></textarea>
+            </div>
+
+            <!-- Submit -->
+            <div class="d-grid gap-2">
+              <button class="btn btn-accent btn-lg rounded-pill shadow-sm">
+                <i class="bi bi-check2-circle me-2"></i>
+                Submit Registration
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer bg-light text-center py-3">
+          <a href="<?= base_url('/') ?>" class="btn btn-link text-decoration-none">
+            <i class="bi bi-arrow-left-circle me-1"></i>Back to homepage
+          </a>
+        </div>
+
       </div>
+
     </div>
   </div>
-</section>
-
-<!-- Ceremony Documents -->
-<section class="py-3">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="card shadow-sm border-0 no-hover">
-          <div class="card-body p-4 p-md-5 text-center">
-            <i class="bi bi-file-earmark-pdf text-brand fs-1 mb-3"></i>
-            <h2 class="h3 fw-bold mb-3 text-brand">Ceremony Documents</h2>
-            <p class="mb-4">Download the Chopda Pujan ceremony guide in your preferred language</p>
-            
-            <div class="row g-3 justify-content-center">
-              <div class="col-md-5">
-                <a href="<?= base_url('assets/documents/chopda-pujan/english.pdf') ?>" 
-                   class="btn btn-outline-brand btn-lg w-100 d-flex align-items-center justify-content-center" 
-                   download
-                   target="_blank">
-                  <i class="bi bi-download me-2"></i>
-                  Download English Version
-                </a>
-              </div>
-              <div class="col-md-5">
-                <a href="<?= base_url('assets/documents/chopda-pujan/gujarati.pdf') ?>" 
-                   class="btn btn-outline-brand btn-lg w-100 d-flex align-items-center justify-content-center" 
-                   download
-                   target="_blank">
-                  <i class="bi bi-download me-2"></i>
-                  Download Gujarati Version
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- Event Context -->
-<section class="py-3 bg-light">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="card shadow-sm border-0 no-hover">
-          <div class="card-body p-4 p-md-5">
-            <h2 class="h3 fw-bold mb-4 text-brand">Chopda Pujan 2025</h2>
-            <p class="lead mb-4">Join us for this sacred annual ceremony to mark the start of a prosperous New Year. We welcome all community members to this auspicious event.</p>
-            
-            <div class="row g-4">
-              <div class="col-md-6">
-                <div class="d-flex align-items-start">
-                  <i class="bi bi-calendar-event text-brand fs-4 me-3"></i>
-                  <div>
-                    <h5 class="mb-1">Date</h5>
-                    <p class="mb-0">Monday 20 October 2025</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="d-flex align-items-start">
-                  <i class="bi bi-clock text-brand fs-4 me-3"></i>
-                  <div>
-                    <h5 class="mb-1">Timings</h5>
-                    <p class="mb-0">Registration: 5:00 PM – 6:00 PM<br>Pooja: 6:00 PM – 7:30 PM</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="d-flex align-items-start">
-                  <i class="bi bi-geo-alt text-brand fs-4 me-3"></i>
-                  <div>
-                    <h5 class="mb-1">Venue</h5>
-                    <p class="mb-0">J.V. Gokal Hall<br>Dhamecha Lohana Centre, Harrow</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="d-flex align-items-start">
-                  <i class="bi bi-currency-pound text-brand fs-4 me-3"></i>
-                  <div>
-                    <h5 class="mb-1">Donation</h5>
-                    <p class="mb-0">£25 per pooja<br><small class="text-muted">(max 2 participants per Yajman)</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .auth-card { border-left: 6px solid var(--brand); border-radius: var(--radius); }
-  .card-header.bg-accent1 { background-color: var(--accent1); }
-  .card-header.bg-brand { background-color: var(--brand); }
-  .text-brand { color: var(--brand); }
-  .btn-outline-brand {
-    color: var(--brand);
-    border-color: var(--brand);
-  }
-  .btn-outline-brand:hover {
-    background-color: var(--brand);
-    border-color: var(--brand);
-    color: white;
-  }
-</style>
+</div>
 
 <?= $this->endSection() ?>

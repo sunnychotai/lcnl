@@ -17,87 +17,116 @@ class EventRegistrationController extends BaseController
         $this->emails = new EmailQueueModel();
     }
 
-    /** Display the form */
-    public function register()
+    /**
+     * Show registration form
+     * Supports optional event slug e.g. /events/register/chopda-pujan
+     */
+    public function register(?string $eventSlug = null)
     {
-        return view('events/register');
+        // Map slug → display name (DB later)
+        $eventMap = [
+            'chopda-pujan'     => 'Chopda Pujan 2025',
+            'new-year-bhajans' => 'New Year Bhajans 2026',
+            'navratri-garba'   => 'Navratri Garba 2025',
+        ];
+
+        $selectedEvent = ($eventSlug && isset($eventMap[$eventSlug]))
+            ? $eventMap[$eventSlug]
+            : null;
+
+        return view('events/register', [
+            'selectedEvent' => $selectedEvent,
+            'isMember'      => session()->get('isMemberLoggedIn') === true,
+            'memberName'    => session()->get('member_name'),
+            'memberEmail'   => session()->get('member_email'),
+        ]);
     }
 
-    /** Handle form submission */
-   public function submit()
-{
-    $rules = [
-        'first_name'       => 'required|min_length[2]',
-        'last_name'        => 'required|min_length[2]',
-        'email'            => 'required|valid_email',
-        'phone'            => 'required|min_length[7]',
-        'num_participants' => 'required|integer|greater_than_equal_to[1]',
-        'num_guests'       => 'permit_empty|integer|greater_than_equal_to[0]',
-    ];
+    /**
+     * Handle form submission
+     */
+    public function submit()
+    {
+        $rules = [
+            'event_name'       => 'required|min_length[3]',
+            'first_name'       => 'required|min_length[2]',
+            'last_name'        => 'required|min_length[2]',
+            'email'            => 'required|valid_email',
+            'phone'            => 'required|min_length[7]',
+            'num_participants' => 'required|integer|greater_than_equal_to[1]',
+            'num_guests'       => 'permit_empty|integer|greater_than_equal_to[0]',
+        ];
 
-    if (! $this->validate($rules)) {
-        return redirect()->back()
-            ->withInput()
-            ->with('errors', $this->validator->getErrors());
+        if (! $this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+
+        $isMember = session()->get('isMemberLoggedIn') === true;
+
+        $data = [
+            'event_name'       => $this->request->getPost('event_name'),
+            'first_name'       => $this->request->getPost('first_name'),
+            'last_name'        => $this->request->getPost('last_name'),
+            'email'            => $this->request->getPost('email'),
+            'phone'            => $this->request->getPost('phone'),
+            'num_participants' => (int) $this->request->getPost('num_participants'),
+            'num_guests'       => (int) ($this->request->getPost('num_guests') ?? 0),
+            'notes'            => $this->request->getPost('notes'),
+            'status'           => 'submitted',
+            'member_id'        => $isMember ? (int) session()->get('member_id') : null,
+        ];
+
+        // Persist registration
+        $this->regs->insert($data);
+
+        /* -------------------------------------------------
+         * Member confirmation email (generic + branded)
+         * ------------------------------------------------- */
+        $memberEmailHtml = view('emails/event_registration_generic', array_merge($data, [
+            'title' => 'LCNL Event Registration Received',
+        ]));
+
+        $this->emails->enqueue([
+            'to_email'  => $data['email'],
+            'to_name'   => trim($data['first_name'] . ' ' . $data['last_name']),
+            'subject'   => 'LCNL Event Registration Received',
+            'body_html' => $memberEmailHtml,
+            'body_text' => strip_tags($memberEmailHtml),
+            'priority'  => 1,
+        ]);
+
+        /* -------------------------------------------------
+         * Admin notification email
+         * ------------------------------------------------- */
+        $adminEmailHtml = view('emails/event_registration_admin', array_merge($data, [
+            'title' => 'New Event Registration – LCNL',
+        ]));
+
+        $this->emails->enqueue([
+            'to_email'  => 'info@lcnl.org',
+            'to_name'   => 'LCNL Admin',
+            'subject'   => 'New Event Registration Submitted',
+            'body_html' => $adminEmailHtml,
+            'body_text' => strip_tags($adminEmailHtml),
+            'priority'  => 2,
+        ]);
+
+        // Flash data for thank-you page
+        session()->setFlashdata([
+            'first_name' => $data['first_name'],
+            'event_name' => $data['event_name'],
+        ]);
+
+        return redirect()->to(site_url('events/thanks'));
     }
 
-    $data = [
-        'event_name'       => 'Chopda Pujan',
-        'first_name'       => $this->request->getPost('first_name'),
-        'last_name'        => $this->request->getPost('last_name'),
-        'email'            => $this->request->getPost('email'),
-        'phone'            => $this->request->getPost('phone'),
-        'num_participants' => $this->request->getPost('num_participants'),
-        'num_guests'       => $this->request->getPost('num_guests') ?? 0,
-        'notes'            => $this->request->getPost('notes'),
-        'status'           => 'pending',
-    ];
-
-    $this->regs->insert($data);
-
-    // ---- Confirmation email to the registrant ----
-    $subject  = 'LCNL Chopda Pujan Registration Confirmation';
-    $bodyHtml = view('emails/event_registration', $data);
-    $bodyText = strip_tags($bodyHtml);
-
-    $this->emails->enqueue([
-        'to_email'  => $data['email'],
-        'to_name'   => trim($data['first_name'].' '.$data['last_name']),
-        'subject'   => $subject,
-        'body_html' => $bodyHtml,
-        'body_text' => $bodyText,
-        'priority'  => 1,
-    ]);
-
-    // ---- Notification email to LCNL Admin ----
-    $adminSubject = 'New Chopda Pujan Registration Received';
-    $adminBodyHtml = view('emails/event_registration_admin', $data);
-$this->emails->enqueue([
-    'to_email'  => 'info@lcnl.org',
-    'to_name'   => 'LCNL Admin',
-    'subject'   => 'New Chopda Pujan Registration Received',
-    'body_html' => $adminBodyHtml,
-    'body_text' => strip_tags($adminBodyHtml),
-    'priority'  => 2,
-]);
-
-
-    // ---- Thank-you message & redirect ----
-    session()->setFlashdata([
-        'first_name' => $data['first_name'],
-        'last_name'  => $data['last_name'],
-    ]);
-
-    session()->setFlashdata('message', 'Thank you, '.$data['first_name'].'! We’ve received your registration and emailed you the payment details.');
-
-    return redirect()->to(base_url('events/register/chopda-pujan/thankyou'));
-}
-
-
-/** optional route for direct thank-you access */
-public function thankyou()
-{
-    return view('events/thanks');
-}
-
+    /**
+     * Thank-you page
+     */
+    public function thankyou()
+    {
+        return view('events/thanks');
+    }
 }

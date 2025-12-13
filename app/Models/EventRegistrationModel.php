@@ -9,10 +9,18 @@ class EventRegistrationModel extends Model
     protected $table         = 'event_registrations';
     protected $primaryKey    = 'id';
     protected $allowedFields = [
-        'event_name', 'first_name', 'last_name', 'email', 'phone',
-        'num_participants', 'num_guests', 'notes', 'status',
-        'created_at', 'updated_at'
+        'event_name',
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'num_participants',
+        'num_guests',
+        'notes',
+        'status',
+        'member_id',
     ];
+
 
     protected $useTimestamps = true;
     protected $returnType    = 'array';
