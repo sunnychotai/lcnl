@@ -234,7 +234,7 @@ class Parser
 
         foreach ($bt as $frame) {
             if (isset($frame['object']) && $frame['object'] === $this && 'parse' === $frame['function']) {
-                throw new DomainException($caller_frame['class'].'::'.$caller_frame['function'].' cannot be called from inside a parse');
+                throw new DomainException($caller_frame['class'] . '::' . $caller_frame['function'] . ' cannot be called from inside a parse');
             }
         }
     }
@@ -292,7 +292,7 @@ class Parser
                 $child->reference = null !== ReflectionReference::fromArrayElement($var, $key);
 
                 if (null !== $ap) {
-                    $child->access_path = $ap.'['.\var_export($key, true).']';
+                    $child->access_path = $ap . '[' . \var_export($key, true) . ']';
                 }
 
                 $contents[$key] = $this->parse($var[$key], $child);
@@ -411,9 +411,9 @@ class Parser
                 // http://www.php.net/manual/en/language.types.array.php#language.types.array.casting
                 $key = $name;
                 if ($rprop->isProtected()) {
-                    $key = "\0*\0".$name;
+                    $key = "\0*\0" . $name;
                 } elseif ($rprop->isPrivate()) {
-                    $key = "\0".$rprop->getDeclaringClass()->getName()."\0".$name;
+                    $key = "\0" . $rprop->getDeclaringClass()->getName() . "\0" . $name;
                 }
                 $initialized = \array_key_exists($key, $values);
                 if ($key === (string) (int) $key) {
@@ -470,9 +470,9 @@ class Parser
                 if (null !== $ap && $child->isAccessible($this->caller_class)) {
                     /** @psalm-var string $child->name */
                     if (Utils::isValidPhpName($child->name)) {
-                        $child->access_path = $ap.'->'.$child->name;
+                        $child->access_path = $ap . '->' . $child->name;
                     } else {
-                        $child->access_path = $ap.'->{'.\var_export($child->name, true).'}';
+                        $child->access_path = $ap . '->{' . \var_export($child->name, true) . '}';
                     }
                 }
 
@@ -558,7 +558,7 @@ class Parser
                 }
             } catch (Throwable $e) {
                 \trigger_error(
-                    Utils::errorSanitizeString(\get_class($e)).' was thrown in '.$e->getFile().' on line '.$e->getLine().' while executing '.Utils::errorSanitizeString(\get_class($plugin)).'->parseBegin. Error message: '.Utils::errorSanitizeString($e->getMessage()),
+                    Utils::errorSanitizeString(\get_class($e)) . ' was thrown in ' . $e->getFile() . ' on line ' . $e->getLine() . ' while executing ' . Utils::errorSanitizeString(\get_class($plugin)) . '->parseBegin. Error message: ' . Utils::errorSanitizeString($e->getMessage()),
                     E_USER_WARNING
                 );
             }
@@ -581,7 +581,7 @@ class Parser
                 $v = $plugin->parseComplete($var, $v, $trigger);
             } catch (Throwable $e) {
                 \trigger_error(
-                    Utils::errorSanitizeString(\get_class($e)).' was thrown in '.$e->getFile().' on line '.$e->getLine().' while executing '.Utils::errorSanitizeString(\get_class($plugin)).'->parseComplete. Error message: '.Utils::errorSanitizeString($e->getMessage()),
+                    Utils::errorSanitizeString(\get_class($e)) . ' was thrown in ' . $e->getFile() . ' on line ' . $e->getLine() . ' while executing ' . Utils::errorSanitizeString(\get_class($plugin)) . '->parseComplete. Error message: ' . Utils::errorSanitizeString($e->getMessage()),
                     E_USER_WARNING
                 );
             }

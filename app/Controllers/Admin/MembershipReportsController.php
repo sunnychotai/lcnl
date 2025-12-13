@@ -28,7 +28,7 @@ class MembershipReportsController extends BaseController
             'total' => $this->members->where('deleted_at', null)->countAllResults(),
             'life' => $this->memberships->where('membership_type', 'life')->where('status', 'active')->countAllResults(),
             'standard' => $this->memberships->where('membership_type', 'standard')->countAllResults(),
-            'email_unknown' => $this->members->like('email', '@lcnl.org', 'before')->where('deleted_at', null)->countAllResults(),
+            'email_invalid' => $this->members->where('is_valid_email', 0)->where('deleted_at', null)->countAllResults(),
             'mobile_missing' => $this->members->groupStart()->where('mobile', '')->orWhere('mobile IS NULL', null, false)->groupEnd()->where('deleted_at', null)->countAllResults(),
         ];
 
@@ -228,41 +228,55 @@ class MembershipReportsController extends BaseController
     }
 
     /* =========================
-     *  REPORT: Email Unknown
+     *  REPORT: Email Invalid
      * =========================*/
-    public function emailUnknown()
+    public function emailInvalid()
     {
         $activeTab = 'reports';
-        return view('admin/membership_reports/email_unknown', compact('activeTab'));
+        return view('admin/membership_reports/email_invalid', compact('activeTab'));
     }
 
-    public function emailUnknownData()
+    public function emailInvalidData()
     {
         $status = $this->request->getPost('status') ?: 'all';
-        $type = $this->request->getPost('membership_type') ?: 'all';
-        $city = trim((string) $this->request->getPost('city'));
+        $type   = $this->request->getPost('membership_type') ?: 'all';
+        $city   = trim((string) $this->request->getPost('city'));
 
         $b = $this->baseMembersWithMembership();
-        $b->like('m.email', '@lcnl.org', 'before');
+        $b->where('m.is_valid_email', 0);
+
         $this->applyCommonFilters($b, $status, $type, $city);
 
-        return $this->dtRespond($b, ['m.first_name', 'm.last_name', 'm.email', 'm.mobile', 'm.city', 'ms.membership_type', 'm.status']);
+        return $this->dtRespond($b, [
+            'm.first_name',
+            'm.last_name',
+            'm.email',
+            'm.mobile',
+            'm.city',
+            'ms.membership_type',
+            'm.status'
+        ]);
     }
 
-    public function emailUnknownExport()
+
+    public function emailInvalidExport()
     {
         $status = $this->request->getGet('status') ?: 'all';
-        $type = $this->request->getGet('membership_type') ?: 'all';
-        $city = trim((string) $this->request->getGet('city'));
+        $type   = $this->request->getGet('membership_type') ?: 'all';
+        $city   = trim((string) $this->request->getGet('city'));
 
         $b = $this->baseMembersWithMembership();
-        $b->like('m.email', '@lcnl.org', 'before');
+        $b->where('m.is_valid_email', 0);
+
         $this->applyCommonFilters($b, $status, $type, $city);
         $b->orderBy('m.id', 'DESC');
 
-        $filename = 'email_unknown_' . date('Ymd_His') . '.csv';
-        return $this->exportCsvStream($b, $filename);
+        return $this->exportCsvStream(
+            $b,
+            'email_invalid_' . date('Ymd_His') . '.csv'
+        );
     }
+
 
     /* =========================
      *  REPORT: Mobile Missing
@@ -501,7 +515,4 @@ class MembershipReportsController extends BaseController
 
         return $this->exportCsvStream($b, 'active_life_' . date('Ymd_His') . '.csv');
     }
-
-
-
 }

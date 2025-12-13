@@ -28,7 +28,7 @@
             ['Total Members', $stats['total'] ?? 0, 'bi-people-fill'],
             ['LIFE Members', $stats['life'] ?? 0, 'bi-star-fill'],
             ['STANDARD Members', $stats['standard'] ?? 0, 'bi-award-fill'],
-            ['Email Unknown (@lcnl.org)', $stats['email_unknown'] ?? 0, 'bi-envelope-slash'],
+            ['Email Invalid', $stats['email_invalid'] ?? 0, 'bi-envelope-slash'],
             ['Mobile Missing', $stats['mobile_missing'] ?? 0, 'bi-phone'],
             ['Missing Gender', $stats['missing_gender'] ?? 0, 'bi-gender-ambiguous'],
             ['Missing DOB', $stats['missing_dob'] ?? 0, 'bi-calendar-x'],
@@ -80,11 +80,11 @@
                         <tr>
                             <td class="fw-semibold">
                                 <i class="bi bi-envelope-slash me-2 text-brand"></i>
-                                Email Unknown
+                                Email Invalid
                             </td>
                             <td>Members whose email ends with <code>@lcnl.org</code>.</td>
                             <td class="text-end">
-                                <a href="<?= base_url('admin/membership/reports/email-unknown') ?>"
+                                <a href="<?= base_url('admin/membership/reports/email-invalid') ?>"
                                     class="btn btn-sm btn-outline-brand">
                                     <i class="bi bi-eye"></i> View
                                 </a>
@@ -171,4 +171,3 @@
 </div>
 
 <?= $this->endSection() ?>
-

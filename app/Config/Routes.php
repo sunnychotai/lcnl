@@ -216,10 +216,10 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->post('family/update', 'Admin\MemberFamilyController::update');
     $routes->post('family/delete', 'Admin\MemberFamilyController::delete');
 
-    // REPORT: Email Unknown
-    $routes->get('reports/email-unknown', 'Admin\MembershipReportsController::emailUnknown');
-    $routes->post('reports/email-unknown/data', 'Admin\MembershipReportsController::emailUnknownData');
-    $routes->get('reports/email-unknown/export', 'Admin\MembershipReportsController::emailUnknownExport');
+    // REPORT: Email Invalid
+    $routes->get('reports/email-invalid', 'Admin\MembershipReportsController::emailInvalid');
+    $routes->post('reports/email-invalid/data', 'Admin\MembershipReportsController::emailInvalidData');
+    $routes->get('reports/email-invalid/export', 'Admin\MembershipReportsController::emailInvalidExport');
 
     // REPORT: Mobile Missing
     $routes->get('reports/mobile-missing', 'Admin\MembershipReportsController::mobileMissing');

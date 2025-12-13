@@ -13,14 +13,15 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h5 mb-0">
-            <i class="bi bi-envelope-slash me-2 text-brand"></i> Email Unknown (@lcnl.org)
+            <i class="bi bi-envelope-slash me-2 text-brand"></i> Email Invalid
         </h1>
         <a href="<?= base_url('admin/membership/reports') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Back
         </a>
     </div>
 
-    <?= view('admin/membership_reports/_filters') // paste shared filter bar here or inline ?>
+    <?= view('admin/membership_reports/_filters') // paste shared filter bar here or inline 
+    ?>
 
     <div class="lcnl-card shadow-soft border-0">
         <div class="table-responsive">
@@ -60,46 +61,75 @@
             membership_type: $('#filterType').val(),
             city: $('#filterCity').val()
         }).toString();
-        return "<?= base_url('admin/membership/reports/email-unknown/export') ?>?" + qs;
+        return "<?= base_url('admin/membership/reports/email-invalid/export') ?>?" + qs;
     }
 
-    $(function () {
+    $(function() {
         table = $('#reportTable').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
             pageLength: 25,
             ajax: {
-                url: "<?= base_url('admin/membership/reports/email-unknown/data') ?>",
+                url: "<?= base_url('admin/membership/reports/email-invalid/data') ?>",
                 type: "POST",
-                data: function (d) {
+                data: function(d) {
                     d.status = $('#filterStatus').val();
                     d.membership_type = $('#filterType').val();
                     d.city = $('#filterCity').val();
                     d['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
                 }
             },
-            columns: [
-                { data: "id", name: "m.id" },
-                { data: "first_name", name: "m.first_name" },
-                { data: "last_name", name: "m.last_name" },
-                { data: "email", name: "m.email" },
-                { data: "mobile", name: "m.mobile" },
-                { data: "city", name: "m.city" },
-                { data: "status", name: "m.status" },
-                { data: "membership_type", name: "ms.membership_type" },
-                { data: "created_at", name: "m.created_at" },
+            columns: [{
+                    data: "id",
+                    name: "m.id"
+                },
+                {
+                    data: "first_name",
+                    name: "m.first_name"
+                },
+                {
+                    data: "last_name",
+                    name: "m.last_name"
+                },
+                {
+                    data: "email",
+                    name: "m.email"
+                },
+                {
+                    data: "mobile",
+                    name: "m.mobile"
+                },
+                {
+                    data: "city",
+                    name: "m.city"
+                },
+                {
+                    data: "status",
+                    name: "m.status"
+                },
+                {
+                    data: "membership_type",
+                    name: "ms.membership_type"
+                },
+                {
+                    data: "created_at",
+                    name: "m.created_at"
+                },
             ],
-            order: [[0, 'desc']]
+            order: [
+                [0, 'desc']
+            ]
         });
 
-        $('#btnApply').on('click', function () { table.ajax.reload(); });
+        $('#btnApply').on('click', function() {
+            table.ajax.reload();
+        });
         $('#btnExport').attr('href', exportHref());
-        $('#filterStatus, #filterType, #filterCity').on('change keyup', function () {
+        $('#filterStatus, #filterType, #filterCity').on('change keyup', function() {
             $('#btnExport').attr('href', exportHref());
         });
     });
 </script>
 
 <?= $this->endSection() ?>
-
