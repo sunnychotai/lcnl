@@ -46,6 +46,12 @@ class SendQueuedEmails extends BaseCommand
         $started  = date('Y-m-d H:i:s');
 
         $batchRequested = (int) (CLI::getOption('batch') ?? config('EmailQueue')->batchSize ?? 50);
+        try {
+            $batchRequested = (int) (CLI::getOption('batch') ?? config('EmailQueue')->batchSize ?? 50);
+        } catch (\Throwable $e) {
+            $batchRequested = 50; // fallback
+            $result['errors'][] = 'Config error: ' . $e->getMessage();
+        }
 
         $result = [
             'processed'   => 0,
@@ -72,6 +78,8 @@ class SendQueuedEmails extends BaseCommand
              * PAUSE CHECK
              * --------------------------------------------------------- */
             $pausedUntil = $cache->get($pauseKey);
+            CLI::write('Result state: ' . json_encode($result, JSON_PRETTY_PRINT));
+
             if (is_numeric($pausedUntil) && $pausedUntil > time()) {
                 $result['paused'] = true;
                 $this->writeCronLog($logModel, $jobName, 'success', $result, $started);
