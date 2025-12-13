@@ -83,22 +83,20 @@ class SendQueuedEmails extends BaseCommand
             $model    = new EmailQueueModel();
 
             /* ---------------------------------------------------------
-             * ROLLING LIMITS
-             * --------------------------------------------------------- */
-            $nowTs        = time();
-            $tenMinAgo    = date('Y-m-d H:i:s', $nowTs - 600);
-            $twentyFourAgo = date('Y-m-d H:i:s', $nowTs - 86400);
-
+ * ROLLING LIMITS (MySQL-time based — timezone safe)
+ * --------------------------------------------------------- */
             $sentLast24h = $model
                 ->where('status', 'sent')
-                ->where('sent_at >=', $twentyFourAgo)
+                ->where('sent_at IS NOT NULL', null, false)
+                ->where('sent_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)', null, false)
                 ->countAllResults(false);
 
             $model->resetQuery();
 
             $sentLast10 = $model
                 ->where('status', 'sent')
-                ->where('sent_at >=', $tenMinAgo)
+                ->where('sent_at IS NOT NULL', null, false)
+                ->where('sent_at >= DATE_SUB(NOW(), INTERVAL 10 MINUTE)', null, false)
                 ->countAllResults(false);
 
             $model->resetQuery();
@@ -122,6 +120,7 @@ class SendQueuedEmails extends BaseCommand
                 'batch_requested'    => $batchRequested,
                 'take_effective'     => $take,
             ];
+
 
             if ($take <= 0) {
                 $this->writeCronLog($logModel, $jobName, 'success', $result, $started);
