@@ -9,19 +9,19 @@ use CodeIgniter\CLI\CLI;
 
 class MembersActivate extends BaseCommand
 {
-    protected $group       = 'LCNL';
-    protected $name        = 'members:activate';
+    protected $group = 'LCNL';
+    protected $name = 'members:activate';
     protected $description = 'Queue activation emails for pending members (token generated at send time).';
-    protected $usage       = 'php spark members:activate --batch 50';
+    protected $usage = 'php spark members:activate --batch 50';
 
     protected $options = [
-        'batch'   => 'Number of members to queue (default 50)',
+        'batch' => 'Number of members to queue (default 50)',
         'dry-run' => 'Preview without writing to DB',
     ];
 
     public function run(array $params)
     {
-        $batch  = (int) (CLI::getOption('batch') ?? 50);
+        $batch = (int) (CLI::getOption('batch') ?? 50);
         $dryRun = CLI::getOption('dry-run') !== null;
 
         if ($batch < 1 || $batch > 1000) {
@@ -35,7 +35,7 @@ class MembersActivate extends BaseCommand
 
         $members = (new MemberModel())
             ->where('status', 'pending')
-            ->where('is_placeholder_email', 0)
+            ->where('is_valid_email', 0)
             ->where('activation_sent_at', null)
             ->orderBy('created_at', 'ASC')
             ->findAll($batch);
@@ -57,14 +57,14 @@ class MembersActivate extends BaseCommand
             }
 
             $emailQueue->insert([
-                'type'        => 'member_activation',
-                'related_id'  => $member['id'],
-                'to_email'    => $member['email'],
-                'to_name'     => trim($member['first_name'] . ' ' . $member['last_name']),
-                'subject'     => 'Activate your LCNL membership',
-                'body_html'   => view('emails/members/activation'), // contains {{activation_link}}
-                'priority'    => 5,
-                'status'      => 'pending',
+                'type' => 'member_activation',
+                'related_id' => $member['id'],
+                'to_email' => $member['email'],
+                'to_name' => trim($member['first_name'] . ' ' . $member['last_name']),
+                'subject' => 'Activate your LCNL membership',
+                'body_html' => view('emails/members/activation'), // contains {{activation_link}}
+                'priority' => 5,
+                'status' => 'pending',
                 'scheduled_at' => date('Y-m-d H:i:s'),
             ]);
 
