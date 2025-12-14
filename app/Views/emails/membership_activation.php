@@ -18,10 +18,7 @@
                     <!-- Header -->
                     <tr>
                         <td style="background-color:#7a1d3c; padding:20px; text-align:center;">
-                            <img src="https://lcnl.org/assets/img/lcnl-logo.png"
-                                alt="LCNL Logo"
-                                width="60"
-                                height="60"
+                            <img src="https://lcnl.org/assets/img/lcnl-logo.png" alt="LCNL Logo" width="60" height="60"
                                 style="display:block; margin:0 auto 8px auto;">
 
                             <h1 style="margin:0; font-size:20px; color:#ffffff; font-weight:bold;">
@@ -43,7 +40,8 @@
                             </p>
 
                             <p style="font-size:15px; margin:0 0 15px 0;">
-                                You are registered with the <strong>Lohana Community North London (LCNL)</strong> as a member.
+                                You are registered with the <strong>Lohana Community North London (LCNL)</strong> as a
+                                member.
                                 We have now moved to a new <strong>online self-service membership portal</strong>.
                             </p>
 
@@ -53,8 +51,7 @@
                             </p>
 
                             <p style="text-align:center; margin:30px 0;">
-                                <a href="{{activation_link}}"
-                                    style="background:#7a1d3c; color:#ffffff; text-decoration:none;
+                                <a href="{{activation_link}}" style="background:#7a1d3c; color:#ffffff; text-decoration:none;
                                padding:12px 24px; border-radius:30px; font-size:16px; display:inline-block;">
                                     Activate My Account
                                 </a>
@@ -82,12 +79,14 @@
                             <p style="font-size:14px; color:#777;">
                                 <strong>Security notice:</strong>
                                 This activation link is valid for a limited time.
-                                If it expires, please use the “Forgot Password” option on the login page to request a new link.
+                                If it expires, please use the “Forgot Password” option on the login page to request a
+                                new link.
                             </p>
 
                             <p style="font-size:14px; color:#777;">
                                 <strong>If you did not expect this email:</strong><br>
-                                It is safe to ignore it. Your account will remain inactive until you choose to activate it.
+                                It is safe to ignore it. Your account will remain inactive until you choose to activate
+                                it.
                             </p>
 
                             <p style="font-size:15px; margin-top:30px;">
