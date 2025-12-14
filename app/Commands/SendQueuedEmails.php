@@ -24,8 +24,8 @@ class SendQueuedEmails extends BaseCommand
         $DAILY_CAP = 950;
         $AUTO_PAUSE_AFTER_FAIL = 5;
         $AUTO_PAUSE_MINUTES = 10;
-        $BACKOFF_ABORT_AFTER = 3;
-        $BACKOFF_STEP_MS = 2000;
+        $BACKOFF_ABORT_AFTER = 3;   // (reserved)
+        $BACKOFF_STEP_MS = 2000; // (reserved)
 
         $cache = cache();
         $pauseKey = 'email_queue_paused_until';
@@ -59,13 +59,13 @@ class SendQueuedEmails extends BaseCommand
             'failed' => 0,
             'errors' => [],
             'limit_info' => [
-                'sent_last_10_min'   => 0,
-                'remaining_10_min'   => 0,
-                'sent_last_24h'      => 0,
-                'remaining_24h'      => 0,
-                'hard_per_run_cap'   => $HARD_PER_RUN_CAP,
-                'batch_requested'    => 0,
-                'take_effective'     => 0,
+                'sent_last_10_min' => 0,
+                'remaining_10_min' => 0,
+                'sent_last_24h' => 0,
+                'remaining_24h' => 0,
+                'hard_per_run_cap' => $HARD_PER_RUN_CAP,
+                'batch_requested' => 0,
+                'take_effective' => 0,
             ],
             'backoff' => [],
             'paused' => false,
@@ -74,7 +74,6 @@ class SendQueuedEmails extends BaseCommand
         ];
 
         try {
-
             /* ---------------------------------------------------------
              * PAUSE CHECK
              * --------------------------------------------------------- */
@@ -91,7 +90,9 @@ class SendQueuedEmails extends BaseCommand
             $emailCfg = config('Email');
 
             $batch = (int) ($cfg->batchSize ?? 50);
-            if ($batch < 1) $batch = 1;
+            if ($batch < 1) {
+                $batch = 1;
+            }
 
             $model = new EmailQueueModel();
 
@@ -111,25 +112,18 @@ class SendQueuedEmails extends BaseCommand
             $remaining24h = max(0, $DAILY_CAP - $sent24h);
             $remaining10m = max(0, $TEN_MIN_CAP - $sent10m);
 
-            $take = min(
-                $batch,
-                $HARD_PER_RUN_CAP,
-                $remaining24h,
-                $remaining10m
-            );
+            $take = min($batch, $HARD_PER_RUN_CAP, $remaining24h, $remaining10m);
 
-            // Update limit_info with actual values
             $result['limit_info'] = [
-                'sent_last_10_min'   => $sent10m,
-                'remaining_10_min'   => $remaining10m,
-                'sent_last_24h'      => $sent24h,
-                'remaining_24h'      => $remaining24h,
-                'hard_per_run_cap'   => $HARD_PER_RUN_CAP,
-                'batch_requested'    => $batch,
-                'take_effective'     => $take,
+                'sent_last_10_min' => $sent10m,
+                'remaining_10_min' => $remaining10m,
+                'sent_last_24h' => $sent24h,
+                'remaining_24h' => $remaining24h,
+                'hard_per_run_cap' => $HARD_PER_RUN_CAP,
+                'batch_requested' => $batch,
+                'take_effective' => $take,
             ];
 
-            // Display rate limit status
             CLI::write('─────────────────────────────────────', 'light_gray');
             CLI::write('📊 Rate Limit Status:', 'cyan');
             CLI::write('  10-min window: ' . $sent10m . '/' . $TEN_MIN_CAP . ' (remaining: ' . $remaining10m . ')', 'light_gray');
@@ -141,10 +135,10 @@ class SendQueuedEmails extends BaseCommand
             if ($take <= 0) {
                 if ($sent24h >= $DAILY_CAP) {
                     CLI::write('✗ Daily limit reached (' . $DAILY_CAP . ' emails/24h)', 'red');
-                    CLI::write('  Next reset: ~' . (24 - (int)((time() - strtotime($dayAgo)) / 3600)) . ' hours', 'yellow');
+                    CLI::write('  Next reset window rolls every 24h.', 'yellow');
                 } elseif ($sent10m >= $TEN_MIN_CAP) {
                     CLI::write('✗ 10-minute limit reached (' . $TEN_MIN_CAP . ' emails/10min)', 'red');
-                    CLI::write('  Next window: ~' . (10 - (int)((time() - strtotime($tenMinAgo)) / 60)) . ' minutes', 'yellow');
+                    CLI::write('  Next window opens within ~10 minutes.', 'yellow');
                 } else {
                     CLI::write('✗ Rate limits reached', 'yellow');
                 }
@@ -174,72 +168,117 @@ class SendQueuedEmails extends BaseCommand
 
             $email = service('email');
             $consecutiveFailures = 0;
+            $memberModel = new MemberModel();
 
             foreach ($rows as $row) {
-
                 $toEmail = trim((string) ($row['to_email'] ?? ''));
                 if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+                    // Only statuses allowed: pending, sending, sent, failed
                     $model->update($row['id'], [
-                        'status' => 'invalid',
-                        'last_error' => 'INVALID_EMAIL'
+                        'status' => 'failed',
+                        'last_error' => 'INVALID_EMAIL',
                     ]);
                     $result['failed']++;
                     CLI::write("  ✗ Invalid email: " . $toEmail, 'red');
                     continue;
                 }
 
+                // Move to "sending" and increment attempts
                 $model->update($row['id'], [
                     'status' => 'sending',
                     'attempts' => (int) ($row['attempts'] ?? 0) + 1,
                 ]);
 
                 /* ---------------------------------------------------------
-                 * MEMBER ACTIVATION TOKEN (SEND TIME)
+                 * PER-EMAIL PLACEHOLDERS
+                 *   Always available: {{current_year}}, {{member_name}} (when we can infer)
+                 *   For activation:  {{activation_link}} (token generated now)
                  * --------------------------------------------------------- */
-                if (($row['type'] ?? null) === 'member_activation') {
+                $placeholders = [
+                    '{{current_year}}' => date('Y'),
+                ];
 
-                    $memberId = (int) ($row['related_id'] ?? 0);
-                    if ($memberId > 0) {
+                // Try to infer a friendly name (falls back to to_name)
+                $friendlyName = trim((string) ($row['to_name'] ?? ''));
+                $member = null;
 
-                        $db = db_connect();
+                if (!empty($row['related_id'])) {
+                    $member = $memberModel->find((int) $row['related_id']);
+                    if (is_array($member)) {
+                        $candidate = trim(($member['first_name'] ?? '') . ' ' . ($member['last_name'] ?? ''));
+                        if ($candidate !== '') {
+                            $friendlyName = $candidate;
+                        }
+                    }
+                }
+                if ($friendlyName !== '') {
+                    $placeholders['{{member_name}}'] = $friendlyName;
+                }
 
-                        $db->table('password_resets')
-                            ->where('member_id', $memberId)
-                            ->delete();
+                /* ---------------------------------------------------------
+                 * MEMBER ACTIVATION TOKEN (SEND TIME) — 72 HOURS
+                 * --------------------------------------------------------- */
+                if (($row['type'] ?? null) === 'member_activation' && $member) {
+                    $db = db_connect();
 
-                        $token = bin2hex(random_bytes(32));
-                        $expiresAt = date('Y-m-d H:i:s', strtotime('+24 hours'));
+                    // clear any existing resets for this member
+                    $db->table('password_resets')
+                        ->where('member_id', (int) $member['id'])
+                        ->delete();
 
-                        $db->table('password_resets')->insert([
-                            'member_id'  => $memberId,
-                            'token'      => $token,
-                            'created_at' => date('Y-m-d H:i:s'),
-                            'expires_at' => $expiresAt,
-                        ]);
+                    $token = bin2hex(random_bytes(32));
+                    $expiresAt = date('Y-m-d H:i:s', strtotime('+72 hours')); // <— 72 hours
 
-                        $base = rtrim(config('App')->baseURL, '/');
-                        $link = $base . '/membership/reset/' . $token;
+                    $db->table('password_resets')->insert([
+                        'member_id' => (int) $member['id'],
+                        'token' => $token, // store raw if your table expects raw (else hash here)
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'expires_at' => $expiresAt,
+                    ]);
 
-                        $row['body_html'] = str_replace('{{activation_link}}', $link, $row['body_html']);
-                        $row['body_text'] = str_replace('{{activation_link}}', $link, $row['body_text']);
+                    // Build the activation/reset link used by your site
+                    $base = rtrim(config('App')->baseURL, '/');
+                    // Keep your existing route convention:
+                    $activationLink = $base . '/membership/reset/' . $token;
+
+                    $placeholders['{{activation_link}}'] = $activationLink;
+                }
+
+                // Render body with placeholder replacement
+                $rawHtml = (string) ($row['body_html'] ?? '');
+                $rawText = (string) ($row['body_text'] ?? '');
+
+                if ($placeholders) {
+                    $rawHtml = str_replace(array_keys($placeholders), array_values($placeholders), $rawHtml);
+                    if ($rawText !== '') {
+                        $rawText = str_replace(array_keys($placeholders), array_values($placeholders), $rawText);
                     }
                 }
 
-                try {
+                // If no alt text provided, auto-generate from HTML
+                if ($rawText === '') {
+                    $rawText = trim(html_entity_decode(strip_tags($rawHtml)));
+                }
 
+                // Optional guard: in test mode, warn if placeholders remain
+                if ($isTestMode && strpos($rawHtml, '{{') !== false) {
+                    CLI::write('  ! Unreplaced placeholders detected in HTML body (TEST mode).', 'yellow');
+                }
+
+                try {
                     $email->clear(true);
                     $email->setFrom($emailCfg->fromEmail, $emailCfg->fromName);
 
                     if ($isTestMode) {
                         $email->setTo($testAddress);
-                        $email->setSubject('[TEST] ' . $row['subject']);
-                        $email->setMessage($row['body_html']);
-                        $email->setAltMessage($row['body_text']);
+                        $email->setSubject('[TEST] ' . ($row['subject'] ?? '(no subject)'));
+                        $email->setMessage($rawHtml);
+                        $email->setAltMessage($rawText);
                     } else {
                         $email->setTo($toEmail, $row['to_name'] ?? null);
-                        $email->setSubject($row['subject']);
-                        $email->setMessage($row['body_html']);
-                        $email->setAltMessage($row['body_text']);
+                        $email->setSubject($row['subject'] ?? '(no subject)');
+                        $email->setMessage($rawHtml);
+                        $email->setAltMessage($rawText);
                     }
 
                     if ($email->send()) {
@@ -284,7 +323,7 @@ class SendQueuedEmails extends BaseCommand
                 $result['processed']++;
 
                 // Delay between sends
-                $delayMs = (int)($cfg->sendDelayMs ?? 0);
+                $delayMs = (int) ($cfg->sendDelayMs ?? 0);
                 if ($delayMs > 0) {
                     usleep($delayMs * 1000);
                 }
@@ -314,10 +353,10 @@ class SendQueuedEmails extends BaseCommand
     private function writeCronLog(CronLogModel $logModel, string $jobName, string $status, array $result, string $started)
     {
         $logModel->insert([
-            'job_name'    => $jobName,
-            'status'      => $status,
-            'summary'     => json_encode($result, JSON_PRETTY_PRINT),
-            'started_at'  => $started,
+            'job_name' => $jobName,
+            'status' => $status,
+            'summary' => json_encode($result, JSON_PRETTY_PRINT),
+            'started_at' => $started,
             'finished_at' => date('Y-m-d H:i:s'),
         ]);
     }

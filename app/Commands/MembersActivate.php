@@ -62,7 +62,7 @@ class MembersActivate extends BaseCommand
                 'to_email' => $member['email'],
                 'to_name' => trim($member['first_name'] . ' ' . $member['last_name']),
                 'subject' => 'Activate your LCNL membership',
-                'body_html' => view('emails/membership_activation'), // contains {{activation_link}}
+                'body_html' => file_get_contents(APPPATH . 'Views/emails/membership_activation.php'),
                 'priority' => 5,
                 'status' => 'pending',
                 'scheduled_at' => date('Y-m-d H:i:s'),
