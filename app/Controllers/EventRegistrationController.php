@@ -13,7 +13,7 @@ class EventRegistrationController extends BaseController
 
     public function __construct()
     {
-        $this->regs   = new EventRegistrationModel();
+        $this->regs = new EventRegistrationModel();
         $this->emails = new EmailQueueModel();
     }
 
@@ -25,9 +25,9 @@ class EventRegistrationController extends BaseController
     {
         // Map slug → display name (DB later)
         $eventMap = [
-            'chopda-pujan'     => 'Chopda Pujan 2025',
+            'chopda-pujan' => 'Chopda Pujan 2025',
             'new-year-bhajans' => 'New Year Bhajans 2026',
-            'navratri-garba'   => 'Navratri Garba 2025',
+            'navratri-garba' => 'Navratri Garba 2025',
         ];
 
         $selectedEvent = ($eventSlug && isset($eventMap[$eventSlug]))
@@ -36,9 +36,9 @@ class EventRegistrationController extends BaseController
 
         return view('events/register', [
             'selectedEvent' => $selectedEvent,
-            'isMember'      => session()->get('isMemberLoggedIn') === true,
-            'memberName'    => session()->get('member_name'),
-            'memberEmail'   => session()->get('member_email'),
+            'isMember' => session()->get('isMemberLoggedIn') === true,
+            'memberName' => session()->get('member_name'),
+            'memberEmail' => session()->get('member_email'),
         ]);
     }
 
@@ -48,16 +48,16 @@ class EventRegistrationController extends BaseController
     public function submit()
     {
         $rules = [
-            'event_name'       => 'required|min_length[3]',
-            'first_name'       => 'required|min_length[2]',
-            'last_name'        => 'required|min_length[2]',
-            'email'            => 'required|valid_email',
-            'phone'            => 'required|min_length[7]',
+            'event_name' => 'required|min_length[3]',
+            'first_name' => 'required|min_length[2]',
+            'last_name' => 'required|min_length[2]',
+            'email' => 'required|valid_email',
+            'phone' => 'required|min_length[7]',
             'num_participants' => 'required|integer|greater_than_equal_to[1]',
-            'num_guests'       => 'permit_empty|integer|greater_than_equal_to[0]',
+            'num_guests' => 'permit_empty|integer|greater_than_equal_to[0]',
         ];
 
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
@@ -66,16 +66,16 @@ class EventRegistrationController extends BaseController
         $isMember = session()->get('isMemberLoggedIn') === true;
 
         $data = [
-            'event_name'       => $this->request->getPost('event_name'),
-            'first_name'       => $this->request->getPost('first_name'),
-            'last_name'        => $this->request->getPost('last_name'),
-            'email'            => $this->request->getPost('email'),
-            'phone'            => $this->request->getPost('phone'),
+            'event_name' => $this->request->getPost('event_name'),
+            'first_name' => $this->request->getPost('first_name'),
+            'last_name' => $this->request->getPost('last_name'),
+            'email' => $this->request->getPost('email'),
+            'phone' => $this->request->getPost('phone'),
             'num_participants' => (int) $this->request->getPost('num_participants'),
-            'num_guests'       => (int) ($this->request->getPost('num_guests') ?? 0),
-            'notes'            => $this->request->getPost('notes'),
-            'status'           => 'submitted',
-            'member_id'        => $isMember ? (int) session()->get('member_id') : null,
+            'num_guests' => (int) ($this->request->getPost('num_guests') ?? 0),
+            'notes' => $this->request->getPost('notes'),
+            'status' => 'submitted',
+            'member_id' => $isMember ? (int) session()->get('member_id') : null,
         ];
 
         // Persist registration
@@ -89,12 +89,12 @@ class EventRegistrationController extends BaseController
         ]));
 
         $this->emails->enqueue([
-            'to_email'  => $data['email'],
-            'to_name'   => trim($data['first_name'] . ' ' . $data['last_name']),
-            'subject'   => 'LCNL Event Registration Received',
+            'to_email' => $data['email'],
+            'to_name' => trim($data['first_name'] . ' ' . $data['last_name']),
+            'subject' => 'LCNL Event Registration Received',
             'body_html' => $memberEmailHtml,
             'body_text' => strip_tags($memberEmailHtml),
-            'priority'  => 1,
+            'priority' => 1,
         ]);
 
         /* -------------------------------------------------
@@ -105,12 +105,12 @@ class EventRegistrationController extends BaseController
         ]));
 
         $this->emails->enqueue([
-            'to_email'  => 'info@lcnl.org',
-            'to_name'   => 'LCNL Admin',
-            'subject'   => 'New Event Registration Submitted',
+            'to_email' => 'info@lcnl.co.uk',
+            'to_name' => 'LCNL Admin',
+            'subject' => 'New Event Registration Submitted',
             'body_html' => $adminEmailHtml,
             'body_text' => strip_tags($adminEmailHtml),
-            'priority'  => 2,
+            'priority' => 2,
         ]);
 
         // Flash data for thank-you page

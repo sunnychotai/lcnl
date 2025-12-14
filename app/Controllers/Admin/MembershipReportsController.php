@@ -48,10 +48,12 @@ class MembershipReportsController extends BaseController
                 ->countAllResults(),
 
             'not_verified' => $this->members->where('verified_at', null)
-                ->where('deleted_at', null)->countAllResults(),
+                ->where('deleted_at', null)
+                ->where('is_valid_email', 1)->countAllResults(),
 
             'pending' => $this->members->where('status', 'pending')
-                ->where('deleted_at', null)->countAllResults(),
+                ->where('deleted_at', null)
+                ->where('is_valid_email', 1)->countAllResults(),
         ];
 
         $activeTab = 'reports';
@@ -239,8 +241,8 @@ class MembershipReportsController extends BaseController
     public function emailInvalidData()
     {
         $status = $this->request->getPost('status') ?: 'all';
-        $type   = $this->request->getPost('membership_type') ?: 'all';
-        $city   = trim((string) $this->request->getPost('city'));
+        $type = $this->request->getPost('membership_type') ?: 'all';
+        $city = trim((string) $this->request->getPost('city'));
 
         $b = $this->baseMembersWithMembership();
         $b->where('m.is_valid_email', 0);
@@ -262,8 +264,8 @@ class MembershipReportsController extends BaseController
     public function emailInvalidExport()
     {
         $status = $this->request->getGet('status') ?: 'all';
-        $type   = $this->request->getGet('membership_type') ?: 'all';
-        $city   = trim((string) $this->request->getGet('city'));
+        $type = $this->request->getGet('membership_type') ?: 'all';
+        $city = trim((string) $this->request->getGet('city'));
 
         $b = $this->baseMembersWithMembership();
         $b->where('m.is_valid_email', 0);

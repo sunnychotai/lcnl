@@ -32,8 +32,8 @@
             ['Mobile Missing', $stats['mobile_missing'] ?? 0, 'bi-phone'],
             ['Missing Gender', $stats['missing_gender'] ?? 0, 'bi-gender-ambiguous'],
             ['Missing DOB', $stats['missing_dob'] ?? 0, 'bi-calendar-x'],
-            ['Not Verified', $stats['not_verified'] ?? 0, 'bi-shield-x'],
-            ['Pending', $stats['pending'] ?? 0, 'bi-hourglass-split'],
+            ['Not Verified (Valid Email)', $stats['not_verified'] ?? 0, 'bi-shield-x'],
+            ['Pending (Valid Email)', $stats['pending'] ?? 0, 'bi-hourglass-split'],
         ];
         ?>
         <?php foreach ($cards as [$label, $value, $icon]): ?>
@@ -171,3 +171,4 @@
 </div>
 
 <?= $this->endSection() ?>
+

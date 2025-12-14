@@ -36,7 +36,6 @@ class MemberModel extends Model
         'activation_sent_at',
         'activated_at',
         'is_valid_email'
-
     ];
 
     protected $beforeInsert = ['normalizeFields'];
