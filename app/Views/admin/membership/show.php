@@ -470,7 +470,6 @@ $relationMap = $familyConfig->relations;
                   <i class="bi bi-slash-circle me-2"></i>Disable Member
                 </button>
               </form>
-
             <?php else: ?>
               <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/activate') ?>">
                 <?= csrf_field() ?>
@@ -480,6 +479,19 @@ $relationMap = $familyConfig->relations;
               </form>
             <?php endif; ?>
 
+            <!-- 🔁 NEW: Re-send activation email (pending only) -->
+            <?php if (($m['status'] ?? '') === 'pending'): ?>
+              <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/resend-activation') ?>"
+                onsubmit="return confirm('Re-send activation email to this member?');">
+                <?= csrf_field() ?>
+                <button class="btn btn-warning w-100 btn-pill">
+                  <i class="bi bi-envelope-arrow-up me-2"></i>
+                  Re-send Activation Email
+                </button>
+              </form>
+            <?php endif; ?>
+
+            <!-- Existing resend (verification-style) -->
             <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/resend') ?>">
               <?= csrf_field() ?>
               <button class="btn btn-outline-brand w-100 btn-pill">
@@ -494,6 +506,7 @@ $relationMap = $familyConfig->relations;
           </div>
         </div>
       </div>
+
 
     </div>
   </div>

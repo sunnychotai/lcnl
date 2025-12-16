@@ -195,6 +195,14 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.membership.disable']);
     $routes->post('(:num)/resend', 'Admin\MembersController::resend/$1', ['as' => 'admin.membership.resend']);
 
+    // 🔁 Activation email resend (explicit)
+    $routes->post(
+        '(:num)/resend-activation',
+        'Admin\\MemberController::resendActivation/$1',
+        ['as' => 'admin.membership.resendActivation']
+    );
+
+
     // Edit Profile
     $routes->get('(:num)/edit', 'Admin\MembersController::edit/$1', ['as' => 'admin.membership.edit']);
     $routes->post('(:num)/update', 'Admin\MembersController::update/$1', ['as' => 'admin.membership.update']);
