@@ -66,6 +66,12 @@
           <form method="post" action="<?= site_url('events/register/submit') ?>" novalidate>
             <?= csrf_field() ?>
 
+            <!-- Honeypot: bots will fill this, humans won't -->
+            <div style="display:none;">
+              <label>Leave this field empty</label>
+              <input type="text" name="website" value="">
+            </div>
+
             <!-- Event selection -->
             <div class="form-section mb-4">
               <h5 class="section-title mb-3">
@@ -85,9 +91,8 @@
                   'New Year Bhajans 2026',
                 ];
                 foreach ($events as $event):
-                ?>
-                  <option value="<?= esc($event) ?>"
-                    <?= old('event_name', $selectedEvent) === $event ? 'selected' : '' ?>>
+                  ?>
+                  <option value="<?= esc($event) ?>" <?= old('event_name', $selectedEvent) === $event ? 'selected' : '' ?>>
                     <?= esc($event) ?>
                   </option>
                 <?php endforeach; ?>
@@ -105,33 +110,23 @@
                   <label class="form-label fw-semibold">
                     First Name <span class="text-danger">*</span>
                   </label>
-                  <input
-                    name="first_name"
-                    class="form-control"
-                    value="<?= old('first_name', $isMember ? session()->get('member_first_name') : '') ?>"
-                    required>
+                  <input name="first_name" class="form-control"
+                    value="<?= old('first_name', $isMember ? session()->get('member_first_name') : '') ?>" required>
                 </div>
 
                 <div class="col-md-6">
                   <label class="form-label fw-semibold">
                     Surname <span class="text-danger">*</span>
                   </label>
-                  <input
-                    name="last_name"
-                    class="form-control"
-                    value="<?= old('last_name', $isMember ? session()->get('member_last_name') : '') ?>"
-                    required>
+                  <input name="last_name" class="form-control"
+                    value="<?= old('last_name', $isMember ? session()->get('member_last_name') : '') ?>" required>
                 </div>
 
                 <div class="col-md-6">
                   <label class="form-label fw-semibold">
                     Email <span class="text-danger">*</span>
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    class="form-control"
-                    value="<?= old('email', $memberEmail ?? '') ?>"
+                  <input type="email" name="email" class="form-control" value="<?= old('email', $memberEmail ?? '') ?>"
                     required>
                 </div>
 
@@ -139,11 +134,8 @@
                   <label class="form-label fw-semibold">
                     Phone <span class="text-danger">*</span>
                   </label>
-                  <input
-                    name="phone"
-                    class="form-control"
-                    value="<?= old('phone', $isMember ? session()->get('member_phone') : '') ?>"
-                    required>
+                  <input name="phone" class="form-control"
+                    value="<?= old('phone', $isMember ? session()->get('member_phone') : '') ?>" required>
                 </div>
               </div>
             </div>
@@ -159,14 +151,8 @@
                   <label class="form-label fw-semibold">
                     Number of Participants <span class="text-danger">*</span>
                   </label>
-                  <input
-                    type="number"
-                    name="num_participants"
-                    min="1"
-                    max="10"
-                    class="form-control"
-                    value="<?= old('num_participants', 1) ?>"
-                    required>
+                  <input type="number" name="num_participants" min="1" max="10" class="form-control"
+                    value="<?= old('num_participants', 1) ?>" required>
                 </div>
               </div>
 
@@ -177,10 +163,7 @@
             <!-- Notes -->
             <div class="form-section mb-4">
               <label class="form-label fw-semibold">Notes (optional)</label>
-              <textarea
-                name="notes"
-                class="form-control"
-                rows="3"><?= esc(old('notes') ?? '') ?></textarea>
+              <textarea name="notes" class="form-control" rows="3"><?= esc(old('notes') ?? '') ?></textarea>
             </div>
 
             <!-- Submit -->
@@ -208,3 +191,4 @@
 </div>
 
 <?= $this->endSection() ?>
+

@@ -47,6 +47,12 @@ class EventRegistrationController extends BaseController
      */
     public function submit()
     {
+        // Honeypot check
+        if ($this->request->getPost('website')) {
+            // silently discard spam
+            return redirect()->to(site_url('events/thanks'));
+        }
+
         $rules = [
             'event_name' => 'required|min_length[3]',
             'first_name' => 'required|min_length[2]',
