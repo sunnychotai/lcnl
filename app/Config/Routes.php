@@ -198,7 +198,7 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     // 🔁 Activation email resend (explicit)
     $routes->post(
         '(:num)/resend-activation',
-        'Admin\\MemberController::resendActivation/$1',
+        'Admin\\MembersController::resendActivation/$1',
         ['as' => 'admin.membership.resendActivation']
     );
 

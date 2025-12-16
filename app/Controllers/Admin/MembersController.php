@@ -119,7 +119,7 @@ class MembersController extends BaseController
 
         $memberModel->update($id, [
             'is_valid_email' => $new,
-            'updated_at'     => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
         $oldLabel = $old ? 'VALID' : 'INVALID';
@@ -133,25 +133,87 @@ class MembersController extends BaseController
         $adminId = session()->get('user_id') ?: 0;
 
         $this->auditMemberChange([
-            'member_id'  => $id,
-            'type'       => 'email',
+            'member_id' => $id,
+            'type' => 'email',
             'field_name' => 'is_valid_email',
-            'old_value'  => $old,
-            'new_value'  => $new,
+            'old_value' => $old,
+            'new_value' => $new,
             'description' => $description,
         ]);
 
 
         return $this->response->setJSON([
-            'success'        => true,
+            'success' => true,
             'is_valid_email' => $new,
-            'label'          => $new ? 'Verified' : 'Invalid',
+            'label' => $new ? 'Verified' : 'Invalid',
             'csrf' => [
                 'tokenName' => csrf_token(),
                 'tokenHash' => csrf_hash(),
             ],
         ]);
     }
+
+    public function resendActivation(int $id)
+    {
+        $memberModel = new \App\Models\MemberModel();
+        $emailQueue = new \App\Models\EmailQueueModel();
+
+        $member = $memberModel->find($id);
+
+        if (!$member) {
+            return redirect()
+                ->back()
+                ->with('error', 'Member not found.');
+        }
+
+        if ($member['status'] !== 'pending') {
+            return redirect()
+                ->back()
+                ->with('error', 'Only pending members can be re-sent an activation email.');
+        }
+
+        if ((int) ($member['is_valid_email'] ?? 0) !== 1) {
+            return redirect()
+                ->back()
+                ->with('error', 'This member’s email is marked as invalid.');
+        }
+
+        // Prevent duplicate pending activation emails
+        $existing = $emailQueue
+            ->where('type', 'member_activation')
+            ->where('related_id', $member['id'])
+            ->where('status', 'pending')
+            ->first();
+
+        if ($existing) {
+            return redirect()
+                ->back()
+                ->with('message', 'Activation email is already queued.');
+        }
+
+        $htmlTemplate = file_get_contents(APPPATH . 'Views/emails/membership_activation.php');
+        $textTemplate = file_exists(APPPATH . 'Views/emails/membership_activation.txt')
+            ? file_get_contents(APPPATH . 'Views/emails/membership_activation.txt')
+            : null;
+
+        $emailQueue->insert([
+            'type' => 'member_activation',
+            'related_id' => (int) $member['id'],
+            'to_email' => $member['email'],
+            'to_name' => trim($member['first_name'] . ' ' . $member['last_name']),
+            'subject' => 'Activate your LCNL membership',
+            'body_html' => $htmlTemplate,
+            'body_text' => $textTemplate,
+            'priority' => 5,
+            'status' => 'pending',
+            'scheduled_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('message', 'Activation email re-queued successfully.');
+    }
+
 
 
     public function edit($id)
@@ -244,11 +306,11 @@ class MembersController extends BaseController
 
             if ((string) $newValue !== $oldValue) {
                 $this->auditMemberChange([
-                    'member_id'   => $id,
-                    'type'        => 'profile',
-                    'field_name'  => $field,
-                    'old_value'   => $oldValue,
-                    'new_value'   => (string) $newValue,
+                    'member_id' => $id,
+                    'type' => 'profile',
+                    'field_name' => $field,
+                    'old_value' => $oldValue,
+                    'new_value' => (string) $newValue,
                     'description' => ucfirst(str_replace('_', ' ', $field)) . ' updated via admin edit',
                 ]);
             }
