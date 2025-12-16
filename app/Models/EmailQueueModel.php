@@ -14,6 +14,8 @@ class EmailQueueModel extends Model
         'to_email',
         'to_name',
         'subject',
+        'type',
+        'related_id',
         'body_html',
         'body_text',
         'headers_json',
@@ -25,8 +27,9 @@ class EmailQueueModel extends Model
         'sent_at',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
+
 
     protected $useTimestamps = true;
     protected $createdField = 'created_at';

@@ -33,7 +33,9 @@ class MembersActivate extends BaseCommand
         CLI::write('Dry run: ' . ($dryRun ? 'YES' : 'NO'));
         CLI::newLine();
 
-        $members = (new MemberModel())
+        $memberModel = new MemberModel();
+
+        $members = $memberModel
             ->where('status', 'pending')
             ->where('is_valid_email', 1)
             ->where('activation_sent_at', null)
@@ -50,29 +52,45 @@ class MembersActivate extends BaseCommand
 
         foreach ($members as $member) {
 
+            $email = trim((string) ($member['email'] ?? ''));
+
+            // Absolute safety check (DB already filtered, but never trust data)
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                CLI::write("Skipping invalid email for member ID {$member['id']}", 'red');
+                continue;
+            }
+
             if ($dryRun) {
-                CLI::write("[DRY] {$member['email']}");
+                CLI::write("[DRY] Would queue: {$email}");
                 $queued++;
                 continue;
             }
 
+            // Load templates
+            $htmlTemplate = file_get_contents(APPPATH . 'Views/emails/membership_activation.php');
+            $textTemplate = file_exists(APPPATH . 'Views/emails/membership_activation.txt')
+                ? file_get_contents(APPPATH . 'Views/emails/membership_activation.txt')
+                : null;
+
             $emailQueue->insert([
                 'type' => 'member_activation',
-                'related_id' => $member['id'],
-                'to_email' => $member['email'],
-                'to_name' => trim($member['first_name'] . ' ' . $member['last_name']),
+                'related_id' => (int) $member['id'],
+                'to_email' => $email,
+                'to_name' => trim(($member['first_name'] ?? '') . ' ' . ($member['last_name'] ?? '')),
                 'subject' => 'Activate your LCNL membership',
-                'body_html' => file_get_contents(APPPATH . 'Views/emails/membership_activation.php'),
+                'body_html' => $htmlTemplate,
+                'body_text' => $textTemplate,
                 'priority' => 5,
                 'status' => 'pending',
                 'scheduled_at' => date('Y-m-d H:i:s'),
             ]);
 
-            (new MemberModel())->update($member['id'], [
+            // Mark activation email as queued (prevents duplicates)
+            $memberModel->update($member['id'], [
                 'activation_sent_at' => date('Y-m-d H:i:s'),
             ]);
 
-            CLI::write("Queued: {$member['email']}", 'green');
+            CLI::write("Queued: {$email}", 'green');
             $queued++;
         }
 
