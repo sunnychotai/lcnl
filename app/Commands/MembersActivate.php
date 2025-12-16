@@ -35,7 +35,7 @@ class MembersActivate extends BaseCommand
 
         $members = (new MemberModel())
             ->where('status', 'pending')
-            ->where('is_valid_email', 0)
+            ->where('is_valid_email', 1)
             ->where('activation_sent_at', null)
             ->orderBy('created_at', 'ASC')
             ->findAll($batch);
