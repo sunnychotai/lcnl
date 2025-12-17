@@ -481,7 +481,7 @@ $relationMap = $familyConfig->relations;
 
             <!-- 🔁 NEW: Re-send activation email (pending only) -->
             <?php if (($m['status'] ?? '') === 'pending'): ?>
-              <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/resend-activation') ?>"
+              <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/queue-activation') ?>"
                 onsubmit="return confirm('Re-send activation email to this member?');">
                 <?= csrf_field() ?>
                 <button class="btn btn-warning w-100 btn-pill">
