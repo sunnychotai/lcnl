@@ -172,6 +172,10 @@ $routes->group('admin/content', ['filter' => 'authAdmin:ADMIN,EVENTS,WEBSITE'], 
         $routes->post('update/(:num)', 'Admin\Events::update/$1');
         $routes->get('delete/(:num)', 'Admin\Events::delete/$1');
         $routes->get('clone/(:num)', 'Admin\Events::clone/$1');
+
+        $routes->get('event-registrations', 'Admin\EventRegistrationController::index');
+        $routes->post('event-registrations/summary', 'Admin\EventRegistrationController::summary');
+
     });
 });
 

@@ -21,7 +21,7 @@
         <div class="card-body">
           <i class="bi bi-person-check-fill fs-2 text-success mb-2"></i>
           <h6 class="fw-bold mb-0">Active Members</h6>
-          <p class="display-6 fw-bold mb-0"><?= (int)($stats['active_members'] ?? 0) ?></p>
+          <p class="display-6 fw-bold mb-0"><?= (int) ($stats['active_members'] ?? 0) ?></p>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
         <div class="card-body">
           <i class="bi bi-hourglass-split fs-2 text-warning mb-2"></i>
           <h6 class="fw-bold mb-0">Pending Members</h6>
-          <p class="display-6 fw-bold mb-0"><?= (int)($stats['pending_members'] ?? 0) ?></p>
+          <p class="display-6 fw-bold mb-0"><?= (int) ($stats['pending_members'] ?? 0) ?></p>
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@
         <div class="card-body">
           <i class="bi bi-envelope-paper-fill fs-2 text-primary mb-2"></i>
           <h6 class="fw-bold mb-0">Emails Sent</h6>
-          <p class="display-6 fw-bold mb-0"><?= (int)($stats['emails_sent'] ?? 0) ?></p>
+          <p class="display-6 fw-bold mb-0"><?= (int) ($stats['emails_sent'] ?? 0) ?></p>
         </div>
       </div>
     </div>
@@ -150,8 +150,24 @@
       </div>
     <?php endif; ?>
 
+    <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
+      <!-- Event Registrations -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/events/event-registrations') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-clipboard-data-fill fs-1 text-brand mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Event Registrations</h5>
+              <p class="text-muted small">Summary by event + attendee counts</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <?php endif; ?>
 
-    <?php if (hasRole('FINANCE')): ?>
+
+
+    <?php if (hasRole('ADMIN', 'FINANCE')): ?>
       <!-- Finance (Inactive Dummy) -->
       <div class="col-md-3">
         <div class="card shadow-sm h-100 text-center border-0 hover-none bg-light-subtle opacity-75">
@@ -169,3 +185,4 @@
 </div>
 
 <?= $this->endSection() ?>
+
