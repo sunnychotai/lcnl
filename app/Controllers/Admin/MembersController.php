@@ -153,7 +153,7 @@ class MembersController extends BaseController
         ]);
     }
 
-    public function resendActivation(int $id)
+    public function queueActivationEmail(int $id)
     {
         $memberModel = new \App\Models\MemberModel();
         $emailQueue = new \App\Models\EmailQueueModel();
@@ -213,6 +213,128 @@ class MembersController extends BaseController
             ->back()
             ->with('message', 'Activation email re-queued successfully.');
     }
+
+    /** Show manual add member form */
+    public function create()
+    {
+        return view('admin/membership/create', [
+            'defaults' => [
+                'status' => 'pending',
+                'membership_type' => 'Standard',
+                'is_valid_email' => 1,
+            ],
+        ]);
+    }
+
+    /** Store manually added member */
+    public function store()
+    {
+        $payload = $this->request->getPost();
+
+        /* ---------------------------------------------------------
+         * Validation
+         * --------------------------------------------------------- */
+        $rules = [
+            'first_name' => 'required|min_length[2]',
+            'last_name' => 'required|min_length[2]',
+            'email' => 'required|valid_email|is_unique[members.email]',
+            'mobile' => 'permit_empty|regex_match[/^\+?\d{7,15}$/]',
+            'status' => 'required|in_list[pending,active,disabled]',
+            'membership_type' => 'required|in_list[standard,life]',
+            'address1' => 'required|max_length[255]',
+            'city' => 'required|max_length[100]',
+            'postcode' => 'required|max_length[12]',
+            'date_of_birth' => 'permit_empty|valid_date[Y-m-d]',
+            'gender' => 'permit_empty|in_list[male,female,other,prefer_not_to_say]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', implode(' ', $this->validator->getErrors()));
+        }
+
+        /* ---------------------------------------------------------
+         * Core flags
+         * --------------------------------------------------------- */
+        $adminId = (int) (session('user_id') ?? 0);
+        $isActive = $payload['status'] === 'active';
+        $isValidEmail = (int) ($payload['is_valid_email'] ?? 1);
+
+        /* ---------------------------------------------------------
+         * Create member
+         * --------------------------------------------------------- */
+        $memberData = [
+            'first_name' => trim($payload['first_name']),
+            'last_name' => trim($payload['last_name']),
+            'email' => strtolower(trim($payload['email'])),
+            'mobile' => trim($payload['mobile'] ?? ''),
+            'date_of_birth' => $payload['date_of_birth'] ?? null,
+            'gender' => $payload['gender'] ?? null,
+            'address1' => trim($payload['address1']),
+            'address2' => trim($payload['address2'] ?? ''),
+            'city' => trim($payload['city']),
+            'postcode' => trim($payload['postcode']),
+            'status' => $payload['status'],
+            'is_valid_email' => $isValidEmail,
+            'password_hash' => password_hash(bin2hex(random_bytes(8)), PASSWORD_DEFAULT),
+            'verified_at' => $isActive ? date('Y-m-d H:i:s') : null,
+            'verified_by' => $isActive ? $adminId : null,
+            'source' => 'admin_manual',
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+
+        $memberId = $this->members->insert($memberData);
+
+        /* ---------------------------------------------------------
+         * Membership record (default = Standard)
+         * --------------------------------------------------------- */
+        $membershipType = $payload['membership_type'] === 'life'
+            ? 'life'
+            : 'standard';
+
+        $membershipModel = new \App\Models\MembershipModel();
+        $membershipModel->insert([
+            'member_id' => $memberId,
+            'membership_type' => $membershipType,
+            'status' => 'active',
+            'start_date' => date('Y-m-d'),
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        /* ---------------------------------------------------------
+         * Audit log
+         * --------------------------------------------------------- */
+        $this->auditMemberChange([
+            'member_id' => $memberId,
+            'type' => 'admin',
+            'field_name' => 'member',
+            'old_value' => null,
+            'new_value' => 'created',
+            'description' => $isActive
+                ? 'Member manually created and auto-verified by admin'
+                : 'Member manually created by admin',
+        ]);
+
+        /* ---------------------------------------------------------
+         * Activation email (ONLY if safe)
+         * --------------------------------------------------------- */
+        if (
+            $payload['status'] === 'pending'
+            && $isValidEmail === 1
+            && !empty($payload['send_activation'])
+        ) {
+            $this->queueActivationEmail($memberId);
+        }
+
+        /* ---------------------------------------------------------
+         * Done
+         * --------------------------------------------------------- */
+        return redirect()
+            ->to(base_url("admin/membership/{$memberId}"))
+            ->with('message', 'Member added successfully.');
+    }
+
 
 
 
@@ -386,7 +508,7 @@ class MembersController extends BaseController
     }
 
     /** Resend verification */
-    public function resend($id)
+    public function sendActivationNow($id)
     {
         $memberModel = new MemberModel();
         $member = $memberModel->find($id);

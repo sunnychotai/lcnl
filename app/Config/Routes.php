@@ -183,34 +183,37 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.membership.export']);
     $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.membership.show']);
 
+    // Email validity toggle (AJAX)
     $routes->post(
         '(:num)/email-validity',
-        'Admin\MembersController::toggleEmailValidity/$1',
-
+        'Admin\MembersController::toggleEmailValidity/$1'
     );
 
+    // Creation of a member from the ADMIN panel
+    $routes->get('create', 'Admin\MembersController::create', ['as' => 'admin.membership.create']);
+    $routes->post('store', 'Admin\MembersController::store', ['as' => 'admin.membership.store']);
 
-    // Activation / Disable / Resend
+    // Activate / Disable
     $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.membership.activate']);
     $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.membership.disable']);
-    $routes->post('(:num)/resend', 'Admin\MembersController::resend/$1', ['as' => 'admin.membership.resend']);
 
-    // 🔁 Activation email resend (explicit)
+    // 🔁 Activation email (QUEUED – token generated at send time)
     $routes->post(
-        '(:num)/resend-activation',
-        'Admin\\MembersController::resendActivation/$1',
-        ['as' => 'admin.membership.resendActivation']
+        '(:num)/queue-activation',
+        'Admin\MembersController::queueActivationEmail/$1',
+        ['as' => 'admin.membership.queueActivationEmail']
     );
-
 
     // Edit Profile
     $routes->get('(:num)/edit', 'Admin\MembersController::edit/$1', ['as' => 'admin.membership.edit']);
     $routes->post('(:num)/update', 'Admin\MembersController::update/$1', ['as' => 'admin.membership.update']);
 
-    // ⭐ NEW: Membership Type Update (modal)
-    $routes->post('(:num)/update-type', 'Admin\MembersController::updateMembershipType/$1', [
-        'as' => 'admin.membership.updateType'
-    ]);
+    // Membership Type Update
+    $routes->post(
+        '(:num)/update-type',
+        'Admin\MembersController::updateMembershipType/$1',
+        ['as' => 'admin.membership.updateType']
+    );
 
     // Family Management (admin-side)
     $routes->post('(:num)/family/create', 'Admin\FamilyController::create/$1', ['as' => 'admin.family.create']);
@@ -223,45 +226,38 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->post('family/update', 'Admin\MemberFamilyController::update');
     $routes->post('family/delete', 'Admin\MemberFamilyController::delete');
 
-    // REPORT: Email Invalid
+    // Reports
+    $routes->get('reports', 'Admin\MembershipReportsController::index', ['as' => 'admin.membership.reports']);
+
     $routes->get('reports/email-invalid', 'Admin\MembershipReportsController::emailInvalid');
     $routes->post('reports/email-invalid/data', 'Admin\MembershipReportsController::emailInvalidData');
     $routes->get('reports/email-invalid/export', 'Admin\MembershipReportsController::emailInvalidExport');
 
-    // REPORT: Mobile Missing
     $routes->get('reports/mobile-missing', 'Admin\MembershipReportsController::mobileMissing');
     $routes->post('reports/mobile-missing/data', 'Admin\MembershipReportsController::mobileMissingData');
     $routes->get('reports/mobile-missing/export', 'Admin\MembershipReportsController::mobileMissingExport');
 
-    // REPORT: Missing Gender
     $routes->get('reports/missing-gender', 'Admin\MembershipReportsController::missingGender');
     $routes->post('reports/missing-gender/data', 'Admin\MembershipReportsController::missingGenderData');
     $routes->get('reports/missing-gender/export', 'Admin\MembershipReportsController::missingGenderExport');
 
-    // REPORT: Missing DOB
     $routes->get('reports/missing-dob', 'Admin\MembershipReportsController::missingDob');
     $routes->post('reports/missing-dob/data', 'Admin\MembershipReportsController::missingDobData');
     $routes->get('reports/missing-dob/export', 'Admin\MembershipReportsController::missingDobExport');
 
-    // REPORT: Not Verified (verified_at IS NULL)
     $routes->get('reports/not-verified', 'Admin\MembershipReportsController::notVerified');
     $routes->post('reports/not-verified/data', 'Admin\MembershipReportsController::notVerifiedData');
     $routes->get('reports/not-verified/export', 'Admin\MembershipReportsController::notVerifiedExport');
 
-    // REPORT: Still Pending (status = 'pending')
     $routes->get('reports/pending', 'Admin\MembershipReportsController::pendingMembers');
     $routes->post('reports/pending/data', 'Admin\MembershipReportsController::pendingMembersData');
     $routes->get('reports/pending/export', 'Admin\MembershipReportsController::pendingMembersExport');
 
-    // REPORT: ACTIVE LIFE MEMBERS
     $routes->get('reports/active-life', 'Admin\MembershipReportsController::activeLife');
     $routes->post('reports/active-life/data', 'Admin\MembershipReportsController::activeLifeData');
     $routes->get('reports/active-life/export', 'Admin\MembershipReportsController::activeLifeExport');
-
-
-
-    $routes->get('reports', 'Admin\MembershipReportsController::index', ['as' => 'admin.membership.reports']);
 });
+
 
 
 

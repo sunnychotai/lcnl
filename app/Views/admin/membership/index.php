@@ -48,6 +48,13 @@
     <h1 class="h4 mb-0">
       <i class="bi bi-people-fill me-2 text-brand"></i> Members
     </h1>
+
+
+
+    <a href="<?= base_url('admin/membership/create') ?>" class="btn btn-sm btn-outline-brand">
+      <i class="bi bi-person-plus-fill me-1"></i>
+      Add Member
+    </a>
     <a href="<?= base_url('admin/membership/export') ?>" class="btn btn-sm btn-outline-brand">
       <i class="bi bi-download me-1"></i> Export CSV
     </a>
@@ -164,7 +171,7 @@
     table.ajax.reload();
   }
 
-  $(function() {
+  $(function () {
 
     /* --------------------------------------------
      * DATATABLE INIT (THIS WAS MISSING)
@@ -178,7 +185,7 @@
       ajax: {
         url: "<?= base_url('admin/membership/data') ?>",
         type: "POST",
-        data: function(d) {
+        data: function (d) {
           d.status = $('#filterStatus').val();
           d.searchTerm = $('#filterSearch').val();
           d[CSRF.name] = CSRF.hash;
@@ -186,38 +193,38 @@
       },
 
       columns: [{
-          data: "id"
-        },
-        {
-          data: "name"
-        },
-        {
-          data: "email_html",
-          orderable: false
-        },
-        {
-          data: "email_validity_html",
-          orderable: false,
-          searchable: false
-        },
-        {
-          data: "mobile",
-          render: d => d && d !== '0' ? d : '<span class="text-muted">—</span>'
-        },
-        {
-          data: "city"
-        },
-        {
-          data: "status_badge"
-        },
-        {
-          data: "created_at"
-        },
-        {
-          data: "actions",
-          orderable: false,
-          searchable: false
-        }
+        data: "id"
+      },
+      {
+        data: "name"
+      },
+      {
+        data: "email_html",
+        orderable: false
+      },
+      {
+        data: "email_validity_html",
+        orderable: false,
+        searchable: false
+      },
+      {
+        data: "mobile",
+        render: d => d && d !== '0' ? d : '<span class="text-muted">—</span>'
+      },
+      {
+        data: "city"
+      },
+      {
+        data: "status_badge"
+      },
+      {
+        data: "created_at"
+      },
+      {
+        data: "actions",
+        orderable: false,
+        searchable: false
+      }
       ],
 
       order: [
@@ -232,7 +239,7 @@
     /* --------------------------------------------
      * EMAIL VALIDITY TOGGLE (ONE HANDLER ONLY)
      * -------------------------------------------- */
-    $('#membersTable').on('click', '.js-toggle-email-validity', async function() {
+    $('#membersTable').on('click', '.js-toggle-email-validity', async function () {
 
       const btn = $(this);
       const memberId = btn.data('id');
@@ -252,12 +259,12 @@
       try {
         const res = await fetch(
           `<?= base_url('admin/membership') ?>/${memberId}/email-validity`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: form.toString()
-          }
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: form.toString()
+        }
         );
 
         if (!res.ok) {
@@ -290,3 +297,4 @@
 
 
 <?= $this->endSection() ?>
+

@@ -209,7 +209,7 @@ class SendQueuedEmails extends BaseCommand
                         'expires_at' => date('Y-m-d H:i:s', strtotime('+72 hours')),
                     ]);
 
-                    $base = rtrim(config('App')->baseURL, '/');
+                    $base = rtrim(env('app.baseURL'), '/');
                     $placeholders['{{activation_link}}'] = $base . '/membership/reset/' . $token;
                 }
 
