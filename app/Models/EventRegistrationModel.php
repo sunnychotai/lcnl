@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class EventRegistrationModel extends Model
 {
-    protected $table         = 'event_registrations';
-    protected $primaryKey    = 'id';
+    protected $table = 'event_registrations';
+    protected $primaryKey = 'id';
     protected $allowedFields = [
         'event_name',
         'first_name',
@@ -19,9 +19,10 @@ class EventRegistrationModel extends Model
         'notes',
         'status',
         'member_id',
+        'ip_address',
     ];
 
 
     protected $useTimestamps = true;
-    protected $returnType    = 'array';
+    protected $returnType = 'array';
 }
