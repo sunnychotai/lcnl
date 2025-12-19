@@ -13,6 +13,59 @@ class PasswordController extends BaseController
         return view('account/forgot_password');
     }
 
+    public function sendReset()
+{
+    $email = trim($this->request->getPost('email'));
+
+    if (!$email) {
+        return redirect()->back()->with('error', 'Email is required.');
+    }
+
+    $memberModel = new MemberModel();
+    $member = $memberModel->where('email', $email)->first();
+
+    // SECURITY: always respond with success (no email enumeration)
+    if (!$member) {
+        return redirect()->back()
+            ->with('message', 'If an account exists, a reset link has been sent.');
+    }
+
+    // -------------------------------------------------
+    // Create reset token
+    // -------------------------------------------------
+    $resetModel = new PasswordResetModel();
+    $token = bin2hex(random_bytes(32));
+
+    $resetModel->insert([
+        'member_id' => $member['id'],
+        'token' => $token,
+        'expires_at' => date('Y-m-d H:i:s', strtotime('+72 hours')),
+    ]);
+
+    // -------------------------------------------------
+    // Send reset email
+    // -------------------------------------------------
+$resetLink = site_url(route_to('member.reset', $token));
+
+    $fullName = trim(($member['first_name'] ?? '') . ' ' . ($member['last_name'] ?? ''));
+
+    (new EmailQueueModel())->enqueue([
+        'to_email' => $member['email'],
+        'to_name'  => $fullName,
+        'subject'  => 'Reset your LCNL password',
+        'body_html'=> view('emails/reset_password', [
+            'name' => $fullName,
+            'link' => $resetLink
+        ]),
+        'body_text'=> "Reset your password:\n\n" . $resetLink,
+        'priority' => 1,
+    ]);
+
+    return redirect()->back()
+        ->with('message', 'If an account exists, a reset link has been sent.');
+}
+
+
     public function reset(string $token)
     {
         $row = (new PasswordResetModel())->findValidToken($token);
