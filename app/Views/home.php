@@ -27,17 +27,17 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const slides = [{
-        title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
-        subtitle: "... bringing people together since 1976. Proud of our heritage"
-      },
-      {
-        title: `"CELEBRATING <span class='script'>COMMUNITY</span> & CULTURE"`,
-        subtitle: "Uniting Lohanas across North London"
-      },
-      {
-        title: `"SUPPORTING <span class='script'>FAMILIES</span> IN NEED"`,
-        subtitle: "From bereavement care to cultural guidance, LCNL is here for everyone."
-      }
+      title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
+      subtitle: "... bringing people together since 1976. Proud of our heritage"
+    },
+    {
+      title: `"CELEBRATING <span class='script'>COMMUNITY</span> & CULTURE"`,
+      subtitle: "Uniting Lohanas across North London"
+    },
+    {
+      title: `"SUPPORTING <span class='script'>FAMILIES</span> IN NEED"`,
+      subtitle: "From bereavement care to cultural guidance, LCNL is here for everyone."
+    }
     ];
 
     const titleEl = document.getElementById('heroTitle');
@@ -105,90 +105,6 @@
 
       <!-- Left column -->
       <div class="col-md-8">
-
-        <!-- New Year's Day Bhajans 2026 Advert -->
-        <div class="lcnl-card rounded border-0 shadow-sm mb-4 p-3">
-
-          <h4 class="fw-bold mb-3 text-brand">
-            <i class="bi bi-music-note-beamed text-primary me-2"></i>
-            LCNL New Year's Day Bhajans – 2026
-          </h4>
-
-          <!-- Clickable flyer (smaller) -->
-          <a href="<?= base_url('events/register/new-year-bhajans') ?>"
-            class="d-block text-center mb-3"
-            aria-label="Register for New Year's Day Bhajans 2026">
-
-            <img src="<?= base_url('assets/img/events/nyd_bhajans_2026.png') ?>"
-              class="img-fluid rounded shadow-sm"
-              style="max-width: 600px;"
-              alt="New Year’s Day Bhajans 2026">
-          </a>
-
-          <p class="mb-2">
-            Join us on <strong>Thursday 1st January 2026</strong> for an uplifting open-mic Bhajans
-            session as we welcome the new year with music, blessings, and community spirit.
-          </p>
-
-          <p class="mb-2">
-            <strong>🕒 Time:</strong> 14:00 – 16:00<br>
-            <strong>📍 Venue:</strong> J.V. Gokal Hall, Dhamecha Lohana Centre, Brember Road, HA2 8AX
-          </p>
-
-          <p class="mb-2">
-            Tea and snacks will be served. Everyone is welcome!
-          </p>
-
-          <div class="d-grid gap-2 mt-3">
-            <a href="<?= base_url('events/register/new-year-bhajans') ?>"
-              class="btn btn-accent btn-lg rounded-pill">
-              <i class="bi bi-pencil-square me-2"></i>
-              Register for Bhajans
-            </a>
-          </div>
-
-        </div>
-
-
-
-        <!-- Mahila Mandal Baby Clothing Drive -->
-        <div class="lcnl-card rounded border-0 shadow-sm mb-4 p-3">
-
-          <h4 class="fw-bold mb-3 text-brand">
-            <i class="bi bi-heart-fill text-pink me-2"></i>
-            Baby Clothing Donations 2025 Drive
-          </h4>
-
-          <img src="<?= base_url('assets/img/events/lcnl_mahila_charity.jpg') ?>"
-            class="img-fluid rounded shadow-sm mb-3" alt="Mahila Mandal Baby Clothing Drive">
-
-          <p class="mb-2">
-            <strong>LCNL Mahila Mandal</strong> is supporting NHS England’s
-            Premature Baby Unit at NWP by collecting new or gently used baby
-            clothing items — bodysuits, sleepsuits, hats, and mitts — to bring
-            warmth and comfort to premature babies in need.
-          </p>
-
-          <p class="mb-2">
-            <strong>📅 Collection Dates:</strong> 1st Nov – 20th Dec 2025<br>
-            <strong>👕 Note:</strong> Please wash, sort, and pack clothing by age before donating.
-          </p>
-
-          <p class="mb-2">
-            Let’s come together as a community to spread comfort, love, and hope
-            to these little ones. 💕
-          </p>
-
-          <p class="fw-bold mb-1">📦 Drop-off & Information:</p>
-          <ul class="small mb-0">
-            <li>Nainaben Raithatha — 07944 244 442</li>
-            <li>Malini Vissandjee — 07941 651 866</li>
-            <li>Sudhaben Badiani — 07809 096 053</li>
-            <li>Archanaben Sodha — 07795 958 537</li>
-            <li>Kalpanaben Sanghani — 07949 443 691</li>
-          </ul>
-
-        </div>
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
@@ -340,3 +256,4 @@
 </section>
 
 <?= $this->endSection() ?>
+
