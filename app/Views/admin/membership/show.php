@@ -1007,6 +1007,11 @@ if ($familyCount > 0)
     color: white !important;
   }
 
+  .badge-status-disabled {
+    background: #dd0000 !important;
+    color: white !important;
+  }
+
   .pulse-dot {
     font-size: 0.5rem;
     margin-right: 0.25rem;
