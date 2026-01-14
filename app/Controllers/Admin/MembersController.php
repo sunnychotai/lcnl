@@ -7,6 +7,7 @@ use App\Models\MemberModel;
 use App\Models\MemberFamilyModel;
 use App\Services\MemberService;
 use App\Models\MemberAuditLogModel;
+use Config\MemberStatus;
 
 class MembersController extends BaseController
 {
@@ -225,6 +226,27 @@ class MembersController extends BaseController
             ],
         ]);
     }
+
+
+
+    public function disableWithReason(int $id)
+    {
+        $reason = $this->request->getPost('reason');
+        $notes = trim((string) $this->request->getPost('notes'));
+        $adminId = (int) (session('user_id') ?? 0);
+
+        try {
+            $this->svc->disableWithReason($id, $reason, $notes, $adminId);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()
+            ->back()
+            ->with('message', 'Member disabled successfully.');
+    }
+
+
 
     /** Store manually added member */
     public function store()

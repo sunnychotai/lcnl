@@ -3,8 +3,13 @@
 
 <?php
 use Config\Family as FamilyConfig;
+
 $familyConfig = new FamilyConfig();
 $relationMap = $familyConfig->relations;
+
+use Config\MemberStatus;
+$memberStatusConfig = new MemberStatus();
+
 
 // Calculate stats
 $memberSince = new DateTime($m['created_at']);
@@ -52,6 +57,18 @@ if ($familyCount > 0)
                   <i class="bi bi-circle-fill pulse-dot"></i>
                   <?= ucfirst($m['status']) ?>
                 </span>
+
+                <?php if ($m['status'] === 'disabled' && $m['disabled_reason']): ?>
+                  <?php
+                  $cfg = new MemberStatus();
+                  $label = $cfg->disableReasons[$m['disabled_reason']]['label'] ?? 'Disabled';
+                  ?>
+                  <span class="badge bg-danger-subtle text-danger">
+                    <?= esc($label) ?>
+                  </span>
+                <?php endif; ?>
+
+
               </div>
             </div>
           </div>
@@ -521,6 +538,187 @@ if ($familyCount > 0)
         </div>
       </div>
 
+
+
+      <!-- Membership Status -->
+      <div class="card border-0 shadow-sm rounded-4 card-hover">
+        <div class="card-body p-4">
+
+          <h6 class="fw-bold text-brand mb-3">
+            <i class="bi bi-shield-check me-2"></i>Membership Status
+          </h6>
+
+          <?php
+
+          $currentStatus = $m['status'] ?? 'unknown';
+          $memberStatusConfig = new MemberStatus();
+
+          $statusMeta = [
+            'active' => [
+              'label' => 'Active',
+              'class' => 'bg-success-subtle text-success',
+              'icon' => 'bi-check-circle-fill',
+            ],
+            'pending' => [
+              'label' => 'Pending',
+              'class' => 'bg-warning-subtle text-warning',
+              'icon' => 'bi-hourglass-split',
+            ],
+            'disabled' => [
+              'label' => 'Disabled',
+              'class' => 'bg-danger-subtle text-danger',
+              'icon' => 'bi-slash-circle-fill',
+            ],
+          ];
+
+          $statusCfg = $statusMeta[$currentStatus] ?? null;
+          ?>
+
+          <!-- CURRENT STATUS SUMMARY -->
+          <div class="p-3 rounded-3 bg-light mb-3">
+            <div class="d-flex align-items-start gap-3">
+
+              <div class="flex-shrink-0">
+                <span class="badge <?= $statusCfg['class'] ?? 'bg-secondary' ?> px-3 py-2">
+                  <i class="bi <?= $statusCfg['icon'] ?? 'bi-question-circle' ?> me-1"></i>
+                  <?= esc($statusCfg['label'] ?? ucfirst($currentStatus)) ?>
+                </span>
+              </div>
+
+              <div class="flex-grow-1 small text-muted">
+
+                <?php if ($currentStatus === 'disabled'): ?>
+
+                  <?php
+                  $reasonKey = $m['disabled_reason'] ?? null;
+                  $reasonCfg = $reasonKey
+                    ? ($memberStatusConfig->disableReasons[$reasonKey] ?? null)
+                    : null;
+                  ?>
+
+                  <div class="fw-semibold text-dark mb-1">
+                    Reason:
+                    <span class="text-danger">
+                      <?= esc($reasonCfg['label'] ?? 'Unknown') ?>
+                    </span>
+                  </div>
+
+                  <?php if (!empty($m['disabled_notes'])): ?>
+                    <div class="mb-2 fst-italic">
+                      “
+                      <?= esc($m['disabled_notes']) ?>”
+                    </div>
+                  <?php endif; ?>
+
+                  <div class="d-flex flex-wrap gap-3">
+                    <?php if (!empty($m['disabled_at'])): ?>
+                      <div>
+                        <i class="bi bi-clock-history me-1"></i>
+                        <?= date('d M Y, g:i A', strtotime($m['disabled_at'])) ?>
+                      </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($m['disabled_by'])): ?>
+                      <div>
+                        <i class="bi bi-person-badge me-1"></i>
+                        Admin #
+                        <?= (int) $m['disabled_by'] ?>
+                      </div>
+                    <?php endif; ?>
+                  </div>
+
+                <?php elseif ($currentStatus === 'active'): ?>
+
+                  <div class="fw-semibold text-dark">
+                    Member has full access and can log in.
+                  </div>
+
+                  <?php if (!empty($m['verified_at'])): ?>
+                    <div class="mt-1">
+                      <i class="bi bi-patch-check-fill me-1 text-success"></i>
+                      Verified on
+                      <?= date('d M Y', strtotime($m['verified_at'])) ?>
+                    </div>
+                  <?php endif; ?>
+
+                <?php elseif ($currentStatus === 'pending'): ?>
+
+                  <div class="fw-semibold text-dark">
+                    Member has not yet activated their account.
+                  </div>
+
+                  <?php if (!empty($m['created_at'])): ?>
+                    <div class="mt-1">
+                      <i class="bi bi-calendar-plus me-1"></i>
+                      Registered on
+                      <?= date('d M Y', strtotime($m['created_at'])) ?>
+                    </div>
+                  <?php endif; ?>
+
+                <?php endif; ?>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- STATUS OVERRIDE DROPDOWN -->
+          <div class="dropdown mb-3">
+            <button class="btn btn-outline-brand w-100 btn-pill dropdown-toggle" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-arrow-repeat me-2"></i>
+              Override Member Status
+            </button>
+
+            <ul class="dropdown-menu w-100 shadow">
+
+              <!-- SET ACTIVE -->
+              <li>
+                <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/activate') ?>"
+                  onsubmit="return confirm('Set this member to ACTIVE?');">
+                  <?= csrf_field() ?>
+                  <button class="dropdown-item text-success">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Set Active
+                  </button>
+                </form>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <!-- SET DISABLED (REASONS) -->
+              <?php foreach ($memberStatusConfig->disableReasons as $key => $r): ?>
+                <li>
+                  <button class="dropdown-item <?= esc($r['class'] ?? '') ?>" data-reason="<?= esc($key) ?>"
+                    data-current-status="<?= esc($currentStatus) ?>" data-bs-toggle="modal"
+                    data-bs-target="#disableMemberModal">
+                    <i class="bi <?= esc($r['icon']) ?> me-2"></i>
+                    Disable –
+                    <?= esc($r['label']) ?>
+                  </button>
+                </li>
+              <?php endforeach; ?>
+
+            </ul>
+          </div>
+
+          <!-- PENDING ACTIONS -->
+          <?php if ($currentStatus === 'pending'): ?>
+            <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/queue-activation') ?>"
+              onsubmit="return confirm('Re-send activation email to this member?');">
+              <?= csrf_field() ?>
+              <button class="btn btn-warning w-100 btn-pill">
+                <i class="bi bi-envelope-arrow-up me-2"></i>
+                Re-send Activation Email
+              </button>
+            </form>
+          <?php endif; ?>
+
+        </div>
+      </div>
+
+
       <!-- Activity Timeline -->
       <div class="card border-0 shadow-sm rounded-4 mb-4 card-hover">
         <div class="card-body p-4">
@@ -662,72 +860,6 @@ if ($familyCount > 0)
             </div>
           <?php endif; ?>
 
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="card border-0 shadow-sm rounded-4 card-hover">
-        <div class="card-body p-4">
-          <h6 class="fw-bold text-brand mb-4">
-            <i class="bi bi-lightning-charge-fill me-2"></i>Quick Actions
-            <span class="badge bg-light text-muted ms-2 small">⌘K</span>
-          </h6>
-
-          <div class="d-grid gap-3">
-
-            <?php if (($m['status'] ?? '') === 'active'): ?>
-              <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/disable') ?>"
-                onsubmit="return confirm('Are you sure you want to disable this member? They will lose access immediately.');">
-                <?= csrf_field() ?>
-                <button class="btn btn-outline-danger w-100 btn-pill action-btn">
-                  <i class="bi bi-slash-circle me-2"></i>Disable Member
-                </button>
-              </form>
-            <?php else: ?>
-              <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/activate') ?>">
-                <?= csrf_field() ?>
-                <button class="btn btn-success w-100 btn-pill action-btn">
-                  <i class="bi bi-check2-circle me-2"></i>Activate Member
-                </button>
-              </form>
-            <?php endif; ?>
-
-            <?php if (($m['status'] ?? '') === 'pending'): ?>
-              <div class="divider-text">
-                <span>Activation</span>
-              </div>
-
-              <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/queue-activation') ?>"
-                onsubmit="return confirm('Re-send activation email to this member?');">
-                <?= csrf_field() ?>
-                <button class="btn btn-warning w-100 btn-pill action-btn">
-                  <i class="bi bi-envelope-arrow-up me-2"></i>
-                  Re-send Activation Email
-                </button>
-              </form>
-            <?php endif; ?>
-
-            <div class="divider-text">
-              <span>Communication</span>
-            </div>
-
-            <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/resend') ?>">
-              <?= csrf_field() ?>
-              <button class="btn btn-outline-brand w-100 btn-pill action-btn">
-                <i class="bi bi-envelope me-2"></i>Resend Verification
-              </button>
-            </form>
-
-            <div class="divider-text">
-              <span>Profile</span>
-            </div>
-
-            <a href="<?= base_url('admin/membership/' . $m['id'] . '/edit') ?>"
-              class="btn btn-brand w-100 btn-pill action-btn">
-              <i class="bi bi-pencil-square me-2"></i>Edit Profile
-            </a>
-
-          </div>
         </div>
       </div>
 
@@ -1641,6 +1773,27 @@ if ($familyCount > 0)
 <script>
   document.addEventListener('DOMContentLoaded', function () {
 
+    document.querySelectorAll('[data-reason]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const reason = btn.dataset.reason;
+        const currentStatus = btn.dataset.currentStatus;
+
+        document.getElementById('disableReason').value = reason;
+
+        const alertBox = document.querySelector(
+          '#disableMemberModal .alert'
+        );
+
+        if (alertBox) {
+          alertBox.textContent =
+            currentStatus === 'disabled'
+              ? 'This will update the disabled reason and notes for this member.'
+              : 'This will immediately revoke access for this member.';
+        }
+      });
+    });
+
+
     // Copy to Clipboard Function
     window.copyToClipboard = function (text, element) {
       navigator.clipboard.writeText(text).then(function () {
@@ -1759,6 +1912,50 @@ if ($familyCount > 0)
 
   });
 </script>
+
+<!-- Disable Member Modal -->
+<div class="modal fade" id="disableMemberModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form method="post" action="<?= base_url('admin/membership/' . $m['id'] . '/disable-with-reason') ?>"
+      class="modal-content">
+      <?= csrf_field() ?>
+
+      <input type="hidden" name="reason" id="disableReason">
+
+      <div class="modal-header">
+        <h5 class="modal-title text-danger">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          Disable Member
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="alert alert-warning small mb-3">
+          This will immediately revoke access for this member.
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">
+            Admin Notes <span class="text-muted">(optional)</span>
+          </label>
+          <textarea name="notes" class="form-control" rows="3" maxlength="255"
+            placeholder="Internal notes for audit / reporting"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-danger">
+          <i class="bi bi-slash-circle me-1"></i>
+          Confirm Disable
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <?= $this->endSection() ?>
 

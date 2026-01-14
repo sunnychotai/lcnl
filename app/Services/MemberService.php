@@ -7,6 +7,8 @@ use App\Models\MembershipModel;
 use App\Models\MemberAuditLogModel;
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\I18n\Time;
+use Config\MemberStatus;
+
 
 class MemberService
 {
@@ -53,22 +55,22 @@ class MemberService
         $now = Time::now()->toDateTimeString();
 
         $data = [
-            'first_name'    => trim($input['first_name']),
-            'last_name'     => trim($input['last_name']),
-            'email'         => strtolower(trim($input['email'])),
-            'mobile'        => $mobile,
-            'address1'      => trim($input['address1']),
-            'address2'      => $input['address2'] !== '' ? trim($input['address2']) : null,
-            'city'          => trim($input['city']),
-            'postcode'      => strtoupper(trim($input['postcode'])),
+            'first_name' => trim($input['first_name']),
+            'last_name' => trim($input['last_name']),
+            'email' => strtolower(trim($input['email'])),
+            'mobile' => $mobile,
+            'address1' => trim($input['address1']),
+            'address2' => $input['address2'] !== '' ? trim($input['address2']) : null,
+            'city' => trim($input['city']),
+            'postcode' => strtoupper(trim($input['postcode'])),
             'date_of_birth' => $input['date_of_birth'] ?? null,
-            'gender'        => $input['gender'] ?? null,
+            'gender' => $input['gender'] ?? null,
             'password_hash' => password_hash($input['password'], PASSWORD_DEFAULT),
-            'status'        => 'pending',
-            'consent_at'    => $now,
-            'source'        => $input['source'] ?? 'web',
-            'created_at'    => $now,
-            'updated_at'    => $now,
+            'status' => 'pending',
+            'consent_at' => $now,
+            'source' => $input['source'] ?? 'web',
+            'created_at' => $now,
+            'updated_at' => $now,
         ];
 
         if (!$this->members->insert($data, true)) {
@@ -79,73 +81,49 @@ class MemberService
 
         // Initial membership record
         $this->memberships->insert([
-            'member_id'         => $memberId,
-            'membership_type'   => 'Standard',
+            'member_id' => $memberId,
+            'membership_type' => 'Standard',
             'membership_number' => null,
-            'start_date'        => date('Y-m-d'),
-            'end_date'          => null,
-            'status'            => 'active',
-            'created_at'        => $now,
-            'updated_at'        => $now,
+            'start_date' => date('Y-m-d'),
+            'end_date' => null,
+            'status' => 'active',
+            'created_at' => $now,
+            'updated_at' => $now,
         ]);
 
         // 🔐 AUDIT
         $this->audit->insert([
-            'member_id'   => $memberId,
-            'type'        => 'member',
-            'field_name'  => 'create',
-            'old_value'   => null,
-            'new_value'   => 'pending',
+            'member_id' => $memberId,
+            'type' => 'member',
+            'field_name' => 'create',
+            'old_value' => null,
+            'new_value' => 'pending',
             'description' => 'Member created (pending) via registration',
-            'changed_by'  => 0,
-            'changed_at'  => $now,
+            'changed_by' => 0,
+            'changed_at' => $now,
         ]);
 
         return $memberId;
     }
 
     /**
-     * Activate a member
+     * Activate a member (from ANY state)
      */
     public function activate(int $memberId, ?int $adminId = null): bool
     {
         $now = Time::now()->toDateTimeString();
 
         $ok = (bool) $this->members->update($memberId, [
-            'status'      => 'active',
+            'status' => 'active',
             'verified_at' => $now,
             'verified_by' => $adminId,
-            'updated_at'  => $now,
-        ]);
 
-        if (!$ok) {
-            return false;
-        }
+            // 🔥 CLEAR DISABLED FIELDS
+            'disabled_reason' => null,
+            'disabled_notes' => null,
+            'disabled_at' => null,
+            'disabled_by' => null,
 
-        // 🔐 AUDIT
-        $this->audit->insert([
-            'member_id'   => $memberId,
-            'type'        => 'status',
-            'field_name'  => 'status',
-            'old_value'   => 'pending',
-            'new_value'   => 'active',
-            'description' => 'Member activated',
-            'changed_by'  => $adminId ?? 0,
-            'changed_at'  => $now,
-        ]);
-
-        return true;
-    }
-
-    /**
-     * Disable a member
-     */
-    public function disable(int $memberId, ?int $adminId = null): bool
-    {
-        $now = Time::now()->toDateTimeString();
-
-        $ok = (bool) $this->members->update($memberId, [
-            'status'     => 'disabled',
             'updated_at' => $now,
         ]);
 
@@ -155,18 +133,99 @@ class MemberService
 
         // 🔐 AUDIT
         $this->audit->insert([
-            'member_id'   => $memberId,
-            'type'        => 'status',
-            'field_name'  => 'status',
-            'old_value'   => 'active',
-            'new_value'   => 'disabled',
-            'description' => 'Member disabled',
-            'changed_by'  => $adminId ?? 0,
-            'changed_at'  => $now,
+            'member_id' => $memberId,
+            'type' => 'status',
+            'field_name' => 'status',
+            'old_value' => 'pending/disabled',
+            'new_value' => 'active',
+            'description' => 'Member activated',
+            'changed_by' => $adminId ?? 0,
+            'changed_at' => $now,
         ]);
 
         return true;
     }
+
+
+    /**
+     * Disable a member
+     */
+    public function disable(int $memberId, ?int $adminId = null): bool
+    {
+        $now = Time::now()->toDateTimeString();
+
+        $ok = (bool) $this->members->update($memberId, [
+            'status' => 'disabled',
+            'updated_at' => $now,
+        ]);
+
+        if (!$ok) {
+            return false;
+        }
+
+        // 🔐 AUDIT
+        $this->audit->insert([
+            'member_id' => $memberId,
+            'type' => 'status',
+            'field_name' => 'status',
+            'old_value' => 'active',
+            'new_value' => 'disabled',
+            'description' => 'Member disabled',
+            'changed_by' => $adminId ?? 0,
+            'changed_at' => $now,
+        ]);
+
+        return true;
+    }
+
+    /**
+     * Disable a member with a configurable reason + admin notes
+     */
+    public function disableWithReason(
+        int $memberId,
+        string $reason,
+        ?string $notes = null,
+        ?int $adminId = null
+    ): bool {
+        $config = new MemberStatus();
+
+        if (!array_key_exists($reason, $config->disableReasons)) {
+            throw new DataException('Invalid disable reason');
+        }
+
+        $now = Time::now()->toDateTimeString();
+
+        $ok = (bool) $this->members->update($memberId, [
+            'status' => 'disabled',
+            'disabled_reason' => $reason,
+            'disabled_notes' => $notes,
+            'disabled_at' => $now,
+            'disabled_by' => $adminId,
+            'updated_at' => $now,
+        ]);
+
+        if (!$ok) {
+            return false;
+        }
+
+        $label = $config->disableReasons[$reason]['label'];
+
+        // 🔐 AUDIT
+        $this->audit->insert([
+            'member_id' => $memberId,
+            'type' => 'status',
+            'field_name' => 'status',
+            'old_value' => 'active',
+            'new_value' => 'disabled',
+            'description' => "Member disabled ({$label})" .
+                ($notes ? " – {$notes}" : ''),
+            'changed_by' => $adminId ?? 0,
+            'changed_at' => $now,
+        ]);
+
+        return true;
+    }
+
 
     /**
      * Reactivate a member
@@ -176,9 +235,16 @@ class MemberService
         $now = Time::now()->toDateTimeString();
 
         $ok = (bool) $this->members->update($memberId, [
-            'status'      => 'active',
+            'status' => 'active',
             'verified_by' => $adminId,
-            'updated_at'  => $now,
+
+            // 🔥 CLEAR DISABLED FIELDS
+            'disabled_reason' => null,
+            'disabled_notes' => null,
+            'disabled_at' => null,
+            'disabled_by' => null,
+
+            'updated_at' => $now,
         ]);
 
         if (!$ok) {
@@ -187,16 +253,17 @@ class MemberService
 
         // 🔐 AUDIT
         $this->audit->insert([
-            'member_id'   => $memberId,
-            'type'        => 'status',
-            'field_name'  => 'status',
-            'old_value'   => 'disabled',
-            'new_value'   => 'active',
+            'member_id' => $memberId,
+            'type' => 'status',
+            'field_name' => 'status',
+            'old_value' => 'disabled',
+            'new_value' => 'active',
             'description' => 'Member reactivated',
-            'changed_by'  => $adminId ?? 0,
-            'changed_at'  => $now,
+            'changed_by' => $adminId ?? 0,
+            'changed_at' => $now,
         ]);
 
         return true;
     }
+
 }

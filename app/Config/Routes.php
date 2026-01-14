@@ -187,6 +187,9 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.membership.export']);
     $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.membership.show']);
 
+    $routes->post('(:num)/disable-with-reason', 'Admin\MembersController::disableWithReason/$1');
+
+
     // Email validity toggle (AJAX)
     $routes->post(
         '(:num)/email-validity',

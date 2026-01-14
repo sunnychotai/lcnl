@@ -35,7 +35,11 @@ class MemberModel extends Model
         'gender',
         'activation_sent_at',
         'activated_at',
-        'is_valid_email'
+        'is_valid_email',
+        'disabled_reason',
+        'disabled_notes',
+        'disabled_at',
+        'disabled_by',
     ];
 
     protected $beforeInsert = ['normalizeFields'];
