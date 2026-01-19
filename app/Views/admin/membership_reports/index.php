@@ -763,6 +763,34 @@
                 </div>
             </div>
 
+            <!-- Not Verified -->
+            <div class="col-lg-6">
+                <div class="report-card">
+                    <div class="d-flex gap-3">
+                        <div class="report-icon-wrapper icon-pink">
+                            <i class="bi bi-shield-x text-white"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h3 class="report-title">Disabled</h3>
+                            <p class="report-description">
+                                Membership status is Disabled.
+                                <span class="badge-count"><?= (int) ($stats['disabled'] ?? 0) ?> members</span>
+                            </p>
+                        </div>
+                        <div class="report-actions">
+                            <a href="<?= base_url('admin/membership/reports/disabled') ?>"
+                                class="btn btn-view btn-report">
+                                <i class="bi bi-eye me-1"></i>View
+                            </a>
+                            <a href="<?= base_url('admin/membership/reports/disabled?export=csv') ?>"
+                                class="btn btn-export btn-report">
+                                <i class="bi bi-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Still Pending -->
             <div class="col-lg-6">
                 <div class="report-card">

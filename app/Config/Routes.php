@@ -263,6 +263,10 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->get('reports/active-life', 'Admin\MembershipReportsController::activeLife');
     $routes->post('reports/active-life/data', 'Admin\MembershipReportsController::activeLifeData');
     $routes->get('reports/active-life/export', 'Admin\MembershipReportsController::activeLifeExport');
+
+    $routes->get('reports/disabled', 'Admin\MembershipReportsController::disabled');
+    $routes->post('reports/disabled/data', 'Admin\MembershipReportsController::disabledData');
+    $routes->get('reports/disabled/export', 'Admin\MembershipReportsController::disabledExport');
 });
 
 

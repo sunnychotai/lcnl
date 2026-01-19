@@ -27,6 +27,7 @@ class MembershipReportsController extends BaseController
         $stats = [
             'total' => $this->members->where('deleted_at', null)->countAllResults(),
             'life' => $this->memberships->where('membership_type', 'life')->where('status', 'active')->countAllResults(),
+            'disabled' => $this->members->where('status', 'disabled')->countAllResults(),
             'standard' => $this->memberships->where('membership_type', 'standard')->countAllResults(),
             'email_invalid' => $this->members->where('is_valid_email', 0)->where('deleted_at', null)->countAllResults(),
             'mobile_missing' => $this->members->groupStart()->where('mobile', '')->orWhere('mobile IS NULL', null, false)->groupEnd()->where('deleted_at', null)->countAllResults(),
@@ -469,6 +470,60 @@ class MembershipReportsController extends BaseController
         $b->orderBy('m.id', 'DESC');
 
         return $this->exportCsvStream($b, 'pending_members_' . date('Ymd_His') . '.csv');
+    }
+
+    // Deceased Members
+    public function disabled()
+    {
+        $activeTab = 'reports';
+        return view('admin/membership_reports/disabled', compact('activeTab'));
+    }
+
+    public function disabledData()
+    {
+        $status = $this->request->getPost('status') ?: 'disabled';
+
+        $b = $this->baseMembersWithMembership();
+        $b->where('m.status', 'disabled');
+
+
+
+
+        $this->applyCommonFilters($b, $status, null, null);
+
+        return $this->dtRespond($b, [
+            'm.first_name',
+            'm.last_name',
+            'm.email',
+            'm.mobile',
+            'm.city',
+            'ms.membership_type',
+            'm.status',
+            'm.disabled_reason',
+            'm.disabled_notes',
+        ]);
+    }
+
+    public function disabledExport()
+    {
+        // Fixed report definition
+        $type = $this->request->getGet('membership_type') ?: 'all';
+        $city = trim((string) $this->request->getGet('city'));
+
+        $b = $this->baseMembersWithMembership();
+
+        // Explicitly define "disabled"
+        $b->where('m.status', 'disabled');
+
+        // Apply shared filters (status forced, type/city optional)
+        $this->applyCommonFilters($b, 'disabled', $type, $city);
+
+        $b->orderBy('m.id', 'DESC');
+
+        return $this->exportCsvStream(
+            $b,
+            'disabled_members_' . date('Ymd_His') . '.csv'
+        );
     }
 
     public function activeLife()

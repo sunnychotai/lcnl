@@ -196,10 +196,10 @@ class MemberDataController extends BaseController
         // Return JSON
         // ---------------------------------------------------------
         return $this->response->setJSON([
-            'draw'            => $draw,
-            'recordsTotal'    => $recordsTotal,
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered,
-            'data'            => $data,
+            'data' => $data,
 
             // ✅ IMPORTANT: refresh CSRF for DataTables + AJAX actions
             'csrf' => [
