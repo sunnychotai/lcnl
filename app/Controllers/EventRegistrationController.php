@@ -25,9 +25,7 @@ class EventRegistrationController extends BaseController
     {
         // Map slug → display name (DB later)
         $eventMap = [
-            'chopda-pujan' => 'Chopda Pujan 2025',
-            'new-year-bhajans' => 'New Year Bhajans 2026',
-            'navratri-garba' => 'Navratri Garba 2025',
+            'maha-shivratri' => 'Maha Shivratri 2026',
         ];
 
         $selectedEvent = ($eventSlug && isset($eventMap[$eventSlug]))
@@ -232,6 +230,10 @@ class EventRegistrationController extends BaseController
             'num_participants' => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[10]',
             'num_guests' => 'permit_empty|integer|greater_than_equal_to[0]|less_than_equal_to[10]',
             'notes' => 'permit_empty|max_length[500]',
+
+            // ✅ NEW
+            'is_lcnl_member' => 'required|in_list[0,1]',
+            'agreed_terms' => 'required|in_list[1]',
         ];
 
         if (!$this->validate($rules)) {
@@ -256,6 +258,11 @@ class EventRegistrationController extends BaseController
             'notes' => strip_tags($notes),
             'status' => 'submitted',
             'member_id' => $isMember ? (int) session()->get('member_id') : null,
+
+            // ✅ NEW
+            'is_lcnl_member' => (int) $this->request->getPost('is_lcnl_member'),
+            'agreed_terms' => 1,
+
             'ip_address' => $ip, // Store IP for tracking
         ];
 

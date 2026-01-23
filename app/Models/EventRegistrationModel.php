@@ -19,6 +19,8 @@ class EventRegistrationModel extends Model
         'notes',
         'status',
         'member_id',
+        'is_lcnl_member',
+        'agreed_terms',
         'ip_address',
     ];
 
