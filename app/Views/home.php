@@ -243,7 +243,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-controller text-warning fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Lohana Youth Committee</h5>
+                <h5 class="card-title mb-1">Lohana Youth Club</h5>
                 <p class="card-text text-muted small">Activities & events for 13–18 year olds.</p>
               </div>
             </div>

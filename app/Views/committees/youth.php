@@ -7,14 +7,14 @@
     <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 gap-md-4 text-white">
       <!-- Logo -->
       <div class="flex-shrink-0">
-        <img src="<?= base_url('assets/img/committee/lyc.jpg') ?>" alt="Lohana Youth Committee Logo"
+        <img src="<?= base_url('assets/img/committee/lyc.jpg') ?>" alt="Lohana Youth Club Logo"
           class="img-fluid rounded-circle shadow-lg"
           style="width: 100px; height: 100px; object-fit: cover; border: 4px solid rgba(255,255,255,0.3);">
       </div>
 
       <!-- Text Content -->
       <div class="text-center text-md-start">
-        <h1 class="fw-bold display-6 mb-2">Lohana Youth Committee</h1>
+        <h1 class="fw-bold display-6 mb-2">Lohana Youth Club</h1>
         <p class="lead fs-5 mb-0">Supporting and empowering the youth of our community.</p>
       </div>
     </div>
@@ -24,7 +24,7 @@
 <div class="container py-5">
   <!-- About Section (logo removed from here) -->
   <p class="text-center mb-4">
-    The Lohana Youth Committee (LYC) is dedicated to supporting, inspiring and empowering
+    The Lohana Youth Club (LYC) is dedicated to supporting, inspiring and empowering
     young people within our community. We aim to create opportunities for connection,
     personal growth and lasting friendships through cultural, social and sporting initiatives.
   </p>
@@ -40,7 +40,7 @@
               Join Our Community
             </h3>
             <p class="lead mb-4">
-              Connect with the Lohana Youth Committee and be part of our vibrant community!
+              Connect with the Lohana Youth Club and be part of our vibrant community!
               Stay updated on all our events, activities and make lasting friendships.
             </p>
 
@@ -231,12 +231,12 @@
     <div class="row justify-content-center g-3">
       <div class="col-md-6">
         <img src="<?= base_url('assets/img/youth-committee-25-27.jpg') ?>"
-          alt="Lohana Youth Committee 2025–2027 (Photo 1)" class="img-fluid rounded shadow-sm w-100"
+          alt="Lohana Youth Club 2025–2027 (Photo 1)" class="img-fluid rounded shadow-sm w-100"
           style="max-height:400px; object-fit:contain">
       </div>
       <div class="col-md-6">
         <img src="<?= base_url('assets/img/youth-committee-25-27-2.jpg') ?>"
-          alt="Lohana Youth Committee 2025–2027 (Photo 2)" class="img-fluid rounded shadow-sm w-100"
+          alt="Lohana Youth Club 2025–2027 (Photo 2)" class="img-fluid rounded shadow-sm w-100"
           style="max-height:400px; object-fit:cover;">
       </div>
     </div>

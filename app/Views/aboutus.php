@@ -53,7 +53,7 @@
           <ul>
             <li>Mahila Committee</li>
             <li>Young Lohana Society</li>
-            <li>Lohana Youth Committee</li>
+            <li>Lohana Youth Club</li>
             <li>Senior Mens</li>
             <li>Senior Ladies</li>
             <li>Raghuvanshi Charitable Trust</li>

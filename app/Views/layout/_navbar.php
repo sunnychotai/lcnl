@@ -23,7 +23,7 @@
             <li><a class="dropdown-item" href="<?= base_url('/committee') ?>">Executive Committee</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/mahila') ?>">Mahila Committee</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/yls') ?>">Young Lohana Society</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/youth') ?>">Lohana Youth Committee</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('/youth') ?>">Lohana Youth Club</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/lcf') ?>">Lohana Charitable Foundation</a></li>
 
           </ul>
