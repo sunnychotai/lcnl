@@ -106,6 +106,41 @@
       <!-- Left column -->
       <div class="col-md-8">
 
+        <!-- Maha Shivratri Highlight -->
+        <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
+          <div class="row g-0 align-items-center">
+
+            <div class="col-md-4">
+              <img src="https://lcnl.org/uploads/events/1769180458_c8969c794dd591d379ba.png" alt="Maha Shivratri Pooja"
+                class="img-fluid h-100 w-100" style="object-fit: cover;">
+            </div>
+
+            <div class="col-md-8">
+              <div class="p-4">
+                <h4 class="fw-bold mb-2">
+                  🕉️ Maha Shivratri Pooja
+                </h4>
+
+                <p class="mb-2 text-muted">
+                  Sunday 15<sup>th</sup> February 2026 · 2:00pm<br>
+                  JV Gokal Hall, Dhamecha Lohana Centre
+                </p>
+
+                <p class="mb-3">
+                  Join us for this auspicious occasion dedicated to Lord Shiva,
+                  followed by Prashad. Advance registration is required.
+                </p>
+
+                <a href="https://lcnl.org/events/35" class="btn btn-brand rounded-pill px-4">
+                  <i class="bi bi-calendar-event me-2"></i> View Event & Register
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
           <h4 class="fw-bold mb-3">Message from the President</h4>
