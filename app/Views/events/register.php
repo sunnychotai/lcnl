@@ -154,28 +154,45 @@
               </h5>
 
               <div class="row g-3">
+                <!-- Participants -->
                 <div class="col-md-6">
                   <label class="form-label fw-semibold">
                     Number of participants (Pooja performers) <span class="text-danger">*</span>
                   </label>
-                  <input type="number" name="num_participants" min="1" max="2" class="form-control"
-                    value="<?= old('num_participants', 1) ?>" required>
+
+                  <select name="num_participants" class="form-select" required>
+                    <?php foreach ([0, 1, 2] as $count): ?>
+                      <option value="<?= $count ?>" <?= (string) old('num_participants', 1) === (string) $count ? 'selected' : '' ?>>
+                        <?= $count ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+
                   <small class="text-muted">
                     Maximum of 2 people are allowed to perform the pooja
                   </small>
                 </div>
 
+                <!-- Guests -->
                 <div class="col-md-6">
                   <label class="form-label fw-semibold">
                     Number of guests (Observers)
                   </label>
-                  <input type="number" name="num_guests" min="0" max="10" class="form-control"
-                    value="<?= old('num_guests', 0) ?>">
+
+                  <select name="num_guests" class="form-select">
+                    <?php for ($i = 0; $i <= 10; $i++): ?>
+                      <option value="<?= $i ?>" <?= (string) old('num_guests', 0) === (string) $i ? 'selected' : '' ?>>
+                        <?= $i ?>
+                      </option>
+                    <?php endfor; ?>
+                  </select>
+
                   <small class="text-muted">
                     Guests will be seated around the room and will not sit at the pooja table
                   </small>
                 </div>
               </div>
+
             </div>
 
             <!-- Notes -->
