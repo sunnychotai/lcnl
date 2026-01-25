@@ -153,11 +153,11 @@ class EventRegistrationController extends BaseController
     }
 
     // ========================================
-    // EVENT CAPACITY CHECK (MAX 100 PARTICIPANTS)
+    // EVENT CAPACITY CHECK (MAX 90 PARTICIPANTS)
     // ========================================
     $eventName       = $this->request->getPost('event_name');
     $newParticipants = (int) $this->request->getPost('num_participants');
-    $MAX_PARTICIPANTS = 100;
+    $MAX_PARTICIPANTS = 90;
 
     $currentTotal = (int) $this->regs
         ->selectSum('num_participants')
