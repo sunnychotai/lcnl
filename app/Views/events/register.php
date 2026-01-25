@@ -18,7 +18,7 @@
   <?php if ($errors = session()->getFlashdata('errors')): ?>
     <div class="alert alert-danger shadow-sm alert-dismissible fade show">
       <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      <strong>Please fix the following issues:</strong>
+      <strong>Error:</strong>
       <ul class="mb-0 mt-2">
         <?php foreach ($errors as $err): ?>
           <li><?= esc($err) ?></li>

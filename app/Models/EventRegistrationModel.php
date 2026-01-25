@@ -27,4 +27,15 @@ class EventRegistrationModel extends Model
 
     protected $useTimestamps = true;
     protected $returnType = 'array';
+
+    public function getTotalParticipantsForEvent(string $eventName): int
+{
+    return (int) $this->selectSum('num_participants')
+        ->where('event_name', $eventName)
+        ->whereIn('status', ['submitted', 'confirmed'])
+        ->get()
+        ->getRow()
+        ->num_participants ?? 0;
+}
+
 }
