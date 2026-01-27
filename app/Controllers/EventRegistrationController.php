@@ -32,6 +32,14 @@ class EventRegistrationController extends BaseController
             ? $eventMap[$eventSlug]
             : null;
 
+             // Capacity check
+    $MAX_REGISTRATIONS = 90;
+    $currentTotal = $selectedEvent
+        ? $this->regs->getTotalRegistrationsForEvent($selectedEvent)
+        : 0;
+
+    $isFull = $currentTotal >= $MAX_REGISTRATIONS;
+
         // Generate unique form token for this session
         $formToken = bin2hex(random_bytes(16));
         session()->set('event_form_token', $formToken);
@@ -43,6 +51,10 @@ class EventRegistrationController extends BaseController
             'memberName' => session()->get('member_name'),
             'memberEmail' => session()->get('member_email'),
             'formToken' => $formToken,
+
+             // 👇 NEW
+        'isFull'        => $isFull,
+        'currentTotal' => $currentTotal, // optional (useful for debug/admin)
         ]);
     }
 
@@ -152,35 +164,31 @@ class EventRegistrationController extends BaseController
             ->with('errors', $this->validator->getErrors());
     }
 
-    // ========================================
-    // EVENT CAPACITY CHECK (MAX 90 PARTICIPANTS)
-    // ========================================
-    $eventName       = $this->request->getPost('event_name');
-    $newParticipants = (int) $this->request->getPost('num_participants');
-    $MAX_PARTICIPANTS = 90;
+// ========================================
+// EVENT CAPACITY CHECK (MAX 90 REGISTRATIONS)
+// ========================================
+$eventName = $this->request->getPost('event_name');
+$MAX_REGISTRATIONS = 90;
 
-    $currentTotal = (int) $this->regs
-        ->selectSum('num_participants')
-        ->where('event_name', $eventName)
-        ->whereIn('status', ['submitted', 'confirmed'])
-        ->get()
-        ->getRow()
-        ->num_participants ?? 0;
+// Total registrations already submitted/confirmed
+$currentTotal = $this->regs->getTotalRegistrationsForEvent($eventName);
+log_message('info', 'Current registrations for ' . $eventName . ': ' . $currentTotal);
 
-    if (($currentTotal + $newParticipants) > $MAX_PARTICIPANTS) {
-        log_message('warning', sprintf(
-            'Capacity exceeded for %s. Current=%d, Attempted=%d',
-            $eventName,
-            $currentTotal,
-            $newParticipants
-        ));
+// Block if limit reached or exceeded
+if ($currentTotal >= $MAX_REGISTRATIONS) {
+    log_message('warning', sprintf(
+        'Registration limit reached for %s. Current=%d',
+        $eventName,
+        $currentTotal
+    ));
 
-        return redirect()->back()
-            ->withInput()
-            ->with('errors', [
-                'Sorry, this event is now fully booked and no further registrations can be accepted.'
-            ]);
-    }
+    return redirect()->back()
+        ->withInput()
+        ->with('errors', [
+            'Sorry, this event has reached the maximum number of registrations and is now closed.'
+        ]);
+}
+
 
     // ========================================
     // SAVE REGISTRATION
@@ -193,7 +201,7 @@ class EventRegistrationController extends BaseController
         'last_name'        => strip_tags($this->request->getPost('last_name')),
         'email'            => $this->request->getPost('email'),
         'phone'            => strip_tags($this->request->getPost('phone')),
-        'num_participants' => $newParticipants,
+         'num_participants' => (int) $this->request->getPost('num_participants'),
         'num_guests'       => (int) ($this->request->getPost('num_guests') ?? 0),
         'notes'            => strip_tags($this->request->getPost('notes')),
         'status'           => 'submitted',

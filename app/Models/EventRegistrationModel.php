@@ -38,4 +38,12 @@ class EventRegistrationModel extends Model
         ->num_participants ?? 0;
 }
 
+public function getTotalRegistrationsForEvent(string $eventName): int
+{
+    return (int) $this->where('event_name', $eventName)
+        ->whereIn('status', ['submitted', 'confirmed'])
+        ->countAllResults();
+}
+
+
 }

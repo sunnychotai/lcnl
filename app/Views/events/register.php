@@ -52,6 +52,18 @@
             </div>
           <?php endif; ?>
 
+          <?php if ($isFull): ?>
+
+  <div class="alert alert-danger text-center shadow-sm">
+    <i class="bi bi-x-octagon-fill me-2"></i>
+    <strong>Registrations Closed</strong>
+    <p class="mb-0 mt-2">
+      Sorry, the maximum number of registrations for this event has been reached.
+    </p>
+  </div>
+
+<?php else: ?>
+
           <form method="post" action="<?= site_url('events/register/submit') ?>" id="registrationForm" novalidate>
             <?= csrf_field() ?>
 
@@ -229,6 +241,8 @@
             </button>
 
           </form>
+
+          <?php endif; ?>
         </div>
       </div>
 
