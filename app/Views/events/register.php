@@ -61,9 +61,7 @@
       Sorry, the maximum number of registrations for this event has been reached.
     </p>
   </div>
-
 <?php else: ?>
-
           <form method="post" action="<?= site_url('events/register/submit') ?>" id="registrationForm" novalidate>
             <?= csrf_field() ?>
 
@@ -173,7 +171,7 @@
                   </label>
 
                   <select name="num_participants" class="form-select" required>
-                    <?php foreach ([0, 1, 2] as $count): ?>
+                    <?php foreach ([1, 2] as $count): ?>
                       <option value="<?= $count ?>" <?= (string) old('num_participants', 1) === (string) $count ? 'selected' : '' ?>>
                         <?= $count ?>
                       </option>
