@@ -199,14 +199,26 @@ $type = ucfirst(strtolower($typeRaw));
                 <i class="bi bi-info-circle-fill me-1 text-white"></i>
                 You currently have a <strong>Standard Membership</strong>.
               </p>
-              <p class="mb-0 small opacity-75 mt-1">Upgrade to LIFE Membership is coming soon.</p>
+<p class="mb-0 small opacity-75 mt-1">
+  To upgrade to <strong>LIFE Membership (£75)</strong>, please make a bank transfer using the details below.
+</p>
+
+<div class="mt-3 small text-white">
+  <div><strong>Bank:</strong> Lohana Community North London</div>
+  <div><strong>Sort Code:</strong> 40-23-13</div>
+  <div><strong>Account No:</strong> 21497995</div>
+  <div class="mt-2">
+    <strong>Reference:</strong> MEMBERSHIP-LCNL<?= esc(session()->get('member_id')) ?>
+  </div>
+</div>
             </div>
 
-            <button class="btn btn-outline-light btn-pill px-4 w-100 opacity-75 fw-semibold" disabled
-              style="cursor:not-allowed;">
-              <i class="bi bi-arrow-up-circle me-2"></i>
-              Upgrade to Life Membership (Coming Soon)
-            </button>
+           <button class="btn btn-outline-light btn-pill px-4 w-100 opacity-75 fw-semibold" disabled
+  style="cursor:not-allowed;">
+  <i class="bi bi-bank me-2"></i>
+  Pay £75 to Upgrade to Life Membership
+</button>
+
           <?php endif; ?>
 
         </div>
