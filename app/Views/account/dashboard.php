@@ -192,6 +192,28 @@ $type = ucfirst(strtolower($typeRaw));
             </button>
 
           <?php else: ?>
+
+            <?php if (strtoupper($membershipType ?? 'Standard') === 'STANDARD'): ?>
+              <div class="card border-warning shadow-sm mb-4">
+                <div class="card-body">
+                  <h5 class="mb-1">Upgrade to Life Membership</h5>
+                  <p class="text-muted mb-3">
+                    One-off £75 payment • Lifetime membership
+                  </p>
+
+                  <form method="post" action="<?= route_to('account.membership.upgrade.checkout') ?>">
+                    <?= csrf_field() ?>
+                    <button class="btn btn-warning">
+                      <i class="bi bi-credit-card me-1"></i>
+                      Upgrade now
+                    </button>
+                  </form>
+                </div>
+              </div>
+            <?php endif; ?>
+
+
+
             <!-- STANDARD MEMBER -->
             <div class="p-3 rounded-3 bg-white bg-opacity-10 mb-3 border-start border-accent1"
               style="border-width: 4px !important;">
@@ -199,25 +221,25 @@ $type = ucfirst(strtolower($typeRaw));
                 <i class="bi bi-info-circle-fill me-1 text-white"></i>
                 You currently have a <strong>Standard Membership</strong>.
               </p>
-<p class="mb-0 small opacity-75 mt-1">
-  To upgrade to <strong>LIFE Membership (£75)</strong>, please make a bank transfer using the details below.
-</p>
+              <p class="mb-0 small opacity-75 mt-1">
+                To upgrade to <strong>LIFE Membership (£75)</strong>, please make a bank transfer using the details below.
+              </p>
 
-<div class="mt-3 small text-white">
-  <div><strong>Bank:</strong> Lohana Community North London</div>
-  <div><strong>Sort Code:</strong> 40-23-13</div>
-  <div><strong>Account No:</strong> 21497995</div>
-  <div class="mt-2">
-    <strong>Reference:</strong> MEMBERSHIP-LCNL<?= esc(session()->get('member_id')) ?>
-  </div>
-</div>
+              <div class="mt-3 small text-white">
+                <div><strong>Bank:</strong> Lohana Community North London</div>
+                <div><strong>Sort Code:</strong> 40-23-13</div>
+                <div><strong>Account No:</strong> 21497995</div>
+                <div class="mt-2">
+                  <strong>Reference:</strong> MEMBERSHIP-LCNL<?= esc(session()->get('member_id')) ?>
+                </div>
+              </div>
             </div>
 
-           <button class="btn btn-outline-light btn-pill px-4 w-100 opacity-75 fw-semibold" disabled
-  style="cursor:not-allowed;">
-  <i class="bi bi-bank me-2"></i>
-  Pay £75 to Upgrade to Life Membership
-</button>
+            <button class="btn btn-outline-light btn-pill px-4 w-100 opacity-75 fw-semibold" disabled
+              style="cursor:not-allowed;">
+              <i class="bi bi-bank me-2"></i>
+              Pay £75 to Upgrade to Life Membership
+            </button>
 
           <?php endif; ?>
 

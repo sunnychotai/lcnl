@@ -11,6 +11,9 @@ $routes->setAutoRoute(false);
 /* -----------------------
    Public pages
 ------------------------*/
+
+$routes->post('stripe/webhook', 'StripeWebhookController::handle');
+
 $routes->get('/', 'Home::index');
 $routes->get('/events', 'Events::index');
 $routes->get('/events/(:num)', 'Events::eventDetail/$1');
@@ -100,6 +103,29 @@ $routes->group('account', [
     $routes->post('family/create', 'FamilyController::create', ['as' => 'account.family.create']);
     $routes->post('family/update/(:num)', 'FamilyController::update/$1', ['as' => 'account.family.update']);
     $routes->post('family/delete/(:num)', 'FamilyController::delete/$1', ['as' => 'account.family.delete']);
+
+
+    /* --------------------------------
+       Stripe: Life Membership Upgrade
+    ----------------------------------*/
+    $routes->post(
+        'membership/upgrade/checkout',
+        'MembershipUpgradeController::checkout',
+        ['as' => 'account.membership.upgrade.checkout']
+    );
+
+    $routes->get(
+        'membership/upgrade/success',
+        'MembershipUpgradeController::success',
+        ['as' => 'account.membership.upgrade.success']
+    );
+
+    $routes->get(
+        'membership/upgrade/cancel',
+        'MembershipUpgradeController::cancel',
+        ['as' => 'account.membership.upgrade.cancel']
+    );
+
 });
 
 /* ---------------------------------------------------------
@@ -268,12 +294,6 @@ $routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], f
     $routes->post('reports/disabled/data', 'Admin\MembershipReportsController::disabledData');
     $routes->get('reports/disabled/export', 'Admin\MembershipReportsController::disabledExport');
 });
-
-
-
-
-
-
 
 /* --- Finance area (ADMIN + FINANCE) --- */
 $routes->group('admin/finance', ['filter' => 'authAdmin:ADMIN,FINANCE'], function ($routes) {

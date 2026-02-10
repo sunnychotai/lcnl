@@ -3,7 +3,7 @@
         'name' => 'codeigniter4/appstarter',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '926d9865bb6dbc6bb2f3026425b5dccf083110e4',
+        'reference' => '8e6c2cb4addaae7335950a08fc91d1954c3ed54b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'codeigniter4/appstarter' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '926d9865bb6dbc6bb2f3026425b5dccf083110e4',
+            'reference' => '8e6c2cb4addaae7335950a08fc91d1954c3ed54b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -297,6 +297,15 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'stripe/stripe-php' => array(
+            'pretty_version' => 'v19.3.0',
+            'version' => '19.3.0.0',
+            'reference' => '462272ae7560ee29bb891763fd0967d5a77784e5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../stripe/stripe-php',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/deprecation-contracts' => array(
             'pretty_version' => 'v3.6.0',
