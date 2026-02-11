@@ -31,30 +31,32 @@
               <em>Bhajans</em>—free of charge.
             </p>
 
-<!-- Legacy of Care -->
-<div class="border-0 lcnl-card mb-4 bg-light p-3 rounded">
-  <div class="d-flex align-items-center mb-2">
-    <i class="bi bi-heart-fill text-brand me-2 fs-4"></i>
-    <h5 class="mb-0 fw-bold text-brand">A Legacy of Care</h5>
-  </div>
-  <p class="mb-0">
-    Since <strong>1999</strong>, the <strong>Bereavement Committee</strong> has supported families with care and dignity,
-    guiding them through over <strong>4,000 funerals</strong> and standing by them in their time of need.
-  </p>
-</div>
+            <!-- Legacy of Care -->
+            <div class="border-0 lcnl-card mb-4 bg-light p-3 rounded">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-heart-fill text-brand me-2 fs-4"></i>
+                <h5 class="mb-0 fw-bold text-brand">A Legacy of Care</h5>
+              </div>
+              <p class="mb-0">
+                Since <strong>1999</strong>, the <strong>Bereavement Committee</strong> has supported families with care
+                and dignity,
+                guiding them through over <strong>4,000 funerals</strong> and standing by them in their time of need.
+              </p>
+            </div>
 
-<!-- Dhamecha Lohana Centre -->
-<div class="border-0 lcnl-card mb-4 p-3 rounded shadow-sm">
-  <div class="d-flex align-items-center mb-2">
-    <i class="bi bi-building me-2 fs-4 text-brand"></i>
-    <h5 class="mb-0 fw-bold text-brand">Dhamecha Lohana Centre</h5>
-  </div>
-  <p class="fs-6 mb-0">
-    The <strong>Dhamecha Lohana Centre</strong> in Harrow (Brember Road) is available for <em>Prarthnas</em>,
-    offering families and friends a dedicated space of <em>comfort, reflection, and togetherness</em>.
-    For guidance and arrangements, please contact <strong>Vinubhai</strong>, who will be happy to assist.
-  </p>
-</div>
+            <!-- Dhamecha Lohana Centre -->
+            <div class="border-0 lcnl-card mb-4 p-3 rounded shadow-sm">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-building me-2 fs-4 text-brand"></i>
+                <h5 class="mb-0 fw-bold text-brand">Dhamecha Lohana Centre</h5>
+              </div>
+              <p class="fs-6 mb-0">
+                The <strong>Dhamecha Lohana Centre</strong> in Harrow (Brember Road) is available for
+                <em>Prarthnas</em>,
+                offering families and friends a dedicated space of <em>comfort, reflection, and togetherness</em>.
+                For guidance and arrangements, please contact <strong>Vinubhai</strong>, who will be happy to assist.
+              </p>
+            </div>
 
             <div class="d-flex flex-wrap gap-2">
               <a href="mailto:bereavement@lcnl.org" class="btn btn-brand">
@@ -70,11 +72,7 @@
         <!-- Image -->
         <div class="col-md-auto order-md-last">
           <div class="event-img-wrapper" style="width:250px; max-width:100%;">
-            <img
-              src="<?= base_url('assets/img/shiva.png') ?>"
-              alt="Shiva"
-              class="img-fluid rounded d-block mx-auto"
-            >
+            <img src="<?= base_url('assets/img/shiva.png') ?>" alt="Shiva" class="img-fluid rounded d-block mx-auto">
           </div>
         </div>
 
@@ -121,12 +119,12 @@
             </li>
           </ul>
         </div>
- 
+
         <div class="col-md-6">
-          <h6 class="mb-1">Arvindbhai Sawjani</h6>
+          <h6 class="mb-1">Arvindbhai Saujani</h6>
           <p class="mb-2 text-muted"><strong>Bereavement Committee</strong></p>
           <ul class="list-unstyled mb-0">
-            
+
             <li class="mb-0">
               <i class="bi bi-telephone-fill me-2 text-brand"></i>
               <a href="tel:+447956847764" class="text-reset">+44 7956 217782</a>
@@ -151,3 +149,4 @@
 </div>
 
 <?= $this->endSection() ?>
+
