@@ -11,9 +11,8 @@ class AddSlugToEvents extends Migration
         $this->forge->addColumn('events', [
             'slug' => [
                 'type' => 'VARCHAR',
-                'constraint' => 150,
-                'null' => false,
-                'unique' => true,
+                'constraint' => 255,
+                'null' => true,
                 'after' => 'title',
             ],
         ]);
