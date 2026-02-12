@@ -4,146 +4,255 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\EventModel;
+use App\Models\EventRegistrationModel;
 
 class Events extends BaseController
 {
     protected $eventModel;
+    protected $registrationModel;
+
     protected $committeeOptions = [
-        'LCNL'   => 'LCNL',
-        'YLS'    => 'YLS',
+        'LCNL' => 'LCNL',
+        'YLS' => 'YLS',
         'Mahila' => 'Mahila',
-        'Youth'  => 'Youth',
+        'Youth' => 'Youth',
     ];
 
     public function __construct()
     {
         $this->eventModel = new EventModel();
-        helper(['form', 'url']);
+        $this->registrationModel = new EventRegistrationModel();
+        helper(['form', 'url', 'text']);
     }
+
+    /* ======================================================
+       INDEX
+    ====================================================== */
 
     public function index()
     {
-        $data = [
-            'events' => $this->eventModel->orderBy('event_date', 'DESC')->findAll()
-        ];
-        return view('admin/content/events/index', $data);
+        $events = $this->eventModel
+            ->orderBy('event_date', 'DESC')
+            ->findAll();
+
+        foreach ($events as &$event) {
+
+            $event['current_registrations'] = 0;
+            $event['is_full'] = false;
+
+            if (!empty($event['requires_registration'])) {
+
+                $current = $this->registrationModel
+                    ->getTotalRegistrationsForEventId((int) $event['id']);
+
+                $event['current_registrations'] = $current;
+
+                if (!empty($event['capacity']) && $current >= $event['capacity']) {
+                    $event['is_full'] = true;
+                }
+            }
+        }
+
+        return view('admin/content/events/index', [
+            'events' => $events
+        ]);
     }
+
+    /* ======================================================
+       CREATE
+    ====================================================== */
 
     public function create()
     {
-        $data = [
-            'event'            => [],
-            'action'           => base_url('admin/content/events/store'),
+        return view('admin/content/events/form', [
+            'event' => [],
+            'action' => base_url('admin/content/events/store'),
             'committeeOptions' => $this->committeeOptions,
-        ];
-        return view('admin/content/events/form', $data);
+        ]);
     }
+
+    /* ======================================================
+       STORE
+    ====================================================== */
 
     public function store()
     {
-        $validationRules = [
-            'title'       => 'required|min_length[3]',
-            'event_date'  => 'required|valid_date',
-            'ticketinfo'  => 'permit_empty',
-            'eventterms'  => 'permit_empty',
-            'contactinfo' => 'permit_empty',
-            'committee'   => 'required|in_list[LCNL,YLS,Mahila,Youth]',
-            'image'       => 'if_exist|uploaded[image]|is_image[image]|max_size[image,2048]|mime_in[image,image/jpg,image/jpeg,image/png,image/gif,image/webp]',
+        $rules = [
+            'title' => 'required|min_length[3]',
+            'event_date' => 'required|valid_date',
+            'committee' => 'required|in_list[LCNL,YLS,Mahila,Youth]',
+            'slug' => 'permit_empty|alpha_dash',
+            'capacity' => 'permit_empty|integer|greater_than[0]',
         ];
 
-        if (! $this->validate($validationRules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()
+                ->with('errors', $this->validator->getErrors());
         }
 
-        $data = $this->request->getPost([
-            'title', 'description', 'event_date', 'location',
-            'time_from', 'time_to', 'committee',
-            'ticketinfo', 'eventterms', 'contactinfo'
-        ]);
+        $data = $this->getEventPostData();
 
-        $file = $this->request->getFile('image');
-        if ($file && $file->isValid() && ! $file->hasMoved()) {
-            $newName   = $file->getRandomName();
-            $targetDir = rtrim((string) getenv('UPLOAD_PATH'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'events';
-            if (! is_dir($targetDir)) {
-                @mkdir($targetDir, 0755, true);
-            }
-            $file->move($targetDir, $newName);
-            $data['image'] = '/uploads/events/' . $newName;
+        // Generate slug if empty
+        if (empty($data['slug'])) {
+            $data['slug'] = url_title($data['title'], '-', true);
         }
 
-        $this->eventModel->save($data);
-        return redirect()->to('/admin/content/events')->with('success', 'Event added successfully');
+        // Ensure slug unique
+        $data['slug'] = $this->makeSlugUnique($data['slug']);
+
+        $this->handleImageUpload($data);
+
+        $this->eventModel->insert($data);
+
+        return redirect()->to('/admin/content/events')
+            ->with('success', 'Event added successfully');
     }
+
+    /* ======================================================
+       EDIT
+    ====================================================== */
 
     public function edit($id)
     {
         $event = $this->eventModel->find($id);
-        if (! $event) {
-            return redirect()->to('/admin/content/events')->with('error', 'Event not found');
+
+        if (!$event) {
+            return redirect()->to('/admin/content/events')
+                ->with('error', 'Event not found');
         }
 
-        $data = [
-            'event'            => $event,
-            'action'           => base_url('admin/content/events/update/' . $id),
+        return view('admin/content/events/form', [
+            'event' => $event,
+            'action' => base_url('admin/content/events/update/' . $id),
             'committeeOptions' => $this->committeeOptions,
-        ];
-        return view('admin/content/events/form', $data);
+        ]);
     }
+
+    /* ======================================================
+       UPDATE
+    ====================================================== */
 
     public function update($id)
     {
-        $validationRules = [
-            'title'       => 'required|min_length[3]',
-            'event_date'  => 'required|valid_date',
-            'ticketinfo'  => 'permit_empty',
-            'eventterms'  => 'permit_empty',
-            'contactinfo' => 'permit_empty',
-            'committee'   => 'required|in_list[LCNL,YLS,Mahila,Youth]',
-            'image'       => 'if_exist|is_image[image]|max_size[image,2048]|mime_in[image,image/jpg,image/jpeg,image/png,image/gif,image/webp]',
+        $rules = [
+            'title' => 'required|min_length[3]',
+            'event_date' => 'required|valid_date',
+            'committee' => 'required|in_list[LCNL,YLS,Mahila,Youth]',
+            'slug' => 'permit_empty|alpha_dash',
+            'capacity' => 'permit_empty|integer|greater_than[0]',
         ];
 
-        if (! $this->validate($validationRules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()
+                ->with('errors', $this->validator->getErrors());
         }
 
-        $data = $this->request->getPost([
-            'title', 'description', 'event_date', 'location',
-            'time_from', 'time_to', 'committee',
-            'ticketinfo', 'eventterms', 'contactinfo'
-        ]);
+        $data = $this->getEventPostData();
 
-        $file = $this->request->getFile('image');
-        if ($file && $file->isValid() && ! $file->hasMoved()) {
-            $newName   = $file->getRandomName();
-            $targetDir = rtrim((string) getenv('UPLOAD_PATH'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'events';
-            if (! is_dir($targetDir)) {
-                @mkdir($targetDir, 0755, true);
-            }
-            $file->move($targetDir, $newName);
-            $data['image'] = '/uploads/events/' . $newName;
+        if (empty($data['slug'])) {
+            $data['slug'] = url_title($data['title'], '-', true);
         }
+
+        $data['slug'] = $this->makeSlugUnique($data['slug'], $id);
+
+        $this->handleImageUpload($data);
 
         $this->eventModel->update($id, $data);
-        return redirect()->to('/admin/content/events')->with('success', 'Event updated successfully');
+
+        return redirect()->to('/admin/content/events')
+            ->with('success', 'Event updated successfully');
     }
+
+    /* ======================================================
+       DELETE
+    ====================================================== */
 
     public function delete($id)
     {
         $this->eventModel->delete($id);
-        return redirect()->to('/admin/content/events')->with('success', 'Event deleted');
+        return redirect()->to('/admin/content/events')
+            ->with('success', 'Event deleted');
     }
+
+    /* ======================================================
+       CLONE
+    ====================================================== */
 
     public function clone($id)
     {
         $event = $this->eventModel->find($id);
-        if (! $event) {
-            return redirect()->to('/admin/content/events')->with('error', 'Event not found');
+
+        if (!$event) {
+            return redirect()->to('/admin/content/events')
+                ->with('error', 'Event not found');
         }
 
         unset($event['id']);
+        $event['slug'] = $event['slug'] . '-copy';
+
         $this->eventModel->insert($event);
 
-        return redirect()->to('/admin/content/events')->with('success', 'Event cloned successfully');
+        return redirect()->to('/admin/content/events')
+            ->with('success', 'Event cloned successfully');
+    }
+
+    /* ======================================================
+       HELPERS
+    ====================================================== */
+
+    private function getEventPostData(): array
+    {
+        return [
+            'title' => $this->request->getPost('title'),
+            'slug' => $this->request->getPost('slug'),
+            'description' => $this->request->getPost('description'),
+            'event_date' => $this->request->getPost('event_date'),
+            'location' => $this->request->getPost('location'),
+            'time_from' => $this->request->getPost('time_from'),
+            'time_to' => $this->request->getPost('time_to'),
+            'committee' => $this->request->getPost('committee'),
+            'ticketinfo' => $this->request->getPost('ticketinfo'),
+            'eventterms' => $this->request->getPost('eventterms'),
+            'contactinfo' => $this->request->getPost('contactinfo'),
+            'requires_registration' => (int) $this->request->getPost('requires_registration'),
+            'capacity' => $this->request->getPost('capacity') ?: null,
+            'is_valid' => (int) $this->request->getPost('is_valid'),
+        ];
+    }
+
+    private function handleImageUpload(array &$data)
+    {
+        $file = $this->request->getFile('image');
+
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+
+            $newName = $file->getRandomName();
+            $targetDir = WRITEPATH . '../public/uploads/events/';
+
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+
+            $file->move($targetDir, $newName);
+
+            $data['image'] = '/uploads/events/' . $newName;
+        }
+    }
+
+    private function makeSlugUnique(string $slug, int $ignoreId = null): string
+    {
+        $builder = $this->eventModel->where('slug', $slug);
+
+        if ($ignoreId) {
+            $builder->where('id !=', $ignoreId);
+        }
+
+        $exists = $builder->first();
+
+        if (!$exists) {
+            return $slug;
+        }
+
+        return $slug . '-' . time();
     }
 }

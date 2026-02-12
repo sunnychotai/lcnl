@@ -8,8 +8,9 @@ class EventRegistrationModel extends Model
 {
     protected $table = 'event_registrations';
     protected $primaryKey = 'id';
+
     protected $allowedFields = [
-        'event_name',
+        'event_id',
         'first_name',
         'last_name',
         'email',
@@ -21,29 +22,31 @@ class EventRegistrationModel extends Model
         'member_id',
         'is_lcnl_member',
         'agreed_terms',
-        'ip_address',
+        'ip_address'
     ];
-
 
     protected $useTimestamps = true;
     protected $returnType = 'array';
 
-    public function getTotalParticipantsForEvent(string $eventName): int
-{
-    return (int) $this->selectSum('num_participants')
-        ->where('event_name', $eventName)
-        ->whereIn('status', ['submitted', 'confirmed'])
-        ->get()
-        ->getRow()
-        ->num_participants ?? 0;
+    public function getTotalParticipantsForEventId(int $eventId): int
+    {
+        $row = $this->selectSum('num_participants')
+            ->where('event_id', $eventId)
+            ->whereIn('status', ['submitted', 'confirmed'])
+            ->get()
+            ->getRow();
+
+        return (int) ($row->num_participants ?? 0);
+    }
+
+    public function getTotalRegistrationsForEventId(int $eventId): int
+    {
+        return (int) $this->where('event_id', $eventId)
+            ->whereIn('status', ['submitted', 'confirmed'])
+            ->countAllResults();
+    }
+
+
+
 }
 
-public function getTotalRegistrationsForEvent(string $eventName): int
-{
-    return (int) $this->where('event_name', $eventName)
-        ->whereIn('status', ['submitted', 'confirmed'])
-        ->countAllResults();
-}
-
-
-}

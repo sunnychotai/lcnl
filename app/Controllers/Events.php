@@ -32,12 +32,28 @@ class Events extends BaseController
     public function eventDetail($id)
     {
         $eventModel = new \App\Models\EventModel();
+        $registrationModel = new \App\Models\EventRegistrationModel();
 
-        // Get the selected event
         $event = $eventModel->find($id);
 
         if (!$event) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Event not found');
+        }
+
+        // Default registration values
+        $event['current_registrations'] = 0;
+        $event['is_full'] = false;
+
+        if (!empty($event['requires_registration'])) {
+
+            $current = $registrationModel
+                ->getTotalRegistrationsForEventId((int) $event['id']);
+
+            $event['current_registrations'] = $current;
+
+            if (!empty($event['capacity']) && $current >= $event['capacity']) {
+                $event['is_full'] = true;
+            }
         }
 
         // Get 6 upcoming events (excluding current one)
@@ -54,5 +70,6 @@ class Events extends BaseController
             'upcomingEvents' => $upcomingEvents
         ]);
     }
+
 
 }
