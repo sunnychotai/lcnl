@@ -8,13 +8,7 @@ class AddUniqueIndexToSlug extends Migration
 {
     public function up()
     {
-        $this->forge->addColumn('events', [
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => true,
-            ],
-        ]);
+
 
         $this->forge->addUniqueKey('slug');
         $this->forge->processIndexes('events');
