@@ -254,20 +254,26 @@ class Events extends BaseController
     {
         $file = $this->request->getFile('image');
 
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-
-            $newName = $file->getRandomName();
-            $targetDir = WRITEPATH . '../public/uploads/events/';
-
-            if (!is_dir($targetDir)) {
-                mkdir($targetDir, 0755, true);
-            }
-
-            $file->move($targetDir, $newName);
-
-            $data['image'] = '/uploads/events/' . $newName;
+        if (!$file || !$file->isValid() || $file->hasMoved()) {
+            return;
         }
+
+        $newName = $file->getRandomName();
+
+        // ✅ Always use FCPATH for public uploads
+        $targetDir = FCPATH . 'uploads/events/';
+
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        if (!$file->move($targetDir, $newName)) {
+            throw new \RuntimeException($file->getErrorString());
+        }
+
+        $data['image'] = '/uploads/events/' . $newName;
     }
+
 
     private function makeSlugUnique(string $slug, int $ignoreId = null): string
     {
