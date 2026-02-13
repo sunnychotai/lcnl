@@ -79,33 +79,58 @@ class EventRegistrationController extends BaseController
     public function submit()
     {
         $eventId = (int) $this->request->getPost('event_id');
-
         $event = $this->eventModel->find($eventId);
 
-        if (!$event || !$event['requires_registration']) {
+        if (!$event || empty($event['requires_registration'])) {
             return redirect()->back()
                 ->with('errors', ['Invalid event.']);
         }
 
-        // Capacity check
-        $capacity = (int) $event['capacity'];
-        $currentTotal = $this->regs->getTotalRegistrationsForEventId($eventId);
+        // ----------------------------------------
+        // CAPACITY CHECKS
+        // ----------------------------------------
 
-        if ($capacity > 0 && $currentTotal >= $capacity) {
+        $maxRegistrations = (int) ($event['max_registrations'] ?? 0);
+        $maxHeadcount = (int) ($event['max_headcount'] ?? 0);
+
+        $currentRegistrations = $this->regs
+            ->getTotalRegistrationsForEventId($eventId);
+
+        $currentHeadcount = $this->regs
+            ->getTotalHeadcountForEventId($eventId);
+
+        // New submission values
+        $newParticipants = 1; // Always 1 (hidden field)
+        $newGuests = (int) ($this->request->getPost('num_guests') ?? 0);
+        $newHeadcount = $newParticipants + $newGuests;
+
+        // Check 1️⃣: Registration count limit
+        if ($maxRegistrations > 0 && $currentRegistrations >= $maxRegistrations) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', [
-                    'Sorry, this event has reached maximum capacity.'
+                    'Sorry, the maximum number of registrations has been reached.'
                 ]);
         }
 
-        // Validation
+        // Check 2️⃣: Total headcount limit
+        if ($maxHeadcount > 0 && ($currentHeadcount + $newHeadcount) > $maxHeadcount) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', [
+                    'This registration exceeds the remaining attendee capacity.'
+                ]);
+        }
+
+        // ----------------------------------------
+        // VALIDATION
+        // ----------------------------------------
+
         $rules = [
             'first_name' => 'required|min_length[2]|max_length[50]',
             'last_name' => 'required|min_length[2]|max_length[50]',
             'email' => 'required|valid_email',
             'phone' => 'required|min_length[7]|max_length[20]',
-            'num_participants' => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[2]',
             'num_guests' => 'permit_empty|integer|greater_than_equal_to[0]|less_than_equal_to[10]',
             'agreed_terms' => 'required|in_list[1]',
         ];
@@ -116,14 +141,18 @@ class EventRegistrationController extends BaseController
                 ->with('errors', $this->validator->getErrors());
         }
 
+        // ----------------------------------------
+        // SAVE REGISTRATION
+        // ----------------------------------------
+
         $data = [
             'event_id' => $eventId,
             'first_name' => strip_tags($this->request->getPost('first_name')),
             'last_name' => strip_tags($this->request->getPost('last_name')),
             'email' => $this->request->getPost('email'),
             'phone' => strip_tags($this->request->getPost('phone')),
-            'num_participants' => (int) $this->request->getPost('num_participants'),
-            'num_guests' => (int) $this->request->getPost('num_guests'),
+            'num_participants' => 1, // Always 1
+            'num_guests' => $newGuests,
             'notes' => strip_tags($this->request->getPost('notes')),
             'status' => 'submitted',
             'member_id' => session()->get('isMemberLoggedIn')
@@ -134,11 +163,17 @@ class EventRegistrationController extends BaseController
 
         $registrationId = $this->regs->insert($data);
 
-        // Emails
-        $html = view('emails/event_registration_generic', [
+        // ----------------------------------------
+        // SEND CONFIRMATION EMAIL
+        // ----------------------------------------
+
+        $html = view('emails/event_registration_generic', array_merge($data, [
             'event' => $event,
+            'event_name' => $event['title'],
             'registration_id' => $registrationId,
-        ]);
+            'total_people' => $newHeadcount,
+        ]));
+
 
         $this->emails->enqueue([
             'to_email' => $data['email'],
@@ -149,6 +184,10 @@ class EventRegistrationController extends BaseController
             'priority' => 1,
         ]);
 
+        // ----------------------------------------
+        // THANK YOU PAGE DATA
+        // ----------------------------------------
+
         session()->setFlashdata([
             'first_name' => $data['first_name'],
             'event_name' => $event['title'],
@@ -156,6 +195,7 @@ class EventRegistrationController extends BaseController
 
         return redirect()->to(site_url('events/thanks'));
     }
+
 
     public function thankyou()
     {

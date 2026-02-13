@@ -8,307 +8,163 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->setAutoRoute(false);
 
-/* -----------------------
-   Public pages
-------------------------*/
+/* =========================================================
+   PUBLIC ROUTES
+========================================================= */
 
 $routes->post('stripe/webhook', 'StripeWebhookController::handle');
 
 $routes->get('/', 'Home::index');
-$routes->get('/events', 'Events::index');
-$routes->get('/events/(:num)', 'Events::eventDetail/$1');
-$routes->get('sitemap.xml', 'Sitemap::index');
-$routes->get('/aboutus', 'Home::aboutUs');
-$routes->get('/sample', 'Home::sample');
-$routes->get('/privacy', 'Home::privacy');
+$routes->get('aboutus', 'Home::aboutUs');
+$routes->get('sample', 'Home::sample');
+$routes->get('privacy', 'Home::privacy');
+$routes->get('gallery', 'Home::gallery');
+$routes->get('contact', 'Home::contact');
+$routes->get('membership', 'Home::membership');
+$routes->get('faq', 'Home::faq');
+$routes->get('bereavement', 'Home::bereavement');
+$routes->get('tabletennis', 'Home::tabletennis');
 $routes->post('contact/send', 'ContactController::send');
-$routes->get('/gallery', 'Home::gallery');
-$routes->get('/contact', 'Home::contact');
-$routes->get('/membership', 'Home::membership');
-$routes->get('/faq', 'Home::faq');
-$routes->get('/lcf', 'Committee::lcf');
-$routes->get('/bereavement', 'Home::bereavement');
-$routes->get('/tabletennis', 'Home::tabletennis');
 
-/* Committee Routes */
-$routes->get('/committee', 'Committee::committee');
-$routes->get('/yls', 'Committee::yls');
-$routes->get('/youth', 'Committee::youth');
-$routes->get('/mahila', 'Committee::mahila');
+$routes->get('sitemap.xml', 'Sitemap::index');
 
-/* Event registrations */
+/* =========================================================
+   PUBLIC EVENTS
+========================================================= */
+
+$routes->get('events', 'Events::index');
+$routes->get('events/(:num)', 'Events::eventDetail/$1');
+
+/* =========================================================
+   EVENT REGISTRATION
+========================================================= */
+
 $routes->get('events/register', 'EventRegistrationController::register');
 $routes->get('events/register/(:segment)', 'EventRegistrationController::register/$1');
 $routes->post('events/register/submit', 'EventRegistrationController::submit');
 $routes->get('events/thanks', 'EventRegistrationController::thankyou');
 
-/* Dev / test utilities */
-$routes->get('/dbcheck', 'Test::dbcheck');
-$routes->get('/pwhash', 'Test::pwhash');
-$routes->get('/email', 'Test::email');
+/* =========================================================
+   AUTH
+========================================================= */
 
-/* -----------------------
-   FAQs (public)
-------------------------*/
-$routes->get('faqs', 'Home::faq');
-$routes->get('faqs/all', 'FaqController::all');
-$routes->get('faqs/(:segment)', 'FaqController::group/$1');
-$routes->get('bereavement', 'FaqController::bereavement');
-
-/* -----------------------
-   Auth
-------------------------*/
 $routes->get('auth/login', 'Auth::login');
 $routes->post('auth/attemptLogin', 'Auth::attemptLogin');
 $routes->get('auth/logout', 'Auth::logout');
 
-/* -----------------------
-   Forgot / Reset Password
-------------------------*/
-$routes->get('membership/login', 'MemberAuth::login', ['as' => 'membership.login']);
-$routes->post('membership/login', 'MemberAuth::attempt');
-$routes->get('membership/logout', 'MemberAuth::logout');
+/* =========================================================
+   MEMBER AREA (PUBLIC)
+========================================================= */
 
-$routes->get('membership/forgot', 'Account\PasswordController::forgot', ['as' => 'member.forgot']);
-$routes->post('membership/forgot', 'Account\PasswordController::sendReset');
-$routes->get('membership/reset/(:segment)', 'Account\PasswordController::reset/$1', ['as' => 'member.reset']);
-$routes->post('membership/reset', 'Account\PasswordController::doReset');
+$routes->group('membership', ['namespace' => 'App\Controllers'], function ($routes) {
 
-/* ---------------------------------------------------------
-   PUBLIC: Membership (keep OUTSIDE admin group)
-----------------------------------------------------------*/
-$routes->group('membership', ['namespace' => 'App\Controllers'], static function ($routes) {
-    $routes->get('register', 'MembershipController::register', ['as' => 'membership.register']);
-    $routes->post('register', 'MembershipController::create', ['as' => 'membership.create']);
-    $routes->get('verify/(:segment)', 'MembershipController::verify/$1', ['as' => 'membership.verify']);
-    $routes->get('success', 'MembershipController::success', ['as' => 'membership.success']);
-    $routes->get('resend-verification', 'MembershipController::resendVerification', ['as' => 'membership.resend']);
-    // Config/Routes.php (public area)
-    $routes->get('activated', 'MembershipController::activated', ['as' => 'membership.activated']);
+    $routes->get('register', 'MembershipController::register');
+    $routes->post('register', 'MembershipController::create');
+    $routes->get('verify/(:segment)', 'MembershipController::verify/$1');
+    $routes->get('success', 'MembershipController::success');
+    $routes->get('resend-verification', 'MembershipController::resendVerification');
+    $routes->get('activated', 'MembershipController::activated');
+
 });
 
-/* -----------------------
-   Member account area
-------------------------*/
-$routes->get('account', 'Account\DashboardController::index', ['as' => 'account.root']);
+/* =========================================================
+   MEMBER ACCOUNT AREA
+========================================================= */
+
 $routes->group('account', [
     'namespace' => 'App\Controllers\Account',
     'filter' => 'authMember'
-], static function ($routes) {
-    $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
-    $routes->get('profile', 'ProfileController::edit', ['as' => 'account.profile.edit']);
-    $routes->post('profile', 'ProfileController::update', ['as' => 'account.profile.update']);
-    // Family Management (member-side)
-    $routes->get('family', 'FamilyController::index', ['as' => 'account.family']);
-    $routes->post('family/create', 'FamilyController::create', ['as' => 'account.family.create']);
-    $routes->post('family/update/(:num)', 'FamilyController::update/$1', ['as' => 'account.family.update']);
-    $routes->post('family/delete/(:num)', 'FamilyController::delete/$1', ['as' => 'account.family.delete']);
+], function ($routes) {
 
+    $routes->get('dashboard', 'DashboardController::index');
+    $routes->get('profile', 'ProfileController::edit');
+    $routes->post('profile', 'ProfileController::update');
 
-    /* --------------------------------
-       Stripe: Life Membership Upgrade
-    ----------------------------------*/
-    $routes->post(
-        'membership/upgrade/checkout',
-        'MembershipUpgradeController::checkout',
-        ['as' => 'account.membership.upgrade.checkout']
-    );
+    $routes->get('family', 'FamilyController::index');
+    $routes->post('family/create', 'FamilyController::create');
+    $routes->post('family/update/(:num)', 'FamilyController::update/$1');
+    $routes->post('family/delete/(:num)', 'FamilyController::delete/$1');
 
-    $routes->get(
-        'membership/upgrade/success',
-        'MembershipUpgradeController::success',
-        ['as' => 'account.membership.upgrade.success']
-    );
-
-    $routes->get(
-        'membership/upgrade/cancel',
-        'MembershipUpgradeController::cancel',
-        ['as' => 'account.membership.upgrade.cancel']
-    );
+    // Stripe Upgrade
+    $routes->post('membership/upgrade/checkout', 'MembershipUpgradeController::checkout');
+    $routes->get('membership/upgrade/success', 'MembershipUpgradeController::success');
+    $routes->get('membership/upgrade/cancel', 'MembershipUpgradeController::cancel');
 
 });
 
-/* ---------------------------------------------------------
-   🔒 ADMIN AREA — ROLE-BASED GROUPS
-----------------------------------------------------------*/
-$routes->group('admin/system', ['filter' => 'authAdmin'], function ($routes) {
-    $routes->get('dashboard', 'Admin::dashboard');
-    // Cron Logs (ADMIN only)
-    $routes->get('cron-logs', 'Admin\CronController::index');
-    $routes->get('cron-logs/(:num)', 'Admin\CronController::show/$1');
-});
+/* =========================================================
+   ADMIN AREA
+========================================================= */
 
-/* --- System / Core admin (ADMIN only) --- */
-$routes->group('admin/system', ['filter' => 'authAdmin:ADMIN'], function ($routes) {
+$routes->group('admin', [
+    'namespace' => 'App\Controllers\Admin',
+    'filter' => 'authAdmin'
+], function ($routes) {
 
-    // Emails Admin
-    $routes->get('emails', 'Admin\Emails::index');
-    $routes->get('emails/view/(:num)', 'Admin\Emails::view/$1');
-    $routes->get('emails/retry/(:num)', 'Admin\Emails::retry/$1');
-    $routes->get('emails/delete/(:num)', 'Admin\Emails::delete/$1');
-    $routes->post('emails/data', 'Admin\EmailDataController::list');
-    $routes->get('emails/stats', 'Admin\EmailDataController::stats');
-
-
-    // Users Admin
-    $routes->group('users', function ($routes) {
-        $routes->get('', 'Admin\Users::index');
-        $routes->get('create', 'Admin\Users::create');
-        $routes->post('store', 'Admin\Users::store');
-        $routes->get('edit/(:num)', 'Admin\Users::edit/$1');
-        $routes->post('update/(:num)', 'Admin\Users::update/$1');
-        $routes->get('delete/(:num)', 'Admin\Users::delete/$1');
-    });
-});
-
-/* --- Content (ADMIN + WEBSITE) --- */
-$routes->group('admin/content', ['filter' => 'authAdmin:ADMIN,WEBSITE'], function ($routes) {
-
-    // Committee Admin
-    $routes->group('committee', function ($routes) {
-        $routes->get('', 'Admin\CommitteeController::index');
-        $routes->get('create', 'Admin\CommitteeController::create');
-        $routes->post('store', 'Admin\CommitteeController::store');
-        $routes->get('edit/(:num)', 'Admin\CommitteeController::edit/$1');
-        $routes->post('update/(:num)', 'Admin\CommitteeController::update/$1');
-        $routes->get('delete/(:num)', 'Admin\CommitteeController::delete/$1');
-        $routes->get('clone/(:num)', 'Admin\CommitteeController::clone/$1');
+    /* --------------------
+       SYSTEM
+    -------------------- */
+    $routes->group('system', function ($routes) {
+        $routes->get('dashboard', 'Admin::dashboard');
+        $routes->get('cron-logs', 'CronController::index');
+        $routes->get('cron-logs/(:num)', 'CronController::show/$1');
     });
 
-    // FAQs
-    $routes->group('faqs', function ($routes) {
-        $routes->get('', 'Admin\FaqAdmin::index');
-        $routes->get('create', 'Admin\FaqAdmin::create');
-        $routes->post('store', 'Admin\FaqAdmin::store');
-        $routes->get('edit/(:num)', 'Admin\FaqAdmin::edit/$1');
-        $routes->post('update/(:num)', 'Admin\FaqAdmin::update/$1');
-        $routes->get('delete/(:num)', 'Admin\FaqAdmin::delete/$1');
-        $routes->post('reorder', 'Admin\FaqAdmin::reorder');
+    /* --------------------
+       CONTENT (Events, FAQs, Committee)
+    -------------------- */
+    $routes->group('content', ['filter' => 'authAdmin:ADMIN,EVENTS,WEBSITE'], function ($routes) {
+
+        /* ---- Events ---- */
+        $routes->group('events', function ($routes) {
+            $routes->get('', 'Events::index');
+            $routes->get('create', 'Events::create');
+            $routes->post('store', 'Events::store');
+            $routes->get('edit/(:num)', 'Events::edit/$1');
+            $routes->post('update/(:num)', 'Events::update/$1');
+            $routes->get('delete/(:num)', 'Events::delete/$1');
+            $routes->get('clone/(:num)', 'Events::clone/$1');
+
+            $routes->get('event-registrations', 'EventRegistrationController::index');
+            $routes->post('event-registrations/summary', 'EventRegistrationController::summary');
+        });
+
+        /* ---- FAQs ---- */
+        $routes->group('faqs', function ($routes) {
+            $routes->get('', 'FaqAdmin::index');
+            $routes->get('create', 'FaqAdmin::create');
+            $routes->post('store', 'FaqAdmin::store');
+            $routes->get('edit/(:num)', 'FaqAdmin::edit/$1');
+            $routes->post('update/(:num)', 'FaqAdmin::update/$1');
+            $routes->get('delete/(:num)', 'FaqAdmin::delete/$1');
+            $routes->post('reorder', 'FaqAdmin::reorder');
+        });
+
+        /* ---- Committee ---- */
+        $routes->group('committee', function ($routes) {
+            $routes->get('', 'CommitteeController::index');
+            $routes->get('create', 'CommitteeController::create');
+            $routes->post('store', 'CommitteeController::store');
+            $routes->get('edit/(:num)', 'CommitteeController::edit/$1');
+            $routes->post('update/(:num)', 'CommitteeController::update/$1');
+            $routes->get('delete/(:num)', 'CommitteeController::delete/$1');
+            $routes->get('clone/(:num)', 'CommitteeController::clone/$1');
+        });
+
     });
+
 });
 
-$routes->group('admin/content', ['filter' => 'authAdmin:ADMIN,EVENTS,WEBSITE'], function ($routes) {
+/* =========================================================
+   ACCESS DENIED
+========================================================= */
 
-    // Events
-    $routes->group('events', function ($routes) {
-        $routes->get('', 'Admin\Events::index');
-        $routes->get('create', 'Admin\Events::create');
-        $routes->post('store', 'Admin\Events::store');
-        $routes->get('edit/(:num)', 'Admin\Events::edit/$1');
-        $routes->post('update/(:num)', 'Admin\Events::update/$1');
-        $routes->get('delete/(:num)', 'Admin\Events::delete/$1');
-        $routes->get('clone/(:num)', 'Admin\Events::clone/$1');
-
-        $routes->get('event-registrations', 'Admin\EventRegistrationController::index');
-        $routes->post('event-registrations/summary', 'Admin\EventRegistrationController::summary');
-
-    });
-});
-
-/* --- Membership area (ADMIN + MEMBERSHIP) --- */
-$routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], function ($routes) {
-
-    // Listing, export, show
-    $routes->get('', 'Admin\MembersController::index', ['as' => 'admin.membership.index']);
-    $routes->get('export', 'Admin\MembersController::export', ['as' => 'admin.membership.export']);
-    $routes->get('(:num)', 'Admin\MembersController::show/$1', ['as' => 'admin.membership.show']);
-
-    $routes->post('(:num)/disable-with-reason', 'Admin\MembersController::disableWithReason/$1');
-
-
-    // Email validity toggle (AJAX)
-    $routes->post(
-        '(:num)/email-validity',
-        'Admin\MembersController::toggleEmailValidity/$1'
-    );
-
-    // Creation of a member from the ADMIN panel
-    $routes->get('create', 'Admin\MembersController::create', ['as' => 'admin.membership.create']);
-    $routes->post('store', 'Admin\MembersController::store', ['as' => 'admin.membership.store']);
-
-    // Activate / Disable
-    $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1', ['as' => 'admin.membership.activate']);
-    $routes->post('(:num)/disable', 'Admin\MembersController::disable/$1', ['as' => 'admin.membership.disable']);
-
-    // 🔁 Activation email (QUEUED – token generated at send time)
-    $routes->post(
-        '(:num)/queue-activation',
-        'Admin\MembersController::queueActivationEmail/$1',
-        ['as' => 'admin.membership.queueActivationEmail']
-    );
-
-    // Edit Profile
-    $routes->get('(:num)/edit', 'Admin\MembersController::edit/$1', ['as' => 'admin.membership.edit']);
-    $routes->post('(:num)/update', 'Admin\MembersController::update/$1', ['as' => 'admin.membership.update']);
-
-    // Membership Type Update
-    $routes->post(
-        '(:num)/update-type',
-        'Admin\MembersController::updateMembershipType/$1',
-        ['as' => 'admin.membership.updateType']
-    );
-
-    // Family Management (admin-side)
-    $routes->post('(:num)/family/create', 'Admin\FamilyController::create/$1', ['as' => 'admin.family.create']);
-    $routes->post('(:num)/family/update/(:num)', 'Admin\FamilyController::update/$1/$2', ['as' => 'admin.family.update']);
-    $routes->post('(:num)/family/delete/(:num)', 'Admin\FamilyController::delete/$1/$2', ['as' => 'admin.family.delete']);
-
-    // Data endpoints
-    $routes->post('data', 'Admin\MemberDataController::list');
-    $routes->post('family/add', 'Admin\MemberFamilyController::add');
-    $routes->post('family/update', 'Admin\MemberFamilyController::update');
-    $routes->post('family/delete', 'Admin\MemberFamilyController::delete');
-
-    // Reports
-    $routes->get('reports', 'Admin\MembershipReportsController::index', ['as' => 'admin.membership.reports']);
-
-    $routes->get('reports/email-invalid', 'Admin\MembershipReportsController::emailInvalid');
-    $routes->post('reports/email-invalid/data', 'Admin\MembershipReportsController::emailInvalidData');
-    $routes->get('reports/email-invalid/export', 'Admin\MembershipReportsController::emailInvalidExport');
-
-    $routes->get('reports/mobile-missing', 'Admin\MembershipReportsController::mobileMissing');
-    $routes->post('reports/mobile-missing/data', 'Admin\MembershipReportsController::mobileMissingData');
-    $routes->get('reports/mobile-missing/export', 'Admin\MembershipReportsController::mobileMissingExport');
-
-    $routes->get('reports/missing-gender', 'Admin\MembershipReportsController::missingGender');
-    $routes->post('reports/missing-gender/data', 'Admin\MembershipReportsController::missingGenderData');
-    $routes->get('reports/missing-gender/export', 'Admin\MembershipReportsController::missingGenderExport');
-
-    $routes->get('reports/missing-dob', 'Admin\MembershipReportsController::missingDob');
-    $routes->post('reports/missing-dob/data', 'Admin\MembershipReportsController::missingDobData');
-    $routes->get('reports/missing-dob/export', 'Admin\MembershipReportsController::missingDobExport');
-
-    $routes->get('reports/not-verified', 'Admin\MembershipReportsController::notVerified');
-    $routes->post('reports/not-verified/data', 'Admin\MembershipReportsController::notVerifiedData');
-    $routes->get('reports/not-verified/export', 'Admin\MembershipReportsController::notVerifiedExport');
-
-    $routes->get('reports/pending', 'Admin\MembershipReportsController::pendingMembers');
-    $routes->post('reports/pending/data', 'Admin\MembershipReportsController::pendingMembersData');
-    $routes->get('reports/pending/export', 'Admin\MembershipReportsController::pendingMembersExport');
-
-    $routes->get('reports/active-life', 'Admin\MembershipReportsController::activeLife');
-    $routes->post('reports/active-life/data', 'Admin\MembershipReportsController::activeLifeData');
-    $routes->get('reports/active-life/export', 'Admin\MembershipReportsController::activeLifeExport');
-
-    $routes->get('reports/disabled', 'Admin\MembershipReportsController::disabled');
-    $routes->post('reports/disabled/data', 'Admin\MembershipReportsController::disabledData');
-    $routes->get('reports/disabled/export', 'Admin\MembershipReportsController::disabledExport');
-});
-
-/* --- Finance area (ADMIN + FINANCE) --- */
-$routes->group('admin/finance', ['filter' => 'authAdmin:ADMIN,FINANCE'], function ($routes) {
-    $routes->get('', 'Admin\FinanceController::index');
-    $routes->get('reports', 'Admin\FinanceController::reports');
-});
-
-/* -----------------------
-   Access Denied (safe public route)
-------------------------*/
 $routes->get('access-denied', 'Home::accessDenied');
 
-/* -----------------------
-   Environment routes (LAST)
-------------------------*/
+/* =========================================================
+   ENVIRONMENT ROUTES
+========================================================= */
+
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

@@ -110,21 +110,12 @@
                   <i class="bi bi-people-fill me-2"></i>Attendance Details
                 </h5>
 
+                <!-- Hidden participants (always 1) -->
+                <input type="hidden" name="num_participants" value="1">
+
                 <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold">
-                      Number of participants <span class="text-danger">*</span>
-                    </label>
 
-                    <select name="num_participants" class="form-select" required>
-                      <?php foreach ([1, 2] as $count): ?>
-                        <option value="<?= $count ?>" <?= (string) old('num_participants', 1) === (string) $count ? 'selected' : '' ?>>
-                          <?= $count ?>
-                        </option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-
+                  <!-- Guests only -->
                   <div class="col-md-6">
                     <label class="form-label fw-semibold">
                       Number of guests
@@ -138,6 +129,7 @@
                       <?php endfor; ?>
                     </select>
                   </div>
+
                 </div>
               </div>
 

@@ -122,14 +122,18 @@
               </select>
             </div>
 
-            <!-- Capacity -->
-            <div class="mb-3" id="capacityWrapper">
-              <label class="form-label fw-semibold">Maximum Capacity</label>
-              <input type="number" name="capacity" class="form-control"
-                value="<?= old('capacity', $event['capacity'] ?? '') ?>" min="1">
-              <small class="text-muted">
-                Leave blank if unlimited
-              </small>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Maximum Registrations</label>
+              <input type="number" name="max_registrations" class="form-control"
+                value="<?= old('max_registrations', $event['max_registrations'] ?? 0) ?>">
+              <small class="text-muted">Leave 0 for unlimited</small>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Maximum Total Headcount</label>
+              <input type="number" name="max_headcount" class="form-control"
+                value="<?= old('max_headcount', $event['max_headcount'] ?? 0) ?>">
+              <small class="text-muted">Total people allowed including guests</small>
             </div>
 
             <hr class="my-4">

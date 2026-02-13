@@ -49,13 +49,20 @@
           </tr>
         <?php endif; ?>
 
-        <?php foreach ($events as $event): ?>
+        <?php foreach ($events as $event):
 
-          <?php
+
           $requiresRegistration = $event['requires_registration'] ?? 0;
-          $capacity = $event['capacity'] ?? null;
-          $currentRegistrations = $event['current_registrations'] ?? null;
-          $isFull = ($capacity && $currentRegistrations >= $capacity);
+
+          $maxRegistrations = $event['max_registrations'] ?? null;
+          $maxHeadcount = $event['max_headcount'] ?? null;
+
+          $currentRegistrations = $event['current_registrations'] ?? 0;
+          $currentHeadcount = $event['current_headcount'] ?? 0;
+
+          $isFull = $event['is_full'] ?? false;
+
+
           ?>
 
           <tr>
@@ -77,24 +84,44 @@
             <!-- REGISTRATION COLUMN -->
             <td>
               <?php if ($requiresRegistration): ?>
-                <span class="badge bg-primary mb-1">Enabled</span><br>
 
-                <?php if ($capacity): ?>
+                <span class="badge bg-primary mb-2">Enabled</span><br>
+
+                <!-- Registration Count -->
+                <?php if ($maxRegistrations): ?>
                   <small>
-                    <?= $currentRegistrations ?? 0 ?> / <?= $capacity ?>
-                  </small>
-
-                  <?php if ($isFull): ?>
-                    <span class="badge bg-danger ms-1">Full</span>
-                  <?php endif; ?>
+                    Registrations:
+                    <?= $currentRegistrations ?> / <?= $maxRegistrations ?>
+                  </small><br>
                 <?php else: ?>
-                  <small class="text-muted">Unlimited</small>
+                  <small class="text-muted">
+                    Registrations: Unlimited
+                  </small><br>
+                <?php endif; ?>
+
+                <!-- Headcount -->
+                <?php if ($maxHeadcount): ?>
+                  <small>
+                    Headcount:
+                    <?= $currentHeadcount ?> / <?= $maxHeadcount ?>
+                  </small>
+                <?php else: ?>
+                  <small class="text-muted">
+                    Headcount: Unlimited
+                  </small>
+                <?php endif; ?>
+
+                <?php if ($isFull): ?>
+                  <div class="mt-1">
+                    <span class="badge bg-danger">Full</span>
+                  </div>
                 <?php endif; ?>
 
               <?php else: ?>
                 <span class="badge bg-secondary">Not Required</span>
               <?php endif; ?>
             </td>
+
 
             <!-- VALID COLUMN -->
             <td>
@@ -109,32 +136,41 @@
             <td class="text-end">
               <div class="btn-group btn-group-sm">
 
-                <a href="<?= base_url('events/' . $event['id']) ?>" class="btn btn-outline-secondary" target="_blank">
-                  View
+                <!-- View Event -->
+                <a href="<?= base_url('events/' . $event['id']) ?>" class="btn btn-outline-secondary" target="_blank"
+                  data-bs-toggle="tooltip" title="View Event">
+                  <i class="bi bi-eye"></i>
                 </a>
 
+                <!-- Register Page -->
                 <?php if ($requiresRegistration && !empty($event['slug'])): ?>
                   <a href="<?= site_url('events/register/' . $event['slug']) ?>" class="btn btn-outline-info"
-                    target="_blank">
-                    Register Page
+                    target="_blank" data-bs-toggle="tooltip" title="Registration Page">
+                    <i class="bi bi-person-plus"></i>
                   </a>
                 <?php endif; ?>
 
-                <a href="<?= base_url('admin/content/events/edit/' . $event['id']) ?>" class="btn btn-outline-primary">
-                  Edit
+                <!-- Edit -->
+                <a href="<?= base_url('admin/content/events/edit/' . $event['id']) ?>" class="btn btn-outline-primary"
+                  data-bs-toggle="tooltip" title="Edit Event">
+                  <i class="bi bi-pencil"></i>
                 </a>
 
-                <a href="<?= base_url('admin/content/events/clone/' . $event['id']) ?>" class="btn btn-outline-warning">
-                  Clone
+                <!-- Clone -->
+                <a href="<?= base_url('admin/content/events/clone/' . $event['id']) ?>" class="btn btn-outline-warning"
+                  data-bs-toggle="tooltip" title="Clone Event">
+                  <i class="bi bi-files"></i>
                 </a>
 
+                <!-- Delete -->
                 <a href="<?= base_url('admin/content/events/delete/' . $event['id']) ?>" class="btn btn-outline-danger"
-                  onclick="return confirm('Delete this event?')">
-                  Delete
+                  onclick="return confirm('Delete this event?')" data-bs-toggle="tooltip" title="Delete Event">
+                  <i class="bi bi-trash"></i>
                 </a>
 
               </div>
             </td>
+
           </tr>
 
         <?php endforeach; ?>

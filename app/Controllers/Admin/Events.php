@@ -38,18 +38,43 @@ class Events extends BaseController
         foreach ($events as &$event) {
 
             $event['current_registrations'] = 0;
+            $event['current_headcount'] = 0;
             $event['is_full'] = false;
 
             if (!empty($event['requires_registration'])) {
 
-                $current = $this->registrationModel
-                    ->getTotalRegistrationsForEventId((int) $event['id']);
+                $eventId = (int) $event['id'];
 
-                $event['current_registrations'] = $current;
+                $registrations = (int) $this->registrationModel
+                    ->getTotalRegistrationsForEventId($eventId);
 
-                if (!empty($event['capacity']) && $current >= $event['capacity']) {
+                $headcount = (int) $this->registrationModel
+                    ->getTotalHeadcountForEventId($eventId);
+
+                $event['current_registrations'] = $registrations;
+                $event['current_headcount'] = $headcount;
+
+                $maxRegistrations = (int) ($event['max_registrations'] ?? 0);
+                $maxHeadcount = (int) ($event['max_headcount'] ?? 0);
+
+                // Check registration limit
+                if ($maxRegistrations > 0 && $registrations >= $maxRegistrations) {
                     $event['is_full'] = true;
                 }
+
+                // Check headcount limit
+                if ($maxHeadcount > 0 && $headcount >= $maxHeadcount) {
+                    $event['is_full'] = true;
+                }
+
+                // Optional: calculate % for progress bars later
+                $event['registration_percent'] = ($maxRegistrations > 0)
+                    ? min(100, round(($registrations / $maxRegistrations) * 100))
+                    : null;
+
+                $event['headcount_percent'] = ($maxHeadcount > 0)
+                    ? min(100, round(($headcount / $maxHeadcount) * 100))
+                    : null;
             }
         }
 
@@ -82,7 +107,8 @@ class Events extends BaseController
             'event_date' => 'required|valid_date',
             'committee' => 'required|in_list[LCNL,YLS,Mahila,Youth]',
             'slug' => 'permit_empty|alpha_dash',
-            'capacity' => 'permit_empty|integer|greater_than[0]',
+            'max_registrations' => 'permit_empty|integer|greater_than_equal_to[0]',
+            'max_headcount' => 'permit_empty|integer|greater_than_equal_to[0]',
         ];
 
         if (!$this->validate($rules)) {
@@ -92,12 +118,10 @@ class Events extends BaseController
 
         $data = $this->getEventPostData();
 
-        // Generate slug if empty
         if (empty($data['slug'])) {
             $data['slug'] = url_title($data['title'], '-', true);
         }
 
-        // Ensure slug unique
         $data['slug'] = $this->makeSlugUnique($data['slug']);
 
         $this->handleImageUpload($data);
@@ -106,26 +130,6 @@ class Events extends BaseController
 
         return redirect()->to('/admin/content/events')
             ->with('success', 'Event added successfully');
-    }
-
-    /* ======================================================
-       EDIT
-    ====================================================== */
-
-    public function edit($id)
-    {
-        $event = $this->eventModel->find($id);
-
-        if (!$event) {
-            return redirect()->to('/admin/content/events')
-                ->with('error', 'Event not found');
-        }
-
-        return view('admin/content/events/form', [
-            'event' => $event,
-            'action' => base_url('admin/content/events/update/' . $id),
-            'committeeOptions' => $this->committeeOptions,
-        ]);
     }
 
     /* ======================================================
@@ -139,7 +143,8 @@ class Events extends BaseController
             'event_date' => 'required|valid_date',
             'committee' => 'required|in_list[LCNL,YLS,Mahila,Youth]',
             'slug' => 'permit_empty|alpha_dash',
-            'capacity' => 'permit_empty|integer|greater_than[0]',
+            'max_registrations' => 'permit_empty|integer|greater_than_equal_to[0]',
+            'max_headcount' => 'permit_empty|integer|greater_than_equal_to[0]',
         ];
 
         if (!$this->validate($rules)) {
@@ -170,9 +175,32 @@ class Events extends BaseController
     public function delete($id)
     {
         $this->eventModel->delete($id);
+
         return redirect()->to('/admin/content/events')
             ->with('success', 'Event deleted');
     }
+
+
+    /* ======================================================
+   EDIT
+====================================================== */
+
+    public function edit($id)
+    {
+        $event = $this->eventModel->find($id);
+
+        if (!$event) {
+            return redirect()->to('/admin/content/events')
+                ->with('error', 'Event not found');
+        }
+
+        return view('admin/content/events/form', [
+            'event' => $event,
+            'action' => base_url('admin/content/events/update/' . $id),
+            'committeeOptions' => $this->committeeOptions,
+        ]);
+    }
+
 
     /* ======================================================
        CLONE
@@ -188,7 +216,8 @@ class Events extends BaseController
         }
 
         unset($event['id']);
-        $event['slug'] = $event['slug'] . '-copy';
+
+        $event['slug'] = $this->makeSlugUnique($event['slug'] . '-copy');
 
         $this->eventModel->insert($event);
 
@@ -215,7 +244,8 @@ class Events extends BaseController
             'eventterms' => $this->request->getPost('eventterms'),
             'contactinfo' => $this->request->getPost('contactinfo'),
             'requires_registration' => (int) $this->request->getPost('requires_registration'),
-            'capacity' => $this->request->getPost('capacity') ?: null,
+            'max_registrations' => $this->request->getPost('max_registrations') ?: null,
+            'max_headcount' => $this->request->getPost('max_headcount') ?: null,
             'is_valid' => (int) $this->request->getPost('is_valid'),
         ];
     }
@@ -247,9 +277,7 @@ class Events extends BaseController
             $builder->where('id !=', $ignoreId);
         }
 
-        $exists = $builder->first();
-
-        if (!$exists) {
+        if (!$builder->first()) {
             return $slug;
         }
 

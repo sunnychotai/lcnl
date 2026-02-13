@@ -20,8 +20,10 @@ class EventModel extends Model
         'eventterms',
         'contactinfo',
         'requires_registration',
-        'capacity',
         'registration_open',
+        'max_registrations',
+        'max_headcount',
+        'is_valid',
 
     ];
     protected $useTimestamps = true;

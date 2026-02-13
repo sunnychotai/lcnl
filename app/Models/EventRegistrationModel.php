@@ -46,6 +46,18 @@ class EventRegistrationModel extends Model
             ->countAllResults();
     }
 
+    public function getTotalHeadcountForEventId(int $eventId): int
+    {
+        $row = $this->select('SUM(num_participants + num_guests) AS total_people')
+            ->where('event_id', $eventId)
+            ->whereIn('status', ['submitted', 'confirmed'])
+            ->get()
+            ->getRow();
+
+        return (int) ($row->total_people ?? 0);
+    }
+
+
 
 
 }
