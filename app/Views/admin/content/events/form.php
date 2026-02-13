@@ -136,6 +136,48 @@
               <small class="text-muted">Total people allowed including guests</small>
             </div>
 
+            <!-- ===================================== -->
+            <!-- 📄 EVENT CONTENT DETAILS -->
+            <!-- ===================================== -->
+
+            <hr class="my-4">
+
+            <h5 class="fw-bold mb-3">
+              <i class="bi bi-file-earmark-text-fill me-2"></i>
+              Event Content Details
+            </h5>
+
+            <!-- Ticket Information -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Ticket Information</label>
+              <textarea name="ticketinfo" class="form-control"
+                rows="4"><?= old('ticketinfo', $event['ticketinfo'] ?? '') ?></textarea>
+              <small class="text-muted">
+                Pricing, what's included, booking instructions etc.
+              </small>
+            </div>
+
+            <!-- Event Terms -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Event Terms</label>
+              <textarea name="eventterms" class="form-control"
+                rows="6"><?= old('eventterms', $event['eventterms'] ?? '') ?></textarea>
+              <small class="text-muted">
+                Cancellation policy, refund rules, conditions etc.
+              </small>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Contact Information</label>
+              <textarea name="contactinfo" class="form-control"
+                rows="4"><?= old('contactinfo', $event['contactinfo'] ?? '') ?></textarea>
+              <small class="text-muted">
+                Who to contact regarding this event.
+              </small>
+            </div>
+
+
             <hr class="my-4">
 
             <!-- Image -->
