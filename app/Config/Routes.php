@@ -92,7 +92,7 @@ $routes->group('account', [
 
     // Profile
     $routes->get('profile', 'ProfileController::edit', [
-        'as' => 'account.profile'
+        'as' => 'account.profile.edit'
     ]);
     $routes->post('profile', 'ProfileController::update', [
         'as' => 'account.profile.update'
