@@ -86,16 +86,16 @@ $routes->group('account', [
 ], function ($routes) {
 
     $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
-    $routes->get('profile', 'ProfileController::edit');
+    $routes->get('profile', 'ProfileController::edit', ['as' => 'account.profile']);
     $routes->post('profile', 'ProfileController::update');
 
-    $routes->get('family', 'FamilyController::index');
+    $routes->get('family', 'FamilyController::index', ['as' => 'account.family']);
     $routes->post('family/create', 'FamilyController::create');
     $routes->post('family/update/(:num)', 'FamilyController::update/$1');
     $routes->post('family/delete/(:num)', 'FamilyController::delete/$1');
 
     // Stripe upgrade
-    $routes->post('membership/upgrade/checkout', 'MembershipUpgradeController::checkout');
+    $routes->post('membership/upgrade/checkout', 'MembershipUpgradeController::checkout', ['as' => 'account.membership.upgrade.checkout']);
     $routes->get('membership/upgrade/success', 'MembershipUpgradeController::success');
     $routes->get('membership/upgrade/cancel', 'MembershipUpgradeController::cancel');
 });
