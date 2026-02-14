@@ -112,7 +112,7 @@
         <input 
           name="phone" 
           class="form-control"
-          value="<?= old('phone', $memberData['phone'] ?? '') ?>" 
+          value="<?= old('phone', $memberData['mobile'] ?? '') ?>" 
           required>
       </div>
     </div>
