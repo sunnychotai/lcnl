@@ -11,7 +11,7 @@ class FaqController extends BaseController
         $faqModel = new FaqModel();
         $data['groupedFaqs'] = $faqModel->getGrouped();
 
-        return view('faq/index', $data);
+        return view('faqs/index', $data);
     }
 
     public function group($group)
@@ -20,7 +20,7 @@ class FaqController extends BaseController
         $data['faqs'] = $faqModel->getByGroup($group);
         $data['groupName'] = ucfirst($group);
 
-        return view('faq/group', $data);
+        return view('faqs/group', $data);
     }
 
     public function all()
@@ -28,7 +28,7 @@ class FaqController extends BaseController
         $faqModel = new FaqModel();
         $data['faqs'] = $faqModel->getByGroup();
 
-        return view('faq/all', $data);
+        return view('faqs/all', $data);
     }
 
     public function bereavement()

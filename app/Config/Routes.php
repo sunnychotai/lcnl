@@ -15,6 +15,17 @@ $routes->setAutoRoute(false);
 // Stripe
 $routes->post('stripe/webhook', 'StripeWebhookController::handle');
 
+/* =========================================================
+   ADMIN AUTH
+========================================================= */
+
+$routes->get('auth/login', 'Auth::login');
+$routes->post('auth/attemptLogin', 'Auth::attemptLogin');
+$routes->get('auth/logout', 'Auth::logout');
+
+
+
+
 // Core pages
 $routes->get('/', 'Home::index');
 $routes->get('aboutus', 'Home::aboutUs');
@@ -24,7 +35,11 @@ $routes->get('gallery', 'Home::gallery');
 $routes->get('contact', 'Home::contact');
 $routes->post('contact/send', 'ContactController::send');
 $routes->get('membership', 'Home::membership');
-$routes->get('faq', 'Home::faq');
+// FAQs
+$routes->get('faqs', 'FaqController::index');
+$routes->get('faqs/group/(:segment)', 'FaqController::group/$1');
+$routes->get('faqs/all', 'FaqController::all');
+$routes->get('faqs/bereavement', 'FaqController::bereavement');
 $routes->get('bereavement', 'Home::bereavement');
 $routes->get('tabletennis', 'Home::tabletennis');
 
