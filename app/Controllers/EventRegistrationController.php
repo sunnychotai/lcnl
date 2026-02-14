@@ -20,57 +20,65 @@ class EventRegistrationController extends BaseController
         $this->eventModel = new EventModel();
     }
 
-    /**
-     * Show registration form
-     */
     public function register(?string $eventSlug = null)
-    {
-        // If NO slug → show dropdown of events requiring registration
-        if ($eventSlug === null) {
+{
+    // If NO slug → show dropdown
+    if ($eventSlug === null) {
 
-            $events = $this->eventModel
-                ->where('is_valid', 1)
-                ->where('requires_registration', 1)
-                ->where('event_date >=', date('Y-m-d'))
-                ->orderBy('event_date', 'ASC')
-                ->findAll();
-
-            return view('events/register_select', [
-                'events' => $events
-            ]);
-        }
-
-        // If slug exists → load specific event
-        $event = $this->eventModel
-            ->where('slug', $eventSlug)
+        $events = $this->eventModel
             ->where('is_valid', 1)
-            ->first();
+            ->where('requires_registration', 1)
+            ->where('event_date >=', date('Y-m-d'))
+            ->orderBy('event_date', 'ASC')
+            ->findAll();
 
-        if (!$event) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
-
-        if (!$event['requires_registration']) {
-            return redirect()->to('/events/' . $event['id']);
-        }
-
-        $currentTotal = $this->regs->getTotalRegistrationsForEventId($event['id']);
-        $capacity = (int) $event['capacity'];
-        $isFull = $capacity > 0 && $currentTotal >= $capacity;
-
-        $formToken = bin2hex(random_bytes(16));
-        session()->set('event_form_token', $formToken);
-        session()->set('event_form_token_time', time());
-
-        return view('events/register', [
-            'event' => $event,
-            'isFull' => $isFull,
-            'capacity' => $capacity,
-            'currentTotal' => $currentTotal,
-            'formToken' => $formToken,
-            'isMember' => session()->get('isMemberLoggedIn') === true,
+        return view('events/register_select', [
+            'events' => $events
         ]);
     }
+
+    // Load event
+    $event = $this->eventModel
+        ->where('slug', $eventSlug)
+        ->where('is_valid', 1)
+        ->first();
+
+    if (!$event) {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+
+    if (!$event['requires_registration']) {
+        return redirect()->to('/events/' . $event['id']);
+    }
+
+    $currentTotal = $this->regs->getTotalRegistrationsForEventId($event['id']);
+    $capacity = (int) $event['capacity'];
+    $isFull = $capacity > 0 && $currentTotal >= $capacity;
+
+    // 🔥 NEW: Load member data from DB (not session)
+    $memberData = null;
+
+    if (session()->get('isMemberLoggedIn')) {
+        $memberModel = new \App\Models\MemberModel();
+        $memberData = $memberModel->find(session()->get('member_id'));
+    }
+
+    // Anti-spam token
+    $formToken = bin2hex(random_bytes(16));
+    session()->set('event_form_token', $formToken);
+    session()->set('event_form_token_time', time());
+
+    return view('events/register', [
+        'event'        => $event,
+        'isFull'       => $isFull,
+        'capacity'     => $capacity,
+        'currentTotal' => $currentTotal,
+        'formToken'    => $formToken,
+        'isMember'     => session()->get('isMemberLoggedIn') === true,
+        'memberData'   => $memberData, // ✅ pass to view
+    ]);
+}
+
 
 
     /**

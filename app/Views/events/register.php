@@ -64,96 +64,113 @@
 
           <?php else: ?>
 
-            <form method="post" action="<?= site_url('events/register/submit') ?>" novalidate>
-              <?= csrf_field() ?>
+<form method="post" action="<?= site_url('events/register/submit') ?>" novalidate>
+  <?= csrf_field() ?>
 
-              <input type="hidden" name="event_id" value="<?= esc($event['id']) ?>">
-              <input type="hidden" name="form_time" value="<?= time() ?>">
-              <input type="hidden" name="form_token" value="<?= $formToken ?>">
+  <input type="hidden" name="event_id" value="<?= esc($event['id']) ?>">
+  <input type="hidden" name="form_time" value="<?= time() ?>">
+  <input type="hidden" name="form_token" value="<?= esc($formToken) ?>">
 
-              <!-- Personal Details -->
-              <div class="form-section mb-4">
-                <h5 class="section-title mb-3">
-                  <i class="bi bi-person-fill me-2"></i>Your Details
-                </h5>
+  <!-- Personal Details -->
+  <div class="form-section mb-4">
+    <h5 class="section-title mb-3">
+      <i class="bi bi-person-fill me-2"></i>Your Details
+    </h5>
 
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold">First Name *</label>
-                    <input name="first_name" class="form-control"
-                      value="<?= old('first_name', $isMember ? session()->get('member_first_name') : '') ?>" required>
-                  </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">First Name *</label>
+        <input 
+          name="first_name" 
+          class="form-control"
+          value="<?= old('first_name', $memberData['first_name'] ?? '') ?>" 
+          required>
+      </div>
 
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold">Surname *</label>
-                    <input name="last_name" class="form-control"
-                      value="<?= old('last_name', $isMember ? session()->get('member_last_name') : '') ?>" required>
-                  </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Surname *</label>
+        <input 
+          name="last_name" 
+          class="form-control"
+          value="<?= old('last_name', $memberData['last_name'] ?? '') ?>" 
+          required>
+      </div>
 
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold">Email *</label>
-                    <input type="email" name="email" class="form-control" value="<?= old('email', $memberEmail ?? '') ?>"
-                      required>
-                  </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Email *</label>
+        <input 
+          type="email" 
+          name="email" 
+          class="form-control"
+          value="<?= old('email', $memberData['email'] ?? '') ?>"
+          <?= $isMember ? 'readonly' : '' ?>
+          required>
+      </div>
 
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold">Phone *</label>
-                    <input name="phone" class="form-control"
-                      value="<?= old('phone', $isMember ? session()->get('member_phone') : '') ?>" required>
-                  </div>
-                </div>
-              </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Phone *</label>
+        <input 
+          name="phone" 
+          class="form-control"
+          value="<?= old('phone', $memberData['phone'] ?? '') ?>" 
+          required>
+      </div>
+    </div>
+  </div>
 
-              <!-- Attendance -->
-              <div class="form-section mb-4">
-                <h5 class="section-title mb-3">
-                  <i class="bi bi-people-fill me-2"></i>Attendance Details
-                </h5>
+  <!-- Attendance -->
+  <div class="form-section mb-4">
+    <h5 class="section-title mb-3">
+      <i class="bi bi-people-fill me-2"></i>Attendance Details
+    </h5>
 
-                <!-- Hidden participants (always 1) -->
-                <input type="hidden" name="num_participants" value="1">
+    <input type="hidden" name="num_participants" value="1">
 
-                <div class="row g-3">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">
+          Number of guests
+        </label>
 
-                  <!-- Guests only -->
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold">
-                      Number of guests
-                    </label>
+        <select name="num_guests" class="form-select">
+          <?php for ($i = 0; $i <= 10; $i++): ?>
+            <option value="<?= $i ?>" <?= (string) old('num_guests', 0) === (string) $i ? 'selected' : '' ?>>
+              <?= $i ?>
+            </option>
+          <?php endfor; ?>
+        </select>
+      </div>
+    </div>
+  </div>
 
-                    <select name="num_guests" class="form-select">
-                      <?php for ($i = 0; $i <= 10; $i++): ?>
-                        <option value="<?= $i ?>" <?= (string) old('num_guests', 0) === (string) $i ? 'selected' : '' ?>>
-                          <?= $i ?>
-                        </option>
-                      <?php endfor; ?>
-                    </select>
-                  </div>
+  <!-- Notes -->
+  <div class="form-section mb-4">
+    <label class="form-label fw-semibold">Notes (optional)</label>
+    <textarea name="notes" class="form-control" rows="3"><?= esc(old('notes')) ?></textarea>
+  </div>
 
-                </div>
-              </div>
+  <!-- Terms -->
+  <div class="form-section mb-4">
+    <div class="form-check">
+      <input 
+        class="form-check-input" 
+        type="checkbox" 
+        name="agreed_terms" 
+        value="1" 
+        <?= old('agreed_terms') ? 'checked' : '' ?>
+        required>
+      <label class="form-check-label fw-semibold">
+        I agree to the event terms.
+      </label>
+    </div>
+  </div>
 
-              <!-- Notes -->
-              <div class="form-section mb-4">
-                <label class="form-label fw-semibold">Notes (optional)</label>
-                <textarea name="notes" class="form-control" rows="3"><?= esc(old('notes')) ?></textarea>
-              </div>
+  <button type="submit" class="btn btn-accent btn-lg w-100">
+    Submit Registration
+  </button>
 
-              <!-- Terms -->
-              <div class="form-section mb-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="agreed_terms" value="1" required>
-                  <label class="form-check-label fw-semibold">
-                    I agree to the event terms.
-                  </label>
-                </div>
-              </div>
+</form>
 
-              <button type="submit" class="btn btn-accent btn-lg w-100">
-                Submit Registration
-              </button>
-
-            </form>
 
           <?php endif; ?>
 
