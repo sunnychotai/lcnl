@@ -161,49 +161,80 @@
       </p>
     </div>
 
-  <?php elseif ($type === 'Standard'): ?>
+<?php elseif ($type === 'Standard'): ?>
 
-    <!-- Standard Members Notice -->
-    <div class="row justify-content-center mb-4">
-      <div class="col-lg-8">
+<div class="row justify-content-center mb-4">
+  <div class="col-lg-8">
 
-        <div class="lcnl-card shadow-sm border-0 rounded-4 p-4 text-center">
+    <div class="lcnl-card shadow-sm border-0 rounded-4 p-4 text-center">
 
-          <!-- Icon Header -->
-          <div class="mb-2">
-            <i class="bi bi-star-fill text-accent" style="font-size: 2.2rem;"></i>
-          </div>
+      <div class="mb-3">
+        <i class="bi bi-arrow-up-circle-fill text-accent" style="font-size: 2.5rem;"></i>
+      </div>
 
-          <p class="lead text-muted mb-2" style="max-width: 700px; margin: 0 auto;">
-            Life Membership upgrade for your registration is coming soon.
-          </p>
+      <h4 class="fw-bold mb-2">Upgrade to Life Membership</h4>
 
-          <p class="text-muted mb-3" style="max-width: 650px; margin: 0 auto;">
-            You'll be able to become a <strong>LIFE member</strong> soon.
-          </p>
+      <p class="lead text-muted mb-2">
+        You are currently a <strong>Standard Member</strong>.
+      </p>
 
-          <!-- Soft Gold Divider -->
-          <hr style="width:160px; margin:auto; border:0; border-top:2px solid var(--accent1); opacity:0.85;">
+      <p class="text-muted mb-3">
+        Become a <strong>Life Member</strong> today with a one-time secure payment of
+        <span class="text-brand fw-bold fs-5">£75</span>.
+      </p>
 
-          <!-- Enquiries -->
-          <p class="text-muted small mt-3">
-            <i class="bi bi-envelope-open text-accent me-1"></i>
-            Any enquiries? Email
-            <a href="mailto:membership@lcnl.org" class="text-decoration-none text-brand fw-semibold">
-              membership@lcnl.org
-            </a>
-          </p>
+      <hr style="width:160px; margin:auto; border:0; border-top:2px solid var(--accent1); opacity:0.85;">
 
-          <!-- Disabled Upgrade Button -->
-          <button class="btn btn-accent btn-sm rounded-pill px-4 mt-2 opacity-75" style="cursor:not-allowed;" disabled>
-            <i class="bi bi-arrow-up-circle me-1"></i>
-            Upgrade to Life Membership (Coming Soon)
+      <div class="mt-3">
+
+        <!-- STRIPE CHECKOUT FORM -->
+        <form action="<?= base_url('account/membership/upgrade/checkout') ?>" method="post">
+          <?= csrf_field() ?>
+          <button type="submit" class="btn btn-accent btn-lg rounded-pill px-5 shadow">
+            <i class="bi bi-credit-card-fill me-2"></i>
+            Upgrade Securely with Stripe
           </button>
+        </form>
 
-        </div>
+        <p class="text-muted small mt-3 mb-0">
+          <i class="bi bi-shield-lock me-1"></i>
+          Secure checkout powered by Stripe • No recurring fees
+        </p>
 
       </div>
+
     </div>
+
+  </div>
+</div>
+
+<?php elseif ($type === 'Life'): ?>
+
+<div class="row justify-content-center mb-4">
+  <div class="col-lg-8">
+
+    <div class="lcnl-card shadow-sm border-0 rounded-4 p-4 text-center">
+
+      <div class="mb-3">
+        <i class="bi bi-trophy-fill text-success" style="font-size: 2.5rem;"></i>
+      </div>
+
+      <h4 class="fw-bold mb-2">Life Membership Active</h4>
+
+      <p class="lead text-muted mb-2">
+        Thank you for supporting LCNL as a <strong>Life Member</strong>.
+      </p>
+
+      <p class="text-muted mb-0">
+        You have full lifetime access to all benefits, voting rights and priority events.
+      </p>
+
+    </div>
+
+  </div>
+</div>
+
+
 
 
   <?php endif; ?>
