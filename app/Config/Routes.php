@@ -85,20 +85,45 @@ $routes->group('account', [
     'filter'    => 'authMember'
 ], function ($routes) {
 
-    $routes->get('dashboard', 'DashboardController::index', ['as' => 'account.dashboard']);
-    $routes->get('profile', 'ProfileController::edit', ['as' => 'account.profile']);
-    $routes->post('profile', 'ProfileController::update');
+    // Dashboard
+    $routes->get('dashboard', 'DashboardController::index', [
+        'as' => 'account.dashboard'
+    ]);
 
-    $routes->get('family', 'FamilyController::index', ['as' => 'account.family']);
-    $routes->post('family/create', 'FamilyController::create');
-    $routes->post('family/update/(:num)', 'FamilyController::update/$1');
-    $routes->post('family/delete/(:num)', 'FamilyController::delete/$1');
+    // Profile
+    $routes->get('profile', 'ProfileController::edit', [
+        'as' => 'account.profile'
+    ]);
+    $routes->post('profile', 'ProfileController::update', [
+        'as' => 'account.profile.update'
+    ]);
 
-    // Stripe upgrade
-    $routes->post('membership/upgrade/checkout', 'MembershipUpgradeController::checkout', ['as' => 'account.membership.upgrade.checkout']);
-    $routes->get('membership/upgrade/success', 'MembershipUpgradeController::success');
-    $routes->get('membership/upgrade/cancel', 'MembershipUpgradeController::cancel');
+    // Family
+    $routes->get('family', 'FamilyController::index', [
+        'as' => 'account.family'
+    ]);
+    $routes->post('family/create', 'FamilyController::create', [
+        'as' => 'account.family.create'
+    ]);
+    $routes->post('family/update/(:num)', 'FamilyController::update/$1', [
+        'as' => 'account.family.update'
+    ]);
+    $routes->post('family/delete/(:num)', 'FamilyController::delete/$1', [
+        'as' => 'account.family.delete'
+    ]);
+
+    // Membership Upgrade (Stripe)
+    $routes->post('membership/upgrade/checkout', 'MembershipUpgradeController::checkout', [
+        'as' => 'account.membership.upgrade.checkout'
+    ]);
+    $routes->get('membership/upgrade/success', 'MembershipUpgradeController::success', [
+        'as' => 'account.membership.upgrade.success'
+    ]);
+    $routes->get('membership/upgrade/cancel', 'MembershipUpgradeController::cancel', [
+        'as' => 'account.membership.upgrade.cancel'
+    ]);
 });
+
 
 
 /* =========================================================
