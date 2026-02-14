@@ -32,6 +32,7 @@ $routes->get('committee', 'Committee::committee');
 $routes->get('yls', 'Committee::yls');
 $routes->get('youth', 'Committee::youth');
 $routes->get('mahila', 'Committee::mahila');
+$routes->get('lcf', 'Committee::lcf');
 
 $routes->get('sitemap.xml', 'Sitemap::index');
 
