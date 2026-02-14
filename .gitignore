@@ -8,6 +8,12 @@ writable/*
 !writable/index.html
 !writable/.gitkeep
 /public/index.php
+/node_modules/
+/writable/cache/*
+/writable/logs/*
+/writable/session/*
+.env
+
 
 # Ignore IDE/OS files
 *.bak
@@ -17,6 +23,7 @@ writable/*
 Thumbs.db
 
 # Ignore all uploads
+/vendor/
 /public/uploads/
 /uploads/
 /storage/
