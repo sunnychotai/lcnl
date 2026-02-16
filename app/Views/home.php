@@ -111,27 +111,28 @@
           <div class="row g-0 align-items-center">
 
             <div class="col-md-4">
-              <img src="https://lcnl.org/uploads/events/1769180458_c8969c794dd591d379ba.png" alt="Maha Shivratri Pooja"
+              <img src="https://lcnl.org/uploads/events/1769263576_b19cb465790d6b44c540.jpeg" alt="Boom Battle Bar"
                 class="img-fluid h-100 w-100" style="object-fit: cover;">
             </div>
 
             <div class="col-md-8">
               <div class="p-4">
                 <h4 class="fw-bold mb-2">
-                  🕉️ Maha Shivratri Pooja
+                  LYC Boom Battle Bar
                 </h4>
 
                 <p class="mb-2 text-muted">
-                  Sunday 15<sup>th</sup> February 2026 · 2:00pm<br>
-                  JV Gokal Hall, Dhamecha Lohana Centre
+                  Sunday 22<sup>nd</sup> February 2026 · 15:00pm<br>
+                  70-88 Oxford Street
                 </p>
 
                 <p class="mb-3">
-                  Join us for this auspicious occasion dedicated to Lord Shiva,
-                  followed by Prashad. Advance registration is required.
+                  Let’s kick-start the new year with an action-packed afternoon at Boom Battle Bar!
+                  Get ready to FEEL THE BOOM as our youth battle it out in exciting games including Augmented Reality
+                  Darts, Shuffleboard, and more.
                 </p>
 
-                <a href="https://lcnl.org/events/35" class="btn btn-brand rounded-pill px-4">
+                <a href="https://lcnl.org/events/36" class="btn btn-brand rounded-pill px-4">
                   <i class="bi bi-calendar-event me-2"></i> View Event & Register
                 </a>
               </div>
