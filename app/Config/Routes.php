@@ -98,7 +98,7 @@ $routes->post('membership/reset', 'Account\PasswordController::doReset');
 
 $routes->group('account', [
     'namespace' => 'App\Controllers\Account',
-    'filter'    => 'authMember'
+    'filter' => 'authMember'
 ], function ($routes) {
 
     // Dashboard
@@ -138,6 +138,54 @@ $routes->group('account', [
     $routes->get('membership/upgrade/cancel', 'MembershipUpgradeController::cancel', [
         'as' => 'account.membership.upgrade.cancel'
     ]);
+});
+
+$routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN'], function ($routes) {
+
+    // Reports dashboard
+    $routes->get('reports', 'Admin\MembershipReportsController::index');
+    $routes->get('reports/export', 'Admin\MembershipReportsController::export');
+
+    // Active Life
+    $routes->get('reports/active-life', 'Admin\MembershipReportsController::activeLife');
+    $routes->post('reports/active-life/data', 'Admin\MembershipReportsController::activeLifeData');
+    $routes->get('reports/active-life/export', 'Admin\MembershipReportsController::activeLifeExport');
+
+    // Email Invalid
+    $routes->get('reports/email-invalid', 'Admin\MembershipReportsController::emailInvalid');
+    $routes->post('reports/email-invalid/data', 'Admin\MembershipReportsController::emailInvalidData');
+    $routes->get('reports/email-invalid/export', 'Admin\MembershipReportsController::emailInvalidExport');
+
+    // Mobile Missing
+    $routes->get('reports/mobile-missing', 'Admin\MembershipReportsController::mobileMissing');
+    $routes->post('reports/mobile-missing/data', 'Admin\MembershipReportsController::mobileMissingData');
+    $routes->get('reports/mobile-missing/export', 'Admin\MembershipReportsController::mobileMissingExport');
+
+    // Missing Gender
+    $routes->get('reports/missing-gender', 'Admin\MembershipReportsController::missingGender');
+    $routes->post('reports/missing-gender/data', 'Admin\MembershipReportsController::missingGenderData');
+    $routes->get('reports/missing-gender/export', 'Admin\MembershipReportsController::missingGenderExport');
+
+    // Missing DOB
+    $routes->get('reports/missing-dob', 'Admin\MembershipReportsController::missingDob');
+    $routes->post('reports/missing-dob/data', 'Admin\MembershipReportsController::missingDobData');
+    $routes->get('reports/missing-dob/export', 'Admin\MembershipReportsController::missingDobExport');
+
+    // Not Verified
+    $routes->get('reports/not-verified', 'Admin\MembershipReportsController::notVerified');
+    $routes->post('reports/not-verified/data', 'Admin\MembershipReportsController::notVerifiedData');
+    $routes->get('reports/not-verified/export', 'Admin\MembershipReportsController::notVerifiedExport');
+
+    // Disabled
+    $routes->get('reports/disabled', 'Admin\MembershipReportsController::disabled');
+    $routes->post('reports/disabled/data', 'Admin\MembershipReportsController::disabledData');
+    $routes->get('reports/disabled/export', 'Admin\MembershipReportsController::disabledExport');
+
+    // Pending
+    $routes->get('reports/pending', 'Admin\MembershipReportsController::pending');
+    $routes->post('reports/pending/data', 'Admin\MembershipReportsController::pendingData');
+    $routes->get('reports/pending/export', 'Admin\MembershipReportsController::pendingExport');
+
 });
 
 

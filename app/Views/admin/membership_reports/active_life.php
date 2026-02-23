@@ -27,15 +27,15 @@
             <table id="reportTable" class="table table-striped table-hover align-middle w-100">
                 <thead class="table-light">
                     <tr>
-                        <th data-data="m.id">m.id</th>
-                        <th data-data="m.first_name">m.first_name</th>
-                        <th data-data="m.last_name">m.last_name</th>
-                        <th data-data="m.email">m.email</th>
-                        <th data-data="m.mobile">m.mobile</th>
-                        <th data-data="m.city">m.city</th>
-                        <th data-data="m.status">m.status</th>
-                        <th data-data="ms.membership_type">ms.membership_type</th>
-                        <th data-data="m.created_at">m.created_at</th>
+                        <th>ID</th>
+                        <th>First</th>
+                        <th>Last</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Created</th>
                     </tr>
                 </thead>
             </table>
@@ -53,21 +53,31 @@
 <script>
     let table;
 
+    // ✅ CSRF holder (refresh on every response)
+    let CSRF = {
+        name: '<?= csrf_token() ?>',
+        hash: '<?= csrf_hash() ?>'
+    };
+
     function exportHref() {
         const qs = new URLSearchParams({
             status: $('#filterStatus').val(),
             membership_type: $('#filterType').val(),
             city: $('#filterCity').val()
         }).toString();
+
         return "<?= base_url('admin/membership/reports/active-life/export') ?>?" + qs;
     }
 
     $(function () {
+
         table = $('#reportTable').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
             pageLength: 25,
+            order: [[0, 'desc']],
+
             ajax: {
                 url: "<?= base_url('admin/membership/reports/active-life/data') ?>",
                 type: "POST",
@@ -75,25 +85,45 @@
                     d.status = $('#filterStatus').val();
                     d.membership_type = $('#filterType').val();
                     d.city = $('#filterCity').val();
-                    d['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
+
+                    // ✅ Always send latest CSRF
+                    d[CSRF.name] = CSRF.hash;
+                },
+                dataSrc: function (json) {
+                    // ✅ Refresh CSRF from controller response (dtRespond now includes csrf)
+                    if (json && json.csrf) {
+                        CSRF.name = json.csrf.tokenName;
+                        CSRF.hash = json.csrf.tokenHash;
+                    }
+                    return json.data || [];
+                },
+                error: function (xhr) {
+                    // Helpful debugging: check Network tab response body
+                    console.error('DataTables AJAX error:', xhr.status, xhr.responseText);
                 }
             },
+
             columns: [
-                { data: "id", name: "m.id" },
-                { data: "first_name", name: "m.first_name" },
-                { data: "last_name", name: "m.last_name" },
-                { data: "email", name: "m.email" },
-                { data: "mobile", name: "m.mobile" },
-                { data: "city", name: "m.city" },
-                { data: "status", name: "m.status" },
-                { data: "membership_type", name: "ms.membership_type" },
-                { data: "created_at", name: "m.created_at" },
-            ],
-            order: [[0, 'desc']]
+                { data: "id", name: "id" },
+                { data: "first_name", name: "first_name" },
+                { data: "last_name", name: "last_name" },
+                { data: "email", name: "email" },
+                { data: "mobile", name: "mobile" },
+                { data: "city", name: "city" },
+                { data: "status", name: "status" },
+                { data: "membership_type", name: "membership_type" },
+                { data: "created_at", name: "created_at" },
+            ]
         });
 
-        $('#btnApply').on('click', function () { table.ajax.reload(); });
+        // Apply filters
+        $('#btnApply').on('click', function () {
+            table.ajax.reload();
+        });
+
+        // Export button in your shared _filters view
         $('#btnExport').attr('href', exportHref());
+
         $('#filterStatus, #filterType, #filterCity').on('change keyup', function () {
             $('#btnExport').attr('href', exportHref());
         });
