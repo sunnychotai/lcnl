@@ -200,6 +200,11 @@ $routes->group('admin/membership', [
     $routes->get('reports/pending', 'Admin\MembershipReportsController::pending');
     $routes->post('reports/pending/data', 'Admin\MembershipReportsController::pendingData');
     $routes->get('reports/pending/export', 'Admin\MembershipReportsController::pendingExport');
+
+    $routes->post('(:num)/update-type', 'Admin\MembersController::updateType/$1');
+    $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1');
+    $routes->post('(:num)/disable-with-reason', 'Admin\MembersController::disableWithReason/$1');
+    $routes->post('(:num)/queue-activation', 'Admin\MembersController::queueActivationEmail/$1'); // <-- ADD THIS
 });
 
 
