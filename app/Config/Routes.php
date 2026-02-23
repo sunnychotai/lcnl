@@ -140,7 +140,7 @@ $routes->group('account', [
     ]);
 });
 
-$routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN'], function ($routes) {
+$routes->group('admin/membership', ['filter' => 'authAdmin:ADMIN,MEMBERSHIP'], function ($routes) {
 
     // Reports dashboard
     $routes->get('reports', 'Admin\MembershipReportsController::index');
