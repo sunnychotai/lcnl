@@ -23,9 +23,6 @@ $routes->get('auth/login', 'Auth::login');
 $routes->post('auth/attemptLogin', 'Auth::attemptLogin');
 $routes->get('auth/logout', 'Auth::logout');
 
-
-
-
 // Core pages
 $routes->get('/', 'Home::index');
 $routes->get('aboutus', 'Home::aboutUs');
@@ -51,7 +48,6 @@ $routes->get('lcf', 'Committee::lcf');
 
 $routes->get('sitemap.xml', 'Sitemap::index');
 
-
 /* =========================================================
    EVENTS (PUBLIC)
 ========================================================= */
@@ -65,14 +61,12 @@ $routes->get('events/register/(:segment)', 'EventRegistrationController::registe
 $routes->post('events/register/submit', 'EventRegistrationController::submit');
 $routes->get('events/thanks', 'EventRegistrationController::thankyou');
 
-
 /* =========================================================
    MEMBERSHIP AUTH & REGISTRATION
 ========================================================= */
 
 // Login / Logout
-$routes->get('membership/login', 'MemberAuth::login', ['as' => 'membership.login']);
-$routes->post('membership/login', 'MemberAuth::attempt');
+
 $routes->get('membership/logout', 'MemberAuth::logout');
 
 // Register
@@ -85,11 +79,16 @@ $routes->get('membership/success', 'MembershipController::success');
 $routes->get('membership/resend-verification', 'MembershipController::resendVerification');
 $routes->get('membership/activated', 'MembershipController::activated');
 
-// Forgot / Reset
-$routes->get('membership/forgot', 'Account\PasswordController::forgot');
-$routes->post('membership/forgot', 'Account\PasswordController::sendReset');
-$routes->get('membership/reset/(:segment)', 'Account\PasswordController::reset/$1');
-$routes->post('membership/reset', 'Account\PasswordController::doReset');
+$routes->get('membership/login', 'MemberAuth::login', ['as' => 'member.login']);
+$routes->post('membership/login', 'MemberAuth::attempt', ['as' => 'member.login.post']);
+
+$routes->get('membership/forgot', 'Account\PasswordController::forgot', ['as' => 'member.forgot']);
+$routes->post('membership/forgot', 'Account\PasswordController::sendReset', ['as' => 'member.forgot.post']);
+
+$routes->get('membership/reset/(:segment)', 'Account\PasswordController::reset/$1', ['as' => 'member.reset']);
+$routes->post('membership/reset', 'Account\PasswordController::doReset', ['as' => 'member.reset.post']);
+
+
 
 
 /* =========================================================
@@ -211,7 +210,7 @@ $routes->group('admin/membership', [
 
 /* =========================================================
    ADMIN SYSTEM (DASHBOARD + EMAILS + CRON)
-========================================================= */
+============================================================ */
 
 $routes->group('admin/system', [
     'filter' => 'authAdmin'

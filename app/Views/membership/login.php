@@ -32,7 +32,8 @@
         </div>
 
         <div class="card-body p-4">
-          <form method="post" action="<?= route_to('member.login') ?>">
+          <!-- POST to the actual login endpoint (not a missing route alias) -->
+          <form method="post" action="<?= base_url('membership/login') ?>">
 
             <?= csrf_field() ?>
 
@@ -40,17 +41,8 @@
               <label for="email" class="form-label fw-semibold">Email</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-control"
-                  value="<?= esc(old('email') ?? '') ?>"
-                  inputmode="email"
-                  autocomplete="email"
-                  placeholder="you@email.com"
-                  required
-                >
+                <input type="email" id="email" name="email" class="form-control" value="<?= esc(old('email') ?? '') ?>"
+                  inputmode="email" autocomplete="email" placeholder="you@email.com" required>
               </div>
             </div>
 
@@ -58,15 +50,8 @@
               <label for="password" class="form-label fw-semibold">Password</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  class="form-control"
-                  autocomplete="current-password"
-                  placeholder="••••••••"
-                  required
-                >
+                <input type="password" id="password" name="password" class="form-control"
+                  autocomplete="current-password" placeholder="••••••••" required>
                 <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Show password">
                   <i class="bi bi-eye"></i>
                 </button>
@@ -78,10 +63,12 @@
                 <input class="form-check-input" type="checkbox" id="remember" name="remember" value="1">
                 <label class="form-check-label" for="remember">Remember me</label>
               </div>
-              <!-- Update href if your route differs -->
- <a href="<?= route_to('member.forgot') ?>" class="text-decoration-none">
-    <i class="bi bi-question-circle me-1"></i> Forgot your password?
-  </a>            </div>
+
+              <!-- Correct forgotten password URL (your routes use membership/forgot) -->
+              <a href="<?= base_url('membership/forgot') ?>" class="text-decoration-none">
+                <i class="bi bi-question-circle me-1"></i> Forgot your password?
+              </a>
+            </div>
 
             <button class="btn btn-accent btn-lg rounded-pill px-4 w-100" type="submit">
               <i class="bi bi-door-open-fill me-2"></i>Login
@@ -110,13 +97,16 @@
     border-left: 6px solid var(--brand);
     border-radius: var(--radius);
   }
+
   .auth-card .input-group-text {
     background: #fff;
     border-right: 0;
   }
+
   .auth-card .form-control {
     border-left: 0;
   }
+
   .auth-card .input-group .form-control:focus {
     box-shadow: none;
   }
@@ -139,3 +129,4 @@
 </script>
 
 <?= $this->endSection() ?>
+
