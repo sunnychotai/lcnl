@@ -65,9 +65,11 @@
                 <label class="form-check-label" for="remember">Remember me</label>
               </div>
 
-              <!-- Admin forgot password: point at a real route.
-                   If you haven't implemented admin reset yet, keep it hidden to avoid 404s. -->
-              <?php if (service('router')->hasRoute('auth/forgot')): ?>
+              <!-- Admin forgot password:
+                   CI4 Router::hasRoute() doesn't exist, so don't call it here.
+                   Show link only if you actually have the route implemented. -->
+              <?php $showForgot = false; ?>
+              <?php if ($showForgot): ?>
                 <a class="small text-decoration-none" href="<?= base_url('auth/forgot') ?>">
                   Forgot password?
                 </a>
