@@ -106,40 +106,6 @@
       <!-- Left column -->
       <div class="col-md-8">
 
-        <!-- Maha Shivratri Highlight -->
-        <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-          <div class="row g-0 align-items-center">
-
-            <div class="col-md-4">
-              <img src="https://lcnl.org/uploads/events/1769263576_b19cb465790d6b44c540.jpeg" alt="Boom Battle Bar"
-                class="img-fluid h-100 w-100" style="object-fit: cover;">
-            </div>
-
-            <div class="col-md-8">
-              <div class="p-4">
-                <h4 class="fw-bold mb-2">
-                  LYC Boom Battle Bar
-                </h4>
-
-                <p class="mb-2 text-muted">
-                  Sunday 22<sup>nd</sup> February 2026 · 15:00pm<br>
-                  70-88 Oxford Street
-                </p>
-
-                <p class="mb-3">
-                  Let’s kick-start the new year with an action-packed afternoon at Boom Battle Bar!
-                  Get ready to FEEL THE BOOM as our youth battle it out in exciting games including Augmented Reality
-                  Darts, Shuffleboard, and more.
-                </p>
-
-                <a href="https://lcnl.org/events/36" class="btn btn-brand rounded-pill px-4">
-                  <i class="bi bi-calendar-event me-2"></i> View Event & Register
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
 
 
         <!-- Message from the President -->
