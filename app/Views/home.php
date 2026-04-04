@@ -106,7 +106,46 @@
       <!-- Left column -->
       <div class="col-md-8">
 
+        <!-- AGM Announcement -->
+        <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
+          <div class="row g-0 align-items-center">
+            <div class="col-md-5">
+              <a href="<?= base_url('events/43') ?>" class="d-block">
+                <img
+                  src="<?= base_url('uploads/events/1775297694_ab25db2453a4deb9a7ed.jpg') ?>"
+                  alt="LCNL AGM Flyer"
+                  class="img-fluid w-100 h-100"
+                  style="object-fit: cover; min-height: 320px;">
+              </a>
+            </div>
 
+            <div class="col-md-7">
+              <div class="p-4">
+                <span class="badge bg-danger-subtle text-danger border mb-2">Important Notice</span>
+                <h3 class="fw-bold mb-3">LCNL Annual General Meeting</h3>
+
+                <p class="mb-3">
+                  Members are warmly invited to attend the LCNL Annual General Meeting.
+                  Join us for an important community gathering where we reflect on the past year,
+                  share updates, and look ahead together.
+                </p>
+
+                <p class="mb-3">
+                  Please view the full event details, timings and attendance information on our events page.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                  <a href="<?= base_url('events/43') ?>" class="btn btn-brand rounded-pill px-4">
+                    View AGM Details
+                  </a>
+                  <a href="<?= base_url('events') ?>" class="btn btn-outline-secondary rounded-pill px-4">
+                    All Events
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
