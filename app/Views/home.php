@@ -111,11 +111,8 @@
           <div class="row g-0 align-items-center">
             <div class="col-md-5">
               <a href="<?= base_url('events/43') ?>" class="d-block">
-                <img
-                  src="<?= base_url('uploads/events/1775297694_ab25db2453a4deb9a7ed.jpg') ?>"
-                  alt="LCNL AGM Flyer"
-                  class="img-fluid w-100 h-100"
-                  style="object-fit: cover; min-height: 320px;">
+                <img src="<?= base_url('uploads/events/1775297694_ab25db2453a4deb9a7ed.jpg') ?>" alt="LCNL AGM Flyer"
+                  class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 320px;">
               </a>
             </div>
 
@@ -134,7 +131,8 @@
                   Please view the full event details, timings and attendance information on our events page.
                 </p>
 
-                <div class="d-flex flex-wrap gap-2">
+                <!-- Buttons -->
+                <div class="d-flex flex-wrap gap-2 mb-4">
                   <a href="<?= base_url('events/43') ?>" class="btn btn-brand rounded-pill px-4">
                     View AGM Details
                   </a>
@@ -142,6 +140,19 @@
                     All Events
                   </a>
                 </div>
+
+                <!-- AGM Bulletin Box -->
+                <div class="border rounded-4 p-3 bg-light">
+                  <h6 class="fw-semibold mb-2">AGM Bulletin 2026</h6>
+                  <p class="mb-2 small text-muted">
+                    View the official AGM bulletin for detailed reports, updates and key information.
+                  </p>
+                  <a href="<?= base_url('agm2026') ?>" target="_blank"
+                    class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                    View Bulletin
+                  </a>
+                </div>
+
               </div>
             </div>
           </div>
