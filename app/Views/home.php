@@ -141,16 +141,6 @@
                   A special milestone event bringing our community together through music, devotion and celebration.
                 </p>
 
-                <!-- Highlights -->
-                <div class="mb-3">
-                  <ul class="list-unstyled small text-muted mb-0">
-                    <li>• Live devotional performance with full band</li>
-                    <li>• Dinner followed by Bhajan Jam</li>
-                    <li>• Member priority booking (limited availability)</li>
-                    <li>• Part of LCNL Golden Jubilee 2026–2027 series</li>
-                  </ul>
-                </div>
-
                 <!-- Buttons -->
                 <div class="d-flex flex-wrap gap-2 mb-4">
                   <a href="https://lcnl.org/events/44" class="btn btn-brand rounded-pill px-4">
