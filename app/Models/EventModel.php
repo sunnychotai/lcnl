@@ -17,6 +17,7 @@ class EventModel extends Model
         'image',
         'committee',
         'ticketinfo',
+        'purchase_ticket_url',
         'eventterms',
         'contactinfo',
         'requires_registration',

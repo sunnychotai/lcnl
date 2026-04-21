@@ -23,6 +23,8 @@ class View extends BaseView
      */
     public $saveData = true;
 
+    public string $appOverridesFolder = 'overrides';
+
     /**
      * Parser Filters map a filter name with any PHP callable. When the
      * Parser prepares a variable for display, it will chain it

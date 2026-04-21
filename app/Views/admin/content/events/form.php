@@ -103,7 +103,7 @@
             </div>
 
             <!-- ===================================== -->
-            <!-- 🔥 REGISTRATION SETTINGS (NEW) -->
+            <!-- 🔥 REGISTRATION SETTINGS -->
             <!-- ===================================== -->
 
             <hr class="my-4">
@@ -122,18 +122,20 @@
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Maximum Registrations</label>
-              <input type="number" name="max_registrations" class="form-control"
-                value="<?= old('max_registrations', $event['max_registrations'] ?? 0) ?>">
-              <small class="text-muted">Leave 0 for unlimited</small>
-            </div>
+            <div id="capacityWrapper">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Maximum Registrations</label>
+                <input type="number" name="max_registrations" class="form-control"
+                  value="<?= old('max_registrations', $event['max_registrations'] ?? 0) ?>">
+                <small class="text-muted">Leave 0 for unlimited</small>
+              </div>
 
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Maximum Total Headcount</label>
-              <input type="number" name="max_headcount" class="form-control"
-                value="<?= old('max_headcount', $event['max_headcount'] ?? 0) ?>">
-              <small class="text-muted">Total people allowed including guests</small>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Maximum Total Headcount</label>
+                <input type="number" name="max_headcount" class="form-control"
+                  value="<?= old('max_headcount', $event['max_headcount'] ?? 0) ?>">
+                <small class="text-muted">Total people allowed including guests</small>
+              </div>
             </div>
 
             <!-- ===================================== -->
@@ -157,6 +159,17 @@
               </small>
             </div>
 
+            <!-- Purchase Tickets URL -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Purchase Tickets URL</label>
+              <input type="url" name="purchase_ticket_url" class="form-control"
+                value="<?= old('purchase_ticket_url', $event['purchase_ticket_url'] ?? '') ?>"
+                placeholder="https://example.com/tickets">
+              <small class="text-muted">
+                Optional. If populated, a "Purchase Tickets" button will appear on the event page.
+              </small>
+            </div>
+
             <!-- Event Terms -->
             <div class="mb-3">
               <label class="form-label fw-semibold">Event Terms</label>
@@ -176,7 +189,6 @@
                 Who to contact regarding this event.
               </small>
             </div>
-
 
             <hr class="my-4">
 

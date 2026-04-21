@@ -3,10 +3,6 @@
 
 <?php
 $requiresReg = !empty($event['requires_registration']);
-$capacity = (int) ($event['capacity'] ?? 0);
-$current = (int) ($event['current_registrations'] ?? 0);
-$isFull = $requiresReg && $capacity > 0 && $current >= $capacity;
-$spotsLeft = ($capacity > 0) ? max(0, $capacity - $current) : null;
 ?>
 
 <!-- Hero Banner -->
@@ -46,9 +42,23 @@ $spotsLeft = ($capacity > 0) ? max(0, $capacity - $current) : null;
       <?php endif; ?>
 
       <?php if ($requiresReg): ?>
-        <span class="badge <?= $isFull ? 'bg-danger' : 'bg-success' ?>">
-          <i class="bi <?= $isFull ? 'bi-x-circle' : 'bi-check-circle' ?> me-1"></i>
-          <?= $isFull ? 'Registration Closed' : 'Registration Open' ?>
+        <?php
+        $maxRegsTop = (int) ($event['max_registrations'] ?? 0);
+        $maxHeadsTop = (int) ($event['max_headcount'] ?? 0);
+        $currentRegsTop = (int) ($event['current_registrations'] ?? 0);
+        $currentHeadsTop = (int) ($event['current_headcount'] ?? 0);
+
+        $isFullTop = false;
+        if ($maxRegsTop > 0 && $currentRegsTop >= $maxRegsTop) {
+          $isFullTop = true;
+        }
+        if ($maxHeadsTop > 0 && $currentHeadsTop >= $maxHeadsTop) {
+          $isFullTop = true;
+        }
+        ?>
+        <span class="badge <?= $isFullTop ? 'bg-danger' : 'bg-success' ?>">
+          <i class="bi <?= $isFullTop ? 'bi-x-circle' : 'bi-check-circle' ?> me-1"></i>
+          <?= $isFullTop ? 'Registration Closed' : 'Registration Open' ?>
         </span>
       <?php endif; ?>
 
@@ -151,6 +161,16 @@ $spotsLeft = ($capacity > 0) ? max(0, $capacity - $current) : null;
               ? nl2br($event['ticketinfo'])
               : '<p class="text-muted fst-italic">Ticket details will be announced.</p>' ?>
           </div>
+
+          <?php if (!empty($event['purchase_ticket_url'])): ?>
+            <div class="mt-4">
+              <a href="<?= esc($event['purchase_ticket_url']) ?>" target="_blank" rel="noopener noreferrer"
+                class="btn btn-brand btn-lg px-4">
+                <i class="bi bi-ticket-perforated-fill me-2"></i>
+                Purchase Tickets
+              </a>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -181,27 +201,21 @@ $spotsLeft = ($capacity > 0) ? max(0, $capacity - $current) : null;
   </div>
 
   <?php
-  // Registration flags
   $requiresReg = !empty($event['requires_registration']);
   $regOpen = !empty($event['registration_open']);
 
-  // Limits (two types)
-  $maxRegs = (int) ($event['max_registrations'] ?? 0); // registrations limit
-  $maxHeads = (int) ($event['max_headcount'] ?? 0);     // headcount limit (regs + guests)
-  
-  // Current usage
+  $maxRegs = (int) ($event['max_registrations'] ?? 0);
+  $maxHeads = (int) ($event['max_headcount'] ?? 0);
+
   $currentRegs = (int) ($event['current_registrations'] ?? 0);
   $currentHeads = (int) ($event['current_headcount'] ?? 0);
 
-  // Percentages (avoid division by zero)
   $regPercent = ($maxRegs > 0) ? min(100, round(($currentRegs / $maxRegs) * 100)) : null;
   $headPercent = ($maxHeads > 0) ? min(100, round(($currentHeads / $maxHeads) * 100)) : null;
 
-  // Remaining
   $regsLeft = ($maxRegs > 0) ? max(0, $maxRegs - $currentRegs) : null;
   $headsLeft = ($maxHeads > 0) ? max(0, $maxHeads - $currentHeads) : null;
 
-  // Full logic (either limit can close it)
   $isFull = !empty($event['is_full']);
   ?>
 
@@ -288,11 +302,21 @@ $spotsLeft = ($capacity > 0) ? max(0, $capacity - $current) : null;
               </div>
             <?php endif; ?>
 
-            <a href="<?= site_url('events/register/' . ($event['slug'] ?? '')) ?>"
-              class="btn btn-lg btn-brand shadow px-5 py-3 fs-5" style="transition: all 0.3s ease;">
-              <i class="bi bi-pencil-square me-2"></i>
-              Register Now
-            </a>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+              <a href="<?= site_url('events/register/' . ($event['slug'] ?? '')) ?>"
+                class="btn btn-lg btn-brand shadow px-5 py-3 fs-5" style="transition: all 0.3s ease;">
+                <i class="bi bi-pencil-square me-2"></i>
+                Register Now
+              </a>
+
+              <?php if (!empty($event['purchase_ticket_url'])): ?>
+                <a href="<?= esc($event['purchase_ticket_url']) ?>" target="_blank" rel="noopener noreferrer"
+                  class="btn btn-lg btn-outline-brand shadow px-5 py-3 fs-5" style="transition: all 0.3s ease;">
+                  <i class="bi bi-ticket-perforated-fill me-2"></i>
+                  Purchase Tickets
+                </a>
+              <?php endif; ?>
+            </div>
 
           <?php endif; ?>
 

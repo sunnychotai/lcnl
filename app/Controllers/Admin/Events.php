@@ -107,6 +107,7 @@ class Events extends BaseController
             'event_date' => 'required|valid_date',
             'committee' => 'required|in_list[LCNL,YLS,Mahila,Youth]',
             'slug' => 'permit_empty|alpha_dash',
+            'purchase_ticket_url' => 'permit_empty|valid_url',
             'max_registrations' => 'permit_empty|integer|greater_than_equal_to[0]',
             'max_headcount' => 'permit_empty|integer|greater_than_equal_to[0]',
         ];
@@ -143,6 +144,7 @@ class Events extends BaseController
             'event_date' => 'required|valid_date',
             'committee' => 'required|in_list[LCNL,YLS,Mahila,Youth]',
             'slug' => 'permit_empty|alpha_dash',
+            'purchase_ticket_url' => 'permit_empty|valid_url',
             'max_registrations' => 'permit_empty|integer|greater_than_equal_to[0]',
             'max_headcount' => 'permit_empty|integer|greater_than_equal_to[0]',
         ];
@@ -241,6 +243,7 @@ class Events extends BaseController
             'time_to' => $this->request->getPost('time_to'),
             'committee' => $this->request->getPost('committee'),
             'ticketinfo' => $this->request->getPost('ticketinfo'),
+            'purchase_ticket_url' => trim((string) $this->request->getPost('purchase_ticket_url')) ?: null,
             'eventterms' => $this->request->getPost('eventterms'),
             'contactinfo' => $this->request->getPost('contactinfo'),
             'requires_registration' => (int) $this->request->getPost('requires_registration'),
