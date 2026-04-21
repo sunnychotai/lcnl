@@ -146,9 +146,7 @@
                   <a href="https://lcnl.org/events/44" class="btn btn-brand rounded-pill px-4">
                     View Event
                   </a>
-                  <a href="<?= base_url('events') ?>" class="btn btn-outline-secondary rounded-pill px-4">
-                    All Events
-                  </a>
+
                 </div>
 
                 <!-- Ticket Info -->
@@ -158,8 +156,9 @@
                     Early bird tickets are £15 until 1st May, increasing to £20 thereafter.
                     Members receive priority booking. Tickets are limited, so early booking is advised.
                   </p>
-                  <a href="https://lcnl.org/events/44" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-                    Book Now
+                  <a href="https://lcnlgoldenjubilieebhajanjam.eventbrite.co.uk/" target="_blank"
+                    rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                    Buy Tickets
                   </a>
                 </div>
 
