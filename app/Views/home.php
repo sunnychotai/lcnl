@@ -113,7 +113,7 @@
     <!-- Image -->
     <div class="col-md-5">
       <a href="https://lcnl.org/events/47" class="d-block">
-        <img src="https://lcnl.org/uploads/events/1776350737_584229d261d0f229a932.jpeg"
+        <img src="https://lcnl.org/uploads/events/1778614416_34b913c796c4b8ea332f.jpeg"
           alt="LCNL African Night Event" class="img-fluid w-100 h-100"
           style="object-fit: cover; min-height: 320px;">
       </a>
