@@ -73,7 +73,7 @@
       </a>
     </h2>
 
-    <div class="row g-3">
+    <div class="row g-3 justify-content-center">
       <?php foreach ($upcomingEvents as $event): ?>
 
         <?php
