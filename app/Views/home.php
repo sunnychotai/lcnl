@@ -106,67 +106,68 @@
       <!-- Left column -->
       <div class="col-md-8">
 
-        <!-- Golden Jubilee Event Announcement -->
-        <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-          <div class="row g-0 align-items-center">
+<!-- Golden Jubilee Event Announcement -->
+<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
+  <div class="row g-0 align-items-center">
 
-            <!-- Image -->
-            <div class="col-md-5">
-              <a href="https://lcnl.org/events/44" class="d-block">
-                <img src="https://lcnl.org/uploads/events/1776350737_584229d261d0f229a932.jpeg"
-                  alt="LCNL Bhajan Jam Event" class="img-fluid w-100 h-100"
-                  style="object-fit: cover; min-height: 320px;">
-              </a>
-            </div>
+    <!-- Image -->
+    <div class="col-md-5">
+      <a href="https://lcnl.org/events/47" class="d-block">
+        <img src="https://lcnl.org/uploads/events/1776350737_584229d261d0f229a932.jpeg"
+          alt="LCNL African Night Event" class="img-fluid w-100 h-100"
+          style="object-fit: cover; min-height: 320px;">
+      </a>
+    </div>
 
-            <!-- Content -->
-            <div class="col-md-7">
-              <div class="p-4">
+    <!-- Content -->
+    <div class="col-md-7">
+      <div class="p-4">
 
-                <span class="badge bg-warning-subtle text-warning border mb-2">
-                  Golden Jubilee Event
-                </span>
+        <span class="badge bg-warning-subtle text-warning border mb-2">
+          Golden Jubilee Event
+        </span>
 
-                <h3 class="fw-bold mb-3">LCNL Golden Jubilee – Bhajan Jam</h3>
+        <h3 class="fw-bold mb-3">LCNL Golden Jubilee – African Night</h3>
 
-                <p class="mb-3">
-                  As part of our <strong>50th Golden Jubilee celebrations</strong>, LCNL proudly presents an
-                  evening of devotional music.
-                  Experience <strong>Bhajan Jam</strong> with renowned artists <strong>Nikesh Parmar</strong> and
-                  <strong>Rajvi Raja</strong>, accompanied by a full live band.
-                </p>
+        <p class="mb-3">
+          As part of our <strong>50th Golden Jubilee celebrations</strong>, LCNL proudly presents
+          <strong>African Night</strong> — a vibrant evening celebrating the countries, cultures and
+          communities that shaped so many of our family journeys.
+        </p>
 
-                <p class="mb-3">
-                  The evening begins with dinner, followed by soulful bhajans in a vibrant and spiritual setting.
-                  A special milestone event bringing our community together through music, devotion and celebration.
-                </p>
+        <p class="mb-3">
+          Enjoy authentic African cuisine, live drumming, dancing, nostalgic entertainment,
+          Bollywood classics and African dance floor favourites in an unforgettable evening of
+          music, memories and celebration.
+        </p>
 
-                <!-- Buttons -->
-                <div class="d-flex flex-wrap gap-2 mb-4">
-                  <a href="https://lcnl.org/events/44" class="btn btn-brand rounded-pill px-4">
-                    View Event
-                  </a>
-
-                </div>
-
-                <!-- Ticket Info -->
-                <div class="border rounded-4 p-3 bg-light">
-                  <h6 class="fw-semibold mb-2">Ticket Information</h6>
-                  <p class="mb-2 small text-muted">
-                    Early bird tickets are £15 until 1st May, increasing to £20 thereafter.
-                    Members receive priority booking. Tickets are limited, so early booking is advised.
-                  </p>
-                  <a href="https://lcnlgoldenjubilieebhajanjam.eventbrite.co.uk/" target="_blank"
-                    rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-                    Buy Tickets
-                  </a>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
+        <!-- Buttons -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <a href="https://lcnl.org/events/47" class="btn btn-brand rounded-pill px-4">
+            View Event
+          </a>
         </div>
+
+        <!-- Ticket Info -->
+        <div class="border rounded-4 p-3 bg-light">
+          <h6 class="fw-semibold mb-2">Ticket Information</h6>
+          <p class="mb-2 small text-muted">
+            Saturday 6th June 2026 at DLC from 5pm onwards.
+            £30 individual tickets or £270 for a table of 10 (plus booking fees).
+            Dress code inspired by African fashion and classic 60s/70s Bollywood glamour.
+          </p>
+
+          <a href="https://lcnl.org/events/47"
+            class="btn btn-outline-dark btn-sm rounded-pill px-3">
+            Buy Tickets
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
