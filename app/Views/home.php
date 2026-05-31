@@ -252,6 +252,24 @@
 
         <?php endif; ?>
 
+        <!-- DLC Hall Hire Banner -->
+        <a href="<?= base_url('dlc-hire') ?>" class="text-decoration-none d-block">
+          <div class="rounded-4 shadow-sm overflow-hidden" style="background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);">
+            <div class="p-4 text-white position-relative">
+              <div class="position-absolute top-0 end-0 p-3 opacity-25">
+                <i class="bi bi-stars" style="font-size:4rem;"></i>
+              </div>
+              <span class="badge mb-2 px-2 py-1 fw-semibold" style="background:rgba(255,193,7,0.2);color:#ffc107;border:1px solid rgba(255,193,7,0.4);font-size:0.7rem;letter-spacing:.05em;">DLC HALL HIRE</span>
+              <h5 class="fw-bold mb-1">Host Your Event at DLC</h5>
+              <p class="mb-3 opacity-90 small">Fully equipped halls with professional lighting, sound &amp; screens — available to hire on weekdays.</p>
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="fw-bold fs-5" style="color:#ffc107;">From £19 <span class="fw-normal fs-6 opacity-90">per person</span></span>
+                <span class="btn btn-sm rounded-pill fw-semibold px-3" style="background:#ffc107;color:#1a1a2e;">Find Out More</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
         <!-- Events Card -->
         <div class="card shadow-sm border-0">
           <a href="<?= base_url('events') ?>" class="stretched-link text-decoration-none text-dark">

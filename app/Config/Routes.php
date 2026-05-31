@@ -39,6 +39,7 @@ $routes->get('faqs/all', 'FaqController::all');
 $routes->get('faqs/bereavement', 'FaqController::bereavement');
 $routes->get('bereavement', 'Home::bereavement');
 $routes->get('tabletennis', 'Home::tabletennis');
+$routes->get('dlc-hire', 'Home::dlcHire');
 
 $routes->get('committee', 'Committee::committee');
 $routes->get('yls', 'Committee::yls');

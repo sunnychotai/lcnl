@@ -40,6 +40,7 @@
           <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
             <li><a class="dropdown-item" href="<?= base_url('/bereavement') ?>">Bereavement</a></li>
             <li><a class="dropdown-item" href="<?= base_url('/tabletennis') ?>">Table Tennis</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('/dlc-hire') ?>">Hall Hire</a></li>
             <!-- <li><a class="dropdown-item" href="">Senior Mens</a></li>
             <li><a class="dropdown-item" href="">Senior Ladies</a></li>
             <li><a class="dropdown-item" href="">Raghuvanshi Charitable Trust</a></li>

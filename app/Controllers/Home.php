@@ -54,6 +54,11 @@ class Home extends BaseController
         return view('services/tabletennis');
     }
 
+    public function dlcHire()
+    {
+        return view('services/dlc_hire');
+    }
+
     public function membership()
     {
         $memberId = session()->get('member_id');
