@@ -80,6 +80,7 @@
     .icon-indigo  { background: linear-gradient(135deg, #6366f1, #4f46e5); }
     .icon-amber   { background: linear-gradient(135deg, #f59e0b, #d97706); }
     .icon-sky     { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
+    .icon-green   { background: linear-gradient(135deg, #10b981, #059669); }
 </style>
 
 <div class="container-fluid py-4">
@@ -128,6 +129,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-6 col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon icon-green"><i class="bi bi-credit-card-fill"></i></div>
+                <div>
+                    <div class="stat-value"><?= number_format($stats['stripe']) ?></div>
+                    <div class="stat-label">Paid via Stripe</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Reports -->
@@ -162,6 +172,17 @@
             <p class="report-row-desc"><?= number_format($stats['non_life']) ?> members &mdash; all members excluding Life membership</p>
         </div>
         <a href="<?= base_url('admin/membership/reports/non-life/export') ?>" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-download me-1"></i>CSV
+        </a>
+    </div>
+
+    <div class="report-row">
+        <div class="report-row-icon icon-green"><i class="bi bi-credit-card-fill"></i></div>
+        <div class="flex-grow-1">
+            <p class="report-row-title">Paid via Stripe (Active)</p>
+            <p class="report-row-desc"><?= number_format($stats['stripe']) ?> members &mdash; active members with a completed Stripe payment</p>
+        </div>
+        <a href="<?= base_url('admin/membership/reports/stripe/export') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-download me-1"></i>CSV
         </a>
     </div>

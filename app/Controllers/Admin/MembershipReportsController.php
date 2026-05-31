@@ -18,10 +18,22 @@ class MembershipReportsController extends BaseController
             ->where('status', 'active')
             ->countAllResults();
 
+        $db = \Config\Database::connect();
+        $stripe = (int) $db->query("
+            SELECT COUNT(DISTINCT mp.member_id)
+            FROM membership_payments mp
+            INNER JOIN members m ON m.id = mp.member_id
+            WHERE mp.provider = 'stripe'
+              AND mp.status = 'paid'
+              AND m.status = 'active'
+              AND m.deleted_at IS NULL
+        ")->getRow()->{'COUNT(DISTINCT mp.member_id)'};
+
         $stats = [
             'total'    => $total,
             'life'     => $life,
             'non_life' => max(0, $total - $life),
+            'stripe'   => $stripe,
         ];
 
         $activeTab = 'reports';
@@ -57,6 +69,38 @@ class MembershipReportsController extends BaseController
             ->orderBy('m.last_name', 'ASC')
             ->orderBy('m.first_name', 'ASC');
         return $this->streamCsv($b, 'non_life_members_' . date('Ymd') . '.csv');
+    }
+
+    // GET /admin/membership/reports/stripe/export
+    public function exportStripe()
+    {
+        $db = \Config\Database::connect();
+        $b = $db->table('members m');
+        $b->select('
+            m.id,
+            m.first_name,
+            m.last_name,
+            m.email,
+            m.mobile,
+            m.address1,
+            m.address2,
+            m.city,
+            m.status AS member_status,
+            mp.amount_minor,
+            mp.currency,
+            mp.paid_at,
+            mp.stripe_payment_intent_id,
+            mp.stripe_checkout_session_id,
+            mp.stripe_customer_id
+        ');
+        $b->join('membership_payments mp', 'm.id = mp.member_id', 'inner');
+        $b->where('mp.provider', 'stripe');
+        $b->where('mp.status', 'paid');
+        $b->where('m.status', 'active');
+        $b->where('m.deleted_at', null);
+        $b->orderBy('mp.paid_at', 'DESC');
+
+        return $this->streamCsv($b, 'stripe_paid_members_' . date('Ymd') . '.csv');
     }
 
     private function baseQuery(): BaseBuilder

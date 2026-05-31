@@ -169,6 +169,7 @@ $routes->group('admin/membership', [
     $routes->get('reports/export', 'Admin\MembershipReportsController::exportAll');
     $routes->get('reports/life/export', 'Admin\MembershipReportsController::exportLife');
     $routes->get('reports/non-life/export', 'Admin\MembershipReportsController::exportNonLife');
+    $routes->get('reports/stripe/export', 'Admin\MembershipReportsController::exportStripe');
 
     $routes->post('(:num)/update-type', 'Admin\MembersController::updateType/$1');
     $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1');
