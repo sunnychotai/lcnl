@@ -196,7 +196,7 @@
 
           <p>Jai Shree Krishna | Jai Shree Ram | Jai Jalaram</p>
 
-          <p>It is an honour to serve as the youngest, and first UK-born, LCNL President as we mark our 50th year. This
+          <p>It is an honour to serve as one of the youngest, and first UK-born, LCNL President as we mark our 50th year. This
             milestone is a reflection of the dedication of past presidents, committees and members.</p>
 
           <p>We have introduced a portfolio system where each Executive Committee member leads or supports an area of
