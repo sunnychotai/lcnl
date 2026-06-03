@@ -236,6 +236,7 @@ $routes->group('admin/content', [
     // Golf Tournament 2026
     $routes->get('golf', 'Admin\GolfRegistrationController::index');
     $routes->get('golf/export', 'Admin\GolfRegistrationController::export');
+    $routes->post('golf/confirm/(:num)', 'Admin\GolfRegistrationController::confirm/$1');
 
     // FAQs
     $routes->get('faqs', 'Admin\FaqAdmin::index');

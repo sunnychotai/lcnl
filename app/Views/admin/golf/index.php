@@ -15,6 +15,20 @@
 
 <div class="container py-4">
 
+  <?php if ($msg = session()->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4">
+      <i class="bi bi-check-circle-fill me-2"></i><?= esc($msg) ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <?php endif; ?>
+
+  <?php if ($msg = session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i><?= esc($msg) ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <?php endif; ?>
+
   <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <div>
       <h2 class="mb-0"><i class="bi bi-flag me-2"></i>Registrations</h2>
@@ -30,9 +44,9 @@
 
   <!-- Summary stats -->
   <?php
-  $submitted  = count(array_filter($registrations, fn($r) => $r['status'] === 'submitted'));
-  $confirmed  = count(array_filter($registrations, fn($r) => $r['status'] === 'confirmed'));
-  $cancelled  = count(array_filter($registrations, fn($r) => $r['status'] === 'cancelled'));
+  $submitted    = count(array_filter($registrations, fn($r) => $r['status'] === 'submitted'));
+  $confirmed    = count(array_filter($registrations, fn($r) => $r['status'] === 'confirmed'));
+  $cancelled    = count(array_filter($registrations, fn($r) => $r['status'] === 'cancelled'));
   $totalPlayers = 0;
   foreach ($registrations as $r) {
       if (!empty($r['p1_first_name'])) $totalPlayers++;
@@ -62,7 +76,7 @@
     </div>
     <div class="col-6 col-md-3">
       <div class="card border-0 shadow-sm text-center py-3">
-        <div class="fs-2 fw-bold text-info"><?= $confirmed ?></div>
+        <div class="fs-2 fw-bold text-success"><?= $confirmed ?></div>
         <div class="small text-muted">Confirmed</div>
       </div>
     </div>
@@ -81,11 +95,20 @@
             <th>P1 Meal</th>
             <th>Player 2</th>
             <th>Player 3</th>
-            <th>Status</th>
+            <th>Status / Action</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($registrations as $r): ?>
+          <?php
+            // Build a summary of player names for the modal
+            $playerNames = [];
+            foreach (['p1','p2','p3'] as $px) {
+                if (!empty($r[$px . '_first_name'])) {
+                    $playerNames[] = esc($r[$px . '_first_name'] . ' ' . $r[$px . '_last_name']);
+                }
+            }
+          ?>
           <tr>
             <td class="font-monospace fw-bold text-brand"><?= esc($r['registration_ref']) ?></td>
             <td><?= date('d/m/Y H:i', strtotime($r['created_at'])) ?></td>
@@ -117,11 +140,22 @@
             </td>
             <td>
               <?php if ($r['status'] === 'confirmed'): ?>
-                <span class="badge bg-success">Confirmed</span>
+                <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Confirmed</span>
               <?php elseif ($r['status'] === 'cancelled'): ?>
                 <span class="badge bg-danger">Cancelled</span>
               <?php else: ?>
-                <span class="badge bg-warning text-dark">Submitted</span>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-warning text-dark">Awaiting Payment</span>
+                  <button type="button"
+                    class="btn btn-sm btn-outline-success rounded-pill"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmModal"
+                    data-id="<?= $r['id'] ?>"
+                    data-ref="<?= esc($r['registration_ref']) ?>"
+                    data-players="<?= esc(implode(', ', $playerNames)) ?>">
+                    <i class="bi bi-check-circle me-1"></i>Confirm Paid
+                  </button>
+                </div>
               <?php endif; ?>
             </td>
           </tr>
@@ -133,7 +167,68 @@
 
 </div>
 
+<!-- ── Confirm Payment Modal ──────────────────────────── -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="confirmModalLabel">
+          <i class="bi bi-check-circle-fill me-2"></i>Confirm Payment Received
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body px-4 py-3">
+        <p class="mb-3">
+          Please confirm that payment has been received for the following registration.
+          This will update the status to <strong>Confirmed</strong> and send a confirmation
+          email to each player.
+        </p>
+
+        <table class="table table-sm table-bordered mb-0">
+          <tr>
+            <th class="text-muted fw-semibold w-35">Reference</th>
+            <td class="font-monospace fw-bold text-brand" id="modalRef">—</td>
+          </tr>
+          <tr>
+            <th class="text-muted fw-semibold">Players</th>
+            <td id="modalPlayers">—</td>
+          </tr>
+        </table>
+
+        <div class="alert alert-warning small mt-3 mb-0">
+          <i class="bi bi-envelope me-1"></i>
+          A confirmation email will be queued for each player. This action cannot be undone.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <form id="confirmForm" method="post" action="" class="d-inline">
+          <?= csrf_field() ?>
+          <button type="submit" class="btn btn-success rounded-pill px-4">
+            <i class="bi bi-check-circle me-2"></i>Yes, Confirm Payment
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
+  // Populate modal with the clicked row's data
+  document.getElementById('confirmModal').addEventListener('show.bs.modal', function (e) {
+    const btn = e.relatedTarget;
+    document.getElementById('modalRef').textContent     = btn.dataset.ref;
+    document.getElementById('modalPlayers').textContent = btn.dataset.players;
+    document.getElementById('confirmForm').action =
+      '<?= site_url('admin/content/golf/confirm/') ?>' + btn.dataset.id;
+  });
+
   $(function () {
     $('#golfTable').DataTable({
       order: [[1, 'desc']],
