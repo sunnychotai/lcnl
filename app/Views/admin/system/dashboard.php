@@ -163,6 +163,19 @@
           </div>
         </a>
       </div>
+
+      <!-- Golf Tournament 2026 -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/golf') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-flag-fill fs-1 text-success mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Golf Event 2026</h5>
+              <p class="text-muted small">Registrations, stats &amp; CSV export</p>
+            </div>
+          </div>
+        </a>
+      </div>
     <?php endif; ?>
 
 

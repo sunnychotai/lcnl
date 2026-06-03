@@ -50,6 +50,15 @@ $routes->get('lcf', 'Committee::lcf');
 $routes->get('sitemap.xml', 'Sitemap::index');
 
 /* =========================================================
+   GOLF TOURNAMENT 2026 (PUBLIC)
+========================================================= */
+
+$routes->get('golf', 'GolfController::info');
+$routes->get('golf/register', 'GolfController::register');
+$routes->post('golf/register', 'GolfController::submit');
+$routes->get('golf/confirmation/(:segment)', 'GolfController::confirmation/$1');
+
+/* =========================================================
    EVENTS (PUBLIC)
 ========================================================= */
 
@@ -223,6 +232,10 @@ $routes->group('admin/content', [
 
     $routes->get('events/event-registrations', 'Admin\EventRegistrationController::index');
     $routes->post('events/event-registrations/summary', 'Admin\EventRegistrationController::summary');
+
+    // Golf Tournament 2026
+    $routes->get('golf', 'Admin\GolfRegistrationController::index');
+    $routes->get('golf/export', 'Admin\GolfRegistrationController::export');
 
     // FAQs
     $routes->get('faqs', 'Admin\FaqAdmin::index');

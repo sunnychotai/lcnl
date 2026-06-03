@@ -186,6 +186,68 @@
   </div>
 </div>
 
+<!-- Golf Event 2026 Flyer -->
+<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
+  <div class="row g-0 align-items-center">
+
+    <!-- Visual panel -->
+    <div class="col-md-5 d-flex align-items-center justify-content-center"
+      style="background: linear-gradient(135deg, #1a4731 0%, #2d7a4f 60%, #3da668 100%);
+             min-height: 280px;">
+      <div class="text-center text-white p-4">
+        <i class="bi bi-flag-fill" style="font-size: 4rem; opacity: 0.9;"></i>
+        <div class="mt-3 fw-bold" style="font-size: 1.1rem; letter-spacing: 0.05em;">
+          MOOR PARK<br>GOLF CLUB
+        </div>
+        <div class="mt-1 opacity-75 small">Rickmansworth</div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="col-md-7">
+      <div class="p-4">
+
+        <span class="badge bg-success-subtle text-success border mb-2">
+          Registration Now Open
+        </span>
+
+        <h3 class="fw-bold mb-3">LCNL Golf Event 2026</h3>
+
+        <p class="mb-2">
+          Join us for a fantastic day of golf, networking, friendly competition, and community
+          spirit at the prestigious <strong>Moor Park Golf Club</strong>.
+        </p>
+
+        <p class="mb-3">
+          Breakfast, shotgun start, BBQ &amp; evening gathering — all as part of the LCNL
+          events calendar. Proudly supported by our Main Sponsor <strong>Harold Benjamin</strong>.
+        </p>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <a href="<?= site_url('golf/register') ?>" class="btn btn-brand rounded-pill px-4">
+            <i class="bi bi-pencil-square me-2"></i>Register Now
+          </a>
+          <a href="<?= site_url('golf') ?>" class="btn btn-outline-secondary rounded-pill px-4">
+            Event Details
+          </a>
+        </div>
+
+        <div class="border rounded-4 p-3 bg-light">
+          <h6 class="fw-semibold mb-1">Event Highlights</h6>
+          <p class="mb-0 small text-muted">
+            <strong>Wednesday 29th July 2026</strong> &bull;
+            Registration &amp; Breakfast: 11:00am &bull;
+            Shotgun Start: 1:00pm &bull;
+            BBQ &amp; Evening: 6:30pm
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
           <h4 class="fw-bold mb-3">Message from the President</h4>
