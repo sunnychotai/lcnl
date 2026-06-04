@@ -39,6 +39,11 @@
           </div>
 
           <div class="mb-3">
+            <span class="text-muted small">Team Name</span>
+            <div class="fw-semibold"><?= esc($reg['team_name']) ?></div>
+          </div>
+
+          <div class="mb-3">
             <span class="text-muted small">Date &amp; Time</span>
             <div><?= date('l j F Y \a\t g:i a', strtotime($reg['created_at'])) ?></div>
           </div>

@@ -33,6 +33,28 @@
         <input type="hidden" name="form_time" value="<?= time() ?>">
         <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
 
+        <!-- ── Team Details ───────────────────────────────── -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-gradient py-3">
+            <h4 class="mb-0">
+              <i class="bi bi-people-fill me-2"></i>Team Details
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="team_name">
+                  Team Name <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="team_name" name="team_name"
+                  value="<?= esc(old('team_name')) ?>"
+                  placeholder="e.g. The Bogey Bandits" maxlength="100" required>
+                <div class="form-text">Enter a name for your team or group.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- ── Player 1 ────────────────────────────────────── -->
         <div class="card shadow-sm border-0 mb-4">
           <div class="card-header bg-gradient py-3">

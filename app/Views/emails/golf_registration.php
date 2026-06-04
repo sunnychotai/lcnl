@@ -34,10 +34,14 @@
         <td>Registration &amp; Breakfast: 11:00am &bull; Shotgun Start: 1:00pm &bull; BBQ: 6:30pm</td>
     </tr>
     <tr>
+        <td style="font-weight:bold;">Team Name</td>
+        <td><?= esc($team_name) ?></td>
+    </tr>
+    <tr style="background-color:#fdf6f7;">
         <td style="font-weight:bold;">Status</td>
         <td><strong style="color:#b45309;">Submitted &ndash; Awaiting Payment</strong></td>
     </tr>
-    <tr style="background-color:#fdf6f7;">
+    <tr>
         <td style="font-weight:bold;">Reference</td>
         <td>
             <strong style="font-family:monospace; font-size:16px; color:#7a1d3c;">

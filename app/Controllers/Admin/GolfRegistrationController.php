@@ -56,6 +56,7 @@ class GolfRegistrationController extends BaseController
             $html = view('emails/golf_registration_confirmed', [
                 'first_name'       => $player['first_name'],
                 'registration_ref' => $reg['registration_ref'],
+                'team_name'        => $reg['team_name'] ?? '',
                 'all_players'      => $players,
             ]);
 
@@ -79,7 +80,7 @@ class GolfRegistrationController extends BaseController
         $db = \Config\Database::connect();
         $b  = $db->table('golf_registrations');
         $b->select('
-            registration_ref,
+            registration_ref, team_name,
             p1_first_name, p1_last_name, p1_email, p1_phone, p1_handicap, p1_meal,
             p2_first_name, p2_last_name, p2_email, p2_phone, p2_handicap, p2_meal,
             p3_first_name, p3_last_name, p3_email, p3_phone, p3_handicap, p3_meal,

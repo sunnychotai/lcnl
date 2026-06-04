@@ -63,6 +63,7 @@ class GolfController extends BaseController
 
         // Build validation rules
         $rules = [
+            'team_name'     => 'required|min_length[2]|max_length[100]',
             'p1_first_name' => 'required|min_length[2]|max_length[100]',
             'p1_last_name'  => 'required|min_length[2]|max_length[100]',
             'p1_email'      => 'required|valid_email',
@@ -103,6 +104,7 @@ class GolfController extends BaseController
 
         $data = [
             'registration_ref' => $ref,
+            'team_name'        => strip_tags($this->request->getPost('team_name') ?? ''),
             'p1_first_name'    => strip_tags($this->request->getPost('p1_first_name')),
             'p1_last_name'     => strip_tags($this->request->getPost('p1_last_name')),
             'p1_email'         => trim($this->request->getPost('p1_email')),
@@ -167,6 +169,7 @@ class GolfController extends BaseController
             $html = view('emails/golf_registration', [
                 'first_name'       => $player['first_name'],
                 'registration_ref' => $ref,
+                'team_name'        => $data['team_name'],
                 'all_players'      => $players,
                 'handicap'         => $player['handicap'],
                 'meal'             => $player['meal'],

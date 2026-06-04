@@ -88,6 +88,7 @@
         <thead class="table-dark">
           <tr>
             <th>Ref</th>
+            <th>Team Name</th>
             <th>Registered</th>
             <th>Player 1</th>
             <th>P1 Email</th>
@@ -111,6 +112,7 @@
           ?>
           <tr>
             <td class="font-monospace fw-bold text-brand"><?= esc($r['registration_ref']) ?></td>
+            <td><?= !empty($r['team_name']) ? esc($r['team_name']) : '<span class="text-muted">—</span>' ?></td>
             <td><?= date('d/m/Y H:i', strtotime($r['created_at'])) ?></td>
             <td><?= esc($r['p1_first_name'] . ' ' . $r['p1_last_name']) ?></td>
             <td><?= esc($r['p1_email']) ?></td>
