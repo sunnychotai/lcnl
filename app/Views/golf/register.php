@@ -117,6 +117,24 @@
           </div>
         </div>
 
+        <!-- ── Player 4 ────────────────────────────────────── -->
+        <div class="card shadow-sm border-0 mb-4" id="p4Card">
+          <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 text-muted">
+              <i class="bi bi-person me-2"></i>Player 4
+              <span class="badge bg-secondary ms-2 small">Optional</span>
+            </h4>
+            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill"
+              id="toggleP4" onclick="togglePlayer(4)" disabled>
+              <i class="bi bi-plus-circle me-1" id="p4Icon"></i>
+              <span id="p4BtnText">Add Player 4</span>
+            </button>
+          </div>
+          <div class="card-body p-4" id="p4Fields" style="display:none;">
+            <?= view('golf/_player_fields', ['prefix' => 'p4', 'required' => false]) ?>
+          </div>
+        </div>
+
         <!-- ── Terms ──────────────────────────────────────── -->
         <div class="card shadow-sm border-0 mb-4">
           <div class="card-body p-4">
@@ -172,6 +190,13 @@
         document.getElementById('toggleP3').disabled = true;
         document.getElementById('toggleP3').classList.replace('btn-outline-brand', 'btn-outline-secondary');
       }
+      if (num === 3) {
+        // Also collapse player 4 if player 3 is removed
+        const p4 = document.getElementById('p4Fields');
+        if (p4 && p4.style.display !== 'none') togglePlayer(4);
+        document.getElementById('toggleP4').disabled = true;
+        document.getElementById('toggleP4').classList.replace('btn-outline-brand', 'btn-outline-secondary');
+      }
     } else {
       fields.style.display = 'block';
       icon.className       = 'bi bi-dash-circle me-1';
@@ -180,6 +205,11 @@
         const p3btn = document.getElementById('toggleP3');
         p3btn.disabled = false;
         p3btn.classList.replace('btn-outline-secondary', 'btn-outline-brand');
+      }
+      if (num === 3) {
+        const p4btn = document.getElementById('toggleP4');
+        p4btn.disabled = false;
+        p4btn.classList.replace('btn-outline-secondary', 'btn-outline-brand');
       }
     }
   }
@@ -191,6 +221,9 @@
     <?php endif; ?>
     <?php if (old('p3_first_name')): ?>
       togglePlayer(3);
+    <?php endif; ?>
+    <?php if (old('p4_first_name')): ?>
+      togglePlayer(4);
     <?php endif; ?>
   });
 </script>

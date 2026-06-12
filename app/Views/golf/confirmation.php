@@ -60,6 +60,7 @@
           if (!empty($reg['p1_first_name'])) $players[] = ['num' => 1, 'prefix' => 'p1'];
           if (!empty($reg['p2_first_name'])) $players[] = ['num' => 2, 'prefix' => 'p2'];
           if (!empty($reg['p3_first_name'])) $players[] = ['num' => 3, 'prefix' => 'p3'];
+          if (!empty($reg['p4_first_name'])) $players[] = ['num' => 4, 'prefix' => 'p4'];
           ?>
 
           <?php foreach ($players as $idx => $p):

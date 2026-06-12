@@ -66,10 +66,11 @@ class GolfController extends BaseController
 
         $p2Active = trim($this->request->getPost('p2_first_name') ?? '') !== '';
         $p3Active = trim($this->request->getPost('p3_first_name') ?? '') !== '';
+        $p4Active = trim($this->request->getPost('p4_first_name') ?? '') !== '';
 
         // Player cap check
         $playerCap      = 40;
-        $incomingCount  = 1 + ($p2Active ? 1 : 0) + ($p3Active ? 1 : 0);
+        $incomingCount  = 1 + ($p2Active ? 1 : 0) + ($p3Active ? 1 : 0) + ($p4Active ? 1 : 0);
         $registeredCount = $this->model->countTotalPlayers();
         if ($registeredCount + $incomingCount > $playerCap) {
             $remaining = max(0, $playerCap - $registeredCount);
@@ -110,6 +111,16 @@ class GolfController extends BaseController
             $rules['p3_handicap']   = 'required|numeric';
             $rules['p3_meal']       = 'required|in_list[vegetarian,non_vegetarian]';
             $rules['p3_tshirt']     = 'required|in_list[XS,S,M,L,XL,XXL]';
+        }
+
+        if ($p4Active) {
+            $rules['p4_first_name'] = 'required|min_length[2]|max_length[100]';
+            $rules['p4_last_name']  = 'required|min_length[2]|max_length[100]';
+            $rules['p4_email']      = 'required|valid_email';
+            $rules['p4_phone']      = 'required|min_length[7]|max_length[30]';
+            $rules['p4_handicap']   = 'required|numeric';
+            $rules['p4_meal']       = 'required|in_list[vegetarian,non_vegetarian]';
+            $rules['p4_tshirt']     = 'required|in_list[XS,S,M,L,XL,XXL]';
         }
 
         if (!$this->validate($rules)) {
@@ -156,6 +167,16 @@ class GolfController extends BaseController
             $data['p3_tshirt']     = $this->request->getPost('p3_tshirt');
         }
 
+        if ($p4Active) {
+            $data['p4_first_name'] = strip_tags($this->request->getPost('p4_first_name'));
+            $data['p4_last_name']  = strip_tags($this->request->getPost('p4_last_name'));
+            $data['p4_email']      = trim($this->request->getPost('p4_email'));
+            $data['p4_phone']      = strip_tags($this->request->getPost('p4_phone'));
+            $data['p4_handicap']   = (float) $this->request->getPost('p4_handicap');
+            $data['p4_meal']       = $this->request->getPost('p4_meal');
+            $data['p4_tshirt']     = $this->request->getPost('p4_tshirt');
+        }
+
         $this->model->insert($data);
 
         // Build list of players to email
@@ -187,6 +208,17 @@ class GolfController extends BaseController
                 'handicap'   => $data['p3_handicap'],
                 'meal'       => $data['p3_meal'],
                 'tshirt'     => $data['p3_tshirt'],
+            ];
+        }
+
+        if ($p4Active) {
+            $players[] = [
+                'first_name' => $data['p4_first_name'],
+                'full_name'  => $data['p4_first_name'] . ' ' . $data['p4_last_name'],
+                'email'      => $data['p4_email'],
+                'handicap'   => $data['p4_handicap'],
+                'meal'       => $data['p4_meal'],
+                'tshirt'     => $data['p4_tshirt'],
             ];
         }
 

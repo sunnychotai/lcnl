@@ -52,6 +52,7 @@
       if (!empty($r['p1_first_name'])) $totalPlayers++;
       if (!empty($r['p2_first_name'])) $totalPlayers++;
       if (!empty($r['p3_first_name'])) $totalPlayers++;
+      if (!empty($r['p4_first_name'])) $totalPlayers++;
   }
   ?>
 
@@ -97,6 +98,7 @@
             <th>P1 T-Shirt</th>
             <th>Player 2</th>
             <th>Player 3</th>
+            <th>Player 4</th>
             <th>Status / Action</th>
           </tr>
         </thead>
@@ -105,7 +107,7 @@
           <?php
             // Build a summary of player names for the modal
             $playerNames = [];
-            foreach (['p1','p2','p3'] as $px) {
+            foreach (['p1','p2','p3','p4'] as $px) {
                 if (!empty($r[$px . '_first_name'])) {
                     $playerNames[] = esc($r[$px . '_first_name'] . ' ' . $r[$px . '_last_name']);
                 }
@@ -139,6 +141,18 @@
                   H: <?= esc($r['p3_handicap']) ?> &bull;
                   <?= $r['p3_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?> &bull;
                   <?= esc($r['p3_tshirt'] ?? '—') ?>
+                </div>
+              <?php else: ?>
+                <span class="text-muted">—</span>
+              <?php endif; ?>
+            </td>
+            <td>
+              <?php if (!empty($r['p4_first_name'])): ?>
+                <?= esc($r['p4_first_name'] . ' ' . $r['p4_last_name']) ?>
+                <div class="text-muted" style="font-size:11px;">
+                  H: <?= esc($r['p4_handicap']) ?> &bull;
+                  <?= $r['p4_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?> &bull;
+                  <?= esc($r['p4_tshirt'] ?? '—') ?>
                 </div>
               <?php else: ?>
                 <span class="text-muted">—</span>
