@@ -100,10 +100,8 @@ class GolfController extends BaseController
                 ->with('errors', $this->validator->getErrors());
         }
 
-        // Generate a unique reference
-        do {
-            $ref = GolfRegistrationModel::generateRef();
-        } while ($this->model->where('registration_ref', $ref)->first());
+        // Generate a unique reference based on lead player's surname
+        $ref = $this->model->generateRef($this->request->getPost('p1_last_name') ?? '');
 
         $data = [
             'registration_ref' => $ref,

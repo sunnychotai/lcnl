@@ -19,14 +19,23 @@ class GolfRegistrationModel extends Model
         'status', 'agreed_terms', 'ip_address',
     ];
 
-    public static function generateRef(): string
+    public function generateRef(string $surname): string
     {
-        // Omits easily-confused characters (0/O, 1/I/L)
-        $chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-        $code  = '';
-        for ($i = 0; $i < 6; $i++) {
-            $code .= $chars[random_int(0, strlen($chars) - 1)];
+        // Letters only, uppercase, max 12 chars
+        $clean = strtoupper(preg_replace('/[^A-Za-z]/', '', $surname));
+        $clean = substr($clean, 0, 12) ?: 'GUEST';
+
+        $base = 'GOLF26-' . $clean;
+
+        if (!$this->where('registration_ref', $base)->first()) {
+            return $base;
         }
-        return 'GOLF26-' . $code;
+
+        $i = 2;
+        while ($this->where('registration_ref', $base . '-' . $i)->first()) {
+            $i++;
+        }
+
+        return $base . '-' . $i;
     }
 }
