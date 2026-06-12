@@ -70,6 +70,7 @@ class GolfController extends BaseController
             'p1_phone'      => 'required|min_length[7]|max_length[30]',
             'p1_handicap'   => 'required|numeric',
             'p1_meal'       => 'required|in_list[vegetarian,non_vegetarian]',
+            'p1_tshirt'     => 'required|in_list[XS,S,M,L,XL,XXL]',
             'agreed_terms'  => 'required|in_list[1]',
         ];
 
@@ -80,6 +81,7 @@ class GolfController extends BaseController
             $rules['p2_phone']      = 'required|min_length[7]|max_length[30]';
             $rules['p2_handicap']   = 'required|numeric';
             $rules['p2_meal']       = 'required|in_list[vegetarian,non_vegetarian]';
+            $rules['p2_tshirt']     = 'required|in_list[XS,S,M,L,XL,XXL]';
         }
 
         if ($p3Active) {
@@ -89,6 +91,7 @@ class GolfController extends BaseController
             $rules['p3_phone']      = 'required|min_length[7]|max_length[30]';
             $rules['p3_handicap']   = 'required|numeric';
             $rules['p3_meal']       = 'required|in_list[vegetarian,non_vegetarian]';
+            $rules['p3_tshirt']     = 'required|in_list[XS,S,M,L,XL,XXL]';
         }
 
         if (!$this->validate($rules)) {
@@ -111,6 +114,7 @@ class GolfController extends BaseController
             'p1_phone'         => strip_tags($this->request->getPost('p1_phone')),
             'p1_handicap'      => (float) $this->request->getPost('p1_handicap'),
             'p1_meal'          => $this->request->getPost('p1_meal'),
+            'p1_tshirt'        => $this->request->getPost('p1_tshirt'),
             'status'           => 'submitted',
             'agreed_terms'     => 1,
             'ip_address'       => $this->request->getIPAddress(),
@@ -123,6 +127,7 @@ class GolfController extends BaseController
             $data['p2_phone']      = strip_tags($this->request->getPost('p2_phone'));
             $data['p2_handicap']   = (float) $this->request->getPost('p2_handicap');
             $data['p2_meal']       = $this->request->getPost('p2_meal');
+            $data['p2_tshirt']     = $this->request->getPost('p2_tshirt');
         }
 
         if ($p3Active) {
@@ -132,6 +137,7 @@ class GolfController extends BaseController
             $data['p3_phone']      = strip_tags($this->request->getPost('p3_phone'));
             $data['p3_handicap']   = (float) $this->request->getPost('p3_handicap');
             $data['p3_meal']       = $this->request->getPost('p3_meal');
+            $data['p3_tshirt']     = $this->request->getPost('p3_tshirt');
         }
 
         $this->model->insert($data);
@@ -143,6 +149,7 @@ class GolfController extends BaseController
             'email'      => $data['p1_email'],
             'handicap'   => $data['p1_handicap'],
             'meal'       => $data['p1_meal'],
+            'tshirt'     => $data['p1_tshirt'],
         ]];
 
         if ($p2Active) {
@@ -152,6 +159,7 @@ class GolfController extends BaseController
                 'email'      => $data['p2_email'],
                 'handicap'   => $data['p2_handicap'],
                 'meal'       => $data['p2_meal'],
+                'tshirt'     => $data['p2_tshirt'],
             ];
         }
 
@@ -162,6 +170,7 @@ class GolfController extends BaseController
                 'email'      => $data['p3_email'],
                 'handicap'   => $data['p3_handicap'],
                 'meal'       => $data['p3_meal'],
+                'tshirt'     => $data['p3_tshirt'],
             ];
         }
 

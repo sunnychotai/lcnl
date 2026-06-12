@@ -123,69 +123,6 @@
       <!-- Left column -->
       <div class="col-md-8">
 
-<!-- Golden Jubilee Event Announcement -->
-<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-  <div class="row g-0 align-items-center">
-
-    <!-- Image -->
-    <div class="col-md-5">
-      <a href="https://lcnl.org/events/47" class="d-block">
-        <img src="https://lcnl.org/uploads/events/1778614416_34b913c796c4b8ea332f.jpeg"
-          alt="LCNL African Night Event" class="img-fluid w-100 h-100"
-          style="object-fit: cover; min-height: 320px;">
-      </a>
-    </div>
-
-    <!-- Content -->
-    <div class="col-md-7">
-      <div class="p-4">
-
-        <span class="badge bg-warning-subtle text-warning border mb-2">
-          Golden Jubilee Event
-        </span>
-
-        <h3 class="fw-bold mb-3">LCNL Golden Jubilee – African Night</h3>
-
-        <p class="mb-3">
-          As part of our <strong>50th Golden Jubilee celebrations</strong>, LCNL proudly presents
-          <strong>African Night</strong> — a vibrant evening celebrating the countries, cultures and
-          communities that shaped so many of our family journeys.
-        </p>
-
-        <p class="mb-3">
-          Enjoy authentic African cuisine, live drumming, dancing, nostalgic entertainment,
-          Bollywood classics and African dance floor favourites in an unforgettable evening of
-          music, memories and celebration.
-        </p>
-
-        <!-- Buttons -->
-        <div class="d-flex flex-wrap gap-2 mb-4">
-          <a href="https://lcnl.org/events/47" class="btn btn-brand rounded-pill px-4">
-            View Event
-          </a>
-        </div>
-
-        <!-- Ticket Info -->
-        <div class="border rounded-4 p-3 bg-light">
-          <h6 class="fw-semibold mb-2">Ticket Information</h6>
-          <p class="mb-2 small text-muted">
-            Saturday 6th June 2026 at DLC from 5pm onwards.
-            £30 individual tickets or £270 for a table of 10 (plus booking fees).
-            Dress code inspired by African fashion and classic 60s/70s Bollywood glamour.
-          </p>
-
-          <a href="https://lcnl.org/events/47"
-            class="btn btn-outline-dark btn-sm rounded-pill px-3">
-            Buy Tickets
-          </a>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <!-- Golf Event 2026 Flyer -->
 <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
   <div class="row g-0 align-items-center">

@@ -46,6 +46,7 @@ class GolfRegistrationController extends BaseController
                     'email'      => $reg[$px . '_email'],
                     'handicap'   => $reg[$px . '_handicap'],
                     'meal'       => $reg[$px . '_meal'],
+                    'tshirt'     => $reg[$px . '_tshirt'] ?? '',
                 ];
             }
         }
@@ -81,9 +82,9 @@ class GolfRegistrationController extends BaseController
         $b  = $db->table('golf_registrations');
         $b->select('
             registration_ref, team_name,
-            p1_first_name, p1_last_name, p1_email, p1_phone, p1_handicap, p1_meal,
-            p2_first_name, p2_last_name, p2_email, p2_phone, p2_handicap, p2_meal,
-            p3_first_name, p3_last_name, p3_email, p3_phone, p3_handicap, p3_meal,
+            p1_first_name, p1_last_name, p1_email, p1_phone, p1_handicap, p1_meal, p1_tshirt,
+            p2_first_name, p2_last_name, p2_email, p2_phone, p2_handicap, p2_meal, p2_tshirt,
+            p3_first_name, p3_last_name, p3_email, p3_phone, p3_handicap, p3_meal, p3_tshirt,
             status, created_at
         ');
         $b->orderBy('created_at', 'DESC');

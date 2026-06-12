@@ -86,6 +86,9 @@
               <dd class="col-sm-8">
                 <?= $reg[$px . '_meal'] === 'vegetarian' ? 'Vegetarian' : 'Non-Vegetarian' ?>
               </dd>
+
+              <dt class="col-sm-4 text-muted">T-Shirt Size</dt>
+              <dd class="col-sm-8"><?= esc($reg[$px . '_tshirt']) ?></dd>
             </dl>
           <?php endforeach; ?>
 

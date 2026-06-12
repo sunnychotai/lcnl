@@ -72,6 +72,7 @@
         <th style="padding:8px; text-align:left;">Name</th>
         <th style="padding:8px; text-align:left;">Handicap</th>
         <th style="padding:8px; text-align:left;">Meal</th>
+        <th style="padding:8px; text-align:left;">T-Shirt</th>
     </tr>
     <?php foreach ($all_players as $i => $player): ?>
     <tr style="background-color:<?= $i % 2 === 0 ? '#fdfbfa' : '#f5eaed' ?>;">
@@ -81,6 +82,7 @@
         <td style="padding:8px;">
             <?= $player['meal'] === 'vegetarian' ? 'Vegetarian' : 'Non-Vegetarian' ?>
         </td>
+        <td style="padding:8px;"><?= esc($player['tshirt']) ?></td>
     </tr>
     <?php endforeach; ?>
 </table>
