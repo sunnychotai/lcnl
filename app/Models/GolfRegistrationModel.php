@@ -19,6 +19,18 @@ class GolfRegistrationModel extends Model
         'status', 'agreed_terms', 'ip_address',
     ];
 
+    public function countTotalPlayers(): int
+    {
+        $rows = $this->whereNotIn('status', ['cancelled'])->findAll();
+        $count = 0;
+        foreach ($rows as $row) {
+            if (!empty($row['p1_first_name'])) $count++;
+            if (!empty($row['p2_first_name'])) $count++;
+            if (!empty($row['p3_first_name'])) $count++;
+        }
+        return $count;
+    }
+
     public function generateRef(string $surname): string
     {
         // Letters only, uppercase, max 12 chars

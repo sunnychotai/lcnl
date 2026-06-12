@@ -12,6 +12,19 @@
 
 <div class="container py-5">
 
+  <?php if ($isFull): ?>
+    <div class="alert alert-danger shadow-sm mb-4">
+      <i class="bi bi-x-circle-fill me-2"></i>
+      <strong>Event Full</strong> — Sorry, all <?= 40 ?> player spots have been filled.
+      Please contact the organisers if you have any questions.
+    </div>
+  <?php elseif ($spotsRemaining <= 6): ?>
+    <div class="alert alert-warning shadow-sm mb-4">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <strong>Almost full!</strong> Only <?= $spotsRemaining ?> player <?= $spotsRemaining === 1 ? 'spot' : 'spots' ?> remaining.
+    </div>
+  <?php endif; ?>
+
   <?php if ($errors = session()->getFlashdata('errors')): ?>
     <div class="alert alert-danger shadow-sm alert-dismissible fade show">
       <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -121,7 +134,8 @@
 
         <!-- ── Submit ─────────────────────────────────────── -->
         <div class="d-grid">
-          <button type="submit" class="btn btn-brand btn-lg rounded-pill">
+          <button type="submit" class="btn btn-brand btn-lg rounded-pill"
+            <?= $isFull ? 'disabled' : '' ?>>
             <i class="bi bi-send-check me-2"></i>Submit Registration
           </button>
         </div>

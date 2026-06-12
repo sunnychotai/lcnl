@@ -31,9 +31,15 @@ class GolfController extends BaseController
         session()->set('golf_form_token', $formToken);
         session()->set('golf_form_token_time', time());
 
+        $playerCap  = 40;
+        $registered = $this->model->countTotalPlayers();
+        $remaining  = max(0, $playerCap - $registered);
+
         return view('golf/register', [
-            'title'     => 'LCNL Golf Event 2026 – Register',
-            'formToken' => $formToken,
+            'title'          => 'LCNL Golf Event 2026 – Register',
+            'formToken'      => $formToken,
+            'spotsRemaining' => $remaining,
+            'isFull'         => $remaining === 0,
         ]);
     }
 
@@ -60,6 +66,18 @@ class GolfController extends BaseController
 
         $p2Active = trim($this->request->getPost('p2_first_name') ?? '') !== '';
         $p3Active = trim($this->request->getPost('p3_first_name') ?? '') !== '';
+
+        // Player cap check
+        $playerCap      = 40;
+        $incomingCount  = 1 + ($p2Active ? 1 : 0) + ($p3Active ? 1 : 0);
+        $registeredCount = $this->model->countTotalPlayers();
+        if ($registeredCount + $incomingCount > $playerCap) {
+            $remaining = max(0, $playerCap - $registeredCount);
+            $msg = $remaining === 0
+                ? 'Sorry, the event is now full. No further registrations are being accepted.'
+                : 'Sorry, only ' . $remaining . ' player ' . ($remaining === 1 ? 'spot remains' : 'spots remain') . '. Please reduce the number of players in your registration.';
+            return redirect()->back()->withInput()->with('errors', [$msg]);
+        }
 
         // Build validation rules
         $rules = [
