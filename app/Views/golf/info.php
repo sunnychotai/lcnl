@@ -119,7 +119,7 @@
           </div>
           <p class="text-muted small mt-3 mb-0">
             <i class="bi bi-info-circle me-1"></i>
-            Pricing details to be announced. Registration is open now.
+            £145 per player. Registration is open now.
           </p>
         </div>
       </div>

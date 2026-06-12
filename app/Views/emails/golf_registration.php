@@ -105,7 +105,7 @@
     </tr>
     <tr style="background-color:#fef9ee;">
         <td style="font-weight:bold;">Amount</td>
-        <td>To be confirmed – pricing details will be announced shortly</td>
+        <td><strong>£145 per player</strong></td>
     </tr>
     <tr style="background-color:#fff8e1;">
         <td style="font-weight:bold; color:#7a1d3c;">Your Reference</td>

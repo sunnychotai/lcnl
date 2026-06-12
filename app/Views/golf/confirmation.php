@@ -122,7 +122,7 @@
             <dd class="col-sm-8 font-monospace">21497995</dd>
 
             <dt class="col-sm-4">Payment Amount</dt>
-            <dd class="col-sm-8">To be confirmed – pricing details will be announced shortly</dd>
+            <dd class="col-sm-8 fw-semibold">£145 per player</dd>
 
             <dt class="col-sm-4 fw-bold text-brand">Your Reference</dt>
             <dd class="col-sm-8">
