@@ -96,7 +96,6 @@
       </div>
 
       <!-- Payment / Bank Details -->
-      <!-- TODO: Replace the placeholder bank details below with real LCNL bank account details before going live -->
       <div class="card border-0 shadow-sm mb-4 border-start border-4 border-warning">
         <div class="card-header bg-warning-subtle border-bottom py-3">
           <h5 class="mb-0 fw-bold">
@@ -116,14 +115,11 @@
             <dt class="col-sm-4">Account Name</dt>
             <dd class="col-sm-8">Lohana Community North London</dd>
 
-            <dt class="col-sm-4">Bank</dt>
-            <dd class="col-sm-8">NatWest</dd>
-
             <dt class="col-sm-4">Sort Code</dt>
-            <dd class="col-sm-8 font-monospace">56-00-44</dd>
+            <dd class="col-sm-8 font-monospace">40-23-13</dd>
 
             <dt class="col-sm-4">Account Number</dt>
-            <dd class="col-sm-8 font-monospace">62841234</dd>
+            <dd class="col-sm-8 font-monospace">21497995</dd>
 
             <dt class="col-sm-4">Payment Amount</dt>
             <dd class="col-sm-8">To be confirmed – pricing details will be announced shortly</dd>

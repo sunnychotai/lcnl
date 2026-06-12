@@ -76,7 +76,6 @@
 </table>
 
 <!-- Payment instructions -->
-<!-- TODO: Replace placeholder bank details below with real LCNL bank account details before going live -->
 <table cellpadding="8" cellspacing="0" width="100%"
     style="border-collapse:collapse; border:2px solid #b45309;
            background-color:#fffbeb; margin:20px 0;">
@@ -97,16 +96,12 @@
         <td>Lohana Community North London</td>
     </tr>
     <tr>
-        <td style="font-weight:bold;">Bank</td>
-        <td>NatWest</td>
+        <td style="font-weight:bold;">Sort Code</td>
+        <td style="font-family:monospace;">40-23-13</td>
     </tr>
     <tr style="background-color:#fef9ee;">
-        <td style="font-weight:bold;">Sort Code</td>
-        <td style="font-family:monospace;">56-00-44</td>
-    </tr>
-    <tr>
         <td style="font-weight:bold;">Account Number</td>
-        <td style="font-family:monospace;">62841234</td>
+        <td style="font-family:monospace;">21497995</td>
     </tr>
     <tr style="background-color:#fef9ee;">
         <td style="font-weight:bold;">Amount</td>
