@@ -219,6 +219,16 @@
               </select>
             </div>
 
+            <!-- Sold Out -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Sold Out?</label>
+              <select name="is_sold_out" class="form-select">
+                <option value="0" <?= old('is_sold_out', $event['is_sold_out'] ?? 0) == 0 ? 'selected' : '' ?>>No</option>
+                <option value="1" <?= old('is_sold_out', $event['is_sold_out'] ?? 0) == 1 ? 'selected' : '' ?>>Yes — show SOLD OUT banner</option>
+              </select>
+              <small class="text-muted">Displays a prominent SOLD OUT overlay on all event images and cards.</small>
+            </div>
+
             <!-- Buttons -->
             <div class="d-flex justify-content-end gap-2 mt-3">
               <a href="<?= base_url('admin/content/events') ?>" class="btn btn-secondary">Cancel</a>

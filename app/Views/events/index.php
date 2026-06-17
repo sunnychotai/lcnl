@@ -19,17 +19,15 @@
           <a href="<?= base_url('events/'.$event['id']) ?>" 
              class="text-decoration-none flex-shrink-0 event-card-link">
             <div class="card shadow-sm border-0 event-card">
-              <?php if (!empty($event['image'])): ?>
-                <?php
-  // Work out image path
+              <?php
   $imgPath = !empty($event['image']) ? $event['image'] : '';
   if (!$imgPath || !is_file(FCPATH . $imgPath)) {
       $imgPath = 'assets/img/lcnl-placeholder-320.png';
   }
 ?>
-<div class="event-img-wrapper">
-  <img src="<?= base_url($imgPath) ?>" 
-       class="card-img-top" 
+<div class="event-img-wrapper position-relative">
+  <img src="<?= base_url($imgPath) ?>"
+       class="card-img-top"
        alt="<?= esc($event['title']) ?>">
   <div class="event-overlay">
     <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
@@ -40,12 +38,12 @@
       <?php endif; ?>
     </small>
   </div>
+  <?php if (!empty($event['is_sold_out'])): ?>
+    <div class="sold-out-banner">
+      <i class="bi bi-x-circle-fill me-1"></i>SOLD OUT
+    </div>
+  <?php endif; ?>
 </div>
-              <?php else: ?>
-                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:200px;">
-                  <i class="bi bi-calendar-event fs-1 text-muted"></i>
-                </div>
-              <?php endif; ?>
             </div>
           </a>
         <?php endforeach; ?>
@@ -55,5 +53,22 @@
     <p>No upcoming events found.</p>
   <?php endif; ?>
 </div>
+
+<style>
+  .sold-out-banner {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    padding: 6px 0;
+    background: rgba(185, 28, 28, 0.92);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    z-index: 20;
+  }
+</style>
 
 <?= $this->endSection() ?>

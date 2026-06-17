@@ -252,7 +252,8 @@ class Events extends BaseController
                 : 0,
             'max_registrations' => $this->request->getPost('max_registrations') ?: null,
             'max_headcount' => $this->request->getPost('max_headcount') ?: null,
-            'is_valid' => (int) $this->request->getPost('is_valid'),
+            'is_valid'     => (int) $this->request->getPost('is_valid'),
+            'is_sold_out'  => (int) $this->request->getPost('is_sold_out'),
         ];
     }
 

@@ -105,6 +105,12 @@
                     <?= date('d M Y', strtotime($event['event_date'])) ?>
                   </small>
                 </div>
+
+                <?php if (!empty($event['is_sold_out'])): ?>
+                  <div class="sold-out-banner">
+                    <i class="bi bi-x-circle-fill me-1"></i>SOLD OUT
+                  </div>
+                <?php endif; ?>
               </div>
 
             </div>
@@ -350,6 +356,23 @@
     </div>
   </div>
 </section>
+
+<style>
+  .sold-out-banner {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    padding: 6px 0;
+    background: rgba(185, 28, 28, 0.92);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    z-index: 20;
+  }
+</style>
 
 <?= $this->endSection() ?>
 

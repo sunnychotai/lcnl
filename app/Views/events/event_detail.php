@@ -133,6 +133,12 @@ if (!function_exists('fmtEventText')) {
         </span>
       <?php endif; ?>
 
+      <?php if (!empty($event['is_sold_out'])): ?>
+        <span class="badge bg-danger fs-6 px-3 py-2">
+          <i class="bi bi-x-circle-fill me-1"></i>SOLD OUT
+        </span>
+      <?php endif; ?>
+
       <?php if ($requiresReg): ?>
         <span class="badge <?= $isFull ? 'bg-danger' : ($regOpen ? 'bg-success' : 'bg-secondary') ?>">
           <i class="bi <?= $isFull ? 'bi-x-circle' : 'bi-check-circle' ?> me-1"></i>
@@ -172,6 +178,11 @@ if (!function_exists('fmtEventText')) {
                 <i class="bi bi-zoom-in me-1"></i>Enlarge
               </span>
             </div>
+            <?php if (!empty($event['is_sold_out'])): ?>
+              <div class="sold-out-banner rounded-3">
+                <i class="bi bi-x-circle-fill me-1"></i>SOLD OUT
+              </div>
+            <?php endif; ?>
           </a>
         </div>
 
@@ -354,6 +365,20 @@ if (!function_exists('fmtEventText')) {
   .event-image-wrapper img { transition: transform 0.3s ease; }
   .event-image-wrapper:hover img { transform: scale(1.02); }
   .event-description p { margin-bottom: 0.75rem; }
+  .sold-out-banner {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    padding: 6px 0;
+    background: rgba(185, 28, 28, 0.92);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    z-index: 20;
+  }
 </style>
 
 <?= $this->endSection() ?>

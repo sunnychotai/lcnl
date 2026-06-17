@@ -25,7 +25,7 @@ class EventModel extends Model
         'max_registrations',
         'max_headcount',
         'is_valid',
-
+        'is_sold_out',
     ];
     protected $useTimestamps = true;
 
