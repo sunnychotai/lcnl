@@ -123,11 +123,10 @@
       <!-- Left column -->
       <div class="col-md-8">
 
-<!-- Golf Event 2026 Flyer -->
+<!-- Golf Event 2026 Flyer — hidden until launch
 <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
   <div class="row g-0 align-items-center">
 
-    <!-- Visual panel -->
     <div class="col-md-5 d-flex align-items-center justify-content-center"
       style="background: linear-gradient(135deg, #1a4731 0%, #2d7a4f 60%, #3da668 100%);
              min-height: 280px;">
@@ -140,7 +139,6 @@
       </div>
     </div>
 
-    <!-- Content -->
     <div class="col-md-7">
       <div class="p-4">
 
@@ -184,6 +182,7 @@
 
   </div>
 </div>
+-->
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
