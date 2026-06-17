@@ -1,6 +1,8 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+
 <!-- Hero Banner -->
 <section class="hero-lcnl-watermark hero-overlay-ocean d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
@@ -98,12 +100,12 @@
             <!-- Description -->
             <div class="mb-3">
               <label class="form-label fw-semibold">Description</label>
-              <textarea name="description" class="form-control"
-                rows="4"><?= old('description', $event['description'] ?? '') ?></textarea>
+              <textarea id="field-description" name="description"
+                class="form-control"><?= old('description', $event['description'] ?? '') ?></textarea>
             </div>
 
             <!-- ===================================== -->
-            <!-- 🔥 REGISTRATION SETTINGS -->
+            <!-- REGISTRATION SETTINGS -->
             <!-- ===================================== -->
 
             <hr class="my-4">
@@ -123,6 +125,17 @@
             </div>
 
             <div id="capacityWrapper">
+
+              <!-- Registration Open -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Registration Open?</label>
+                <select name="registration_open" class="form-select">
+                  <option value="1" <?= old('registration_open', $event['registration_open'] ?? 1) == 1 ? 'selected' : '' ?>>Yes — accepting registrations</option>
+                  <option value="0" <?= old('registration_open', $event['registration_open'] ?? 1) == 0 ? 'selected' : '' ?>>No — closed / coming soon</option>
+                </select>
+                <small class="text-muted">Controls whether the Register Now button appears on the event page.</small>
+              </div>
+
               <div class="mb-3">
                 <label class="form-label fw-semibold">Maximum Registrations</label>
                 <input type="number" name="max_registrations" class="form-control"
@@ -139,7 +152,7 @@
             </div>
 
             <!-- ===================================== -->
-            <!-- 📄 EVENT CONTENT DETAILS -->
+            <!-- EVENT CONTENT DETAILS -->
             <!-- ===================================== -->
 
             <hr class="my-4">
@@ -152,11 +165,9 @@
             <!-- Ticket Information -->
             <div class="mb-3">
               <label class="form-label fw-semibold">Ticket Information</label>
-              <textarea name="ticketinfo" class="form-control"
-                rows="4"><?= old('ticketinfo', $event['ticketinfo'] ?? '') ?></textarea>
-              <small class="text-muted">
-                Pricing, what's included, booking instructions etc.
-              </small>
+              <textarea id="field-ticketinfo" name="ticketinfo"
+                class="form-control"><?= old('ticketinfo', $event['ticketinfo'] ?? '') ?></textarea>
+              <small class="text-muted">Pricing, what's included, booking instructions etc.</small>
             </div>
 
             <!-- Purchase Tickets URL -->
@@ -173,21 +184,17 @@
             <!-- Event Terms -->
             <div class="mb-3">
               <label class="form-label fw-semibold">Event Terms</label>
-              <textarea name="eventterms" class="form-control"
-                rows="6"><?= old('eventterms', $event['eventterms'] ?? '') ?></textarea>
-              <small class="text-muted">
-                Cancellation policy, refund rules, conditions etc.
-              </small>
+              <textarea id="field-eventterms" name="eventterms"
+                class="form-control"><?= old('eventterms', $event['eventterms'] ?? '') ?></textarea>
+              <small class="text-muted">Cancellation policy, refund rules, conditions etc.</small>
             </div>
 
             <!-- Contact Information -->
             <div class="mb-3">
               <label class="form-label fw-semibold">Contact Information</label>
-              <textarea name="contactinfo" class="form-control"
-                rows="4"><?= old('contactinfo', $event['contactinfo'] ?? '') ?></textarea>
-              <small class="text-muted">
-                Who to contact regarding this event.
-              </small>
+              <textarea id="field-contactinfo" name="contactinfo"
+                class="form-control"><?= old('contactinfo', $event['contactinfo'] ?? '') ?></textarea>
+              <small class="text-muted">Who to contact regarding this event.</small>
             </div>
 
             <hr class="my-4">
@@ -214,9 +221,7 @@
 
             <!-- Buttons -->
             <div class="d-flex justify-content-end gap-2 mt-3">
-              <a href="<?= base_url('admin/content/events') ?>" class="btn btn-secondary">
-                Cancel
-              </a>
+              <a href="<?= base_url('admin/content/events') ?>" class="btn btn-secondary">Cancel</a>
               <button type="submit" class="btn btn-success">
                 <?= isset($event['id']) ? 'Update Event' : 'Save Event' ?>
               </button>
@@ -230,20 +235,36 @@
   </div>
 </div>
 
-<!-- JS: Hide capacity if registration disabled -->
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const select = document.getElementById('requiresRegistration');
+  (function () {
+    const toolbar = [
+      { name: 'heading-2', action: EasyMDE.toggleHeading2, className: 'fa fa-header', title: 'Section Heading (##)' },
+      'bold',
+      '|',
+      'unordered-list',
+      'ordered-list',
+      '|',
+      'preview',
+      'guide',
+    ];
+
+    const opts = { spellChecker: false, status: false, toolbar, minHeight: '120px' };
+
+    ['field-description', 'field-ticketinfo', 'field-eventterms', 'field-contactinfo'].forEach(function (id) {
+      const el = document.getElementById(id);
+      if (el) new EasyMDE(Object.assign({}, opts, { element: el }));
+    });
+
+    // Hide capacity wrapper when registration not required
+    const regSelect = document.getElementById('requiresRegistration');
     const capacityWrapper = document.getElementById('capacityWrapper');
-
     function toggleCapacity() {
-      capacityWrapper.style.display = select.value == "1" ? "block" : "none";
+      capacityWrapper.style.display = regSelect.value == '1' ? 'block' : 'none';
     }
-
     toggleCapacity();
-    select.addEventListener('change', toggleCapacity);
-  });
+    regSelect.addEventListener('change', toggleCapacity);
+  })();
 </script>
 
 <?= $this->endSection() ?>
-
