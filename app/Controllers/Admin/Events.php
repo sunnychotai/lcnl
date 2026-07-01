@@ -244,6 +244,7 @@ class Events extends BaseController
             'committee' => $this->request->getPost('committee'),
             'ticketinfo' => $this->request->getPost('ticketinfo'),
             'purchase_ticket_url' => trim((string) $this->request->getPost('purchase_ticket_url')) ?: null,
+            'ticket_url_label'    => $this->request->getPost('ticket_url_label') ?: 'purchase',
             'eventterms' => $this->request->getPost('eventterms'),
             'contactinfo' => $this->request->getPost('contactinfo'),
             'requires_registration' => (int) $this->request->getPost('requires_registration'),

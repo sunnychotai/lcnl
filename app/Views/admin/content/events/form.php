@@ -170,15 +170,25 @@
               <small class="text-muted">Pricing, what's included, booking instructions etc.</small>
             </div>
 
-            <!-- Purchase Tickets URL -->
+            <!-- Purchase Tickets / Registration URL -->
             <div class="mb-3">
-              <label class="form-label fw-semibold">Purchase Tickets URL</label>
+              <label class="form-label fw-semibold">Ticket / Registration URL</label>
               <input type="url" name="purchase_ticket_url" class="form-control"
                 value="<?= old('purchase_ticket_url', $event['purchase_ticket_url'] ?? '') ?>"
                 placeholder="https://example.com/tickets">
               <small class="text-muted">
-                Optional. If populated, a "Purchase Tickets" button will appear on the event page.
+                Optional. If populated, a button will appear on the event page linking to this URL.
               </small>
+            </div>
+
+            <!-- Button Label -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Button Label</label>
+              <select name="ticket_url_label" class="form-select">
+                <option value="purchase" <?= old('ticket_url_label', $event['ticket_url_label'] ?? 'purchase') === 'purchase' ? 'selected' : '' ?>>Purchase Tickets</option>
+                <option value="register" <?= old('ticket_url_label', $event['ticket_url_label'] ?? 'purchase') === 'register' ? 'selected' : '' ?>>Register</option>
+              </select>
+              <small class="text-muted">Controls the label shown on the button linked to the URL above.</small>
             </div>
 
             <!-- Event Terms -->

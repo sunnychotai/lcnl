@@ -17,6 +17,9 @@ $headsLeft   = ($maxHeads > 0) ? max(0, $maxHeads - $currentHeads) : null;
 
 $isFull = !empty($event['is_full']);
 
+$ticketLabel = ($event['ticket_url_label'] ?? 'purchase') === 'register' ? 'Register' : 'Purchase Tickets';
+$ticketIcon  = ($event['ticket_url_label'] ?? 'purchase') === 'register' ? 'bi-person-check-fill' : 'bi-ticket-perforated-fill';
+
 $tf = !empty($event['time_from']) ? date('H:i', strtotime($event['time_from'])) : '';
 $tt = !empty($event['time_to'])   ? date('H:i', strtotime($event['time_to']))   : '';
 $timeStr = $tf . ($tt ? '–' . $tt : '');
@@ -226,7 +229,7 @@ if (!function_exists('fmtEventText')) {
             <div class="mt-3">
               <a href="<?= esc($event['purchase_ticket_url']) ?>" target="_blank" rel="noopener noreferrer"
                 class="btn btn-brand px-4">
-                <i class="bi bi-ticket-perforated-fill me-2"></i>Purchase Tickets
+                <i class="bi <?= $ticketIcon ?> me-2"></i><?= $ticketLabel ?>
               </a>
             </div>
           <?php endif; ?>
@@ -323,7 +326,7 @@ if (!function_exists('fmtEventText')) {
               <?php if (!empty($event['purchase_ticket_url'])): ?>
                 <a href="<?= esc($event['purchase_ticket_url']) ?>" target="_blank" rel="noopener noreferrer"
                   class="btn btn-outline-brand btn-lg px-4">
-                  <i class="bi bi-ticket-perforated-fill me-2"></i>Purchase Tickets
+                  <i class="bi <?= $ticketIcon ?> me-2"></i><?= $ticketLabel ?>
                 </a>
               <?php endif; ?>
             </div>
