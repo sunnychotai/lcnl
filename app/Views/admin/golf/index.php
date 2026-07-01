@@ -95,7 +95,6 @@
             <th>P1 Email</th>
             <th>P1 Handicap</th>
             <th>P1 Meal</th>
-            <th>P1 T-Shirt</th>
             <th>Player 2</th>
             <th>Player 3</th>
             <th>Player 4</th>
@@ -121,14 +120,12 @@
             <td><?= esc($r['p1_email']) ?></td>
             <td><?= esc($r['p1_handicap']) ?></td>
             <td><?= $r['p1_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?></td>
-            <td><?= esc($r['p1_tshirt'] ?? '—') ?></td>
             <td>
               <?php if (!empty($r['p2_first_name'])): ?>
                 <?= esc($r['p2_first_name'] . ' ' . $r['p2_last_name']) ?>
                 <div class="text-muted" style="font-size:11px;">
                   H: <?= esc($r['p2_handicap']) ?> &bull;
-                  <?= $r['p2_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?> &bull;
-                  <?= esc($r['p2_tshirt'] ?? '—') ?>
+                  <?= $r['p2_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?>
                 </div>
               <?php else: ?>
                 <span class="text-muted">—</span>
@@ -139,8 +136,7 @@
                 <?= esc($r['p3_first_name'] . ' ' . $r['p3_last_name']) ?>
                 <div class="text-muted" style="font-size:11px;">
                   H: <?= esc($r['p3_handicap']) ?> &bull;
-                  <?= $r['p3_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?> &bull;
-                  <?= esc($r['p3_tshirt'] ?? '—') ?>
+                  <?= $r['p3_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?>
                 </div>
               <?php else: ?>
                 <span class="text-muted">—</span>
@@ -151,8 +147,7 @@
                 <?= esc($r['p4_first_name'] . ' ' . $r['p4_last_name']) ?>
                 <div class="text-muted" style="font-size:11px;">
                   H: <?= esc($r['p4_handicap']) ?> &bull;
-                  <?= $r['p4_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?> &bull;
-                  <?= esc($r['p4_tshirt'] ?? '—') ?>
+                  <?= $r['p4_meal'] === 'vegetarian' ? 'Veg' : 'Non-Veg' ?>
                 </div>
               <?php else: ?>
                 <span class="text-muted">—</span>

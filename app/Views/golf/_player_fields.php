@@ -77,22 +77,5 @@ $req = $required ? 'required' : '';
     </select>
   </div>
 
-  <div class="col-sm-6">
-    <label class="form-label fw-semibold" for="<?= $prefix ?>_tshirt">
-      T-Shirt Size <?= $required ? '<span class="text-danger">*</span>' : '' ?>
-    </label>
-    <select class="form-select" id="<?= $prefix ?>_tshirt"
-      name="<?= $prefix ?>_tshirt" <?= $req ?>>
-      <option value="" disabled <?= old($prefix . '_tshirt') ? '' : 'selected' ?>>
-        Select size
-      </option>
-      <?php foreach (['XS', 'S', 'M', 'L', 'XL', 'XXL'] as $size): ?>
-      <option value="<?= $size ?>"
-        <?= old($prefix . '_tshirt') === $size ? 'selected' : '' ?>>
-        <?= $size ?>
-      </option>
-      <?php endforeach; ?>
-    </select>
-  </div>
 
 </div>

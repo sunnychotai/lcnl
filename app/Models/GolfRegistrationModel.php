@@ -13,10 +13,10 @@ class GolfRegistrationModel extends Model
 
     protected $allowedFields = [
         'registration_ref', 'team_name',
-        'p1_first_name', 'p1_last_name', 'p1_email', 'p1_phone', 'p1_handicap', 'p1_meal', 'p1_tshirt',
-        'p2_first_name', 'p2_last_name', 'p2_email', 'p2_phone', 'p2_handicap', 'p2_meal', 'p2_tshirt',
-        'p3_first_name', 'p3_last_name', 'p3_email', 'p3_phone', 'p3_handicap', 'p3_meal', 'p3_tshirt',
-        'p4_first_name', 'p4_last_name', 'p4_email', 'p4_phone', 'p4_handicap', 'p4_meal', 'p4_tshirt',
+        'p1_first_name', 'p1_last_name', 'p1_email', 'p1_phone', 'p1_handicap', 'p1_meal',
+        'p2_first_name', 'p2_last_name', 'p2_email', 'p2_phone', 'p2_handicap', 'p2_meal',
+        'p3_first_name', 'p3_last_name', 'p3_email', 'p3_phone', 'p3_handicap', 'p3_meal',
+        'p4_first_name', 'p4_last_name', 'p4_email', 'p4_phone', 'p4_handicap', 'p4_meal',
         'status', 'agreed_terms', 'ip_address',
     ];
 
