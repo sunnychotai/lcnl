@@ -67,6 +67,7 @@ class MemberService
             'gender' => $input['gender'] ?? null,
             'password_hash' => password_hash($input['password'], PASSWORD_DEFAULT),
             'status' => 'pending',
+            'is_valid_email' => 1,
             'consent_at' => $now,
             'source' => $input['source'] ?? 'web',
             'created_at' => $now,
