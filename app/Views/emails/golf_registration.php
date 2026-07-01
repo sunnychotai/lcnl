@@ -120,7 +120,7 @@
 <p>If you have any questions, please contact:</p>
 <ul>
     <li><strong>Dhiru Savani</strong> (Convenor) &ndash; 07956 492825</li>
-    <li><strong>Vinod Thakrar</strong> &ndash; 07960 541216</li>
+    <li><strong>Ashok Sodha</strong> &ndash; 07870 701507</li>
 </ul>
 
 <p style="margin-top:25px;">

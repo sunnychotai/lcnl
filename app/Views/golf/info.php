@@ -151,12 +151,7 @@
           <p class="mb-3">For further information, please contact any of the organisers below:</p>
           <ul class="list-unstyled mb-0">
             <li class="mb-2"><strong>Dhiru Savani</strong> (Convenor) &ndash; 07956 492825</li>
-            <li class="mb-2"><strong>Vinod Thakrar</strong> &ndash; 07960 541216</li>
-            <li class="mb-2"><strong>Janu Kotecha</strong> &ndash; 07850 902627</li>
-            <li class="mb-2"><strong>Prakash Radia</strong> &ndash; 07847 336573</li>
-            <li class="mb-2"><strong>Ashok Sodha</strong> &ndash; 07870 701507</li>
-            <li class="mb-2"><strong>Deepak Jatania</strong> &ndash; 07939 084094</li>
-            <li><strong>Mahendra Ganatra</strong> &ndash; 07940 532695</li>
+            <li><strong>Ashok Sodha</strong> &ndash; 07870 701507</li>
           </ul>
         </div>
       </div>
