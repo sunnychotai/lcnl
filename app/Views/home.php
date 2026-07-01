@@ -129,6 +129,7 @@
       <!-- Left column -->
       <div class="col-md-8">
 
+<!-- Golf Event 2026 Flyer — hidden until launch
 <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
   <div class="row g-0 align-items-center">
 
@@ -187,6 +188,7 @@
 
   </div>
 </div>
+-->
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
