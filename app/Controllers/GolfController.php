@@ -31,7 +31,7 @@ class GolfController extends BaseController
         session()->set('golf_form_token', $formToken);
         session()->set('golf_form_token_time', time());
 
-        $playerCap  = 40;
+        $playerCap  = 26;
         $registered = $this->model->countTotalPlayers();
         $remaining  = max(0, $playerCap - $registered);
 
@@ -69,7 +69,7 @@ class GolfController extends BaseController
         $p4Active = trim($this->request->getPost('p4_first_name') ?? '') !== '';
 
         // Player cap check
-        $playerCap      = 40;
+        $playerCap      = 26;
         $incomingCount  = 1 + ($p2Active ? 1 : 0) + ($p3Active ? 1 : 0) + ($p4Active ? 1 : 0);
         $registeredCount = $this->model->countTotalPlayers();
         if ($registeredCount + $incomingCount > $playerCap) {

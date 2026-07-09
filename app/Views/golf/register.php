@@ -15,7 +15,7 @@
   <?php if ($isFull): ?>
     <div class="alert alert-danger shadow-sm mb-4">
       <i class="bi bi-x-circle-fill me-2"></i>
-      <strong>Event Full</strong> — Sorry, all <?= 40 ?> player spots have been filled.
+      <strong>Event Full</strong> — Sorry, all <?= 26 ?> player spots have been filled.
       Please contact the organisers if you have any questions.
     </div>
   <?php elseif ($spotsRemaining <= 6): ?>
