@@ -159,8 +159,12 @@
               <?php elseif ($r['status'] === 'cancelled'): ?>
                 <span class="badge bg-danger">Cancelled</span>
               <?php else: ?>
-                <div class="d-flex align-items-center gap-2">
-                  <span class="badge bg-warning text-dark">Awaiting Payment</span>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <?php if ($r['status'] === 'rejected'): ?>
+                    <span class="badge bg-secondary"><i class="bi bi-hourglass-split me-1"></i>Waiting List</span>
+                  <?php else: ?>
+                    <span class="badge bg-warning text-dark">Awaiting Payment</span>
+                  <?php endif; ?>
                   <button type="button"
                     class="btn btn-sm btn-outline-success rounded-pill"
                     data-bs-toggle="modal"
@@ -170,6 +174,17 @@
                     data-players="<?= esc(implode(', ', $playerNames)) ?>">
                     <i class="bi bi-check-circle me-1"></i>Confirm Paid
                   </button>
+                  <?php if ($r['status'] !== 'rejected'): ?>
+                    <button type="button"
+                      class="btn btn-sm btn-outline-danger rounded-pill"
+                      data-bs-toggle="modal"
+                      data-bs-target="#rejectModal"
+                      data-id="<?= $r['id'] ?>"
+                      data-ref="<?= esc($r['registration_ref']) ?>"
+                      data-players="<?= esc(implode(', ', $playerNames)) ?>">
+                      <i class="bi bi-x-circle me-1"></i>Reject
+                    </button>
+                  <?php endif; ?>
                 </div>
               <?php endif; ?>
             </td>
@@ -234,6 +249,59 @@
   </div>
 </div>
 
+<!-- ── Reject / Waiting List Modal ────────────────────── -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="rejectModalLabel">
+          <i class="bi bi-x-circle-fill me-2"></i>Reject Registration
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body px-4 py-3">
+        <p class="mb-3">
+          This will move the registration below to the <strong>waiting list</strong> and
+          send a polite email to the lead player explaining that the event is fully booked
+          and that they will be contacted should any places become available.
+        </p>
+
+        <table class="table table-sm table-bordered mb-0">
+          <tr>
+            <th class="text-muted fw-semibold w-35">Reference</th>
+            <td class="font-monospace fw-bold text-brand" id="rejectModalRef">—</td>
+          </tr>
+          <tr>
+            <th class="text-muted fw-semibold">Players</th>
+            <td id="rejectModalPlayers">—</td>
+          </tr>
+        </table>
+
+        <div class="alert alert-warning small mt-3 mb-0">
+          <i class="bi bi-envelope me-1"></i>
+          A waiting list email will be queued for the lead player. If a place later becomes
+          available, you can still use <strong>Confirm Paid</strong> to confirm this team.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <form id="rejectForm" method="post" action="" class="d-inline">
+          <?= csrf_field() ?>
+          <button type="submit" class="btn btn-danger rounded-pill px-4">
+            <i class="bi bi-x-circle me-2"></i>Yes, Reject &amp; Notify
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
   // Populate modal with the clicked row's data
   document.getElementById('confirmModal').addEventListener('show.bs.modal', function (e) {
@@ -242,6 +310,14 @@
     document.getElementById('modalPlayers').textContent = btn.dataset.players;
     document.getElementById('confirmForm').action =
       '<?= site_url('admin/content/golf/confirm/') ?>' + btn.dataset.id;
+  });
+
+  document.getElementById('rejectModal').addEventListener('show.bs.modal', function (e) {
+    const btn = e.relatedTarget;
+    document.getElementById('rejectModalRef').textContent     = btn.dataset.ref;
+    document.getElementById('rejectModalPlayers').textContent = btn.dataset.players;
+    document.getElementById('rejectForm').action =
+      '<?= site_url('admin/content/golf/reject/') ?>' + btn.dataset.id;
   });
 
   $(function () {

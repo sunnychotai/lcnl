@@ -22,7 +22,7 @@ class GolfRegistrationModel extends Model
 
     public function countTotalPlayers(): int
     {
-        $rows = $this->whereNotIn('status', ['cancelled'])->findAll();
+        $rows = $this->whereNotIn('status', ['cancelled', 'rejected'])->findAll();
         $count = 0;
         foreach ($rows as $row) {
             if (!empty($row['p1_first_name'])) $count++;

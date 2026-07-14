@@ -237,6 +237,7 @@ $routes->group('admin/content', [
     $routes->get('golf', 'Admin\GolfRegistrationController::index');
     $routes->get('golf/export', 'Admin\GolfRegistrationController::export');
     $routes->post('golf/confirm/(:num)', 'Admin\GolfRegistrationController::confirm/$1');
+    $routes->post('golf/reject/(:num)', 'Admin\GolfRegistrationController::reject/$1');
 
     // FAQs
     $routes->get('faqs', 'Admin\FaqAdmin::index');

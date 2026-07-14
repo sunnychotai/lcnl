@@ -76,6 +76,48 @@ class GolfRegistrationController extends BaseController
             ->with('success', 'Registration ' . $reg['registration_ref'] . ' marked as confirmed. ' . $count . ' confirmation email' . ($count !== 1 ? 's' : '') . ' queued.');
     }
 
+    public function reject(int $id)
+    {
+        $model = new GolfRegistrationModel();
+        $reg   = $model->find($id);
+
+        if (!$reg) {
+            return redirect()->to(site_url('admin/content/golf'))
+                ->with('error', 'Registration not found.');
+        }
+
+        if ($reg['status'] === 'confirmed') {
+            return redirect()->to(site_url('admin/content/golf'))
+                ->with('error', 'Registration ' . $reg['registration_ref'] . ' is already confirmed and cannot be rejected.');
+        }
+
+        if ($reg['status'] === 'rejected') {
+            return redirect()->to(site_url('admin/content/golf'))
+                ->with('error', 'Registration ' . $reg['registration_ref'] . ' is already on the waiting list.');
+        }
+
+        $model->update($id, ['status' => 'rejected']);
+
+        $html = view('emails/golf_registration_rejected', [
+            'first_name'       => $reg['p1_first_name'],
+            'registration_ref' => $reg['registration_ref'],
+            'team_name'        => $reg['team_name'] ?? '',
+        ]);
+
+        $emails = new EmailQueueModel();
+        $emails->enqueue([
+            'to_email'  => $reg['p1_email'],
+            'to_name'   => $reg['p1_first_name'] . ' ' . $reg['p1_last_name'],
+            'subject'   => 'LCNL Golf Event 2026 – Waiting List',
+            'body_html' => $html,
+            'body_text' => strip_tags($html),
+            'priority'  => 1,
+        ]);
+
+        return redirect()->to(site_url('admin/content/golf'))
+            ->with('success', 'Registration ' . $reg['registration_ref'] . ' moved to the waiting list. Notification email queued for ' . $reg['p1_first_name'] . ' ' . $reg['p1_last_name'] . '.');
+    }
+
     public function export()
     {
         $db = \Config\Database::connect();
