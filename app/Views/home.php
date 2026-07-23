@@ -129,6 +129,7 @@
       <!-- Left column -->
       <div class="col-md-8">
 
+<?php if (date('Y-m-d') <= '2026-07-29'): ?>
 <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
   <div class="row g-0 align-items-center">
 
@@ -179,6 +180,54 @@
             Registration &amp; Breakfast: 11:00am &bull;
             Shotgun Start: 1:00pm &bull;
             BBQ &amp; Evening: 6:30pm
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<?php endif; ?>
+
+<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
+  <div class="row g-0 align-items-center">
+
+    <div class="col-md-5">
+      <img src="https://lcnl.org/uploads/events/1784838790_9054770cc4b4052381d2.jpg"
+        class="w-100 h-100" style="object-fit: cover; min-height: 280px;"
+        alt="Golden Jubilee Mela">
+    </div>
+
+    <div class="col-md-7">
+      <div class="p-4">
+
+        <span class="badge bg-success-subtle text-success border mb-2">
+          50th Golden Jubilee Celebrations
+        </span>
+
+        <h3 class="fw-bold mb-3">Golden Jubilee Mela</h3>
+
+        <p class="mb-2">
+          Join us for a fantastic Bank Holiday celebration filled with fun, entertainment, food,
+          and activities for the whole family — sports, karaoke, bingo, bouncy castle, children's
+          rides, shopping stalls and more.
+        </p>
+
+        <p class="mb-3">
+          <strong>Entry is completely free, and no ticket is required.</strong>
+        </p>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <a href="https://lcnl.org/events/56" class="btn btn-brand rounded-pill px-4">
+            Event Details
+          </a>
+        </div>
+
+        <div class="border rounded-4 p-3 bg-light">
+          <h6 class="fw-semibold mb-1">Event Highlights</h6>
+          <p class="mb-0 small text-muted">
+            <strong>RCT Centre, Headstone Lane, Harrow, HA2 6NG</strong>
           </p>
         </div>
 
