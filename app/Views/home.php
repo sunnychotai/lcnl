@@ -237,6 +237,59 @@
   </div>
 </div>
 
+<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
+  <div class="row g-0 align-items-center">
+
+    <div class="col-md-5">
+      <img src="https://lcnl.org/uploads/events/1785273686_87547f90a9b2830cb446.jpg"
+        class="w-100 h-100" style="object-fit: cover; min-height: 280px;"
+        alt="Golden Jubilee - Mahabharata Katha">
+    </div>
+
+    <div class="col-md-7">
+      <div class="p-4">
+
+        <span class="badge bg-success-subtle text-success border mb-2">
+          50th Golden Jubilee Celebrations
+        </span>
+
+        <h3 class="fw-bold mb-3">Golden Jubilee &mdash; Mahabharata Katha (In English)</h3>
+
+        <p class="mb-2">
+          Join us for a narration of the Mahābhārata epic by Suri Shandilya, accompanied by
+          live sacred music &mdash; authentic Sanskrit passages brought to life in clear,
+          engaging English. Lunch prasadam included.
+        </p>
+
+        <p class="mb-3">
+          <strong>Admission is free, but a ticket is required &mdash; seating is limited and
+            first-come, first-served.</strong>
+        </p>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <a href="https://LCNL50thevent4MBK.eventbrite.co.uk" class="btn btn-brand rounded-pill px-4">
+            <i class="bi bi-pencil-square me-2"></i>Register Now
+          </a>
+          <a href="https://lcnl.org/events/57" class="btn btn-outline-secondary rounded-pill px-4">
+            Event Details
+          </a>
+        </div>
+
+        <div class="border rounded-4 p-3 bg-light">
+          <h6 class="fw-semibold mb-1">Event Highlights</h6>
+          <p class="mb-0 small text-muted">
+            <strong>Saturday 26th September 2026</strong> &bull;
+            11:00am &ndash; 5:00pm &bull;
+            Dhamecha Lohana Centre
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
           <h4 class="fw-bold mb-3">Message from the President</h4>
