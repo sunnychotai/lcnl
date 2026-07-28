@@ -421,4 +421,13 @@
     .hero-lcnl-watermark {
         min-height: 180px;
     }
+
+    .hero-lcnl-watermark h1 {
+        font-size: 1.6rem;
+        line-height: 1.3;
+    }
+
+    .hero-lcnl-watermark .badge {
+        font-size: 0.75rem;
+    }
 }

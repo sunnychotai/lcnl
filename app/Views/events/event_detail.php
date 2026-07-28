@@ -161,7 +161,7 @@ if (!function_exists('fmtEventText')) {
     <div class="card-body p-4">
       <div class="row g-4 align-items-start">
 
-        <div class="col">
+        <div class="col-12 col-md">
           <h5 class="fw-semibold mb-3 text-brand">
             <i class="bi bi-info-circle me-2"></i>About this event
           </h5>
@@ -172,9 +172,9 @@ if (!function_exists('fmtEventText')) {
           </div>
         </div>
 
-        <div class="col-auto">
+        <div class="col-12 col-md-auto">
           <a href="#" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>"
-            class="d-block position-relative event-image-wrapper" style="width: 160px;">
+            class="d-block position-relative event-image-wrapper mx-auto mx-md-0">
             <img src="<?= base_url($img) ?>" class="img-fluid rounded-3 shadow-sm w-100">
             <div class="position-absolute top-0 end-0 m-1">
               <span class="badge bg-dark bg-opacity-75" style="font-size: 0.65rem;">
@@ -365,9 +365,13 @@ if (!function_exists('fmtEventText')) {
 </div>
 
 <style>
+  .event-image-wrapper { width: 220px; max-width: 60%; }
   .event-image-wrapper img { transition: transform 0.3s ease; }
   .event-image-wrapper:hover img { transform: scale(1.02); }
   .event-description p { margin-bottom: 0.75rem; }
+  @media (max-width: 767.98px) {
+    .event-image-wrapper { width: 100%; max-width: 260px; }
+  }
   .sold-out-banner {
     position: absolute;
     top: 0; left: 0;
