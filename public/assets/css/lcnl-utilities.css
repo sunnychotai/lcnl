@@ -234,3 +234,36 @@
     transform: translateY(-6px) scale(1.03);
     box-shadow: 0 10px 25px rgba(0, 0, 0, .12);
 }
+/* --- Skip link: visible only on keyboard focus --- */
+.skip-link {
+    position: absolute;
+    left: 8px;
+    top: -100px;
+    z-index: 2000;
+    padding: .6rem 1rem;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    transition: top .15s ease-in-out;
+}
+
+.skip-link:focus {
+    top: 0;
+    color: #fff;
+    outline: 3px solid var(--accent1, #d4af37);
+    outline-offset: 2px;
+}
+
+/* The skip target should not show a focus ring when reached via the link. */
+main:focus {
+    outline: none;
+}
+
+/* Lets a wrapping <form> disappear from the box tree so its button stays a
+   direct visual child of a .btn-group / .d-grid parent. Used by the POST-based
+   delete controls in the admin views. Bootstrap has no equivalent utility. */
+.d-contents {
+    display: contents;
+}

@@ -215,7 +215,8 @@
               <input type="file" name="image" class="form-control">
               <?php if (!empty($event['image'])): ?>
                 <div class="mt-2">
-                  <img src="<?= base_url($event['image']) ?>" class="img-thumbnail shadow-sm" style="max-width:200px;">
+                  <img src="<?= base_url($event['image']) ?>" class="img-thumbnail shadow-sm" style="max-width:200px;"
+                    alt="Current event image" loading="lazy" decoding="async">
                 </div>
               <?php endif; ?>
             </div>

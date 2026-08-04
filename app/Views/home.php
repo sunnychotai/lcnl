@@ -94,7 +94,8 @@
               <div class="event-img-wrapper position-relative">
                 <img src="<?= base_url($imagePath) ?>"
                   class="card-img-top"
-                  alt="<?= esc($event['title']) ?>">
+                  alt="<?= esc($event['title']) ?>"
+                  loading="lazy" decoding="async">
 
                 <div class="event-overlay">
                   <h6 class="text-white mb-1">
@@ -196,7 +197,7 @@
     <div class="col-md-5">
       <img src="https://lcnl.org/uploads/events/1784838790_9054770cc4b4052381d2.jpg"
         class="w-100 h-100" style="object-fit: cover; min-height: 280px;"
-        alt="Golden Jubilee Mela">
+        alt="Golden Jubilee Mela" loading="lazy" decoding="async">
     </div>
 
     <div class="col-md-7">
@@ -243,7 +244,7 @@
     <div class="col-md-5">
       <img src="https://lcnl.org/uploads/events/1785273686_87547f90a9b2830cb446.jpg"
         class="w-100 h-100" style="object-fit: cover; min-height: 280px;"
-        alt="Golden Jubilee - Mahabharata Katha">
+        alt="Golden Jubilee - Mahabharata Katha" loading="lazy" decoding="async">
     </div>
 
     <div class="col-md-7">
@@ -296,7 +297,8 @@
 
           <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>"
             class="mx-auto d-block d-md-inline float-md-start me-md-3 mb-2 rounded-circle shadow-sm"
-            style="width:220px; height:220px; object-fit:cover; object-position: top;" alt="President Photo">
+            style="width:220px; height:220px; object-fit:cover; object-position: top;" alt="President Photo"
+            width="220" height="220" loading="lazy" decoding="async">
 
           <p>Jai Shree Krishna | Jai Shree Ram | Jai Jalaram</p>
 

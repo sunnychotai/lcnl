@@ -80,7 +80,9 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             // 'honeypot',
-            // 'csrf',
+            // Stripe posts to the webhook from outside the browser and cannot carry a
+            // token; it is verified by signature in StripeWebhookController instead.
+            'csrf' => ['except' => ['stripe/webhook']],
             // 'invalidchars',
         ],
         'after' => [

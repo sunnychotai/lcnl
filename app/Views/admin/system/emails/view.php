@@ -105,11 +105,13 @@
                                 class="btn btn-warning">
                                 <i class="bi bi-arrow-repeat"></i> Retry Send
                             </a>
-                            <a href="<?= base_url('admin/system/emails/delete/' . $email['id']) ?>"
-                                class="btn btn-outline-danger"
-                                onclick="return confirm('Delete this email?')">
-                                <i class="bi bi-trash"></i> Delete
-                            </a>
+                            <?= $this->include('admin/_delete_button', [
+                                'action'  => base_url('admin/system/emails/delete/' . $email['id']),
+                                'confirm' => 'Delete this email?',
+                                'label'   => '<i class="bi bi-trash"></i> Delete',
+                                'class'   => 'btn btn-outline-danger',
+                                'wrap'    => 'd-contents',
+                            ]) ?>
                         </div>
                     </div>
                 </div>

@@ -117,12 +117,15 @@ class EmailDataController extends BaseController
                              </a>';
             }
 
-            $actions .= '<a href="' . base_url("admin/system/emails/delete/" . $r['id']) . '" 
-                            class="btn btn-outline-danger" 
-                            onclick="return confirm(\'Delete this email?\')" 
-                            title="Delete">
-                            <i class="bi bi-trash"></i>
-                         </a>';
+            // Delete posts rather than links — see app/Views/admin/_delete_button.php.
+            $actions .= '<form action="' . base_url("admin/system/emails/delete/" . $r['id']) . '"
+                            method="post" class="d-contents"
+                            onsubmit="return confirm(\'Delete this email?\');">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                         </form>';
             $actions .= '</div>';
 
             return [

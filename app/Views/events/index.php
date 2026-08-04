@@ -28,7 +28,8 @@
 <div class="event-img-wrapper position-relative">
   <img src="<?= base_url($imgPath) ?>"
        class="card-img-top"
-       alt="<?= esc($event['title']) ?>">
+       alt="<?= esc($event['title']) ?>"
+       loading="lazy" decoding="async">
   <div class="event-overlay">
     <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
     <small class="text-light">

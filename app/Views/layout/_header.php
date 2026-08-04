@@ -1,12 +1,12 @@
 <header class="lcnl-header bg-white py-2 border-bottom">
-  <?php //print_r(session()->get()); ?></pre>
   <div class="container">
     <div class="row align-items-center g-3">
 
       <!-- Logo (left) -->
       <div class="col-auto">
         <a href="<?= base_url('/') ?>" class="d-inline-block">
-          <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" alt="LCNL" class="lcnl-logo">
+          <img src="<?= base_url('assets/img/lcnl-logo.png') ?>" alt="LCNL" class="lcnl-logo"
+            width="1086" height="1086" decoding="async" fetchpriority="high">
         </a>
       </div>
 

@@ -70,8 +70,15 @@ class Security extends BaseConfig
      * --------------------------------------------------------------------------
      *
      * Regenerate CSRF Token on every submission.
+     *
+     * Kept false deliberately: several admin screens post repeatedly over AJAX
+     * (the DataTables endpoints for members and the email queue). Per-request
+     * rotation invalidates the token held by a page that is still open, and
+     * EmailDataController does not return a refreshed token in its JSON, so the
+     * email queue table would fail on its second draw. A token that lasts the
+     * session is still full CSRF protection.
      */
-    public bool $regenerate = true;
+    public bool $regenerate = false;
 
     /**
      * --------------------------------------------------------------------------

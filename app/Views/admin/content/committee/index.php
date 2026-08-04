@@ -78,9 +78,10 @@
         $finalImg = base_url('assets/img/committee/lcnl-placeholder.png');
     }
   ?>
-  <img src="<?= $finalImg ?>" 
-       alt="Photo" 
-       style="width:40px;height:40px;object-fit:cover;border-radius:50%;">
+  <img src="<?= $finalImg ?>"
+       alt="Photo"
+       style="width:40px;height:40px;object-fit:cover;border-radius:50%;"
+       width="40" height="40" loading="lazy" decoding="async">
 </td>
 
 
@@ -98,11 +99,12 @@
             <a href="<?= base_url('admin/content/committee/clone/'.$member['id']) ?>" class="btn btn-sm btn-info">
               <i class="bi bi-files"></i> <!-- ✅ Clone icon -->
             </a>
-            <a href="<?= base_url('admin/content/committee/delete/'.$member['id']) ?>" 
-               class="btn btn-sm btn-danger"
-               onclick="return confirm('Delete this member?');">
-              <i class="bi bi-trash"></i>
-            </a>
+            <?= $this->include('admin/_delete_button', [
+              'action'  => base_url('admin/content/committee/delete/'.$member['id']),
+              'confirm' => 'Delete this member?',
+              'label'   => '<i class="bi bi-trash"></i>',
+              'class'   => 'btn btn-sm btn-danger',
+            ]) ?>
           </td>
         </tr>
       <?php endforeach; ?>

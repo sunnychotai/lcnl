@@ -17,7 +17,8 @@
     <!-- Small thumbnail, clickable -->
     <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" alt="LCNL Executive Committee"
       class="img-fluid rounded shadow committee-img" style="max-width: 100%;" data-bs-toggle="modal"
-      data-bs-target="#committeeModal">
+      data-bs-target="#committeeModal"
+      width="1920" height="616" decoding="async">
     <!-- Subtext caption -->
     <p class="mt-1 fw-semibold text-muted">LCNL Executive Committee 2025-7</p>
   </div>

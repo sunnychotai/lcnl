@@ -72,7 +72,8 @@
         <!-- Image -->
         <div class="col-md-auto order-md-last">
           <div class="event-img-wrapper" style="width:250px; max-width:100%;">
-            <img src="<?= base_url('assets/img/shiva.png') ?>" alt="Shiva" class="img-fluid rounded d-block mx-auto">
+            <img src="<?= base_url('assets/img/shiva.png') ?>" alt="Shiva" class="img-fluid rounded d-block mx-auto"
+              width="508" height="556" loading="lazy" decoding="async">
           </div>
         </div>
 

@@ -9,7 +9,8 @@
       <div class="flex-shrink-0">
         <img src="<?= base_url('assets/img/committee/lyc.jpg') ?>" alt="Lohana Youth Club Logo"
           class="img-fluid rounded-circle shadow-lg"
-          style="width: 100px; height: 100px; object-fit: cover; border: 4px solid rgba(255,255,255,0.3);">
+          style="width: 100px; height: 100px; object-fit: cover; border: 4px solid rgba(255,255,255,0.3);"
+          width="100" height="100" decoding="async">
       </div>
 
       <!-- Text Content -->
@@ -89,7 +90,8 @@
               <h5 class="mb-3 fw-bold">Scan to Join</h5>
               <div class="bg-white p-3 rounded-3 shadow-sm d-inline-block">
                 <img src="<?= base_url('assets/img/lyc_wa.png') ?>" alt="Join LYC WhatsApp Group QR Code"
-                  class="img-fluid rounded" style="max-width: 220px; width: 100%;">
+                  class="img-fluid rounded" style="max-width: 220px; width: 100%;"
+                  width="370" height="370" loading="lazy" decoding="async">
               </div>
               <p class="text-muted small mt-3 mb-0">
                 <i class="bi bi-qr-code-scan me-1"></i>
@@ -196,7 +198,8 @@
             <div class="card shadow-sm border-0 h-100 event-card">
               <?php if (!empty($event['image'])): ?>
                 <div class="event-img-wrapper">
-                  <img src="<?= base_url($event['image']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
+                  <img src="<?= base_url($event['image']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>"
+                    loading="lazy" decoding="async">
                   <div class="event-overlay">
                     <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
                     <small class="text-light">
@@ -232,12 +235,14 @@
       <div class="col-md-6">
         <img src="<?= base_url('assets/img/youth-committee-25-27.jpg') ?>"
           alt="Lohana Youth Club 2025–2027 (Photo 1)" class="img-fluid rounded shadow-sm w-100"
-          style="max-height:400px; object-fit:contain">
+          style="max-height:400px; object-fit:contain"
+          width="1600" height="1496" loading="lazy" decoding="async">
       </div>
       <div class="col-md-6">
         <img src="<?= base_url('assets/img/youth-committee-25-27-2.jpg') ?>"
           alt="Lohana Youth Club 2025–2027 (Photo 2)" class="img-fluid rounded shadow-sm w-100"
-          style="max-height:400px; object-fit:cover;">
+          style="max-height:400px; object-fit:cover;"
+          width="1600" height="1200" loading="lazy" decoding="async">
       </div>
     </div>
   </div>
@@ -292,7 +297,8 @@
           <div class="card-body text-center p-4">
             <div class="mb-3">
               <img src="<?= base_url($photo) ?>" alt="<?= esc($c['name']) ?>" class="rounded-circle shadow-sm"
-                style="width:120px; height:120px; object-fit:cover;">
+                style="width:120px; height:120px; object-fit:cover;"
+                width="120" height="120" loading="lazy" decoding="async">
             </div>
             <h5 class="fw-bold mb-2"><?= esc($c['name']) ?></h5>
             <p class="text-muted"><?= esc($c['bio']) ?></p>

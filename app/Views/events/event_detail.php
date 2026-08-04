@@ -175,7 +175,8 @@ if (!function_exists('fmtEventText')) {
         <div class="col-12 col-md-auto">
           <a href="#" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>"
             class="d-block position-relative event-image-wrapper mx-auto mx-md-0">
-            <img src="<?= base_url($img) ?>" class="img-fluid rounded-3 shadow-sm w-100">
+            <img src="<?= base_url($img) ?>" class="img-fluid rounded-3 shadow-sm w-100"
+              alt="Poster for <?= esc($event['title']) ?>" decoding="async">
             <div class="position-absolute top-0 end-0 m-1">
               <span class="badge bg-dark bg-opacity-75" style="font-size: 0.65rem;">
                 <i class="bi bi-zoom-in me-1"></i>Enlarge
@@ -352,7 +353,8 @@ if (!function_exists('fmtEventText')) {
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-body p-0">
-        <img src="<?= base_url($img) ?>" class="img-fluid w-100">
+        <img src="<?= base_url($img) ?>" class="img-fluid w-100"
+          alt="Poster for <?= esc($event['title']) ?>, enlarged" loading="lazy" decoding="async">
       </div>
       <div class="modal-footer justify-content-between py-3">
         <span class="text-muted"><?= esc($event['title']) ?></span>

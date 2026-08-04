@@ -3,7 +3,8 @@
 <!-- Hero Banner -->
 <div class="position-relative w-100" style="height: 300px; overflow: hidden;">
   <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" alt="LCNL Executive Committee 2025"
-    class="img-fluid w-100 h-100" style="object-fit: cover; object-position: top;">
+    class="img-fluid w-100 h-100" style="object-fit: cover; object-position: top;"
+    width="1920" height="616" decoding="async" fetchpriority="high">
 
   <!-- Semi-transparent dark layer -->
   <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.4);"></div>
@@ -35,7 +36,8 @@
           }
           ?>
           <img src="<?= base_url($imagePath) ?>" class="card-img-top committee-photo"
-            alt="<?= esc($m['firstname'] . ' ' . $m['surname']) ?>">
+            alt="<?= esc($m['firstname'] . ' ' . $m['surname']) ?>"
+            width="720" height="480" loading="lazy" decoding="async">
 
           <div class="card-body">
             <h5 class="card-title mb-1">

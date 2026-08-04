@@ -206,7 +206,7 @@ $routes->group('admin/system', [
     $routes->get('emails', 'Admin\Emails::index');
     $routes->get('emails/view/(:num)', 'Admin\Emails::view/$1');
     $routes->get('emails/retry/(:num)', 'Admin\Emails::retry/$1');
-    $routes->get('emails/delete/(:num)', 'Admin\Emails::delete/$1');
+    $routes->post('emails/delete/(:num)', 'Admin\Emails::delete/$1');
     $routes->post('emails/data', 'Admin\EmailDataController::list');
     $routes->get('emails/stats', 'Admin\EmailDataController::stats');
 });
@@ -226,7 +226,7 @@ $routes->group('admin/content', [
     $routes->post('events/store', 'Admin\Events::store');
     $routes->get('events/edit/(:num)', 'Admin\Events::edit/$1');
     $routes->post('events/update/(:num)', 'Admin\Events::update/$1');
-    $routes->get('events/delete/(:num)', 'Admin\Events::delete/$1');
+    $routes->post('events/delete/(:num)', 'Admin\Events::delete/$1');
     $routes->get('events/clone/(:num)', 'Admin\Events::clone/$1');
 
     $routes->get('events/event-registrations', 'Admin\EventRegistrationController::index');
@@ -244,7 +244,7 @@ $routes->group('admin/content', [
     $routes->post('faqs/store', 'Admin\FaqAdmin::store');
     $routes->get('faqs/edit/(:num)', 'Admin\FaqAdmin::edit/$1');
     $routes->post('faqs/update/(:num)', 'Admin\FaqAdmin::update/$1');
-    $routes->get('faqs/delete/(:num)', 'Admin\FaqAdmin::delete/$1');
+    $routes->post('faqs/delete/(:num)', 'Admin\FaqAdmin::delete/$1');
     $routes->post('faqs/reorder', 'Admin\FaqAdmin::reorder');
 
     // Committee
@@ -253,7 +253,7 @@ $routes->group('admin/content', [
     $routes->post('committee/store', 'Admin\CommitteeController::store');
     $routes->get('committee/edit/(:num)', 'Admin\CommitteeController::edit/$1');
     $routes->post('committee/update/(:num)', 'Admin\CommitteeController::update/$1');
-    $routes->get('committee/delete/(:num)', 'Admin\CommitteeController::delete/$1');
+    $routes->post('committee/delete/(:num)', 'Admin\CommitteeController::delete/$1');
     $routes->get('committee/clone/(:num)', 'Admin\CommitteeController::clone/$1');
 });
 

@@ -14,7 +14,8 @@
   <!-- Wide Image -->
   <div class="mb-5 text-center">
     <img src="/assets/img/services/tabletennis.png" alt="Table Tennis Club"
-      class="img-fluid rounded-4 shadow-lg border border-light">
+      class="img-fluid rounded-4 shadow-lg border border-light"
+      width="1948" height="641" decoding="async" fetchpriority="high">
   </div>
 
   <!-- Training Times Highlight -->
@@ -191,7 +192,8 @@
                     </h5>
                     <p class="text-muted mb-3">Scan to join or share with friends!</p>
                     <img src="<?= base_url('assets/img/tabletennis_qr.jpeg') ?>" alt="LCNL Table Tennis QR Code"
-                      class="img-fluid rounded-3 shadow-sm" style="max-width: 300px;">
+                      class="img-fluid rounded-3 shadow-sm" style="max-width: 300px;"
+                      width="1600" height="1600" loading="lazy" decoding="async">
                   </div>
                 </div>
               </div>

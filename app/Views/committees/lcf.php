@@ -12,10 +12,11 @@
 
   <!-- Logo in main body -->
   <div class="text-center mb-4">
-    <img src="<?= base_url('assets/img/logos/lcf.jpg') ?>" 
-         alt="Lohana Charitable Foundation Logo" 
-         class="img-fluid shadow-sm rounded" 
-         style="max-height:150px;">
+    <img src="<?= base_url('assets/img/logos/lcf.jpg') ?>"
+         alt="Lohana Charitable Foundation Logo"
+         class="img-fluid shadow-sm rounded"
+         style="max-height:150px;"
+         width="359" height="359" decoding="async">
   </div>
 
   <div class="mb-4">
@@ -88,9 +89,10 @@
   <?php foreach ($trustees as $file => $name): ?>
     <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
       <div class="trustee-card shadow-sm h-100 p-2">
-        <img src="<?= base_url('assets/img/committee/lcf/' . $file) ?>" 
-             alt="<?= esc($name) ?>" 
-             class="trustee-photo">
+        <img src="<?= base_url('assets/img/committee/lcf/' . $file) ?>"
+             alt="<?= esc($name) ?>"
+             class="trustee-photo"
+             loading="lazy" decoding="async">
         <p class="trustee-name"><?= esc($name) ?></p>
       </div>
     </div>

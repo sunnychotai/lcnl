@@ -135,9 +135,10 @@
                 $imagePath = $basePath . 'lcnl-placeholder.png';
             }
           ?>
-          <img src="<?= base_url($imagePath) ?>" 
-               class="card-img-top committee-photo" 
-               alt="<?= esc($m['firstname'].' '.$m['surname']) ?>">
+          <img src="<?= base_url($imagePath) ?>"
+               class="card-img-top committee-photo"
+               alt="<?= esc($m['firstname'].' '.$m['surname']) ?>"
+               width="720" height="480" loading="lazy" decoding="async">
 
           <div class="card-body">
             <h5 class="card-title mb-1">

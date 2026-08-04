@@ -66,10 +66,12 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
   <?= $this->include('layout/_header') ?>
   <?= $this->include('layout/_navbar') ?>
 
-  <main class="flex-shrink-0 mt-0">
+  <main id="main" class="flex-shrink-0 mt-0" tabindex="-1">
     <?= $this->renderSection('content') ?>
   </main>
 

@@ -163,10 +163,13 @@
                 </a>
 
                 <!-- Delete -->
-                <a href="<?= base_url('admin/content/events/delete/' . $event['id']) ?>" class="btn btn-outline-danger"
-                  onclick="return confirm('Delete this event?')" data-bs-toggle="tooltip" title="Delete Event">
-                  <i class="bi bi-trash"></i>
-                </a>
+                <?= $this->include('admin/_delete_button', [
+                  'action'  => base_url('admin/content/events/delete/' . $event['id']),
+                  'confirm' => 'Delete this event?',
+                  'label'   => '<i class="bi bi-trash"></i>',
+                  'class'   => 'btn btn-outline-danger',
+                  'wrap'    => 'd-contents',
+                ]) ?>
 
               </div>
             </td>

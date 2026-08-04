@@ -5,6 +5,20 @@
    pagination, and global motion styles
    ========================================= */
 
+/* --- Image sizing base --------------------------------------------------
+   The width/height attributes on <img> are presentational hints: they set a
+   real CSS width, not just an aspect ratio. Where a rule constrains only the
+   height (the header logo, the LCF and YLS logos), that hint would otherwise
+   stretch the image to its full intrinsic width. Forcing width back to auto
+   lets the height rule drive and the width follow the aspect ratio, while the
+   attributes still reserve layout space and prevent shift.
+
+   This is an element selector, so any class or inline rule that genuinely sets
+   a width (.img-fluid, .w-100, .committee-photo, .card-img-top) still wins. */
+img {
+  width: auto;
+}
+
 /* --- Core Theme Tokens --- */
 :root {
   --brand: #7a1d3c;

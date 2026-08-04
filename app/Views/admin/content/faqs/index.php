@@ -27,8 +27,12 @@
             </span>
             <span>
               <a href="<?= base_url('admin/content/faqs/edit/'.$faq['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
-              <a href="<?= base_url('admin/content/faqs/delete/'.$faq['id']) ?>" class="btn btn-sm btn-danger"
-                 onclick="return confirm('Delete this FAQ?')">Delete</a>
+              <?= $this->include('admin/_delete_button', [
+                'action'  => base_url('admin/content/faqs/delete/'.$faq['id']),
+                'confirm' => 'Delete this FAQ?',
+                'label'   => 'Delete',
+                'class'   => 'btn btn-sm btn-danger',
+              ]) ?>
             </span>
           </li>
         <?php endforeach; ?>
