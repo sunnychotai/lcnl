@@ -31,7 +31,7 @@
        alt="<?= esc($event['title']) ?>"
        loading="lazy" decoding="async">
   <div class="event-overlay">
-    <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
+    <h3 class="h6 text-white mb-1"><?= esc($event['title']) ?></h3>
     <small class="text-light">
       <?= date('d M Y', strtotime($event['event_date'])) ?>
       <?php if (!empty($event['time_from'])): ?>

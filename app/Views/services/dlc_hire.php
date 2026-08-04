@@ -21,7 +21,7 @@
 
       <!-- About the centre -->
       <div class="lcnl-card rounded border-0 shadow-sm mb-4 p-4">
-        <h3 class="fw-bold mb-3">About the Centre</h3>
+        <h2 class="h3 fw-bold mb-3">About the Centre</h2>
         <p>
           The <strong>Dhamecha Lohana Centre (DLC)</strong> is the home of the Lohana Community North London (LCNL)
           and a venue that plays a central role in many of our community events. It is a facility we can all be proud of.
@@ -45,7 +45,7 @@
           <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <i class="bi bi-stars text-white fs-5"></i>
           </div>
-          <h3 class="fw-bold mb-0">Weekday Entertainment Package</h3>
+          <h2 class="h3 fw-bold mb-0">Weekday Entertainment Package</h2>
         </div>
         <p>
           To increase usage and generate valuable revenue for our community, the management team has launched an
@@ -66,7 +66,7 @@
 
       <!-- PDF flyer -->
       <div class="lcnl-card rounded border-0 shadow-sm mb-4 p-4">
-        <h4 class="fw-bold mb-3"><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>Package Flyer</h4>
+        <h2 class="h4 fw-bold mb-3"><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>Package Flyer</h2>
         <p class="text-muted mb-3">Download or view the full details of the weekday entertainment package below.</p>
 
         <a href="<?= base_url('assets/img/services/DLCWeekdayEntertainmentPackage-May2026.pdf') ?>"
@@ -91,7 +91,7 @@
 
       <!-- Book now -->
       <div class="rounded-4 shadow-sm mb-4 p-4 text-white" style="background:linear-gradient(135deg,#1a1a2e,#0f3460);">
-        <h4 class="fw-bold mb-3">Make a Booking</h4>
+        <h2 class="h4 fw-bold mb-3">Make a Booking</h2>
         <p class="opacity-90 mb-3">
           For further information or to make a booking, please contact the DLC Manager directly.
         </p>
@@ -116,7 +116,7 @@
 
       <!-- What's available -->
       <div class="lcnl-card rounded border-0 shadow-sm mb-4 p-4">
-        <h5 class="fw-bold mb-3">Available Spaces</h5>
+        <h2 class="h5 fw-bold mb-3">Available Spaces</h2>
         <div class="d-flex gap-3 mb-3">
           <div style="width:36px;height:36px;border-radius:8px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <i class="bi bi-building text-success"></i>
@@ -139,7 +139,7 @@
 
       <!-- LCNL message -->
       <div class="lcnl-card rounded border-0 shadow-sm p-4">
-        <h5 class="fw-bold mb-2">From the LCNL Executive Committee</h5>
+        <h2 class="h5 fw-bold mb-2">From the LCNL Executive Committee</h2>
         <p class="text-muted small mb-0">
           "We look forward to welcoming you to the Dhamecha Lohana Centre. Hiring the venue helps generate
           valuable revenue that directly supports our community programmes."

@@ -16,7 +16,7 @@
       
       <!-- Plain English Summary -->
       <div class="constitution-box mb-4 bg-light border-start border-4 border-brand">
-        <h3 class="h5 fw-bold mb-3"><i class="bi bi-file-text me-2 text-brand"></i>Plain English Summary</h3>
+        <h2 class="h5 fw-bold mb-3"><i class="bi bi-file-text me-2 text-brand"></i>Plain English Summary</h2>
         <p>
           At the Lohana Community of North London (LCNL), we respect and protect your personal information.
           We only collect details that are genuinely needed to manage your membership, run events, and keep
@@ -54,7 +54,7 @@
 
       <!-- Purpose and Scope -->
       <div class="constitution-box mb-4" id="purpose">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-flag-fill me-2 text-brand"></i>Purpose and Scope</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-flag-fill me-2 text-brand"></i>Purpose and Scope</h2>
         <p class="mb-0">
           This policy applies to all members, volunteers, committee members, event participants, donors, and visitors to
           LCNL websites or events. It explains how we handle your personal data to ensure transparency and compliance
@@ -64,7 +64,7 @@
 
       <!-- Data Controller -->
       <div class="constitution-box mb-4" id="controller">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-building me-2 text-brand"></i>Data Controller</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-building me-2 text-brand"></i>Data Controller</h2>
         <p class="mb-2">
           The data controller is <strong>Lohana Community of North London (LCNL)</strong>, located at 
           Dhamecha Lohana Centre, Brember Road, Harrow, HA2 8AX.
@@ -78,7 +78,7 @@
 
       <!-- Data We Collect -->
       <div class="constitution-box mb-4" id="data-collected">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-collection me-2 text-brand"></i>Types of Personal Data Collected</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-collection me-2 text-brand"></i>Types of Personal Data Collected</h2>
         <p class="mb-2">LCNL may collect and process the following information:</p>
         <ul class="mb-0">
           <li><strong>Member and household information</strong>: name, address, telephone, email, gender, date of birth</li>
@@ -93,7 +93,7 @@
 
       <!-- How Data is Collected -->
       <div class="constitution-box mb-4" id="how-collected">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-inbox-fill me-2 text-brand"></i>How Data is Collected</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-inbox-fill me-2 text-brand"></i>How Data is Collected</h2>
         <p class="mb-2">We obtain data through:</p>
         <ul class="mb-0">
           <li>Membership and renewal forms (online or paper)</li>
@@ -106,7 +106,7 @@
 
       <!-- Lawful Bases -->
       <div class="constitution-box mb-4" id="lawful-basis">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-journal-check me-2 text-brand"></i>Lawful Bases for Processing (UK GDPR)</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-journal-check me-2 text-brand"></i>Lawful Bases for Processing (UK GDPR)</h2>
         <p class="mb-2">LCNL processes personal data under the following legal bases:</p>
         <ul class="mb-2">
           <li><strong>Contractual necessity</strong>: to manage membership and provide services you request</li>
@@ -121,7 +121,7 @@
 
       <!-- How We Use Data -->
       <div class="constitution-box mb-4" id="how-used">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-gear-wide-connected me-2 text-brand"></i>Use of Personal Data</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-gear-wide-connected me-2 text-brand"></i>Use of Personal Data</h2>
         <p class="mb-2">LCNL uses your data to:</p>
         <ul class="mb-0">
           <li>Administer membership accounts, renewals, and household groupings</li>
@@ -137,7 +137,7 @@
 
       <!-- Children's Data -->
       <div class="constitution-box mb-4" id="children">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-emoji-smile-fill me-2 text-brand"></i>Children's Data</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-emoji-smile-fill me-2 text-brand"></i>Children's Data</h2>
         <p class="mb-2">
           LCNL collects limited data for minors participating in youth activities. All information is handled with
           parental or guardian consent and protected with enhanced confidentiality and restricted access.
@@ -150,7 +150,7 @@
 
       <!-- Data Security -->
       <div class="constitution-box mb-4" id="security">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-shield-check me-2 text-brand"></i>Data Security</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-shield-check me-2 text-brand"></i>Data Security</h2>
         <p class="mb-2">
           All personal data is stored in a secure, encrypted database hosted on UK-based servers. Access is role-based
           and managed by LCNL's Data Protection Officers.
@@ -163,7 +163,7 @@
 
       <!-- Data Sharing -->
       <div class="constitution-box mb-4" id="sharing">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-diagram-3-fill me-2 text-brand"></i>Data Sharing</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-diagram-3-fill me-2 text-brand"></i>Data Sharing</h2>
         <p class="mb-2">
           We do <strong>not</strong> sell or trade your personal information. Data may only be shared with:
         </p>
@@ -176,7 +176,7 @@
 
       <!-- International Transfers -->
       <div class="constitution-box mb-4" id="international">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-globe2 me-2 text-brand"></i>International Transfers</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-globe2 me-2 text-brand"></i>International Transfers</h2>
         <p class="mb-0">
           Our primary data storage is in the UK. If data is processed outside the UK/EEA by service providers, we use
           appropriate safeguards such as UK International Data Transfer Agreements (IDTA) or EU Standard Contractual
@@ -186,7 +186,7 @@
 
       <!-- Data Retention -->
       <div class="constitution-box mb-4" id="retention">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-archive-fill me-2 text-brand"></i>Data Retention</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-archive-fill me-2 text-brand"></i>Data Retention</h2>
         <p class="mb-2">
           Personal data is kept only as long as necessary for the purposes described in this policy or to meet legal obligations:
         </p>
@@ -203,7 +203,7 @@
 
       <!-- Your Rights -->
       <div class="constitution-box mb-4" id="your-rights">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-person-check-fill me-2 text-brand"></i>Your Rights</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-person-check-fill me-2 text-brand"></i>Your Rights</h2>
         <p class="mb-2">Under UK GDPR, you have the right to:</p>
         <ul class="mb-2">
           <li>Be informed about how your data is used</li>
@@ -224,7 +224,7 @@
 
       <!-- Cookies & Analytics -->
       <div class="constitution-box mb-4" id="cookies">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-cookie me-2 text-brand"></i>Cookies & Website Analytics</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-cookie me-2 text-brand"></i>Cookies & Website Analytics</h2>
         <p class="mb-2">
           LCNL's website uses cookies and analytics to improve functionality and measure performance. Cookies are small
           text files stored on your device that help the website function properly.
@@ -242,7 +242,7 @@
 
       <!-- Photographs and Media -->
       <div class="constitution-box mb-4" id="photographs">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-camera-fill me-2 text-brand"></i>Photographs and Media</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-camera-fill me-2 text-brand"></i>Photographs and Media</h2>
         <p class="mb-2">
           Photographs and videos taken at LCNL events may be used for publicity on LCNL's website, newsletters, and
           social media channels to promote our community activities.
@@ -256,7 +256,7 @@
 
       <!-- Data Breach Procedure -->
       <div class="constitution-box mb-4" id="breach">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill me-2 text-brand"></i>Data Breach Procedure</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill me-2 text-brand"></i>Data Breach Procedure</h2>
         <p class="mb-0">
           In the event of a personal data breach, LCNL will assess the risk to individuals. If there is a high risk,
           we will report serious breaches to the Information Commissioner's Office (ICO) within 72 hours as required,
@@ -266,7 +266,7 @@
 
       <!-- Policy Review -->
       <div class="constitution-box" id="changes">
-        <h3 class="h5 fw-bold mb-2"><i class="bi bi-arrow-repeat me-2 text-brand"></i>Policy Review and Changes</h3>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-arrow-repeat me-2 text-brand"></i>Policy Review and Changes</h2>
         <p class="mb-2">
           This policy is reviewed annually by the LCNL Executive Committee and Data Protection Officers, or sooner if
           laws or organisational practices change.
@@ -279,7 +279,7 @@
 
       <!-- Version History -->
       <div class="constitution-box mt-4 bg-light">
-        <h5 class="fw-bold mb-2"><i class="bi bi-clock-history me-2 text-brand"></i>Version History</h5>
+        <h2 class="h5 fw-bold mb-2"><i class="bi bi-clock-history me-2 text-brand"></i>Version History</h2>
         <ul class="mb-0 small text-muted">
           <li><strong>October 2025</strong>: Comprehensive update aligned with formal GDPR policy; added plain English summary, data breach procedures, enhanced children's data and photograph consent sections</li>
           <li><strong>September 2025</strong>: Initial website version published</li>
@@ -294,7 +294,7 @@
         
         <!-- Quick Navigation -->
         <div class="constitution-box">
-          <h5 class="fw-bold mb-3"><i class="bi bi-signpost-2-fill me-2 text-brand"></i>Quick Navigation</h5>
+          <h2 class="h5 fw-bold mb-3"><i class="bi bi-signpost-2-fill me-2 text-brand"></i>Quick Navigation</h2>
           <ul class="list-unstyled mb-0 small">
             <li class="mb-2"><a href="#purpose" class="text-decoration-none">Purpose & Scope</a></li>
             <li class="mb-2"><a href="#controller" class="text-decoration-none">Data Controller</a></li>
@@ -316,7 +316,7 @@
 
         <!-- At a Glance -->
         <div class="constitution-box">
-          <h5 class="fw-bold mb-2"><i class="bi bi-list-check me-2 text-brand"></i>At a Glance</h5>
+          <h2 class="h5 fw-bold mb-2"><i class="bi bi-list-check me-2 text-brand"></i>At a Glance</h2>
           <ul class="mb-0">
             <li>No data selling or trading</li>
             <li>Secure encrypted storage (UK servers)</li>
@@ -330,7 +330,7 @@
 
         <!-- Download -->
         <div class="constitution-box bg-light">
-          <h5 class="fw-bold mb-2"><i class="bi bi-file-earmark-pdf-fill me-2 text-brand"></i>Download</h5>
+          <h2 class="h5 fw-bold mb-2"><i class="bi bi-file-earmark-pdf-fill me-2 text-brand"></i>Download</h2>
           <p class="mb-2 small">Need a copy for your records?</p>
           <a href="<?= base_url('assets/documents/LCNL-Privacy-Policy.pdf') ?>" 
              class="btn btn-sm btn-outline-dark w-100" 
@@ -341,7 +341,7 @@
 
         <!-- Contact -->
         <div class="constitution-box">
-          <h5 class="fw-bold mb-2"><i class="bi bi-envelope-paper-heart me-2 text-brand"></i>Contact Us</h5>
+          <h2 class="h5 fw-bold mb-2"><i class="bi bi-envelope-paper-heart me-2 text-brand"></i>Contact Us</h2>
           <p class="mb-2">Questions about this policy or your data?</p>
           <p class="mb-3">
             <strong>Data Protection Officers:</strong><br>
@@ -355,7 +355,7 @@
 
         <!-- Note -->
         <div class="constitution-box border border-warning border-2">
-          <h5 class="fw-bold mb-2"><i class="bi bi-info-circle-fill me-2 text-warning"></i>Important Note</h5>
+          <h2 class="h5 fw-bold mb-2"><i class="bi bi-info-circle-fill me-2 text-warning"></i>Important Note</h2>
           <p class="mb-0 small">
             This policy is a general guide and not legal advice. LCNL complies with UK GDPR and Data Protection Act 2018.
             For specific legal questions about your data rights, please contact the ICO or seek independent legal advice.

@@ -133,9 +133,74 @@ class Events extends BaseController
             'title'           => $event['title'],
             'metaDescription' => $this->shareDescription($event),
             'ogImage'         => $ogImage,
+            'jsonLd'          => $this->eventJsonLd($event, $ogImage),
             'event'           => $event,
             'upcomingEvents'  => $upcomingEvents
         ]);
+    }
+
+    /**
+     * schema.org/Event structured data for a single event.
+     *
+     * Only fields the record actually holds are emitted — a wrong or invented
+     * value is worse than an absent one, since search engines surface these
+     * directly to users.
+     */
+    private function eventJsonLd(array $event, ?string $ogImage): array
+    {
+        $date = (string) ($event['event_date'] ?? '');
+
+        // schema.org wants ISO 8601. Include the time only when one is stored.
+        $start = $date;
+        if (!empty($event['time_from'])) {
+            $start = $date . 'T' . substr((string) $event['time_from'], 0, 5);
+        }
+
+        $ld = [
+            '@context'    => 'https://schema.org',
+            '@type'       => 'Event',
+            'name'        => $event['title'] ?? '',
+            'startDate'   => $start,
+            'description' => $this->shareDescription($event),
+            'url'         => base_url('events/' . $event['id']),
+            // Sold out is not an eventStatus in schema.org — it is expressed as
+            // offers.availability below. The event itself is still scheduled.
+            'eventStatus' => 'https://schema.org/EventScheduled',
+            'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+            'organizer'   => [
+                '@type' => 'Organization',
+                'name'  => 'Lohana Community North London',
+                'url'   => base_url(),
+            ],
+        ];
+
+        if (!empty($event['time_to'])) {
+            $ld['endDate'] = $date . 'T' . substr((string) $event['time_to'], 0, 5);
+        }
+
+        if (!empty($event['location'])) {
+            $ld['location'] = [
+                '@type'   => 'Place',
+                'name'    => $event['location'],
+                'address' => $event['location'],
+            ];
+        }
+
+        if ($ogImage !== null) {
+            $ld['image'] = [base_url(ltrim($ogImage, '/'))];
+        }
+
+        if (!empty($event['purchase_ticket_url'])) {
+            $ld['offers'] = [
+                '@type'         => 'Offer',
+                'url'           => $event['purchase_ticket_url'],
+                'availability'  => !empty($event['is_sold_out'])
+                    ? 'https://schema.org/SoldOut'
+                    : 'https://schema.org/InStock',
+            ];
+        }
+
+        return $ld;
     }
 
     /**

@@ -4,8 +4,17 @@
 <!-- Hero Banner -->
 <section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
-    <h1 id="heroTitle" class="motto"></h1>
-    <p id="heroSubtitle" class="lead fs-5 mb-0"></p>
+    <!-- The first slide is rendered server-side: the top-level heading must
+         exist in the served HTML for search engines and screen readers, and
+         the hero must not be blank while JavaScript boots. The script below
+         rotates from here rather than populating an empty heading. -->
+    <h1 id="heroTitle" class="motto show">&quot;WE MOVE <span class="script">FORWARD</span> TOGETHER&quot;</h1>
+    <p id="heroSubtitle" class="lead fs-5 mb-0 show">&hellip; bringing people together since 1976. Proud of our heritage</p>
+
+    <button type="button" id="heroToggle" class="hero-toggle btn btn-sm mt-3"
+      aria-pressed="false" hidden>
+      <i class="bi bi-pause-fill me-1" aria-hidden="true"></i><span class="hero-toggle-label">Pause</span>
+    </button>
   </div>
 </section>
 
@@ -21,6 +30,29 @@
   #heroSubtitle.show {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .hero-toggle {
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, .55);
+    background: rgba(0, 0, 0, .18);
+  }
+
+  .hero-toggle:hover,
+  .hero-toggle:focus-visible {
+    color: #fff;
+    background: rgba(0, 0, 0, .35);
+    border-color: #fff;
+  }
+
+  /* Never animate the hero for readers who have asked for reduced motion —
+     the script also stops rotating in that case. */
+  @media (prefers-reduced-motion: reduce) {
+
+    #heroTitle,
+    #heroSubtitle {
+      transition: none;
+    }
   }
 </style>
 
@@ -42,7 +74,9 @@
 
     const titleEl = document.getElementById('heroTitle');
     const subEl = document.getElementById('heroSubtitle');
+    const toggle = document.getElementById('heroToggle');
     let idx = 0;
+    let timer = null;
 
     function showSlide(i) {
       titleEl.classList.remove('show');
@@ -57,11 +91,40 @@
       }, 800);
     }
 
-    showSlide(idx);
-    setInterval(() => {
-      idx = (idx + 1) % slides.length;
-      showSlide(idx);
-    }, 5000);
+    // Slide 0 is already in the HTML, so start the timer without re-rendering it.
+    function start() {
+      if (timer) return;
+      timer = setInterval(() => {
+        idx = (idx + 1) % slides.length;
+        showSlide(idx);
+      }, 5000);
+    }
+
+    function stop() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    // WCAG 2.2.2: anything that moves automatically for more than five seconds
+    // needs a way to stop it. The control is hidden without JS because with no
+    // JS there is nothing to pause.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    if (!reduceMotion.matches) {
+      toggle.hidden = false;
+      start();
+    }
+
+    toggle.addEventListener('click', () => {
+      const running = timer !== null;
+      running ? stop() : start();
+
+      toggle.setAttribute('aria-pressed', String(running));
+      toggle.querySelector('.hero-toggle-label').textContent = running ? 'Play' : 'Pause';
+      toggle.querySelector('i').className = running
+        ? 'bi bi-play-fill me-1'
+        : 'bi bi-pause-fill me-1';
+    });
   });
 </script>
 
@@ -98,9 +161,9 @@
                   loading="lazy" decoding="async">
 
                 <div class="event-overlay">
-                  <h6 class="text-white mb-1">
+                  <h3 class="h6 text-white mb-1">
                     <?= esc($event['title']) ?>
-                  </h6>
+                  </h3>
 
                   <small class="text-light">
                     <?= date('d M Y', strtotime($event['event_date'])) ?>
@@ -153,7 +216,7 @@
           Registration Now Open
         </span>
 
-        <h3 class="fw-bold mb-3">LCNL Golf Event 2026</h3>
+        <h2 class="h3 fw-bold mb-3">LCNL Golf Event 2026</h2>
 
         <p class="mb-2">
           Join us for a fantastic day of golf, networking, friendly competition, and community
@@ -175,7 +238,7 @@
         </div>
 
         <div class="border rounded-4 p-3 bg-light">
-          <h6 class="fw-semibold mb-1">Event Highlights</h6>
+          <h3 class="h6 fw-semibold mb-1">Event Highlights</h3>
           <p class="mb-0 small text-muted">
             <strong>Wednesday 29th July 2026</strong> &bull;
             Registration &amp; Breakfast: 11:00am &bull;
@@ -207,7 +270,7 @@
           50th Golden Jubilee Celebrations
         </span>
 
-        <h3 class="fw-bold mb-3">Golden Jubilee Mela</h3>
+        <h2 class="h3 fw-bold mb-3">Golden Jubilee Mela</h2>
 
         <p class="mb-2">
           Join us for a fantastic Bank Holiday celebration filled with fun, entertainment, food,
@@ -226,7 +289,7 @@
         </div>
 
         <div class="border rounded-4 p-3 bg-light">
-          <h6 class="fw-semibold mb-1">Event Highlights</h6>
+          <h3 class="h6 fw-semibold mb-1">Event Highlights</h3>
           <p class="mb-0 small text-muted">
             <strong>RCT Centre, Headstone Lane, Harrow, HA2 6NG</strong>
           </p>
@@ -254,7 +317,7 @@
           50th Golden Jubilee Celebrations
         </span>
 
-        <h3 class="fw-bold mb-3">Golden Jubilee &mdash; Mahabharata Katha (In English)</h3>
+        <h2 class="h3 fw-bold mb-3">Golden Jubilee &mdash; Mahabharata Katha (In English)</h2>
 
         <p class="mb-2">
           Join us for a narration of the Mahābhārata epic by Suri Shandilya, accompanied by
@@ -277,7 +340,7 @@
         </div>
 
         <div class="border rounded-4 p-3 bg-light">
-          <h6 class="fw-semibold mb-1">Event Highlights</h6>
+          <h3 class="h6 fw-semibold mb-1">Event Highlights</h3>
           <p class="mb-0 small text-muted">
             <strong>Saturday 26th September 2026</strong> &bull;
             11:00am &ndash; 5:00pm &bull;
@@ -293,7 +356,7 @@
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
-          <h4 class="fw-bold mb-3">Message from the President</h4>
+          <h2 class="h4 fw-bold mb-3">Message from the President</h2>
 
           <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>"
             class="mx-auto d-block d-md-inline float-md-start me-md-3 mb-2 rounded-circle shadow-sm"
@@ -321,6 +384,7 @@
 
       <!-- Right column -->
       <div class="col-md-4 d-flex flex-column gap-3">
+        <h2 class="visually-hidden">More from LCNL</h2>
 
         <!-- Membership Card -->
         <?php if (empty($isLoggedIn)): ?>
@@ -366,7 +430,7 @@
                 <i class="bi bi-stars" style="font-size:4rem;"></i>
               </div>
               <span class="badge mb-2 px-2 py-1 fw-semibold" style="background:rgba(255,193,7,0.2);color:#ffc107;border:1px solid rgba(255,193,7,0.4);font-size:0.7rem;letter-spacing:.05em;">DLC HALL HIRE</span>
-              <h5 class="fw-bold mb-1">Host Your Event at DLC</h5>
+              <h3 class="h5 fw-bold mb-1">Host Your Event at DLC</h3>
               <p class="mb-3 opacity-90 small">Fully equipped halls with professional lighting, sound &amp; screens — available to hire on weekdays.</p>
               <div class="d-flex align-items-center justify-content-between">
                 <span class="fw-bold fs-5" style="color:#ffc107;">From £19 <span class="fw-normal fs-6 opacity-90">per person</span></span>
@@ -382,7 +446,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-calendar-event-fill text-brand fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Events</h5>
+                <h3 class="h5 card-title mb-1">Events</h3>
                 <p class="card-text text-muted small">Navratri, Diwali & year-round programmes.</p>
               </div>
             </div>
@@ -395,7 +459,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-person-badge-fill text-accent fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Membership</h5>
+                <h3 class="h5 card-title mb-1">Membership</h3>
                 <p class="card-text text-muted small">Become a member and support LCNL.</p>
               </div>
             </div>
@@ -408,7 +472,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-flower1 text-danger fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Bereavement</h5>
+                <h3 class="h5 card-title mb-1">Bereavement</h3>
                 <p class="card-text text-muted small">Support, notices & community prayers.</p>
               </div>
             </div>
@@ -421,7 +485,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-gem text-pink fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Mahila Committee</h5>
+                <h3 class="h5 card-title mb-1">Mahila Committee</h3>
                 <p class="card-text text-muted small">Women-led programmes & activities.</p>
               </div>
             </div>
@@ -434,7 +498,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-people-fill text-primary fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Young Lohana Society</h5>
+                <h3 class="h5 card-title mb-1">Young Lohana Society</h3>
                 <p class="card-text text-muted small">Youth events, networking & socials.</p>
               </div>
             </div>
@@ -447,7 +511,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-controller text-warning fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Lohana Youth Club</h5>
+                <h3 class="h5 card-title mb-1">Lohana Youth Club</h3>
                 <p class="card-text text-muted small">Activities & events for 13–18 year olds.</p>
               </div>
             </div>

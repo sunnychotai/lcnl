@@ -20,9 +20,9 @@
 
         <!-- Description -->
         <div class="col">
-          <h4 class="mb-3">
+          <h2 class="h4 mb-3">
             <i class="bi bi-info-circle me-2"></i>Bereavement Support
-          </h4>
+          </h2>
           <div class="fs-6">
             <p>
               The <strong>Bereavement Committee</strong> supports families with compassion and sensitivity, according
@@ -35,7 +35,7 @@
             <div class="border-0 lcnl-card mb-4 bg-light p-3 rounded">
               <div class="d-flex align-items-center mb-2">
                 <i class="bi bi-heart-fill text-brand me-2 fs-4"></i>
-                <h5 class="mb-0 fw-bold text-brand">A Legacy of Care</h5>
+                <h3 class="h5 mb-0 fw-bold text-brand">A Legacy of Care</h3>
               </div>
               <p class="mb-0">
                 Since <strong>1999</strong>, the <strong>Bereavement Committee</strong> has supported families with care
@@ -48,7 +48,7 @@
             <div class="border-0 lcnl-card mb-4 p-3 rounded shadow-sm">
               <div class="d-flex align-items-center mb-2">
                 <i class="bi bi-building me-2 fs-4 text-brand"></i>
-                <h5 class="mb-0 fw-bold text-brand">Dhamecha Lohana Centre</h5>
+                <h3 class="h5 mb-0 fw-bold text-brand">Dhamecha Lohana Centre</h3>
               </div>
               <p class="fs-6 mb-0">
                 The <strong>Dhamecha Lohana Centre</strong> in Harrow (Brember Road) is available for
@@ -84,9 +84,9 @@
   <!-- Row 2: GDPR -->
   <div class="border-0 lcnl-card mb-4">
     <div class="card-body">
-      <h4 class="mb-3">
+      <h2 class="h4 mb-3">
         <i class="bi bi-shield-check me-2 text-brand"></i>GDPR Re-registration
-      </h4>
+      </h2>
       <div class="fs-6">
         <p class="mb-0">
           Many past recipients still need to re-register under GDPR. There’s no limit on how many family members
@@ -101,13 +101,13 @@
   <!-- Row 3: Contacts -->
   <div class="border-0 lcnl-card mb-4">
     <div class="card-body">
-      <h4 class="mb-3">
+      <h2 class="h4 mb-3">
         <i class="bi bi-telephone-outbound-fill me-2 text-brand"></i>Contacts
-      </h4>
+      </h2>
 
       <div class="row g-4 fs-6">
         <div class="col-md-6">
-          <h6 class="mb-1">Vinubhai Kotecha</h6>
+          <h3 class="h6 mb-1">Vinubhai Kotecha</h3>
           <p class="mb-2 text-muted"><strong>Chairman – Bereavement Committee</strong></p>
           <ul class="list-unstyled mb-0">
             <li class="mb-1">
@@ -122,7 +122,7 @@
         </div>
 
         <div class="col-md-6">
-          <h6 class="mb-1">Arvindbhai Saujani</h6>
+          <h3 class="h6 mb-1">Arvindbhai Saujani</h3>
           <p class="mb-2 text-muted"><strong>Bereavement Committee</strong></p>
           <ul class="list-unstyled mb-0">
 
@@ -140,9 +140,9 @@
   <!-- Row 4: FAQs -->
   <div class="border-0 lcnl-card mb-4">
     <div class="card-body">
-      <h4 class="mb-3">
+      <h2 class="h4 mb-3">
         <i class="bi bi-question-circle-fill me-2 text-brand"></i>Frequently Asked Questions
-      </h4>
+      </h2>
       <?= view('faqs/_accordion', ['faqs' => $faqs ?? []]) ?>
     </div>
   </div>

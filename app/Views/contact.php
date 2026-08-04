@@ -50,9 +50,9 @@
     <!-- LEFT: CONTACT FORM -->
     <div class="col-lg-7">
       <div class="lcnl-card border-0 p-4 h-100 shadow-soft">
-        <h3 class="fw-bold mb-4">
+        <h2 class="h3 fw-bold mb-4">
           <i class="bi bi-send-fill me-2 text-brand"></i> Send us a message
-        </h3>
+        </h2>
 
         <form action="<?= base_url('contact/send') ?>" method="post" class="needs-validation" novalidate>
           <?= csrf_field() ?>
@@ -108,9 +108,9 @@
 
         <!-- Contact Info -->
         <div class="lcnl-card shadow-soft">
-          <h5 class="fw-bold mb-3 text-brand">
+          <h2 class="h5 fw-bold mb-3 text-brand">
             <i class="bi bi-telephone-outbound-fill me-2"></i> Reach us directly
-          </h5>
+          </h2>
           <ul class="list-unstyled mb-0 fs-6">
             <li class="mb-2">
               <i class="bi bi-envelope-fill me-2 text-accent1"></i>
@@ -125,9 +125,9 @@
 
         <!-- Social Media -->
         <div class="lcnl-card shadow-soft">
-          <h5 class="fw-bold mb-3 text-brand">
+          <h2 class="h5 fw-bold mb-3 text-brand">
             <i class="bi bi-people-fill me-2"></i> Connect with us
-          </h5>
+          </h2>
           <p class="text-muted small mb-3">Follow LCNL for the latest news, events and updates:</p>
           <div class="d-flex align-items-center gap-4 fs-4 socials">
             <a href="https://www.facebook.com/groups/lcnlmahajan/" class="text-reset" target="_blank"
@@ -141,9 +141,9 @@
 
         <!-- FAQs -->
         <div class="lcnl-card shadow-soft">
-          <h5 class="fw-bold mb-2 text-brand">
+          <h2 class="h5 fw-bold mb-2 text-brand">
             <i class="bi bi-question-circle-fill me-2"></i> FAQs
-          </h5>
+          </h2>
           <p class="mb-0">Have a question? Visit our
             <a href="<?= base_url('faqs') ?>" class="fw-semibold text-brand">Frequently Asked Questions</a>
             for quick answers.

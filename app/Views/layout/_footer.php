@@ -3,7 +3,7 @@
     <div class="row">
       <!-- Left Column: LCNL Info + Contact -->
       <div class="col-md-5 mb-3">
-        <h5 class="fw-bold">Lohana Community of North London</h5>
+        <h2 class="h5 fw-bold">Lohana Community of North London</h2>
         <p class="small mb-2">
           Our aim is to bring together fellow Lohana community members in North London in celebrating religious Hindu festivals,
           enhancing cultural, educational, social and sporting opportunities for the North London Lohana Community (LCNL).
@@ -29,7 +29,7 @@
 
       <!-- Middle Column: Quick Links (2 columns) -->
       <div class="col-md-7 mb-3">
-        <h6 class="fw-bold">Quick Links</h6>
+        <h2 class="h6 fw-bold">Quick Links</h2>
         <div class="row">
           <div class="col-6">
             <ul class="list-unstyled">

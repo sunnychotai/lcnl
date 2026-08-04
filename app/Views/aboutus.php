@@ -73,9 +73,9 @@
         <!-- Constitution Download Section -->
         <div class="lcnl-card border-0container my-4">
 
-          <h5 class="fw-bold text-brand mb-2">
+          <h2 class="h5 fw-bold text-brand mb-2">
             <i class="bi bi-file-earmark-text me-2"></i> LCNL Constitution
-          </h5>
+          </h2>
           <p class="mb-3 text-muted">Read our guiding principles and values as outlined in the latest LCNL Constitution.
           </p>
           <a href="<?= base_url('assets/documents/LCNL Constitution February 2023.pdf') ?>" class="btn btn-brand btn-sm"
@@ -90,13 +90,14 @@
 
       <!-- Right column (stacked cards) -->
       <div class="col-md-4 d-flex flex-column gap-3">
+        <h2 class="visually-hidden">More from LCNL</h2>
 
         <div class="card shadow-sm border-0">
           <a href="<?= base_url('events') ?>" class="stretched-link text-decoration-none text-dark">
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-calendar-event-fill text-brand fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Events</h5>
+                <h3 class="h5 card-title mb-1">Events</h3>
                 <p class="card-text text-muted small">Navratri, Diwali & year-round programmes.</p>
               </div>
             </div>
@@ -108,7 +109,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-person-badge-fill text-accent fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Membership</h5>
+                <h3 class="h5 card-title mb-1">Membership</h3>
                 <p class="card-text text-muted small">Become a member and support LCNL.</p>
               </div>
             </div>
@@ -121,7 +122,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-images text-success fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Gallery</h5>
+                <h3 class="h5 card-title mb-1">Gallery</h3>
                 <p class="card-text text-muted small">Photos & videos from our events.</p>
               </div>
             </div>
@@ -135,7 +136,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-flower1 text-danger fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Bereavement</h5>
+                <h3 class="h5 card-title mb-1">Bereavement</h3>
                 <p class="card-text text-muted small">Support, notices & community prayers.</p>
               </div>
             </div>
@@ -148,7 +149,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-gem text-pink fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Mahila Mandal</h5>
+                <h3 class="h5 card-title mb-1">Mahila Mandal</h3>
                 <p class="card-text text-muted small">Women-led programmes & activities.</p>
               </div>
             </div>
@@ -161,7 +162,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-people-fill text-primary fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Young Lohana Society</h5>
+                <h3 class="h5 card-title mb-1">Young Lohana Society</h3>
                 <p class="card-text text-muted small">Youth events, networking & socials.</p>
               </div>
             </div>
@@ -174,7 +175,7 @@
             <div class="card-body d-flex align-items-center">
               <i class="bi bi-controller text-warning fs-3 me-3"></i>
               <div>
-                <h5 class="card-title mb-1">Youth Committee</h5>
+                <h3 class="h5 card-title mb-1">Youth Committee</h3>
                 <p class="card-text text-muted small">Activities & events for 13–18 year olds.</p>
               </div>
             </div>

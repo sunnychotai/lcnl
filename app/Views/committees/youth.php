@@ -36,19 +36,19 @@
         <div class="row g-0">
           <!-- Left Column - Info -->
           <div class="col-lg-7 p-4 p-md-5">
-            <h3 class="mb-4">
+            <h2 class="h3 mb-4">
               <i class="bi bi-people-fill text-primary me-2"></i>
               Join Our Community
-            </h3>
+            </h2>
             <p class="lead mb-4">
               Connect with the Lohana Youth Club and be part of our vibrant community!
               Stay updated on all our events, activities and make lasting friendships.
             </p>
 
-            <h5 class="mt-4 mb-3 fw-bold">
+            <h3 class="h5 mt-4 mb-3 fw-bold">
               <i class="bi bi-check-circle text-success me-2"></i>
               Who Can Join?
-            </h5>
+            </h3>
             <ul class="list-unstyled mb-4">
               <li class="mb-3 d-flex align-items-start">
                 <i class="bi bi-arrow-right-circle-fill text-primary me-3 mt-1"></i>
@@ -87,7 +87,7 @@
           <!-- Right Column - QR Code -->
           <div class="col-lg-5 bg-light d-flex align-items-center justify-content-center p-4 p-md-5">
             <div class="text-center">
-              <h5 class="mb-3 fw-bold">Scan to Join</h5>
+              <h3 class="h5 mb-3 fw-bold">Scan to Join</h3>
               <div class="bg-white p-3 rounded-3 shadow-sm d-inline-block">
                 <img src="<?= base_url('assets/img/lyc_wa.png') ?>" alt="Join LYC WhatsApp Group QR Code"
                   class="img-fluid rounded" style="max-width: 220px; width: 100%;"
@@ -107,10 +107,10 @@
   <!-- Instagram Feed Section -->
   <div class="my-5">
     <div class="text-center mb-4">
-      <h3 class="mb-3">
+      <h2 class="h3 mb-3">
         <i class="bi bi-instagram text-danger me-2"></i>
         Follow Us on Instagram
-      </h3>
+      </h2>
       <p class="text-muted">
         Stay updated with our latest events, photos and youth activities at
         <a href="https://www.instagram.com/lohanayouthclubnl/" target="_blank" class="text-decoration-none fw-bold">
@@ -189,7 +189,7 @@
 
   <!-- Events Section -->
   <div class="my-5">
-    <h3 class="mb-4">Upcoming Youth Events</h3>
+    <h2 class="h3 mb-4">Upcoming Youth Events</h2>
     <?php if (!empty($events)): ?>
       <div class="d-flex overflow-auto gap-3 pb-2">
         <?php foreach ($events as $event): ?>
@@ -201,7 +201,7 @@
                   <img src="<?= base_url($event['image']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>"
                     loading="lazy" decoding="async">
                   <div class="event-overlay">
-                    <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
+                    <h3 class="h6 text-white mb-1"><?= esc($event['title']) ?></h3>
                     <small class="text-light">
                       <?= date('d M Y', strtotime($event['event_date'])) ?>
                       <?php if (!empty($event['time_from'])): ?>
@@ -227,7 +227,7 @@
   <hr class="my-5">
 
   <!-- Committee Section -->
-  <h3 class="text-center mb-4">LYC Committee 2025–2027</h3>
+  <h2 class="h3 text-center mb-4">LYC Committee 2025–2027</h2>
 
   <!-- Committee Image -->
   <div class="text-center mb-4">
@@ -300,7 +300,7 @@
                 style="width:120px; height:120px; object-fit:cover;"
                 width="120" height="120" loading="lazy" decoding="async">
             </div>
-            <h5 class="fw-bold mb-2"><?= esc($c['name']) ?></h5>
+            <h3 class="h5 fw-bold mb-2"><?= esc($c['name']) ?></h3>
             <p class="text-muted"><?= esc($c['bio']) ?></p>
           </div>
         </div>

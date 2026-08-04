@@ -1,3 +1,32 @@
+<?php
+/**
+ * Active-state helper.
+ *
+ * Matches the current path exactly, or as a parent of it, so /events/56 still
+ * highlights Events. Home is matched exactly only — every path is "under" '/'.
+ * Used for both .active (visual) and aria-current="page" (assistive).
+ */
+$currentPath = trim(uri_string(), '/');
+
+$navIsActive = static function (string ...$paths) use ($currentPath): bool {
+  foreach ($paths as $path) {
+    $path = trim($path, '/');
+
+    if ($path === '') {
+      if ($currentPath === '') {
+        return true;
+      }
+      continue;
+    }
+
+    if ($currentPath === $path || str_starts_with($currentPath, $path . '/')) {
+      return true;
+    }
+  }
+
+  return false;
+};
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-lcnl">
   <div class="container">
     <!-- Main nav toggler -->
@@ -10,37 +39,39 @@
 
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav mx-auto lcnl-nav">
-        <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('/') ?>">Home</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('events') ?>">Events</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('/') ? ' active' : '' ?>"<?= $navIsActive('/') ? ' aria-current="page"' : '' ?> href="<?= base_url('/') ?>">Home</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('events') ? ' active' : '' ?>"<?= $navIsActive('events') ? ' aria-current="page"' : '' ?> href="<?= base_url('events') ?>">Events</a></li>
 
         <!-- Committees Dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link fw-semibold dropdown-toggle" href="#" id="committeeDropdown" role="button"
+          <a class="nav-link fw-semibold dropdown-toggle<?= $navIsActive('committee', 'mahila', 'yls', 'youth', 'lcf') ? ' active' : '' ?>"
+            href="#" id="committeeDropdown" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
             Committees
           </a>
           <ul class="dropdown-menu" aria-labelledby="committeeDropdown">
-            <li><a class="dropdown-item" href="<?= base_url('/committee') ?>">Executive Committee</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/mahila') ?>">Mahila Committee</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/yls') ?>">Young Lohana Society</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/youth') ?>">Lohana Youth Club</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/lcf') ?>">Lohana Charitable Foundation</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/committee') ? ' active' : '' ?>"<?= $navIsActive('/committee') ? ' aria-current="page"' : '' ?> href="<?= base_url('/committee') ?>">Executive Committee</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/mahila') ? ' active' : '' ?>"<?= $navIsActive('/mahila') ? ' aria-current="page"' : '' ?> href="<?= base_url('/mahila') ?>">Mahila Committee</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/yls') ? ' active' : '' ?>"<?= $navIsActive('/yls') ? ' aria-current="page"' : '' ?> href="<?= base_url('/yls') ?>">Young Lohana Society</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/youth') ? ' active' : '' ?>"<?= $navIsActive('/youth') ? ' aria-current="page"' : '' ?> href="<?= base_url('/youth') ?>">Lohana Youth Club</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/lcf') ? ' active' : '' ?>"<?= $navIsActive('/lcf') ? ' aria-current="page"' : '' ?> href="<?= base_url('/lcf') ?>">Lohana Charitable Foundation</a></li>
 
           </ul>
         </li>
 
-        <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('membership') ?>">Membership</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('membership') ? ' active' : '' ?>"<?= $navIsActive('membership') ? ' aria-current="page"' : '' ?> href="<?= base_url('membership') ?>">Membership</a></li>
 
         <!-- Services Dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link fw-semibold dropdown-toggle" href="#" id="servicesDropdown" role="button"
+          <a class="nav-link fw-semibold dropdown-toggle<?= $navIsActive('bereavement', 'tabletennis', 'dlc-hire') ? ' active' : '' ?>"
+            href="#" id="servicesDropdown" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
             Services
           </a>
           <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
-            <li><a class="dropdown-item" href="<?= base_url('/bereavement') ?>">Bereavement</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/tabletennis') ?>">Table Tennis</a></li>
-            <li><a class="dropdown-item" href="<?= base_url('/dlc-hire') ?>">Hall Hire</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/bereavement') ? ' active' : '' ?>"<?= $navIsActive('/bereavement') ? ' aria-current="page"' : '' ?> href="<?= base_url('/bereavement') ?>">Bereavement</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/tabletennis') ? ' active' : '' ?>"<?= $navIsActive('/tabletennis') ? ' aria-current="page"' : '' ?> href="<?= base_url('/tabletennis') ?>">Table Tennis</a></li>
+            <li><a class="dropdown-item<?= $navIsActive('/dlc-hire') ? ' active' : '' ?>"<?= $navIsActive('/dlc-hire') ? ' aria-current="page"' : '' ?> href="<?= base_url('/dlc-hire') ?>">Hall Hire</a></li>
             <!-- <li><a class="dropdown-item" href="">Senior Mens</a></li>
             <li><a class="dropdown-item" href="">Senior Ladies</a></li>
             <li><a class="dropdown-item" href="">Raghuvanshi Charitable Trust</a></li>
@@ -49,8 +80,8 @@
         </li>
 
 
-        <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('contact') ?>">Contact</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold" href="<?= base_url('aboutus') ?>">About Us</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('contact') ? ' active' : '' ?>"<?= $navIsActive('contact') ? ' aria-current="page"' : '' ?> href="<?= base_url('contact') ?>">Contact</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('aboutus') ? ' active' : '' ?>"<?= $navIsActive('aboutus') ? ' aria-current="page"' : '' ?> href="<?= base_url('aboutus') ?>">About Us</a></li>
       </ul>
     </div>
   </div>

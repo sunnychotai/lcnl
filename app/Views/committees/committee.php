@@ -40,9 +40,9 @@
             width="720" height="480" loading="lazy" decoding="async">
 
           <div class="card-body">
-            <h5 class="card-title mb-1">
+            <h3 class="h5 card-title mb-1">
               <?= esc($m['firstname'] . ' ' . $m['surname']) ?>
-            </h5>
+            </h3>
             <?php if (!empty($m['role'])): ?>
               <p class="text-muted mb-1"><?= esc($m['role']) ?></p>
             <?php endif; ?>

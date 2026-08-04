@@ -14,17 +14,17 @@
   <!-- Tabs Navigation -->
   <ul class="nav nav-tabs justify-content-center" id="ylsTabs" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">
+      <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="true">
         About
       </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab">
+      <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab" aria-controls="events" aria-selected="false">
         Upcoming Events
       </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="committee-tab" data-bs-toggle="tab" data-bs-target="#committee" type="button" role="tab">
+      <button class="nav-link" id="committee-tab" data-bs-toggle="tab" data-bs-target="#committee" type="button" role="tab" aria-controls="committee" aria-selected="false">
         Committee
       </button>
     </li>
@@ -34,7 +34,7 @@
   <div class="tab-content py-4" id="ylsTabsContent">
 
     <!-- About Tab -->
-<div class="tab-pane fade show active" id="about" role="tabpanel">
+<div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab" tabindex="0">
   <div class="">
     <h2>About Us</h2>
     
@@ -82,13 +82,13 @@
 
 
 <!-- Events Tab -->
-<div class="tab-pane fade" id="events" role="tabpanel">
-  <h3 class="mb-4">Upcoming YLS Events</h3>
+<div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">
+  <h2 class="h3 mb-4">Upcoming YLS Events</h2>
   
 <div class="container">
   <?php if (!empty($groupedEvents)): ?>
     <?php foreach ($groupedEvents as $month => $events): ?>
-      <h2 class="mb-4 mt-5"><?= esc($month) ?></h2>
+      <h3 class="h2 mb-4 mt-5"><?= esc($month) ?></h3>
 
       <div class="d-flex overflow-auto gap-3 pb-2">
         <?php foreach ($events as $event): ?>
@@ -113,7 +113,7 @@
                        loading="lazy">
 
                   <div class="event-overlay">
-                    <h6 class="text-white mb-1"><?= esc($event['title']) ?></h6>
+                    <h4 class="h6 text-white mb-1"><?= esc($event['title']) ?></h4>
                     <small class="text-light">
                       <?= date('d M Y', strtotime($event['event_date'])) ?>
                       <?php if (!empty($event['time_from'])): ?>
@@ -137,8 +137,8 @@
 
 
     <!-- Committee Tab -->
-   <div class="tab-pane fade" id="committee" role="tabpanel">
-  <h3 class="mb-4 text-center">Committee Members</h3>
+   <div class="tab-pane fade" id="committee" role="tabpanel" aria-labelledby="committee-tab" tabindex="0">
+  <h2 class="h3 mb-4 text-center">Committee Members</h2>
   <div class="row g-4">
     <?php foreach ($members as $m): ?>
       <div class="col-md-3 col-sm-6">
@@ -158,9 +158,9 @@
                width="720" height="480" loading="lazy" decoding="async">
 
           <div class="card-body">
-            <h5 class="card-title mb-1">
+            <h3 class="h5 card-title mb-1">
               <?= esc($m['firstname'].' '.$m['surname']) ?>
-            </h5>
+            </h3>
             <?php if (!empty($m['role'])): ?>
               <p class="text-muted mb-1"><?= esc($m['role']) ?></p>
             <?php endif; ?>

@@ -67,7 +67,7 @@
             <div class="mb-3">
               <i class="bi bi-person-plus-fill text-brand" style="font-size: 3.5rem;"></i>
             </div>
-            <h3 class="fw-bold mb-2">Ready to Join?</h3>
+            <h2 class="h3 fw-bold mb-2">Ready to Join?</h2>
             <p class="text-muted mb-3">
               Register now to become a life member and unlock all the benefits of the LCNL community.
             </p>
@@ -96,9 +96,9 @@
             <i class="bi bi-check-circle-fill fs-1 text-success"></i>
 
             <div>
-              <h4 class="fw-bold mb-1">
+              <h2 class="h4 fw-bold mb-1">
                 Welcome back, <?= esc($memberName) ?>!
-              </h4>
+              </h2>
 
               <!-- MEMBER ID BADGE -->
               <span class="badge bg-brand text-white px-3 py-2 rounded-pill fs-6 mt-1">
@@ -172,7 +172,7 @@
         <i class="bi bi-arrow-up-circle-fill text-accent" style="font-size: 2.5rem;"></i>
       </div>
 
-      <h4 class="fw-bold mb-2">Upgrade to Life Membership</h4>
+      <h2 class="h4 fw-bold mb-2">Upgrade to Life Membership</h2>
 
       <p class="lead text-muted mb-2">
         You are currently a <strong>Standard Member</strong>.
@@ -219,7 +219,7 @@
         <i class="bi bi-trophy-fill text-success" style="font-size: 2.5rem;"></i>
       </div>
 
-      <h4 class="fw-bold mb-2">Life Membership Active</h4>
+      <h2 class="h4 fw-bold mb-2">Life Membership Active</h2>
 
       <p class="lead text-muted mb-2">
         Thank you for supporting LCNL as a <strong>Life Member</strong>.
@@ -264,7 +264,7 @@
             <div class="benefit-icon-wrapper mb-2">
               <i class="bi bi-person-check-fill benefit-icon"></i>
             </div>
-            <h5 class="fw-bold mb-2">Voting Rights</h5>
+            <h3 class="h5 fw-bold mb-2">Voting Rights</h3>
             <p class="text-muted small mb-0">Have your say in community decisions and receive invitations to attend our
               Annual General Meeting.</p>
           </div>
@@ -277,7 +277,7 @@
             <div class="benefit-icon-wrapper mb-2">
               <i class="bi bi-calendar-event-fill benefit-icon"></i>
             </div>
-            <h5 class="fw-bold mb-2">Priority Access</h5>
+            <h3 class="h5 fw-bold mb-2">Priority Access</h3>
             <p class="text-muted small mb-0">Be the first to know about and access tickets for all LCNL events and
               celebrations.</p>
           </div>
@@ -290,7 +290,7 @@
             <div class="benefit-icon-wrapper mb-2">
               <i class="bi bi-journal-text benefit-icon"></i>
             </div>
-            <h5 class="fw-bold mb-2">Annual Publications</h5>
+            <h3 class="h5 fw-bold mb-2">Annual Publications</h3>
             <p class="text-muted small mb-0">Receive our special Diwali magazine and stay updated with regular
               newsletters.</p>
           </div>
@@ -303,7 +303,7 @@
             <div class="benefit-icon-wrapper mb-2">
               <i class="bi bi-people-fill benefit-icon"></i>
             </div>
-            <h5 class="fw-bold mb-2">Community Events</h5>
+            <h3 class="h5 fw-bold mb-2">Community Events</h3>
             <p class="text-muted small mb-0">Full participation in social, religious, and cultural events throughout the
               year.</p>
           </div>
@@ -316,7 +316,7 @@
             <div class="benefit-icon-wrapper mb-2">
               <i class="bi bi-heart-fill benefit-icon"></i>
             </div>
-            <h5 class="fw-bold mb-2">Active Involvement</h5>
+            <h3 class="h5 fw-bold mb-2">Active Involvement</h3>
             <p class="text-muted small mb-0">Help shape the future of our community through active participation and
               engagement.</p>
           </div>
@@ -329,7 +329,7 @@
             <div class="benefit-icon-wrapper mb-2">
               <i class="bi bi-infinity benefit-icon"></i>
             </div>
-            <h5 class="fw-bold mb-2">Lifetime Access</h5>
+            <h3 class="h5 fw-bold mb-2">Lifetime Access</h3>
             <p class="text-muted small mb-0">One payment, lifetime benefits. No renewal fees or ongoing costs.</p>
           </div>
         </div>
@@ -341,7 +341,7 @@
   <?php if (!session()->get('isMemberLoggedIn')): ?>
     <!-- Secondary CTA -->
     <div class="text-center my-4 py-3">
-      <h3 class="fw-bold mb-2">Join Our Growing Community</h3>
+      <h2 class="h3 fw-bold mb-2">Join Our Growing Community</h2>
       <p class="text-muted mb-3">Become a life member for just £75 and enjoy all these benefits</p>
       <a href="<?= base_url('membership/register') ?>" class="btn btn-brand btn-lg rounded-pill px-5 shadow-sm">
         <i class="bi bi-pencil-square me-2"></i> Register Now
@@ -360,7 +360,7 @@
         <div class="lcnl-card shadow-sm border-0 rounded-4 h-100">
           <div class="card-body text-center p-3">
             <i class="bi bi-box-arrow-in-right text-primary mb-2" style="font-size: 2.5rem;"></i>
-            <h5 class="fw-bold mb-2">Already a Member?</h5>
+            <h3 class="h5 fw-bold mb-2">Already a Member?</h3>
             <p class="text-muted small mb-3">Log in to access your account and manage your membership details.</p>
             <a href="<?= base_url('membership/login') ?>" class="btn btn-outline-primary rounded-pill px-4">
               <i class="bi bi-key-fill me-2"></i> Member Login
@@ -374,7 +374,7 @@
         <div class="lcnl-card shadow-sm border-0 rounded-4 h-100 border-warning" style="border-width: 2px !important;">
           <div class="card-body text-center p-3">
             <i class="bi bi-question-circle-fill text-warning mb-2" style="font-size: 2.5rem;"></i>
-            <h5 class="fw-bold mb-2">Don't Know Your Login?</h5>
+            <h3 class="h5 fw-bold mb-2">Don't Know Your Login?</h3>
             <p class="text-muted small mb-3">
               If you're an existing member and don't know your password, click below to reset it.
             </p>
@@ -399,7 +399,7 @@
       <div class="lcnl-card shadow-sm border-0 rounded-4 h-100">
         <div class="card-body text-center p-3">
           <i class="bi bi-envelope-fill text-accent mb-2" style="font-size: 2.5rem;"></i>
-          <h5 class="fw-bold mb-2">Have Questions?</h5>
+          <h3 class="h5 fw-bold mb-2">Have Questions?</h3>
           <p class="text-muted small mb-3">If you have any questions about membership, we're here to help.</p>
           <a href="mailto:membership@lcnl.org" class="btn btn-outline-secondary rounded-pill px-4">
             <i class="bi bi-envelope me-2"></i> Contact Us

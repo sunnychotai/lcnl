@@ -22,9 +22,9 @@
   <div class="row justify-content-center mb-2">
     <div class="col-md-8">
       <div class="lcnl-card border-0 shadow-sm rounded-4 bg-light text-center p-4">
-        <h4 class="fw-bold text-primary mb-3">
+        <h2 class="h4 fw-bold text-primary mb-3">
           <i class="bi bi-calendar-event-fill me-2"></i> Training & Practice Times
-        </h4>
+        </h2>
         <p class="fs-5 text-muted mb-2">
           <i class="bi bi-geo-alt-fill text-danger me-1"></i> <strong>RCT Sports Hall</strong>
         </p>
@@ -58,7 +58,7 @@
 
           <!-- Coaching -->
           <div class="mb-4">
-            <h5 class="fw-bold text-success mb-2"><i class="bi bi-mortarboard-fill me-2"></i> Coaching</h5>
+            <h3 class="h5 fw-bold text-success mb-2"><i class="bi bi-mortarboard-fill me-2"></i> Coaching</h3>
             <p class="fs-5 text-secondary mb-0">
               We offer <strong>professional coaching</strong> for all ages and abilities, and we encourage
               more juniors to come forward to improve their skills and techniques.
@@ -67,7 +67,7 @@
 
           <!-- League -->
           <div class="mb-4">
-            <h5 class="fw-bold text-warning mb-2"><i class="bi bi-people-fill me-2"></i> Leagues & Tournaments</h5>
+            <h3 class="h5 fw-bold text-warning mb-2"><i class="bi bi-people-fill me-2"></i> Leagues & Tournaments</h3>
             <p class="fs-5 text-secondary mb-0">
               The Club currently has <strong>5 teams</strong> in the Wembley & Harrow Leagues (Divisions 2, 4, 5, 6 and
               7)
@@ -78,7 +78,7 @@
 
           <!-- Contact -->
           <div class="mb-4">
-            <h5 class="fw-bold text-info mb-2"><i class="bi bi-envelope-fill me-2"></i> Get Involved</h5>
+            <h3 class="h5 fw-bold text-info mb-2"><i class="bi bi-envelope-fill me-2"></i> Get Involved</h3>
             <p class="fs-5 text-secondary mb-0">
               Interested in a trial session, playing for leisure or competition, or becoming a member?
               Contact our committee at
@@ -127,7 +127,7 @@
                     <div class="mb-3">
                       <i class="bi bi-laptop text-primary" style="font-size: 3rem;"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Online Form</h4>
+                    <h3 class="h4 fw-bold mb-3">Online Form</h3>
                     <p class="text-muted mb-4">
                       Fill out the membership form online - quick and easy!
                     </p>
@@ -147,7 +147,7 @@
                     <div class="mb-3">
                       <i class="bi bi-file-pdf text-danger" style="font-size: 3rem;"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">PDF Form</h4>
+                    <h3 class="h4 fw-bold mb-3">PDF Form</h3>
                     <p class="text-muted mb-4">
                       Download, print and submit the membership form
                     </p>
@@ -167,7 +167,7 @@
                     <div class="mb-3">
                       <i class="bi bi-info-circle text-success" style="font-size: 3rem;"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Club Info</h4>
+                    <h3 class="h4 fw-bold mb-3">Club Info</h3>
                     <p class="text-muted mb-4">
                       Learn more about membership and club details
                     </p>
@@ -186,10 +186,10 @@
               <div class="col-md-8 col-lg-6">
                 <div class="card border-0 shadow-sm rounded-4 bg-light">
                   <div class="card-body text-center p-4">
-                    <h5 class="fw-bold mb-3">
+                    <h3 class="h5 fw-bold mb-3">
                       <i class="bi bi-qr-code me-2 text-primary"></i>
                       Quick Access
-                    </h5>
+                    </h3>
                     <p class="text-muted mb-3">Scan to join or share with friends!</p>
                     <img src="<?= base_url('assets/img/tabletennis_qr.jpeg') ?>" alt="LCNL Table Tennis QR Code"
                       class="img-fluid rounded-3 shadow-sm" style="max-width: 300px;"
@@ -214,10 +214,10 @@
   <!-- Instagram Feed Section -->
   <div class="mb-5">
     <div class="text-center mb-4">
-      <h3 class="fw-bold mb-3">
+      <h2 class="h3 fw-bold mb-3">
         <i class="bi bi-instagram text-danger me-2"></i>
         Follow Us on Instagram
-      </h3>
+      </h2>
       <p class="text-muted">
         Stay updated with match results, training sessions and club news at
         <a href="https://www.instagram.com/lcnl.tabletennis" target="_blank" class="text-decoration-none fw-bold">

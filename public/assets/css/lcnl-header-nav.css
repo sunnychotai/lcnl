@@ -118,11 +118,18 @@
     transition: background-color .2s ease;
 }
 
+/* Same contrast rule as the nav bar itself: white on gold is 2.10:1, so the
+   maroon --on-accent token (5.46:1) is used for text on any gold fill. */
 .navbar-light .dropdown-item:hover,
 .navbar-light .dropdown-item:focus,
 .navbar-light .dropdown-item.active {
     background-color: var(--accent1) !important;
-    color: #fff !important;
+    color: var(--on-accent) !important;
+}
+
+/* The current page stays distinguishable from a merely hovered one. */
+.navbar-light .dropdown-item.active {
+    font-weight: 600;
 }
 
 /* --- Desktop Dropdown Hover --- */

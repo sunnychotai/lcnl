@@ -162,9 +162,9 @@ if (!function_exists('fmtEventText')) {
       <div class="row g-4 align-items-start">
 
         <div class="col-12 col-md">
-          <h5 class="fw-semibold mb-3 text-brand">
+          <h2 class="h5 fw-semibold mb-3 text-brand">
             <i class="bi bi-info-circle me-2"></i>About this event
-          </h5>
+          </h2>
           <div class="event-description text-secondary">
             <?= !empty($event['description'])
               ? fmtEventText($event['description'])
@@ -202,9 +202,9 @@ if (!function_exists('fmtEventText')) {
     <div class="col-lg-4">
       <div class="lcnl-card border-0 shadow-sm h-100">
         <div class="card-body p-4">
-          <h5 class="fw-semibold mb-3 text-brand">
+          <h2 class="h5 fw-semibold mb-3 text-brand">
             <i class="bi bi-file-earmark-text me-2"></i>Event Terms
-          </h5>
+          </h2>
           <div class="text-secondary small">
             <?= fmtEventText($event['eventterms']) ?>
           </div>
@@ -218,9 +218,9 @@ if (!function_exists('fmtEventText')) {
     <div class="<?= $colW ?>">
       <div class="lcnl-card border-0 shadow-sm h-100">
         <div class="card-body p-4">
-          <h5 class="fw-semibold mb-3 text-brand">
+          <h2 class="h5 fw-semibold mb-3 text-brand">
             <i class="bi bi-ticket-perforated me-2"></i>Ticket Information
-          </h5>
+          </h2>
           <div class="text-secondary small">
             <?= !empty($event['ticketinfo'])
               ? fmtEventText($event['ticketinfo'])
@@ -241,9 +241,9 @@ if (!function_exists('fmtEventText')) {
     <div class="<?= $colW ?>">
       <div class="lcnl-card border-0 shadow-sm h-100">
         <div class="card-body p-4">
-          <h5 class="fw-semibold mb-3 text-brand">
+          <h2 class="h5 fw-semibold mb-3 text-brand">
             <i class="bi bi-telephone-inbound me-2"></i>Contact
-          </h5>
+          </h2>
           <div class="text-secondary small">
             <?= !empty($event['contactinfo'])
               ? fmtEventText($event['contactinfo'])
@@ -259,9 +259,9 @@ if (!function_exists('fmtEventText')) {
   <?php if ($requiresReg): ?>
     <div class="lcnl-card shadow-sm border-0 mb-4 overflow-hidden">
       <div class="card-header bg-brand text-white py-3 border-0">
-        <h5 class="mb-0 fw-semibold">
+        <h2 class="h5 mb-0 fw-semibold">
           <i class="bi bi-pencil-square me-2"></i>Event Registration
-        </h5>
+        </h2>
       </div>
       <div class="card-body p-4">
 
