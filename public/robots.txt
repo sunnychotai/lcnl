@@ -1,2 +1,13 @@
 User-agent: *
-Disallow: 
+
+# Back-office and member-only areas — nothing indexable behind these.
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /account/
+Disallow: /membership/login
+Disallow: /membership/verify/
+Disallow: /membership/activated
+Disallow: /membership/success
+Disallow: /access-denied
+
+Sitemap: https://lcnl.org/sitemap.xml

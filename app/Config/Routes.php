@@ -26,7 +26,6 @@ $routes->get('auth/logout', 'Auth::logout');
 // Core pages
 $routes->get('/', 'Home::index');
 $routes->get('aboutus', 'Home::aboutUs');
-$routes->get('sample', 'Home::sample');
 $routes->get('privacy', 'Home::privacy');
 $routes->get('gallery', 'Home::gallery');
 $routes->get('contact', 'Home::contact');

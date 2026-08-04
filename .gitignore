@@ -28,4 +28,7 @@ Thumbs.db
 /uploads/
 /storage/
 /storage/uploads/
-/storage/uploads/events/"/public/uploads/" 
+/storage/uploads/events/
+
+# Test artefacts
+/build/

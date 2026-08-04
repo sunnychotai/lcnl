@@ -61,4 +61,13 @@ class Format extends BaseConfig
         'application/xml'  => 0,
         'text/xml'         => 0,
     ];
+
+    /**
+     * The maximum depth JSONFormatter will encode to.
+     *
+     * Required since CodeIgniter 4.3 — JSONFormatter reads it unconditionally.
+     * Without it every error response threw "Undefined property", which turned
+     * all 404s into 500s. 512 is the framework default.
+     */
+    public int $jsonEncodeDepth = 512;
 }

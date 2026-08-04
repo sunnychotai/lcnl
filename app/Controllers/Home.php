@@ -125,11 +125,6 @@ class Home extends BaseController
         ]);
     }
 
-    public function sample()
-    {
-        return view('sample');
-    }
-
     public function privacy()
     {
         return view('privacy', [
