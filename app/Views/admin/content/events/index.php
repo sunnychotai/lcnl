@@ -163,7 +163,7 @@
                 </a>
 
                 <!-- Delete -->
-                <?= $this->include('admin/_delete_button', [
+                <?= view('admin/_delete_button', [
                   'action'  => base_url('admin/content/events/delete/' . $event['id']),
                   'confirm' => 'Delete this event?',
                   'label'   => '<i class="bi bi-trash"></i>',

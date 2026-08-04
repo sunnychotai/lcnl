@@ -105,7 +105,7 @@
                                 class="btn btn-warning">
                                 <i class="bi bi-arrow-repeat"></i> Retry Send
                             </a>
-                            <?= $this->include('admin/_delete_button', [
+                            <?= view('admin/_delete_button', [
                                 'action'  => base_url('admin/system/emails/delete/' . $email['id']),
                                 'confirm' => 'Delete this email?',
                                 'label'   => '<i class="bi bi-trash"></i> Delete',

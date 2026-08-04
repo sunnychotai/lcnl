@@ -214,6 +214,16 @@ $routes->group('admin/system', [
     // IMPORTANT: This controller lives in App\Controllers\Admin.php
     $routes->get('dashboard', '\App\Controllers\Admin::dashboard');
 
+    // Admin users. The navbar has linked here since Sept 2025 and the
+    // controller exists, but the routes were never declared — with auto-routing
+    // off that made the menu item a dead link.
+    $routes->get('users', 'Admin\Users::index');
+    $routes->get('users/create', 'Admin\Users::create');
+    $routes->post('users/store', 'Admin\Users::store');
+    $routes->get('users/edit/(:num)', 'Admin\Users::edit/$1');
+    $routes->post('users/update/(:num)', 'Admin\Users::update/$1');
+    $routes->post('users/delete/(:num)', 'Admin\Users::delete/$1');
+
     $routes->get('cron-logs', 'Admin\CronController::index');
     $routes->get('cron-logs/(:num)', 'Admin\CronController::show/$1');
 

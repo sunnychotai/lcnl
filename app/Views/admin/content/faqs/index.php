@@ -27,7 +27,7 @@
             </span>
             <span>
               <a href="<?= base_url('admin/content/faqs/edit/'.$faq['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
-              <?= $this->include('admin/_delete_button', [
+              <?= view('admin/_delete_button', [
                 'action'  => base_url('admin/content/faqs/delete/'.$faq['id']),
                 'confirm' => 'Delete this FAQ?',
                 'label'   => 'Delete',

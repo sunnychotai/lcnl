@@ -99,7 +99,7 @@
             <a href="<?= base_url('admin/content/committee/clone/'.$member['id']) ?>" class="btn btn-sm btn-info">
               <i class="bi bi-files"></i> <!-- ✅ Clone icon -->
             </a>
-            <?= $this->include('admin/_delete_button', [
+            <?= view('admin/_delete_button', [
               'action'  => base_url('admin/content/committee/delete/'.$member['id']),
               'confirm' => 'Delete this member?',
               'label'   => '<i class="bi bi-trash"></i>',
