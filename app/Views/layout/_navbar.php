@@ -165,6 +165,13 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
                 <i class="bi bi-calendar-event-fill me-1"></i> Events
               </a>
             </li>
+
+            <!-- Mela stall bookings -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/content/mela-stalls') ?>">
+                <i class="bi bi-shop me-1"></i> Mela Stalls
+              </a>
+            </li>
           <?php endif; ?>
 
 

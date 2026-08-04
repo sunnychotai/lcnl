@@ -25,6 +25,10 @@
   <title><?= esc($pageTitle) ?></title>
   <meta name="description" content="<?= esc($pageDescription) ?>">
   <link rel="canonical" href="<?= esc(current_url()) ?>">
+  <?php if (! empty($noindex)): ?>
+    <!-- Unlisted page: kept out of search results and link previews. -->
+    <meta name="robots" content="noindex, nofollow, noarchive">
+  <?php endif; ?>
 
   <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
   <meta property="og:site_name" content="Lohana Community North London">

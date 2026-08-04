@@ -58,6 +58,21 @@ $routes->post('golf/register', 'GolfController::submit');
 $routes->get('golf/confirmation/(:segment)', 'GolfController::confirmation/$1');
 
 /* =========================================================
+   MELA STALL BOOKINGS (UNLISTED)
+
+   The URL segment comes from Config\MelaStalls so it can be rotated from .env
+   without a deploy. The page is linked from nowhere, excluded from the sitemap
+   and sent with noindex — it is meant to be handed out individually to stall
+   holders the organisers have already vetted.
+========================================================= */
+
+$melaSlug = config('MelaStalls')->slug;
+
+$routes->get($melaSlug, 'MelaStallController::form');
+$routes->post($melaSlug, 'MelaStallController::submit');
+$routes->get($melaSlug . '/confirmation/(:segment)', 'MelaStallController::confirmation/$1');
+
+/* =========================================================
    EVENTS (PUBLIC)
 ========================================================= */
 
@@ -246,6 +261,13 @@ $routes->group('admin/content', [
     $routes->post('faqs/update/(:num)', 'Admin\FaqAdmin::update/$1');
     $routes->post('faqs/delete/(:num)', 'Admin\FaqAdmin::delete/$1');
     $routes->post('faqs/reorder', 'Admin\FaqAdmin::reorder');
+
+    // Mela stall bookings
+    $routes->get('mela-stalls', 'Admin\MelaStallController::index');
+    $routes->get('mela-stalls/export', 'Admin\MelaStallController::export');
+    $routes->get('mela-stalls/document/(:num)', 'Admin\MelaStallController::document/$1');
+    $routes->post('mela-stalls/payment/(:num)', 'Admin\MelaStallController::togglePayment/$1');
+    $routes->post('mela-stalls/cancel/(:num)', 'Admin\MelaStallController::cancel/$1');
 
     // Committee
     $routes->get('committee', 'Admin\CommitteeController::index');
