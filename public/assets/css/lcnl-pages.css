@@ -204,3 +204,356 @@
         padding: 1.5rem !important;
     }
 }
+/* =========================================================================
+   MELA STALL BOOKING FORM
+   Uses the existing brand tokens only. Text on gold uses --on-accent
+   (5.46:1); white on gold is 2.10:1 and must never be used.
+   ========================================================================= */
+
+/* --- Hero fact pills --- */
+.mela-hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.mela-hero-pills .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .4rem .85rem;
+    border-radius: 999px;
+    font-size: .875rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .38);
+    color: #fff;
+    backdrop-filter: blur(3px);
+}
+
+.mela-hero-pills .pill.is-accent {
+    background: var(--accent1);
+    border-color: var(--accent1);
+    color: var(--on-accent);
+}
+
+/* --- Key facts strip --- */
+.mela-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: rgba(0, 0, 0, .07);
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+}
+
+.mela-fact {
+    background: #fff;
+    padding: 1.1rem .9rem;
+    text-align: center;
+}
+
+.mela-fact i {
+    font-size: 1.4rem;
+    color: var(--brand);
+    display: block;
+    margin-bottom: .35rem;
+}
+
+.mela-fact .label {
+    display: block;
+    font-size: .72rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: #6c6470;
+    font-weight: 600;
+}
+
+.mela-fact .value {
+    display: block;
+    font-weight: 700;
+    color: #241a20;
+    line-height: 1.35;
+}
+
+/* --- Info cards --- */
+.mela-info {
+    height: 100%;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: var(--radius);
+    padding: 1.35rem 1.4rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+    transition: box-shadow .25s ease, transform .25s ease;
+}
+
+.mela-info:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .09);
+}
+
+.mela-info-head {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    margin-bottom: .7rem;
+}
+
+.mela-info-icon {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1.15rem;
+    background: color-mix(in srgb, var(--brand) 10%, #fff);
+    color: var(--brand);
+}
+
+.mela-info-icon.is-accent {
+    background: color-mix(in srgb, var(--accent1) 26%, #fff);
+    color: var(--on-accent);
+}
+
+.mela-info h2,
+.mela-info h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--brand);
+}
+
+.mela-info p:last-child,
+.mela-info ul:last-child {
+    margin-bottom: 0;
+}
+
+.mela-info ul {
+    padding-left: 1.1rem;
+}
+
+.mela-info li {
+    margin-bottom: .35rem;
+}
+
+/* --- Payment panel --- */
+.mela-pay {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--accent1) 55%, transparent);
+    box-shadow: 0 3px 14px rgba(0, 0, 0, .06);
+}
+
+.mela-pay-head {
+    background: var(--accent1);
+    color: var(--on-accent);
+    padding: .85rem 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.mela-pay-head .fee {
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.mela-pay-body {
+    background: #fffdf6;
+    padding: 1.1rem 1.25rem;
+}
+
+.mela-pay-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .6rem 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, .12);
+}
+
+.mela-pay-row:last-child {
+    border-bottom: 0;
+}
+
+.mela-pay-row .k {
+    color: #6c6470;
+    font-size: .85rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+.mela-pay-row .v {
+    font-weight: 700;
+    color: #241a20;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    word-break: break-word;
+}
+
+.mela-copy {
+    border: 1px solid color-mix(in srgb, var(--brand) 30%, transparent);
+    background: #fff;
+    color: var(--brand);
+    border-radius: 8px;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: .2rem .5rem;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.mela-copy:hover,
+.mela-copy:focus-visible {
+    background: var(--brand);
+    color: #fff;
+}
+
+/* --- Form sections --- */
+.mela-form-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: var(--radius);
+    box-shadow: 0 3px 16px rgba(0, 0, 0, .05);
+    overflow: hidden;
+}
+
+.mela-form-head {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-700) 100%);
+    color: #fff;
+    padding: 1.2rem 1.5rem;
+}
+
+.mela-form-head h2 {
+    margin: 0;
+    color: #fff;
+    font-weight: 700;
+}
+
+.mela-form-head p {
+    margin: .3rem 0 0;
+    color: rgba(255, 255, 255, .85);
+    font-size: .9rem;
+}
+
+.mela-section {
+    padding: 1.4rem 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, .07);
+}
+
+.mela-section:first-of-type {
+    border-top: 0;
+}
+
+.mela-section-head {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    margin-bottom: 1rem;
+}
+
+.mela-step-num {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent1);
+    color: var(--on-accent);
+    font-weight: 800;
+    font-size: .9rem;
+    display: grid;
+    place-items: center;
+}
+
+.mela-section-head h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--brand);
+}
+
+/* Required marker */
+.mela-req {
+    color: #b3261e;
+    font-weight: 700;
+}
+
+/* Tick-box confirmations get a little more presence than a bare checkbox */
+.mela-confirm {
+    background: var(--muted);
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 10px;
+    padding: .85rem 1rem;
+    margin-bottom: .75rem;
+}
+
+.mela-confirm .form-check-input {
+    width: 1.15em;
+    height: 1.15em;
+    margin-top: .15em;
+}
+
+.mela-confirm .form-check-input:checked {
+    background-color: var(--brand);
+    border-color: var(--brand);
+}
+
+/* File upload gets a dashed drop-zone look */
+.mela-upload {
+    border: 2px dashed color-mix(in srgb, var(--brand) 35%, transparent);
+    border-radius: 12px;
+    padding: 1.1rem;
+    background: color-mix(in srgb, var(--brand) 3%, #fff);
+}
+
+.mela-upload.is-required {
+    border-color: color-mix(in srgb, #b3261e 45%, transparent);
+    background: #fdf3f2;
+}
+
+/* Deadline banner */
+.mela-deadline {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    background: color-mix(in srgb, var(--brand) 8%, #fff);
+    border-left: 4px solid var(--brand);
+    border-radius: 10px;
+    padding: .8rem 1rem;
+    font-weight: 600;
+    color: var(--brand);
+    margin-bottom: 1.5rem;
+}
+
+/* Closed state */
+.mela-closed i {
+    font-size: 2.75rem;
+    color: var(--brand);
+}
+
+@media (max-width: 575.98px) {
+
+    .mela-section,
+    .mela-form-head {
+        padding-left: 1.05rem;
+        padding-right: 1.05rem;
+    }
+
+    .mela-pay-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .25rem;
+    }
+
+    .mela-pay-row .v {
+        text-align: left;
+    }
+}
