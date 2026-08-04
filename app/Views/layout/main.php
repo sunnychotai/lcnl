@@ -103,15 +103,37 @@
   <meta name="theme-color" content="#7a1d3c">
 
   <!-- CSS -->
+  <?php
+  /**
+   * Cache-busting for local assets.
+   *
+   * The server sends `Cache-Control: public, max-age=604800` for /assets while
+   * the HTML is `no-store`. A returning visitor therefore gets new markup
+   * immediately but keeps the old stylesheet for up to a week, with no
+   * revalidation — so a CSS fix appears not to have deployed. Appending the
+   * file's modification time gives every revision its own URL, which the cache
+   * treats as a new resource.
+   */
+  $assetUrl = static function (string $path): string {
+    $path = ltrim($path, '/');
+    $file = FCPATH . $path;
+
+    return base_url($path) . (is_file($file) ? '?v=' . filemtime($file) : '');
+  };
+  ?>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/lcnl-core.css">
-  <link rel="stylesheet" href="/assets/css/lcnl-header-nav.css">
-  <link rel="stylesheet" href="/assets/css/lcnl-hero.css">
-  <link rel="stylesheet" href="/assets/css/lcnl-components.css">
-  <link rel="stylesheet" href="/assets/css/lcnl-pages.css">
-  <link rel="stylesheet" href="/assets/css/lcnl-auth.css"> <!-- only on login/register -->
-  <link rel="stylesheet" href="/assets/css/lcnl-utilities.css"> <!-- optional global helpers -->
+  <?php foreach ([
+    'lcnl-core',
+    'lcnl-header-nav',
+    'lcnl-hero',
+    'lcnl-components',
+    'lcnl-pages',
+    'lcnl-auth',       // only on login/register
+    'lcnl-utilities',  // optional global helpers
+  ] as $sheet): ?>
+    <link rel="stylesheet" href="<?= esc($assetUrl("assets/css/{$sheet}.css")) ?>">
+  <?php endforeach; ?>
 </head>
 
 <body>
