@@ -193,27 +193,6 @@ $type = ucfirst(strtolower($typeRaw));
 
           <?php else: ?>
 
-            <?php if (strtoupper($membershipType ?? 'Standard') === 'STANDARD'): ?>
-              <div class="card border-warning shadow-sm mb-4">
-                <div class="card-body">
-                  <h5 class="mb-1">Upgrade to Life Membership</h5>
-                  <p class="text-muted mb-3">
-                    One-off £75 payment • Lifetime membership
-                  </p>
-
-                  <form method="post" action="<?= route_to('account.membership.upgrade.checkout') ?>">
-                    <?= csrf_field() ?>
-                    <button class="btn btn-warning">
-                      <i class="bi bi-credit-card me-1"></i>
-                      Upgrade now
-                    </button>
-                  </form>
-                </div>
-              </div>
-            <?php endif; ?>
-
-
-
             <!-- STANDARD MEMBER -->
             <div class="p-3 rounded-3 bg-white bg-opacity-10 mb-3 border-start border-accent1"
               style="border-width: 4px !important;">
@@ -222,10 +201,24 @@ $type = ucfirst(strtolower($typeRaw));
                 You currently have a <strong>Standard Membership</strong>.
               </p>
               <p class="mb-0 small opacity-75 mt-1">
-                To upgrade to <strong>LIFE Membership (£75)</strong>, please make a bank transfer using the details below.
+                Upgrade to <strong>LIFE Membership</strong> for a one-off payment of <strong>£75</strong>.
               </p>
+            </div>
 
-              <div class="mt-3 small text-white">
+            <!-- Primary: pay by card -->
+            <form method="post" action="<?= route_to('account.membership.upgrade.checkout') ?>" class="mb-3">
+              <?= csrf_field() ?>
+              <button class="btn btn-light btn-pill px-4 w-100 fw-semibold text-brand">
+                <i class="bi bi-credit-card me-2"></i>
+                Pay £75 by card
+              </button>
+            </form>
+
+            <!-- Alternative: bank transfer -->
+            <div class="text-center small opacity-75 mb-3">or pay by bank transfer</div>
+
+            <div class="p-3 rounded-3 bg-white bg-opacity-10">
+              <div class="small text-white">
                 <div><strong>Bank:</strong> Lohana Community North London</div>
                 <div><strong>Sort Code:</strong> 40-23-13</div>
                 <div><strong>Account No:</strong> 21497995</div>
@@ -233,13 +226,11 @@ $type = ucfirst(strtolower($typeRaw));
                   <strong>Reference:</strong> MEMBERSHIP-LCNL<?= esc(session()->get('member_id')) ?>
                 </div>
               </div>
+              <p class="mb-0 small opacity-75 mt-2">
+                Please quote the reference above so we can match your payment. Bank transfers are
+                confirmed manually and may take a few days to appear on your account.
+              </p>
             </div>
-
-            <button class="btn btn-outline-light btn-pill px-4 w-100 opacity-75 fw-semibold" disabled
-              style="cursor:not-allowed;">
-              <i class="bi bi-bank me-2"></i>
-              Pay £75 to Upgrade to Life Membership
-            </button>
 
           <?php endif; ?>
 
@@ -371,10 +362,12 @@ $type = ucfirst(strtolower($typeRaw));
               <div class="card-body p-4">
                 <h5 class="fw-bold mb-3"><?= esc($ev['title']) ?></h5>
                 <div class="mb-3">
-                  <div class="d-flex align-items-center gap-2 text-muted small mb-2">
-                    <i class="bi bi-clock-fill text-brand"></i>
-                    <span><?= date('g:i A', strtotime($ev['event_date'])) ?></span>
-                  </div>
+                  <?php if (!empty($ev['time_from'])): ?>
+                    <div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                      <i class="bi bi-clock-fill text-brand"></i>
+                      <span><?= date('H:i', strtotime($ev['time_from'])) ?></span>
+                    </div>
+                  <?php endif; ?>
                   <div class="d-flex align-items-center gap-2 text-muted small">
                     <i class="bi bi-geo-alt-fill text-brand"></i>
                     <span><?= esc($ev['location'] ?? 'LCNL Hall') ?></span>

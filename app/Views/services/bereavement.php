@@ -127,7 +127,7 @@
 
             <li class="mb-0">
               <i class="bi bi-telephone-fill me-2 text-brand"></i>
-              <a href="tel:+447956847764" class="text-reset">+44 7956 217782</a>
+              <a href="tel:+447956217782" class="text-reset">+44 7956 217782</a>
             </li>
           </ul>
         </div>

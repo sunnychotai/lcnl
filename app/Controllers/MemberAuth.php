@@ -10,7 +10,7 @@ class MemberAuth extends BaseController
     public function login()
     {
         // Render the login view only — no $member usage here.
-        return view('membership/login');
+        return view('membership/login', ['title' => 'Member Login']);
     }
 
     public function attempt()

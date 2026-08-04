@@ -113,7 +113,7 @@ class Validation extends BaseConfig
         'postcode' => ['label' => 'Postcode', 'rules' => 'trim|required|max_length[12]'],
 
         'date_of_birth' => ['label' => 'Date of birth', 'rules' => 'permit_empty|valid_date[Y-m-d]'],
-        'gender' => ['label' => 'Gender', 'rules' => 'permit_empty|in_list[male,female,other,prefer_not_to_say]'],
+        'gender' => ['label' => 'Gender', 'rules' => 'trim|permit_empty|in_list[male,female,other,prefer_not_to_say]'],
 
         // Consent
         'consent' => ['label' => 'Consent', 'rules' => 'required|in_list[1]'],

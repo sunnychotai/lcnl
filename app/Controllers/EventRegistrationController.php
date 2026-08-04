@@ -33,6 +33,7 @@ class EventRegistrationController extends BaseController
             ->findAll();
 
         return view('events/register_select', [
+            'title'  => 'Event Registration',
             'events' => $events
         ]);
     }
@@ -69,6 +70,7 @@ class EventRegistrationController extends BaseController
     session()->set('event_form_token_time', time());
 
     return view('events/register', [
+        'title'        => 'Register — ' . $event['title'],
         'event'        => $event,
         'isFull'       => $isFull,
         'capacity'     => $capacity,
@@ -207,6 +209,6 @@ class EventRegistrationController extends BaseController
 
     public function thankyou()
     {
-        return view('events/thanks');
+        return view('events/thanks', ['title' => 'Registration Confirmed']);
     }
 }

@@ -8,6 +8,12 @@ use App\Models\EmailQueueModel;
 
 class GolfController extends BaseController
 {
+    /** Date the event is played — registration closes at the end of the preceding day. */
+    public const EVENT_DATE = '2026-07-29';
+
+    /** Total player spots available. */
+    public const PLAYER_CAP = 26;
+
     protected GolfRegistrationModel $model;
     protected EmailQueueModel $emails;
 
@@ -17,34 +23,51 @@ class GolfController extends BaseController
         $this->emails = new EmailQueueModel();
     }
 
+    /** True once the event date has passed, i.e. no new registrations are accepted. */
+    private function registrationClosed(): bool
+    {
+        return date('Y-m-d') >= self::EVENT_DATE;
+    }
+
     public function info()
     {
         return view('golf/info', [
-            'title'           => 'LCNL Golf Event 2026 – Moor Park Golf Club',
-            'metaDescription' => 'Join LCNL for the Golf Event 2026 at Moor Park Golf Club, Rickmansworth on Wednesday 29th July 2026.',
+            'title'               => 'LCNL Golf Event 2026 – Moor Park Golf Club',
+            'metaDescription'     => 'Join LCNL for the Golf Event 2026 at Moor Park Golf Club, Rickmansworth on Wednesday 29th July 2026.',
+            'registrationClosed'  => $this->registrationClosed(),
         ]);
     }
 
     public function register()
     {
+        if ($this->registrationClosed()) {
+            return redirect()->to(site_url('golf'))
+                ->with('errors', ['Registration for the 2026 Golf Event has now closed.']);
+        }
+
         $formToken = bin2hex(random_bytes(16));
         session()->set('golf_form_token', $formToken);
         session()->set('golf_form_token_time', time());
 
-        $playerCap  = 26;
         $registered = $this->model->countTotalPlayers();
-        $remaining  = max(0, $playerCap - $registered);
+        $remaining  = max(0, self::PLAYER_CAP - $registered);
 
         return view('golf/register', [
             'title'          => 'LCNL Golf Event 2026 – Register',
             'formToken'      => $formToken,
             'spotsRemaining' => $remaining,
             'isFull'         => $remaining === 0,
+            'playerCap'      => self::PLAYER_CAP,
         ]);
     }
 
     public function submit()
     {
+        if ($this->registrationClosed()) {
+            return redirect()->to(site_url('golf'))
+                ->with('errors', ['Registration for the 2026 Golf Event has now closed.']);
+        }
+
         // Time-based honeypot
         $submittedAt = (int) $this->request->getPost('form_time');
         if ($submittedAt === 0 || (time() - $submittedAt) < 3) {
@@ -69,11 +92,10 @@ class GolfController extends BaseController
         $p4Active = trim($this->request->getPost('p4_first_name') ?? '') !== '';
 
         // Player cap check
-        $playerCap      = 26;
         $incomingCount  = 1 + ($p2Active ? 1 : 0) + ($p3Active ? 1 : 0) + ($p4Active ? 1 : 0);
         $registeredCount = $this->model->countTotalPlayers();
-        if ($registeredCount + $incomingCount > $playerCap) {
-            $remaining = max(0, $playerCap - $registeredCount);
+        if ($registeredCount + $incomingCount > self::PLAYER_CAP) {
+            $remaining = max(0, self::PLAYER_CAP - $registeredCount);
             $msg = $remaining === 0
                 ? 'Sorry, the event is now full. No further registrations are being accepted.'
                 : 'Sorry, only ' . $remaining . ' player ' . ($remaining === 1 ? 'spot remains' : 'spots remain') . '. Please reduce the number of players in your registration.';

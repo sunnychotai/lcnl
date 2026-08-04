@@ -38,7 +38,9 @@ class Events extends BaseController
         }
 
         return view('events/index', [
-            'groupedEvents' => $groupedEvents
+            'title'           => 'Events',
+            'metaDescription' => 'Upcoming events, festivals and celebrations at Lohana Community North London.',
+            'groupedEvents'   => $groupedEvents
         ]);
     }
 
@@ -121,9 +123,40 @@ class Events extends BaseController
             ->limit(6)
             ->findAll();
 
+        // Share card: use the event's own image where one exists, else the site default
+        $ogImage = null;
+        if (!empty($event['image']) && is_file(FCPATH . $event['image'])) {
+            $ogImage = $event['image'];
+        }
+
         return view('events/event_detail', [
-            'event' => $event,
-            'upcomingEvents' => $upcomingEvents
+            'title'           => $event['title'],
+            'metaDescription' => $this->shareDescription($event),
+            'ogImage'         => $ogImage,
+            'event'           => $event,
+            'upcomingEvents'  => $upcomingEvents
         ]);
+    }
+
+    /**
+     * Build the share/meta description for an event: the first ~200 characters of
+     * its description as a single line, falling back to the date if it has none.
+     */
+    private function shareDescription(array $event): string
+    {
+        $text = trim(preg_replace('/\s+/u', ' ', strip_tags((string) ($event['description'] ?? ''))));
+
+        if ($text === '') {
+            return 'LCNL event on ' . date('j F Y', strtotime($event['event_date']));
+        }
+
+        if (mb_strlen($text) <= 200) {
+            return $text;
+        }
+
+        $cut = mb_substr($text, 0, 200);
+        $lastSpace = mb_strrpos($cut, ' ');
+
+        return ($lastSpace !== false ? mb_substr($cut, 0, $lastSpace) : $cut) . '…';
     }
 }

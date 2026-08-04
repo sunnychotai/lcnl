@@ -19,12 +19,15 @@ class MembershipController extends BaseController
 
     public function register()
     {
-        return view('membership/register');
+        return view('membership/register', [
+            'title'           => 'Join Us',
+            'metaDescription' => 'Register for membership of Lohana Community North London.',
+        ]);
     }
 
     public function activated()
     {
-        return view('membership/activated_success');
+        return view('membership/activated_success', ['title' => 'Account Activated']);
     }
 
     public function create()
@@ -84,7 +87,7 @@ class MembershipController extends BaseController
         $row = $verifications->findValidToken($token);
 
         if (!$row) {
-            return view('membership/verify_failed');
+            return view('membership/verify_failed', ['title' => 'Verification Failed']);
         }
 
         // Mark token as used
@@ -93,13 +96,13 @@ class MembershipController extends BaseController
         // Activate member + activate most recent membership record
         $this->svc->activate((int) $row['member_id'], null);
 
-        return view('membership/verify_success');
+        return view('membership/verify_success', ['title' => 'Email Verified']);
     }
 
 
     public function success()
     {
-        return view('membership/success');
+        return view('membership/success', ['title' => 'Registration Received']);
     }
 
     public function resendVerification()

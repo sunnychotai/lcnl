@@ -4,8 +4,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= esc($title ?? 'LCNL') ?></title>
-  <meta name="description" content="<?= esc($metaDescription ?? 'Lohana Community North London – Bringing people together since 1976. Learn more about our events, membership, and community initiatives.') ?>">
+  <?php
+  $pageTitle = trim((string) ($title ?? '')) !== ''
+    ? $title . ' | LCNL'
+    : 'Lohana Community North London';
+  // Meta content must be a single line — collapse any newlines/runs of whitespace.
+  $pageDescription = trim(preg_replace('/\s+/u', ' ', (string) ($metaDescription
+    ?? 'Lohana Community North London – Bringing people together since 1976. Learn more about our events, membership, and community initiatives.')));
+  $pageImage = !empty($ogImage)
+    ? (str_starts_with($ogImage, 'http') ? $ogImage : base_url(ltrim($ogImage, '/')))
+    : base_url('assets/img/lcnl-logo.png');
+  ?>
+  <title><?= esc($pageTitle) ?></title>
+  <meta name="description" content="<?= esc($pageDescription) ?>">
+  <link rel="canonical" href="<?= esc(current_url()) ?>">
+
+  <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+  <meta property="og:site_name" content="Lohana Community North London">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:title" content="<?= esc($pageTitle) ?>">
+  <meta property="og:description" content="<?= esc($pageDescription) ?>">
+  <meta property="og:url" content="<?= esc(current_url()) ?>">
+  <meta property="og:image" content="<?= esc($pageImage) ?>">
+
+  <!-- Twitter/X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= esc($pageTitle) ?>">
+  <meta name="twitter:description" content="<?= esc($pageDescription) ?>">
+  <meta name="twitter:image" content="<?= esc($pageImage) ?>">
+
   <!-- Favicons -->
   <link rel="icon" href="<?= base_url('assets/icons/favicon.svg') ?>" type="image/svg+xml">
   <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/icons/favicon-32x32.png') ?>">

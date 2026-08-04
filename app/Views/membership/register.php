@@ -125,10 +125,11 @@
                     <span class="input-group-text bg-light"><i class="bi bi-gender-ambiguous text-brand"></i></span>
                     <select id="gender" name="gender" class="form-select">
                       <option value="">— Select —</option>
-                      <option value="male" <?= old('gender') === 'male' ? 'selected' : '' ?>>Male</option>
-                      <option value="female'             <?= old('gender') === 'female' ? 'selected' : '' ?>>Female</option>
-      <option value=" other" <?= old('gender') === 'other' ? 'selected' : '' ?>>Other</option>
-                      <option value="prefer_not_to_say" <?= old('gender') === 'prefer_not_to_say' ? 'selected' : '' ?>>Prefer not to say</option>
+                      <?php foreach (config('Family')->genders as $g): ?>
+                        <option value="<?= esc($g) ?>" <?= old('gender') === $g ? 'selected' : '' ?>>
+                          <?= ucwords(str_replace('_', ' ', $g)) ?>
+                        </option>
+                      <?php endforeach; ?>
                     </select>
                   </div>
                 </div>

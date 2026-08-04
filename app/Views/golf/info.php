@@ -158,9 +158,16 @@
 
       <!-- CTA -->
       <div class="text-center py-3">
-        <a href="<?= site_url('golf/register') ?>" class="btn btn-brand btn-lg rounded-pill px-5 shadow-sm">
-          <i class="bi bi-pencil-square me-2"></i>Register Now
-        </a>
+        <?php if ($registrationClosed): ?>
+          <div class="alert alert-secondary shadow-sm mb-0 d-inline-block px-4">
+            <i class="bi bi-calendar-x me-2"></i>
+            Registration for this event has now closed.
+          </div>
+        <?php else: ?>
+          <a href="<?= site_url('golf/register') ?>" class="btn btn-brand btn-lg rounded-pill px-5 shadow-sm">
+            <i class="bi bi-pencil-square me-2"></i>Register Now
+          </a>
+        <?php endif; ?>
       </div>
 
     </div><!-- /col-lg-8 -->

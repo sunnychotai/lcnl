@@ -16,6 +16,9 @@
   --accent1: #d4af37;
   /* gold */
   --accent: var(--accent1);
+  --on-accent: var(--brand-600);
+  /* text on gold — 5.46:1 on #d4af37, 4.74:1 on the #c9a227 gradient stop (WCAG AA).
+     White on gold is only 2.10:1 and must not be used. */
   --muted: #f6f2f2;
   --radius: 14px;
 }
@@ -35,6 +38,11 @@
 
 .text-accent1 {
   color: var(--accent1) !important;
+}
+
+/* Pair with .bg-accent1 — never .text-white, which fails contrast on gold. */
+.text-on-accent {
+  color: var(--on-accent) !important;
 }
 
 .text-pink {
@@ -198,15 +206,17 @@
 
 .btn-accent {
   background: linear-gradient(135deg, var(--accent1) 0%, #c9a227 100%);
-  color: #fff;
+  color: var(--on-accent);
   border: none;
   font-weight: 600;
   letter-spacing: .5px;
   transition: all .3s ease;
 }
 
-.btn-accent:hover {
+.btn-accent:hover,
+.btn-accent:focus {
   background: linear-gradient(135deg, #c9a227 0%, var(--accent1) 100%);
+  color: var(--on-accent);
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(212, 175, 55, .3);
 }

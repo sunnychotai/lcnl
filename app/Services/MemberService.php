@@ -60,11 +60,14 @@ class MemberService
             'email' => strtolower(trim($input['email'])),
             'mobile' => $mobile,
             'address1' => trim($input['address1']),
-            'address2' => $input['address2'] !== '' ? trim($input['address2']) : null,
+            // Optional columns are all nullable; an omitted or blank field must become
+            // NULL, not '' — under STRICT_TRANS_TABLES '' is rejected outright by the
+            // date_of_birth DATE column and aborts the whole registration.
+            'address2' => trim($input['address2'] ?? '') !== '' ? trim($input['address2']) : null,
             'city' => trim($input['city']),
             'postcode' => strtoupper(trim($input['postcode'])),
-            'date_of_birth' => $input['date_of_birth'] ?? null,
-            'gender' => $input['gender'] ?? null,
+            'date_of_birth' => trim($input['date_of_birth'] ?? '') !== '' ? trim($input['date_of_birth']) : null,
+            'gender' => trim($input['gender'] ?? '') !== '' ? trim($input['gender']) : null,
             'password_hash' => password_hash($input['password'], PASSWORD_DEFAULT),
             'status' => 'pending',
             'is_valid_email' => 1,

@@ -25,7 +25,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
       <div class="card shadow-sm border-0 auth-card no-hover">
-        <div class="card-header bg-accent1 text-white">
+        <div class="card-header bg-accent1 text-on-accent">
           <h4 class="mb-0">
             <i class="bi bi-door-open-fill me-2"></i>Sign in
           </h4>

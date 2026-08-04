@@ -11,7 +11,9 @@ class Committee extends BaseController
         $members = $committeeModel->getAllOrdered();
 
         return view('committee', [
-            'members' => $members
+            'title'           => 'Our Committees',
+            'metaDescription' => 'Meet the committees that run Lohana Community North London — Executive, Mahila Mandal, Youth and YLS.',
+            'members'         => $members
         ]);
     }
 
@@ -24,13 +26,18 @@ class Committee extends BaseController
             ->orderBy('id', 'ASC')              // or whatever column you use
             ->findAll();
         return view('committees/committee', [
-            'members' => $members
+            'title'           => 'Executive Committee',
+            'metaDescription' => 'The LCNL Executive Committee — the elected members who lead the community.',
+            'members'         => $members
         ]);
     }
 
     public function lcf()
     {
-        $data = ['metaDescription' => 'The Lohana Charitable Foundation (LCF) oversees governance, community assets, and the Dhamecha Lohana Centre. Meet our trustees and learn about our charitable work.'];
+        $data = [
+            'title'           => 'Lohana Charitable Foundation',
+            'metaDescription' => 'The Lohana Charitable Foundation (LCF) oversees governance, community assets, and the Dhamecha Lohana Centre. Meet our trustees and learn about our charitable work.',
+        ];
         return view('committees/lcf', $data);
     }
 
@@ -60,8 +67,10 @@ class Committee extends BaseController
         }
 
         return view('committees/mahila', [
-            'members' => $members,
-            'groupedEvents' => $groupedEvents
+            'title'           => 'Mahila Mandal',
+            'metaDescription' => 'The LCNL Mahila Mandal — the women\'s committee behind many of the community\'s events and cultural activities.',
+            'members'         => $members,
+            'groupedEvents'   => $groupedEvents
         ]);
     }
 
@@ -91,8 +100,10 @@ class Committee extends BaseController
         }
 
         return view('committees/yls', [
-            'members' => $members,
-            'groupedEvents' => $groupedEvents
+            'title'           => 'Young Lohana Society',
+            'metaDescription' => 'The Young Lohana Society (YLS) — social, sporting and cultural activities for young adults in the LCNL community.',
+            'members'         => $members,
+            'groupedEvents'   => $groupedEvents
         ]);
     }
 
@@ -116,8 +127,10 @@ class Committee extends BaseController
             ->findAll(10);
 
         return view('committees/youth', [
-            'members' => $members,
-            'events' => $events
+            'title'           => 'Youth Committee',
+            'metaDescription' => 'The LCNL Youth Committee — activities, events and opportunities for the community\'s younger members.',
+            'members'         => $members,
+            'events'          => $events
         ]);
     }
 

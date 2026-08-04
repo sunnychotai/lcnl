@@ -14,8 +14,6 @@ class DashboardController extends BaseController
 
     public function index()
     {
-        log_message('debug', 'SESSION AT DASHBOARD: ' . print_r(session()->get(), true));
-
         $memberId = (int) (session()->get('member_id') ?? 0);
         if (!$memberId) {
             return redirect()->to('/membership/login');
