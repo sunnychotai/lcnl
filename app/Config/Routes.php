@@ -199,6 +199,11 @@ $routes->group('admin/membership', [
     $routes->post('(:num)/activate', 'Admin\MembersController::activate/$1');
     $routes->post('(:num)/disable-with-reason', 'Admin\MembersController::disableWithReason/$1');
     $routes->post('(:num)/queue-activation', 'Admin\MembersController::queueActivationEmail/$1'); // <-- ADD THIS
+
+    // FAMILY MEMBERS (edit page AJAX — was missing entirely, causing 404s)
+    $routes->post('family/add', 'Admin\MemberFamilyController::add');
+    $routes->post('family/update', 'Admin\MemberFamilyController::update');
+    $routes->post('family/delete', 'Admin\MemberFamilyController::delete');
 });
 
 
