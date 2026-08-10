@@ -435,6 +435,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                     notes: form.notes.value.trim() || null
                 };
                 if (isEdit) payload.id = familyId;
+                payload[CSRF.name] = CSRF.hash;
 
                 const url = isEdit ?
                     "<?= base_url('admin/membership/family/update') ?>" :
@@ -444,8 +445,7 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest",
-                            [CSRF.name]: CSRF.hash
+                            "X-Requested-With": "XMLHttpRequest"
                         },
                         body: JSON.stringify(payload)
                     })
@@ -561,11 +561,11 @@ $GENDERS = $familyCfg->genders ?? ['male', 'female', 'other', 'prefer_not_to_say
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest",
-                            [CSRF.name]: CSRF.hash
+                            "X-Requested-With": "XMLHttpRequest"
                         },
                         body: JSON.stringify({
-                            id
+                            id,
+                            [CSRF.name]: CSRF.hash
                         })
                     })
                     .then(r => r.json())
