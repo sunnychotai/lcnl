@@ -254,52 +254,37 @@
 </div>
 <?php endif; ?>
 
+<?php if (date('Y-m-d') <= '2026-09-05'): ?>
 <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-  <div class="row g-0 align-items-center">
+  <div class="p-4">
 
-    <div class="col-md-5">
-      <img src="https://lcnl.org/uploads/events/1784838790_9054770cc4b4052381d2.jpg"
-        class="w-100 h-100" style="object-fit: cover; min-height: 280px;"
-        alt="Golden Jubilee Mela" loading="lazy" decoding="async">
+    <span class="badge bg-danger-subtle text-danger border mb-2">
+      <i class="bi bi-broadcast me-1" aria-hidden="true"></i>Live Stream
+    </span>
+
+    <h2 class="h3 fw-bold mb-3">Janmashtami &mdash; Watch Live</h2>
+
+    <p class="mb-3">
+      Can&rsquo;t join us in person? Watch this evening&rsquo;s Janmashtami celebrations live
+      below, or on the <a href="https://www.youtube.com/@lcnlmahajan" target="_blank"
+        rel="noopener">LCNL YouTube channel</a>.
+    </p>
+
+    <div class="ratio ratio-16x9 rounded overflow-hidden">
+      <iframe src="https://www.youtube-nocookie.com/embed/Ze6sNXD5OdY"
+        title="Janmashtami live stream" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
 
-    <div class="col-md-7">
-      <div class="p-4">
-
-        <span class="badge bg-success-subtle text-success border mb-2">
-          50th Golden Jubilee Celebrations
-        </span>
-
-        <h2 class="h3 fw-bold mb-3">Golden Jubilee Mela</h2>
-
-        <p class="mb-2">
-          Join us for a fantastic Bank Holiday celebration filled with fun, entertainment, food,
-          and activities for the whole family — sports, karaoke, bingo, bouncy castle, children's
-          rides, shopping stalls and more.
-        </p>
-
-        <p class="mb-3">
-          <strong>Entry is completely free, and no ticket is required.</strong>
-        </p>
-
-        <div class="d-flex flex-wrap gap-2 mb-4">
-          <a href="https://lcnl.org/events/56" class="btn btn-brand rounded-pill px-4">
-            Event Details
-          </a>
-        </div>
-
-        <div class="border rounded-4 p-3 bg-light">
-          <h3 class="h6 fw-semibold mb-1">Event Highlights</h3>
-          <p class="mb-0 small text-muted">
-            <strong>RCT Centre, Headstone Lane, Harrow, HA2 6NG</strong>
-          </p>
-        </div>
-
-      </div>
-    </div>
+    <p class="small text-muted mt-3 mb-0">
+      The stream goes live later this evening &mdash; if it hasn&rsquo;t started yet, the
+      player will show a countdown.
+    </p>
 
   </div>
 </div>
+<?php endif; ?>
 
 <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
   <div class="row g-0 align-items-center">
