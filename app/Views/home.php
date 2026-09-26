@@ -286,58 +286,37 @@
 </div>
 <?php endif; ?>
 
+<?php if (date('Y-m-d') <= '2026-09-26'): ?>
 <div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-  <div class="row g-0 align-items-center">
+  <div class="p-4">
 
-    <div class="col-md-5">
-      <img src="https://lcnl.org/uploads/events/1785273686_87547f90a9b2830cb446.jpg"
-        class="w-100 h-100" style="object-fit: cover; min-height: 280px;"
-        alt="Golden Jubilee - Mahabharata Katha" loading="lazy" decoding="async">
+    <span class="badge bg-danger-subtle text-danger border mb-2">
+      <i class="bi bi-broadcast me-1" aria-hidden="true"></i>Live Stream
+    </span>
+
+    <h2 class="h3 fw-bold mb-3">Golden Jubilee &mdash; Mahabharata Katha (In English) &mdash; Watch Live</h2>
+
+    <p class="mb-3">
+      Can&rsquo;t join us at Dhamecha Lohana Centre? Watch today&rsquo;s Mahābhārata Katha by
+      Suri Shandilya live below, or on the <a href="https://www.youtube.com/@lcnlmahajan" target="_blank"
+        rel="noopener">LCNL YouTube channel</a>.
+    </p>
+
+    <div class="ratio ratio-16x9 rounded overflow-hidden">
+      <iframe src="https://www.youtube-nocookie.com/embed/OPdvM4yJVA4"
+        title="Mahabharata Katha live stream" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
 
-    <div class="col-md-7">
-      <div class="p-4">
-
-        <span class="badge bg-success-subtle text-success border mb-2">
-          50th Golden Jubilee Celebrations
-        </span>
-
-        <h2 class="h3 fw-bold mb-3">Golden Jubilee &mdash; Mahabharata Katha (In English)</h2>
-
-        <p class="mb-2">
-          Join us for a narration of the Mahābhārata epic by Suri Shandilya, accompanied by
-          live sacred music &mdash; authentic Sanskrit passages brought to life in clear,
-          engaging English. Lunch prasadam included.
-        </p>
-
-        <p class="mb-3">
-          <strong>Admission is free, but a ticket is required &mdash; seating is limited and
-            first-come, first-served.</strong>
-        </p>
-
-        <div class="d-flex flex-wrap gap-2 mb-4">
-          <a href="https://LCNL50thevent4MBK.eventbrite.co.uk" class="btn btn-brand rounded-pill px-4">
-            <i class="bi bi-pencil-square me-2"></i>Register Now
-          </a>
-          <a href="https://lcnl.org/events/57" class="btn btn-outline-secondary rounded-pill px-4">
-            Event Details
-          </a>
-        </div>
-
-        <div class="border rounded-4 p-3 bg-light">
-          <h3 class="h6 fw-semibold mb-1">Event Highlights</h3>
-          <p class="mb-0 small text-muted">
-            <strong>Saturday 26th September 2026</strong> &bull;
-            11:00am &ndash; 5:00pm &bull;
-            Dhamecha Lohana Centre
-          </p>
-        </div>
-
-      </div>
-    </div>
+    <p class="small text-muted mt-3 mb-0">
+      Saturday 26th September 2026 &bull; 11:00am &ndash; 5:00pm &mdash; if the stream
+      hasn&rsquo;t started yet, the player will show a countdown.
+    </p>
 
   </div>
 </div>
+<?php endif; ?>
 
         <!-- Message from the President -->
         <div class="lcnl-card rounded border-0 shadow-sm">
