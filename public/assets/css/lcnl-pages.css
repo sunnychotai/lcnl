@@ -585,6 +585,28 @@
 }
 
 /* --- Home page banner --- */
+/* Desktop: the designed artwork, linked as a whole. */
+.legacy-banner-image {
+    display: block;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(94, 22, 48, .25);
+    transition: box-shadow .25s ease, transform .25s ease;
+}
+
+.legacy-banner-image:hover,
+.legacy-banner-image:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(94, 22, 48, .35);
+}
+
+.legacy-banner-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Phones and tablets: the HTML version. */
 .legacy-banner {
     border-radius: var(--radius);
     overflow: hidden;
