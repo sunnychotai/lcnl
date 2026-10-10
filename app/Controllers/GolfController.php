@@ -252,11 +252,22 @@ class GolfController extends BaseController
             ]);
         }
 
+        // The confirmation page lists every player's email and phone, and refs
+        // are built from the surname, so only show it to the session that
+        // made the registration.
+        $refs   = (array) session()->get('golf_confirmed_refs');
+        $refs[] = $ref;
+        session()->set('golf_confirmed_refs', $refs);
+
         return redirect()->to(site_url('golf/confirmation/' . $ref));
     }
 
     public function confirmation(string $ref)
     {
+        if (!in_array($ref, (array) session()->get('golf_confirmed_refs'), true)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
         $reg = $this->model->where('registration_ref', $ref)->first();
 
         if (!$reg) {

@@ -128,6 +128,8 @@
   });
 </script>
 
+<?= $this->include('legacy50/_home_banner') ?>
+
 <?php if (!empty($upcomingEvents)): ?>
   <section class="container py-3">
     <h2 class="mb-3">

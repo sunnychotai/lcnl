@@ -12,6 +12,7 @@ $pages = [
     'events'              => ['daily',   '0.9'],
     'membership'          => ['monthly', '0.8'],
     'membership/register' => ['monthly', '0.7'],
+    'legacy50'            => ['weekly',  '0.9'],
     'aboutus'             => ['monthly', '0.7'],
     'committee'           => ['monthly', '0.7'],
     'lcf'                 => ['monthly', '0.7'],

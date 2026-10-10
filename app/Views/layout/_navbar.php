@@ -60,6 +60,7 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
         </li>
 
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('membership') ? ' active' : '' ?>"<?= $navIsActive('membership') ? ' aria-current="page"' : '' ?> href="<?= base_url('membership') ?>">Membership</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('legacy50') ? ' active' : '' ?>"<?= $navIsActive('legacy50') ? ' aria-current="page"' : '' ?> href="<?= base_url('legacy50') ?>">Legacy 50</a></li>
 
         <!-- Services Dropdown -->
         <li class="nav-item dropdown">
@@ -128,6 +129,13 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/system/emails') ?>">
                 <i class="bi bi-envelope-fill me-1"></i> Emails
+              </a>
+            </li>
+
+            <!-- Legacy 50 pledges -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/legacy50') ?>">
+                <i class="bi bi-heart-fill me-1"></i> Legacy 50
               </a>
             </li>
 

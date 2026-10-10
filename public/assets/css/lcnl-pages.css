@@ -557,3 +557,257 @@
         text-align: left;
     }
 }
+
+/* =========================================================================
+   LEGACY 50 – 100 DONORS, ONE LASTING LEGACY
+   The pledge form reuses the .mela-* form components above. These rules add
+   the campaign hero, the home page banner and the donation sum. Gold text on
+   ruby (#d4af37 on #5e1630) is 6.1:1; on-accent ruby on gold is used for
+   buttons, never white on gold.
+   ========================================================================= */
+
+.legacy-hero {
+    min-height: 220px;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(212, 175, 55, .28) 0, transparent 45%),
+        radial-gradient(circle at 10% 90%, rgba(212, 175, 55, .18) 0, transparent 40%),
+        linear-gradient(135deg, var(--brand-700) 0%, var(--brand) 55%, #9b2a4f 100%);
+}
+
+.legacy-eyebrow {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: .4rem;
+}
+
+/* --- Home page banner --- */
+.legacy-banner {
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(94, 22, 48, .25);
+    background: linear-gradient(120deg, var(--brand-700) 0%, var(--brand) 60%, #9b2a4f 100%);
+}
+
+.legacy-banner-emblem {
+    background:
+        radial-gradient(circle at 50% 40%, rgba(212, 175, 55, .35) 0, transparent 65%),
+        linear-gradient(160deg, #3d0e20 0%, var(--brand-700) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    border-right: 1px solid rgba(212, 175, 55, .35);
+}
+
+.legacy-emblem {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--accent1);
+}
+
+.legacy-emblem-num {
+    display: block;
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.03em;
+    font-family: Georgia, 'Times New Roman', serif;
+}
+
+.legacy-emblem-sub,
+.legacy-emblem-place {
+    display: block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.legacy-emblem-icon {
+    display: block;
+    font-size: 2rem;
+    margin: .75rem 0 .35rem;
+    color: #fff;
+    opacity: .9;
+}
+
+.legacy-banner-body {
+    padding: 1.75rem 2rem;
+}
+
+.legacy-banner-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: .75rem;
+}
+
+.legacy-banner-sum {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+    font-weight: 700;
+}
+
+.legacy-banner-sum > span:not(.op) {
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 999px;
+    padding: .3rem .8rem;
+}
+
+.legacy-banner-sum .total {
+    background: var(--accent1) !important;
+    border-color: var(--accent1) !important;
+    color: var(--on-accent);
+}
+
+.legacy-banner-sum .op {
+    color: var(--accent1);
+    font-size: 1.2rem;
+}
+
+.legacy-btn {
+    background: var(--accent1);
+    border: 1px solid var(--accent1);
+    color: var(--on-accent);
+    font-weight: 700;
+}
+
+.legacy-btn:hover,
+.legacy-btn:focus-visible {
+    background: #fff;
+    border-color: #fff;
+    color: var(--brand);
+}
+
+.legacy-banner-note {
+    color: rgba(255, 255, 255, .85);
+}
+
+/* --- Donation sum on the campaign page --- */
+.legacy-sum {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: .6rem;
+    flex-wrap: wrap;
+}
+
+.legacy-sum-part {
+    flex: 1 1 140px;
+    max-width: 200px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: var(--radius);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+.legacy-sum-part .label {
+    display: block;
+    font-size: .72rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: #6c6470;
+    font-weight: 600;
+}
+
+.legacy-sum-part .value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--brand);
+}
+
+.legacy-sum-part.is-total {
+    background: var(--accent1);
+    border-color: var(--accent1);
+}
+
+.legacy-sum-part.is-total .label,
+.legacy-sum-part.is-total .value {
+    color: var(--on-accent);
+}
+
+.legacy-sum-op {
+    align-self: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent1);
+}
+
+/* --- Plaque preview --- */
+.legacy-plaque {
+    text-align: center;
+    padding: 1.1rem 1rem;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #e9cf74 0%, var(--accent1) 45%, #b8922a 100%);
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .35), 0 3px 10px rgba(0, 0, 0, .12);
+}
+
+.legacy-plaque-label {
+    display: block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--on-accent);
+    opacity: .8;
+}
+
+.legacy-plaque-name {
+    display: block;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--brand-700);
+    word-break: break-word;
+}
+
+.legacy-address {
+    border-left: 3px solid var(--accent1);
+    padding-left: 1rem;
+}
+
+.legacy-intl summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--brand);
+    padding: .4rem 0;
+}
+
+@media (max-width: 767.98px) {
+    .legacy-banner-emblem {
+        min-height: 0;
+        border-right: 0;
+        border-bottom: 1px solid rgba(212, 175, 55, .35);
+    }
+
+    .legacy-emblem {
+        padding: 1.1rem;
+    }
+
+    .legacy-emblem-num {
+        font-size: 3.5rem;
+    }
+
+    .legacy-banner-body {
+        padding: 1.25rem 1.1rem;
+    }
+
+    .legacy-banner-title {
+        font-size: 1.4rem;
+    }
+
+    .legacy-sum-op {
+        display: none;
+    }
+}

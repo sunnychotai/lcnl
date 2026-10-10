@@ -73,6 +73,19 @@ $routes->post($melaSlug, 'MelaStallController::submit');
 $routes->get($melaSlug . '/confirmation/(:segment)', 'MelaStallController::confirmation/$1');
 
 /* =========================================================
+   LEGACY 50 – 100 DONORS, ONE LASTING LEGACY (PUBLIC)
+
+   Donation pledges for clearing the Dhamecha Lohana Centre loan. The
+   thank-you page reads the pledge from the session, never from the URL.
+========================================================= */
+
+$legacySlug = config('Legacy50')->slug;
+
+$routes->get($legacySlug, 'Legacy50Controller::index');
+$routes->post($legacySlug, 'Legacy50Controller::submit');
+$routes->get($legacySlug . '/thank-you', 'Legacy50Controller::thankYou');
+
+/* =========================================================
    EVENTS (PUBLIC)
 ========================================================= */
 
@@ -292,6 +305,28 @@ $routes->group('admin/content', [
     $routes->post('committee/update/(:num)', 'Admin\CommitteeController::update/$1');
     $routes->post('committee/delete/(:num)', 'Admin\CommitteeController::delete/$1');
     $routes->get('committee/clone/(:num)', 'Admin\CommitteeController::clone/$1');
+});
+
+
+/* =========================================================
+   ADMIN LEGACY 50 PLEDGES
+
+   ADMIN only: pledges hold home addresses and Gift Aid declarations.
+========================================================= */
+
+$routes->group('admin/legacy50', [
+    'filter' => 'authAdmin:ADMIN'
+], function ($routes) {
+    $routes->get('/', 'Admin\Legacy50Controller::index');
+    $routes->get('edit/(:num)', 'Admin\Legacy50Controller::edit/$1');
+    $routes->post('update/(:num)', 'Admin\Legacy50Controller::update/$1');
+    $routes->post('payment/(:num)', 'Admin\Legacy50Controller::togglePayment/$1');
+    $routes->post('remind/(:num)', 'Admin\Legacy50Controller::remind/$1');
+    $routes->post('cancel/(:num)', 'Admin\Legacy50Controller::cancel/$1');
+    $routes->post('reinstate/(:num)', 'Admin\Legacy50Controller::reinstate/$1');
+    $routes->get('export', 'Admin\Legacy50Controller::export');
+    $routes->get('export/plaque', 'Admin\Legacy50Controller::exportPlaque');
+    $routes->get('export/gift-aid', 'Admin\Legacy50Controller::exportGiftAid');
 });
 
 
