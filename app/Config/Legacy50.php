@@ -123,17 +123,6 @@ class Legacy50 extends BaseConfig
         return implode("\n\n", $this->giftAidStatements);
     }
 
-    /**
-     * Suggested bank reference, e.g. "LCNL50 PATEL". The donor can change it;
-     * this just gives most people a sensible, matchable default.
-     */
-    public function suggestedReference(string $lastName): string
-    {
-        $clean = strtoupper(preg_replace('/[^A-Za-z]/', '', $lastName));
-
-        return substr(trim($this->paymentReferencePrefix . ' ' . $clean), 0, $this->paymentReferenceMaxLength);
-    }
-
     private function dateLabel(string $date): string
     {
         return (new \DateTimeImmutable($date, new \DateTimeZone('Europe/London')))->format('l j F Y');

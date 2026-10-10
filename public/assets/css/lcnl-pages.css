@@ -766,34 +766,6 @@
     color: var(--accent1);
 }
 
-/* --- Plaque preview --- */
-.legacy-plaque {
-    text-align: center;
-    padding: 1.1rem 1rem;
-    border-radius: 10px;
-    background: linear-gradient(145deg, #e9cf74 0%, var(--accent1) 45%, #b8922a 100%);
-    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .35), 0 3px 10px rgba(0, 0, 0, .12);
-}
-
-.legacy-plaque-label {
-    display: block;
-    font-size: .68rem;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--on-accent);
-    opacity: .8;
-}
-
-.legacy-plaque-name {
-    display: block;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: var(--brand-700);
-    word-break: break-word;
-}
-
 .legacy-address {
     border-left: 3px solid var(--accent1);
     padding-left: 1rem;

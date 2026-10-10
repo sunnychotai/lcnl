@@ -231,11 +231,6 @@ $giftAidOpen = $old('gift_aid_treat') || $old('gift_aid_taxpayer');
                 <span class="text-nowrap"><span id="plaqueCount">0</span>/<?= esc($config->plaqueMaxLength) ?></span>
               </div>
               <?= $fieldError('plaque_name') ?>
-
-              <div class="legacy-plaque mt-3" aria-hidden="true">
-                <span class="legacy-plaque-label">Plaque preview</span>
-                <span class="legacy-plaque-name" id="plaquePreview">Your name here</span>
-              </div>
             </div>
 
             <!-- 3. Gift Aid -->
@@ -319,7 +314,8 @@ $giftAidOpen = $old('gift_aid_treat') || $old('gift_aid_taxpayer');
                   aria-describedby="reference_help" required>
                 <div class="form-text" id="reference_help">
                   The reference you will put on your bank transfer, so we can match your donation.
-                  We have suggested one &mdash; change it if you like. Up to
+                  We suggest <?= esc($config->paymentReferencePrefix) ?> + your first initial + surname
+                  (e.g. <?= esc($config->paymentReferencePrefix) ?>SCHOTAI) &mdash; change it if you like. Up to
                   <?= esc($config->paymentReferenceMaxLength) ?> characters.
                 </div>
                 <?= $fieldError('payment_reference') ?>
@@ -408,7 +404,6 @@ $giftAidOpen = $old('gift_aid_treat') || $old('gift_aid_taxpayer');
     var last    = document.getElementById('last_name');
     var plaque  = document.getElementById('plaque_name');
     var count   = document.getElementById('plaqueCount');
-    var preview = document.getElementById('plaquePreview');
     var useName = document.getElementById('plaqueUseName');
     var ref     = document.getElementById('payment_reference');
     var address = document.getElementById('giftAidAddress');
@@ -417,9 +412,7 @@ $giftAidOpen = $old('gift_aid_treat') || $old('gift_aid_taxpayer');
     if (!plaque) return; // form closed
 
     function syncPlaque() {
-      var value = plaque.value.trim();
       count.textContent = plaque.value.length;
-      preview.textContent = value !== '' ? value : 'Your name here';
     }
 
     useName.addEventListener('click', function () {
@@ -429,15 +422,17 @@ $giftAidOpen = $old('gift_aid_treat') || $old('gift_aid_taxpayer');
     });
     plaque.addEventListener('input', syncPlaque);
 
-    // Suggest a reference from the surname until the donor types their own.
+    // Suggest prefix + first initial + surname, e.g. LCNL50SCHOTAI, until the
+    // donor types their own reference.
     var prefix = <?= json_encode($config->paymentReferencePrefix, JSON_HEX_TAG) ?>;
     var refTouched = ref.value.trim() !== '';
     function suggestRef() {
       if (refTouched) return;
-      var surname = last.value.replace(/[^A-Za-z]/g, '').toUpperCase();
-      ref.value = (prefix + ' ' + surname).trim().slice(0, ref.maxLength);
+      var letters = function (v) { return v.replace(/[^A-Za-z]/g, '').toUpperCase(); };
+      ref.value = (prefix + letters(first.value).charAt(0) + letters(last.value)).slice(0, ref.maxLength);
     }
     ref.addEventListener('input', function () { refTouched = ref.value.trim() !== ''; });
+    first.addEventListener('input', suggestRef);
     last.addEventListener('input', suggestRef);
 
     // The address is only needed (and only asked for) when claiming Gift Aid.
