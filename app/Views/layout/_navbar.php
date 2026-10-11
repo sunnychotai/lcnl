@@ -60,6 +60,9 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
         </li>
 
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('membership') ? ' active' : '' ?>"<?= $navIsActive('membership') ? ' aria-current="page"' : '' ?> href="<?= base_url('membership') ?>">Membership</a></li>
+        <?php if (config('Navratri')->isPromoted()): ?>
+          <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('navratri') ? ' active' : '' ?>"<?= $navIsActive('navratri') ? ' aria-current="page"' : '' ?> href="<?= base_url('navratri') ?>">Navratri</a></li>
+        <?php endif; ?>
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('legacy50') ? ' active' : '' ?>"<?= $navIsActive('legacy50') ? ' aria-current="page"' : '' ?> href="<?= base_url('legacy50') ?>">Legacy 50</a></li>
 
         <!-- Services Dropdown -->

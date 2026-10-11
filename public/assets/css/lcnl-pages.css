@@ -805,3 +805,409 @@
         display: none;
     }
 }
+
+/* =========================================================================
+   NAVRATRI FESTIVAL 2026
+   Deep festive gradient (purple → ruby → saffron) for the hero and home
+   banner. White text on the darkest stops is 9:1+; buttons reuse
+   .legacy-btn (ruby on gold). Colour-theme swatches set their own text
+   colour from Config\Navratri.
+   ========================================================================= */
+
+.nvr-hero {
+    min-height: 260px;
+    background:
+        radial-gradient(circle at 12% 20%, rgba(251, 192, 45, .35) 0, transparent 38%),
+        radial-gradient(circle at 88% 80%, rgba(245, 124, 0, .40) 0, transparent 42%),
+        linear-gradient(120deg, #3b0a45 0%, var(--brand-700) 45%, #a0182f 100%);
+}
+
+.nvr-hero h1 {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+
+.nvr-eyebrow {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: .4rem;
+}
+
+/* --- Sticky in-page jump links --- */
+.nvr-jump {
+    position: sticky;
+    top: 0;
+    z-index: 1010;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+.nvr-jump ul {
+    display: flex;
+    gap: .4rem;
+    margin: 0;
+    padding: .6rem 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.nvr-jump ul::-webkit-scrollbar {
+    display: none;
+}
+
+.nvr-jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    white-space: nowrap;
+    padding: .35rem .8rem;
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--brand);
+    background: rgba(122, 29, 60, .07);
+    text-decoration: none;
+}
+
+.nvr-jump a:hover,
+.nvr-jump a:focus-visible {
+    background: var(--brand);
+    color: #fff;
+}
+
+/* --- Sections --- */
+.nvr-section {
+    scroll-margin-top: 4.5rem;
+    margin-top: 1.75rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .06);
+    border-top: 5px solid var(--accent1);
+}
+
+.nvr-section:nth-of-type(6n+1) { border-top-color: #f57c00; }
+.nvr-section:nth-of-type(6n+2) { border-top-color: #6a1b9a; }
+.nvr-section:nth-of-type(6n+3) { border-top-color: #00796b; }
+.nvr-section:nth-of-type(6n+4) { border-top-color: #1a3fb0; }
+.nvr-section:nth-of-type(6n+5) { border-top-color: #c62828; }
+.nvr-section:nth-of-type(6n+6) { border-top-color: #fbc02d; }
+
+.nvr-live {
+    border-top-color: #c62828 !important;
+    background: linear-gradient(180deg, #fff5f5 0%, #fff 60%);
+}
+
+.nvr-h2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--brand-700);
+    margin-bottom: 1rem;
+}
+
+.nvr-h2 > .bi {
+    color: #f57c00;
+}
+
+.nvr-h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand);
+    margin: 1.25rem 0 .6rem;
+}
+
+.nvr-intro {
+    font-size: 1.15rem;
+}
+
+.nvr-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .2rem .7rem;
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 700;
+    border: 1px solid rgba(0, 0, 0, .15);
+    vertical-align: middle;
+}
+
+.nvr-chip-date {
+    background: #fff3e0;
+    color: #8a3d00;
+    border-color: #ffcc80;
+}
+
+.nvr-phone {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* --- Night-by-night colour grid --- */
+.nvr-nights {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: .85rem;
+}
+
+.nvr-night {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+}
+
+.nvr-night.is-today {
+    outline: 3px solid #c62828;
+    outline-offset: 2px;
+}
+
+.nvr-night.is-past {
+    opacity: .7;
+}
+
+.nvr-night-swatch {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 84px;
+    padding: .65rem .8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+}
+
+.nvr-night-label {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .9;
+}
+
+.nvr-night-colour {
+    font-size: 1.1rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+/* The multicoloured swatch needs a shadow for its white text to read. */
+.nvr-night-swatch[style*="gradient(90deg"] {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+}
+
+.nvr-night-body {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    align-items: flex-start;
+    padding: .65rem .8rem .8rem;
+    font-size: .9rem;
+}
+
+.nvr-night-event {
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--brand);
+}
+
+.nvr-night-event .bi {
+    color: #f9a825;
+}
+
+.nvr-night-watch {
+    margin-top: .2rem;
+    font-size: .82rem;
+    font-weight: 700;
+    color: #c62828;
+    text-decoration: none;
+}
+
+/* --- Price tiles --- */
+.nvr-price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    padding: 1rem .75rem;
+    border-radius: 12px;
+    background: linear-gradient(160deg, #fff8e1 0%, #ffe0b2 100%);
+    color: #5d2a00;
+}
+
+.nvr-price-amount {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.nvr-price-label {
+    font-weight: 700;
+}
+
+.nvr-price.is-featured {
+    background: linear-gradient(160deg, #3b0a45 0%, var(--brand) 100%);
+    color: #fff;
+}
+
+.nvr-price.is-featured .nvr-price-amount {
+    color: var(--accent1);
+}
+
+.nvr-price.is-pink {
+    background: linear-gradient(160deg, #fce4ec 0%, #f8bbd0 100%);
+    color: #6d0f35;
+}
+
+/* --- Tables, lists, callouts --- */
+.nvr-table thead th {
+    background: var(--brand);
+    color: #fff;
+    border: 0;
+}
+
+.nvr-table tbody tr:nth-child(even) td {
+    background: #fff8f0;
+}
+
+.nvr-list li,
+.nvr-ticks li {
+    margin-bottom: .45rem;
+}
+
+.nvr-ticks {
+    list-style: none;
+    padding-left: 0;
+}
+
+.nvr-ticks li {
+    position: relative;
+    padding-left: 1.6rem;
+}
+
+.nvr-ticks li::before {
+    content: "\F26A"; /* bi-check-circle-fill */
+    font-family: "bootstrap-icons";
+    position: absolute;
+    left: 0;
+    color: #2e7d32;
+}
+
+.nvr-callout {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    background: #fff8e1;
+    border-left: 5px solid #f9a825;
+}
+
+/* --- Feature cards --- */
+.nvr-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+    color: #fff;
+}
+
+.nvr-card a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.nvr-card-kicker {
+    display: block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: .9;
+    margin-bottom: .35rem;
+}
+
+.nvr-card-orange { background: linear-gradient(135deg, #b23c00 0%, #e65100 100%); }
+.nvr-card-purple { background: linear-gradient(135deg, #3b0a45 0%, #6a1b9a 100%); }
+.nvr-card-blue   { background: linear-gradient(135deg, #0d2473 0%, #1a3fb0 100%); }
+.nvr-card-green  { background: linear-gradient(135deg, #004d40 0%, #00796b 100%); }
+
+/* --- Competition tiles --- */
+.nvr-comp {
+    padding: 1rem;
+    border-radius: 12px;
+    background: #f3e5f5;
+    border: 1px solid #e1bee7;
+}
+
+.nvr-comp-icon {
+    font-size: 1.6rem;
+    color: #6a1b9a;
+}
+
+.nvr-comp-date {
+    display: block;
+    margin: .25rem 0;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #8a3d00;
+}
+
+/* --- Home page banner --- */
+.nvr-banner {
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(59, 10, 69, .3);
+    background:
+        radial-gradient(circle at 92% 15%, rgba(251, 192, 45, .30) 0, transparent 40%),
+        linear-gradient(120deg, #3b0a45 0%, var(--brand-700) 50%, #a0182f 100%);
+}
+
+.nvr-banner-stripe {
+    display: flex;
+    height: 8px;
+}
+
+.nvr-banner-stripe span {
+    flex: 1;
+}
+
+.nvr-banner-body {
+    padding: 1.5rem;
+}
+
+.nvr-banner-title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin-bottom: .75rem;
+}
+
+@media (min-width: 992px) {
+    .nvr-banner-body {
+        padding: 2rem 2.25rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .nvr-section {
+        padding: 1.1rem;
+    }
+
+    .nvr-h2 {
+        font-size: 1.3rem;
+    }
+
+    .nvr-price-amount {
+        font-size: 1.5rem;
+    }
+}

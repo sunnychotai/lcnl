@@ -115,6 +115,16 @@ class Home extends BaseController
         ]);
     }
 
+    public function navratri()
+    {
+        return view('navratri/index', [
+            'title'           => 'Navratri Festival 2026',
+            'metaDescription' => 'LCNL Navratri Festival 2026 at the Dhamecha Lohana Centre, 11–19 October, with Sharad Poonam on '
+                . '24 October. Tickets, colour themes, competitions, parking and live streams.',
+            'config'          => config('Navratri'),
+        ]);
+    }
+
     public function faq()
     {
         $faqModel = new FaqModel();

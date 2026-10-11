@@ -86,6 +86,12 @@ $routes->post($legacySlug, 'Legacy50Controller::submit');
 $routes->get($legacySlug . '/thank-you', 'Legacy50Controller::thankYou');
 
 /* =========================================================
+   NAVRATRI FESTIVAL 2026 (PUBLIC)
+========================================================= */
+
+$routes->get(config('Navratri')->slug, 'Home::navratri');
+
+/* =========================================================
    EVENTS (PUBLIC)
 ========================================================= */
 
