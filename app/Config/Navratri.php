@@ -29,7 +29,7 @@ class Navratri extends BaseConfig
      */
     public array $streams = [
         '2026-10-11' => 'sTfmYBG_Ufo',
-        '2026-10-12' => '',
+        '2026-10-12' => 'dW6N9CUTeWw',
         '2026-10-13' => '',
         '2026-10-14' => '',
         '2026-10-15' => '',
