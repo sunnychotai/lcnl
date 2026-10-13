@@ -3,7 +3,7 @@
 
 <?php /** @var \Config\Legacy50 $config */ ?>
 
-<section class="legacy-hero d-flex align-items-center justify-content-center">
+<section class="hero-lcnl-watermark legacy-hero d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-3">
     <h1 class="fw-bold display-6 mb-2">Legacy 50 Pledges</h1>
     <p class="lead fs-5 mb-0">100 Donors, One Lasting Legacy &mdash; target <?= esc($config->targetLabel()) ?></p>

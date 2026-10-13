@@ -11,9 +11,20 @@ $tel      = static fn(string $number): string => 'tel:' . preg_replace('/\D/', '
 $phone    = static fn(string $number) => '<a href="' . esc($tel($number), 'attr') . '" class="nvr-phone">' . esc($number) . '</a>';
 ?>
 
-<section class="nvr-hero d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-4">
-    <span class="nvr-eyebrow">LCNL presents</span>
+<?php if ($tonight): ?>
+<section class="hero-lcnl-watermark nvr-hero is-themed<?= $tonight['ink'] === '#fff' ? '' : ' is-light' ?> d-flex align-items-center justify-content-center"
+  style="--nvr-day: <?= esc($tonight['swatch'], 'attr') ?>; --nvr-ink: <?= esc($tonight['ink'], 'attr') ?>">
+<?php else: ?>
+<section class="hero-lcnl-watermark nvr-hero d-flex align-items-center justify-content-center">
+<?php endif; ?>
+  <div class="container position-relative text-center py-4">
+    <span class="nvr-eyebrow">
+      <?php if ($tonight): ?>
+        Tonight &middot; <?= esc($tonight['label']) ?> &middot; <?= esc($tonight['colour']) ?>
+      <?php else: ?>
+        LCNL presents
+      <?php endif; ?>
+    </span>
     <h1 class="fw-bold display-5 mb-2">Navratri Festival 2026</h1>
     <p class="lead fs-5 mb-0">Ten evenings of garba, dandia, live music and community at the Dhamecha Lohana Centre</p>
 

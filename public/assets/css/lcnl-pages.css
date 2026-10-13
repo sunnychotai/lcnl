@@ -820,10 +820,55 @@
         radial-gradient(circle at 12% 20%, rgba(251, 192, 45, .35) 0, transparent 38%),
         radial-gradient(circle at 88% 80%, rgba(245, 124, 0, .40) 0, transparent 42%),
         linear-gradient(120deg, #3b0a45 0%, var(--brand-700) 45%, #a0182f 100%);
+    color: #fff;
 }
 
 .nvr-hero h1 {
     text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+
+/* On a festival night the hero takes that night's colour (--nvr-day, set
+   inline from Config\Navratri). A soft centre wash keeps the text readable on
+   the lighter stops of the gradient swatches. */
+.nvr-hero.is-themed {
+    background:
+        radial-gradient(ellipse at center, rgba(0, 0, 0, .28) 0, transparent 70%),
+        var(--nvr-day);
+    color: var(--nvr-ink);
+}
+
+.nvr-hero.is-light {
+    background:
+        radial-gradient(ellipse at center, rgba(255, 255, 255, .4) 0, transparent 70%),
+        var(--nvr-day);
+}
+
+/* Light nights (Yellow, Silver, White) take dark text, so the white-on-dark
+   details flip to dark-on-light. */
+.nvr-hero.is-light h1,
+.nvr-hero.is-light p.lead {
+    text-shadow: none;
+}
+
+.nvr-hero.is-themed .nvr-eyebrow {
+    color: var(--nvr-ink);
+}
+
+.nvr-hero.is-light .mela-hero-pills .pill {
+    background: rgba(0, 0, 0, .06);
+    border-color: rgba(0, 0, 0, .3);
+    color: var(--nvr-ink);
+}
+
+.nvr-hero.is-light .mela-hero-pills .pill.is-accent {
+    background: var(--nvr-ink);
+    border-color: var(--nvr-ink);
+    color: #fff;
+}
+
+/* The grey watermark disappears under 'screen' on a light background. */
+.nvr-hero.is-light .random-logo {
+    mix-blend-mode: multiply;
 }
 
 .nvr-eyebrow {

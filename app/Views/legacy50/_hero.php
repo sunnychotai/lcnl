@@ -1,5 +1,5 @@
 <?php /** @var \Config\Legacy50 $config */ ?>
-<section class="legacy-hero d-flex align-items-center justify-content-center">
+<section class="hero-lcnl-watermark legacy-hero d-flex align-items-center justify-content-center">
   <div class="container position-relative text-center text-white py-4">
     <span class="legacy-eyebrow">50 Years of LCNL &middot; 1976&ndash;2026</span>
     <h1 class="fw-bold display-6 mb-2"><?= esc($heading ?? '100 Donors, One Lasting Legacy') ?></h1>
