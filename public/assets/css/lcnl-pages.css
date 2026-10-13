@@ -1218,6 +1218,36 @@
         linear-gradient(120deg, #3b0a45 0%, var(--brand-700) 50%, #a0182f 100%);
 }
 
+/* On a festival night the banner takes that night's colour, like the
+   Navratri page hero. The wash is heaviest on the left, behind the text. */
+.nvr-banner.is-themed {
+    color: var(--nvr-ink);
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, .32) 0%, rgba(0, 0, 0, .08) 75%),
+        var(--nvr-day);
+}
+
+.nvr-banner.is-light {
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, .4) 0%, rgba(255, 255, 255, .1) 75%),
+        var(--nvr-day);
+}
+
+.nvr-banner.is-themed .nvr-eyebrow {
+    color: var(--nvr-ink);
+}
+
+/* Tonight's chip and badge would otherwise blend into a banner of the same colour. */
+.nvr-banner.is-themed .nvr-chip,
+.nvr-banner.is-themed .badge {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .85);
+}
+
+.nvr-banner.is-light .nvr-chip,
+.nvr-banner.is-light .badge {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .45);
+}
+
 .nvr-banner-stripe {
     display: flex;
     height: 8px;
