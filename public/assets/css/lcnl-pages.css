@@ -1286,3 +1286,127 @@
         font-size: 1.5rem;
     }
 }
+
+/* =========================================
+   BEREAVEMENT SUPPORT
+   Quiet and spacious: who to call first,
+   then a numbered guide.
+   ========================================= */
+
+.bereavement-help {
+    background: #fff;
+    border-left: 6px solid var(--accent1);
+    border-radius: var(--radius);
+    box-shadow: 0 .25rem 1rem rgba(0, 0, 0, .06);
+    padding: 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .bereavement-help { padding: 2rem 2.25rem; }
+}
+
+.bereavement-call {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    height: 100%;
+    padding: .85rem 1.1rem;
+    border-radius: 12px;
+    background: var(--brand);
+    color: #fff;
+    text-decoration: none;
+    transition: background .15s ease;
+}
+
+.bereavement-call:hover,
+.bereavement-call:focus-visible {
+    background: var(--brand-700);
+    color: #fff;
+}
+
+.bereavement-call > .bi {
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+
+.bereavement-call.is-quiet {
+    background: var(--muted);
+    color: var(--brand);
+}
+
+.bereavement-call.is-quiet:hover,
+.bereavement-call.is-quiet:focus-visible {
+    background: #ece3e5;
+    color: var(--brand-700);
+}
+
+.bereavement-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    margin-top: 1.5rem;
+}
+
+.bereavement-facts li {
+    display: flex;
+    flex-direction: column;
+}
+
+.bereavement-facts .fact-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--brand);
+}
+
+.bereavement-facts .fact-label {
+    font-size: .875rem;
+    color: #6c757d;
+}
+
+.bereavement-image {
+    width: 240px;
+    max-width: 70vw;
+    border-radius: var(--radius);
+}
+
+/* Numbered steps joined by a thin line */
+.bereavement-steps li {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+}
+
+.bereavement-steps li:last-child {
+    padding-bottom: 0;
+}
+
+.bereavement-steps li:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 1.0625rem;
+    top: 2.4rem;
+    bottom: .3rem;
+    width: 2px;
+    background: color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+.bereavement-steps .step-number {
+    flex-shrink: 0;
+    width: 2.125rem;
+    height: 2.125rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    background: var(--brand);
+    color: #fff;
+}
+
+.bereavement-support {
+    background: var(--muted);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+}
