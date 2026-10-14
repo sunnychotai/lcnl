@@ -127,7 +127,7 @@ $steps = [
       </ul>
     </div>
     <div class="col-md-auto text-center">
-      <img src="<?= base_url('assets/img/shiva.png') ?>" alt="Lord Shiva in meditation"
+      <img src="<?= base_url('assets/img/shiva.png') ?>" alt="Silhouette of Lord Shiva seated in meditation, with the Om symbol"
         class="img-fluid bereavement-image" width="508" height="556" loading="lazy" decoding="async">
     </div>
   </section>
