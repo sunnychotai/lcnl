@@ -17,6 +17,9 @@ class GalleryImageProcessor
 {
     private const ALLOWED_TYPES = [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP];
 
+    /** The scaled, faded logo, cached by size for the life of the request. */
+    private array $logos = [];
+
     public function __construct(private Gallery $config)
     {
     }
@@ -52,19 +55,102 @@ class GalleryImageProcessor
 
         $variants = [];
         foreach ($this->config->variants as $name => $spec) {
-            $variants[$name] = $this->encode($source, $spec['width'], $spec['height'], $spec['quality']);
+            $image = $this->resize($source, $spec['width'], $spec['height']);
+
+            if ($this->config->watermark && in_array($name, $this->config->watermarkVariants, true)) {
+                $this->watermark($image);
+            }
+
+            $variants[$name] = [
+                'body'   => $this->webp($image, $spec['quality']),
+                'width'  => imagesx($image),
+                'height' => imagesy($image),
+            ];
         }
 
         return $variants;
     }
 
     /**
+     * Watermark an already-stored WebP variant, for photos uploaded before
+     * watermarking was turned on (the originals are not kept).
+     */
+    public function watermarkWebp(string $webp, int $quality): string
+    {
+        $image = @imagecreatefromstring($webp);
+
+        if (! $image instanceof GdImage) {
+            throw new InvalidArgumentException('The stored image could not be read.');
+        }
+
+        $this->watermark($image);
+
+        return $this->webp($image, $quality);
+    }
+
+    /**
+     * Stamp the logo in the top-right corner. If the logo file is missing the
+     * photo goes out unmarked rather than the upload failing.
+     */
+    public function watermark(GdImage $image): void
+    {
+        $width  = imagesx($image);
+        $height = imagesy($image);
+        $size   = max(48, (int) round(min($width, $height) * $this->config->watermarkSize));
+        $logo   = $this->logo($size);
+
+        if ($logo === null) {
+            return;
+        }
+
+        $margin = (int) round($size * 0.2);
+
+        imagealphablending($image, true);
+        imagecopy($image, $logo, $width - $size - $margin, $margin, 0, 0, $size, $size);
+    }
+
+    private function logo(int $size): ?GdImage
+    {
+        if (array_key_exists($size, $this->logos)) {
+            return $this->logos[$size];
+        }
+
+        $path   = FCPATH . ltrim($this->config->watermarkImage, '/');
+        $source = is_file($path) ? @imagecreatefrompng($path) : false;
+
+        if (! $source instanceof GdImage) {
+            log_message('error', 'Gallery: watermark image {path} could not be read; photos are going out unmarked.', ['path' => $path]);
+
+            return $this->logos[$size] = null;
+        }
+
+        $logo = imagecreatetruecolor($size, $size);
+        imagealphablending($logo, false);
+        imagesavealpha($logo, true);
+        imagefill($logo, 0, 0, imagecolorallocatealpha($logo, 0, 0, 0, 127));
+        imagecopyresampled($logo, $source, 0, 0, 0, 0, $size, $size, imagesx($source), imagesy($source));
+
+        // Fade it: GD has no opacity setting for images with an alpha channel,
+        // so scale each pixel's own opacity.
+        $opacity = max(0.0, min(1.0, $this->config->watermarkOpacity));
+        if ($opacity < 1.0) {
+            for ($x = 0; $x < $size; $x++) {
+                for ($y = 0; $y < $size; $y++) {
+                    $rgba  = imagecolorat($logo, $x, $y);
+                    $alpha = 127 - (int) round((127 - (($rgba >> 24) & 0x7F)) * $opacity);
+                    imagesetpixel($logo, $x, $y, ($alpha << 24) | ($rgba & 0xFFFFFF));
+                }
+            }
+        }
+
+        return $this->logos[$size] = $logo;
+    }
+
+    /**
      * Scale to fit inside the box, never enlarging, flattened onto white so
      * transparent PNGs do not turn black.
-     *
-     * @return array{body: string, width: int, height: int}
      */
-    private function encode(GdImage $source, int $maxWidth, int $maxHeight, int $quality): array
+    private function resize(GdImage $source, int $maxWidth, int $maxHeight): GdImage
     {
         $sw    = imagesx($source);
         $sh    = imagesy($source);
@@ -76,10 +162,15 @@ class GalleryImageProcessor
         imagefill($canvas, 0, 0, imagecolorallocate($canvas, 255, 255, 255));
         imagecopyresampled($canvas, $source, 0, 0, 0, 0, $w, $h, $sw, $sh);
 
-        ob_start();
-        imagewebp($canvas, null, $quality);
+        return $canvas;
+    }
 
-        return ['body' => (string) ob_get_clean(), 'width' => $w, 'height' => $h];
+    private function webp(GdImage $image, int $quality): string
+    {
+        ob_start();
+        imagewebp($image, null, $quality);
+
+        return (string) ob_get_clean();
     }
 
     /**
