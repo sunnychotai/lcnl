@@ -60,11 +60,24 @@ $js        = 'assets/js/gallery-admin.js';
     <div class="alert alert-danger"><?= esc($m) ?></div>
   <?php endif; ?>
 
+  <?php if ($unmarked > 0): ?>
+    <div class="alert alert-info d-flex flex-wrap align-items-center justify-content-between gap-2" id="gallery-watermark">
+      <div>
+        <i class="bi bi-patch-check me-1" aria-hidden="true"></i>
+        <span data-watermark-text><?= number_format($unmarked) ?> <?= $unmarked === 1 ? 'photo was' : 'photos were' ?> uploaded before the LCNL watermark was added.</span>
+      </div>
+      <button type="button" class="btn btn-sm btn-brand" data-watermark-start>
+        <i class="bi bi-magic me-1"></i> Add the watermark to <?= $unmarked === 1 ? 'it' : 'them' ?>
+      </button>
+    </div>
+  <?php endif; ?>
+
   <!-- Uploader -->
   <div class="card border-0 shadow-sm mb-4" id="gallery-uploader"
     data-check-url="<?= base_url($base . '/check') ?>"
     data-upload-url="<?= base_url($base . '/upload') ?>"
     data-reorder-url="<?= base_url($base . '/reorder') ?>"
+    data-watermark-url="<?= base_url($base . '/watermark') ?>"
     data-token-url="<?= base_url('admin/gallery/token') ?>"
     data-csrf-name="<?= csrf_token() ?>"
     data-csrf-hash="<?= csrf_hash() ?>"

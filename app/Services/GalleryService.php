@@ -98,6 +98,7 @@ class GalleryService
                 'storage_key'   => $key,
                 'width'         => $variants['web']['width'],
                 'height'        => $variants['web']['height'],
+                'watermarked'   => $this->config->watermark ? 1 : 0,
                 'sort'          => max(0, $sort),
                 'uploaded_by'   => $uploadedBy,
             ], true);
@@ -177,6 +178,62 @@ class GalleryService
                 $this->photos->update($id, ['sort' => ++$position]);
             }
         }
+    }
+
+    public function countUnwatermarked(int $albumId): int
+    {
+        return $this->photos->where('album_id', $albumId)->where('watermarked', 0)->countAllResults();
+    }
+
+    /**
+     * Watermark photos that were uploaded before watermarking was turned on,
+     * a few at a time so each request stays short.
+     *
+     * The stored web image is marked and saved under a new key — the old URL
+     * is cached for a year, so overwriting it in place would not show. The
+     * thumbnail is copied across unchanged.
+     *
+     * @return array{done: int, failed: int, remaining: int}
+     */
+    public function watermarkExisting(int $albumId, int $limit = 10): array
+    {
+        $processor = new GalleryImageProcessor($this->config);
+        $quality   = $this->config->variants['web']['quality'];
+        $done      = 0;
+        $failed    = 0;
+
+        $rows = $this->photos->where('album_id', $albumId)->where('watermarked', 0)
+            ->orderBy('id', 'ASC')->findAll($limit);
+
+        foreach ($rows as $photo) {
+            $old     = $photo['storage_key'];
+            $new     = 'albums/' . $albumId . '/' . substr($photo['source_hash'], 0, 16) . bin2hex(random_bytes(4));
+            $written = [];
+
+            try {
+                $web = $processor->watermarkWebp($this->storage->get(self::variantKey($old, 'web')), $quality);
+
+                foreach (array_keys($this->config->variants) as $variant) {
+                    $body = $variant === 'web' ? $web : $this->storage->get(self::variantKey($old, $variant));
+                    $this->storage->put(self::variantKey($new, $variant), $body, 'image/webp', $this->config->cacheControl);
+                    $written[] = self::variantKey($new, $variant);
+                }
+
+                $this->photos->update($photo['id'], ['storage_key' => $new, 'watermarked' => 1]);
+            } catch (Throwable $e) {
+                log_message('error', 'Gallery: watermarking photo {id} failed: {msg}', ['id' => $photo['id'], 'msg' => $e->getMessage()]);
+                $this->deleteObjectsQuietly($written);
+                $failed++;
+
+                // Storage is struggling; stop rather than fail the rest one by one.
+                break;
+            }
+
+            $this->deleteObjectsQuietly($this->objectKeys([$photo]));
+            $done++;
+        }
+
+        return ['done' => $done, 'failed' => $failed, 'remaining' => $this->countUnwatermarked($albumId)];
     }
 
     public function setCover(int $albumId, int $photoId): bool

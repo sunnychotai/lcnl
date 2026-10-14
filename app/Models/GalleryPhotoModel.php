@@ -13,7 +13,7 @@ class GalleryPhotoModel extends Model
 
     protected $allowedFields = [
         'album_id', 'source_hash', 'original_name', 'storage_key',
-        'width', 'height', 'sort', 'uploaded_by',
+        'width', 'height', 'watermarked', 'sort', 'uploaded_by',
     ];
 
     /** Photos of an album in display order. */

@@ -166,6 +166,7 @@ class GalleryController extends BaseController
             'album'        => $album,
             'photos'       => array_map(fn(array $p): array => $p + ['thumb' => $this->gallery->urls($p)['thumb']], $photos),
             'nextSort'     => $this->gallery->nextSort($id),
+            'unmarked'     => $this->config->watermark ? $this->gallery->countUnwatermarked($id) : 0,
             'storageReady' => $this->gallery->storageReady(),
             'maxBytes'     => $this->config->maxUploadBytes,
             'webSize'      => $this->config->variants['web']['width'],
@@ -258,6 +259,22 @@ class GalleryController extends BaseController
 
         return redirect()->to(self::BASE . '/album/' . $id)
             ->with('success', $deleted === 1 ? '1 photo deleted.' : "{$deleted} photos deleted.");
+    }
+
+    /** Watermark a batch of photos uploaded before watermarking (JSON). */
+    public function watermark(int $id)
+    {
+        if (! $this->albums->find($id)) {
+            return $this->json(['error' => 'Album not found.'], 404);
+        }
+
+        if (! $this->config->watermark) {
+            return $this->json(['error' => 'Watermarking is turned off.'], 422);
+        }
+
+        $result = $this->gallery->watermarkExisting($id);
+
+        return $this->json($result, $result['failed'] ? 503 : 200);
     }
 
     /** Save drag-and-drop order (JSON). */

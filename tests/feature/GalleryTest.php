@@ -54,6 +54,8 @@ final class GalleryTest extends CIUnitTestCase
         require_once APPPATH . 'Database/Migrations/2026-10-14-120001_CreateGalleryPhotos.php';
         (new \App\Database\Migrations\CreateGalleryAlbums($forge))->up();
         (new \App\Database\Migrations\CreateGalleryPhotos($forge))->up();
+        require_once APPPATH . 'Database/Migrations/2026-10-14-180000_AddWatermarkedToGalleryPhotos.php';
+        (new \App\Database\Migrations\AddWatermarkedToGalleryPhotos($forge))->up();
 
         $text = ['type' => 'TEXT', 'null' => true];
 
@@ -189,6 +191,70 @@ final class GalleryTest extends CIUnitTestCase
         $again = (new GalleryService())->addPhoto($albumId, $this->jpeg(3000, 2000), hash('sha256', 'photo-1'), 'copy.jpg', 9, null);
         $this->assertSame('duplicate', $again['status']);
         $this->assertCount(2, $this->r2->objects);
+    }
+
+    /** RGB at a point of a stored WebP. */
+    private function pixel(string $key, int $x, int $y): array
+    {
+        $image = imagecreatefromstring($this->r2->objects[$key]['body']);
+        $c     = imagecolorsforindex($image, imagecolorat($image, $x, $y));
+
+        return [$c['red'], $c['green'], $c['blue']];
+    }
+
+    private function assertColourNear(array $expected, array $actual, int $tolerance = 12): void
+    {
+        foreach ($expected as $i => $value) {
+            $this->assertEqualsWithDelta($value, $actual[$i], $tolerance, 'Colour ' . json_encode($actual) . ' is not near ' . json_encode($expected));
+        }
+    }
+
+    public function testWatermarkGoesTopRightOnTheWebImageOnly(): void
+    {
+        $albumId = $this->album();
+        $photo   = $this->addPhoto($albumId, 1); // 1200x800, solid colour 4000 = rgb(0, 15, 160)
+        $plain   = [0, 15, 160];
+
+        $this->assertSame(1, (int) $photo['watermarked']);
+
+        // Logo is 14% of the short side (112px) with a 22px margin: its centre
+        // is at (1122, 78) on the web image and (561, 39) on the thumbnail.
+        $marked = $this->pixel($photo['storage_key'] . '-web.webp', 1122, 78);
+        $this->assertGreaterThan(80, $marked[0], 'Expected the logo\'s maroon centre, got ' . json_encode($marked));
+
+        $this->assertColourNear($plain, $this->pixel($photo['storage_key'] . '-web.webp', 600, 400));
+        $this->assertColourNear($plain, $this->pixel($photo['storage_key'] . '-thumb.webp', 561, 39));
+    }
+
+    public function testPhotosUploadedBeforeTheWatermarkCanBeMarkedLater(): void
+    {
+        $config            = config('Gallery');
+        $config->watermark = false;
+        Factories::injectMock('config', 'Gallery', $config);
+
+        $albumId = $this->album();
+        $before  = $this->addPhoto($albumId, 1);
+        $this->assertSame(0, (int) $before['watermarked']);
+        $this->assertColourNear([0, 15, 160], $this->pixel($before['storage_key'] . '-web.webp', 1122, 78));
+
+        $config->watermark = true;
+
+        $this->withSession(self::ADMIN)->get("admin/gallery/album/{$albumId}")
+            ->assertSee('1 photo was uploaded before the LCNL watermark was added.');
+
+        $result = $this->withSession(self::ADMIN)->post("admin/gallery/album/{$albumId}/watermark");
+        $result->assertOK();
+        $body = json_decode($result->getJSON(), true);
+        $this->assertSame([1, 0, 0], [$body['done'], $body['failed'], $body['remaining']]);
+
+        $after = (new GalleryPhotoModel())->find($before['id']);
+        $this->assertSame(1, (int) $after['watermarked']);
+        $this->assertNotSame($before['storage_key'], $after['storage_key'], 'A new key, so the cached unmarked image is never served for it.');
+        $this->assertSame([$after['storage_key'] . '-web.webp', $after['storage_key'] . '-thumb.webp'], array_keys($this->r2->objects));
+        $this->assertGreaterThan(80, $this->pixel($after['storage_key'] . '-web.webp', 1122, 78)[0]);
+
+        $this->withSession(self::ADMIN)->get("admin/gallery/album/{$albumId}")
+            ->assertDontSee('uploaded before the LCNL watermark');
     }
 
     public function testCheckEndpointReportsPhotosAlreadyInTheAlbum(): void

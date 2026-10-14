@@ -369,6 +369,7 @@ $routes->group('admin/gallery', [
     $routes->post('album/(:num)/check', 'Admin\GalleryController::check/$1');
     $routes->post('album/(:num)/upload', 'Admin\GalleryController::upload/$1');
     $routes->post('album/(:num)/reorder', 'Admin\GalleryController::reorder/$1');
+    $routes->post('album/(:num)/watermark', 'Admin\GalleryController::watermark/$1');
     $routes->post('album/(:num)/photos/delete', 'Admin\GalleryController::deletePhotos/$1');
     $routes->post('album/(:num)/cover/(:num)', 'Admin\GalleryController::setCover/$1/$2');
 });

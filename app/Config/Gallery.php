@@ -33,6 +33,25 @@ class Gallery extends BaseConfig
     ];
 
     /**
+     * Stamp the LCNL logo in the top-right corner of these variants. The
+     * thumbnails are left clean: at grid size a logo is clutter, and the grid
+     * crops corners anyway. Downloads are made from "web", so they carry it.
+     */
+    public bool $watermark = true;
+
+    /** @var list<string> */
+    public array $watermarkVariants = ['web'];
+
+    /** PNG with transparency, relative to public/. */
+    public string $watermarkImage = 'assets/img/lcnl-logo.png';
+
+    /** Logo width as a share of the photo's shorter side. */
+    public float $watermarkSize = 0.14;
+
+    /** 0 (invisible) to 1 (solid). */
+    public float $watermarkOpacity = 0.85;
+
+    /**
      * The browser resizes to the web size before uploading, so a real upload
      * is well under 2 MB. This cap only stops something unexpected reaching GD.
      */

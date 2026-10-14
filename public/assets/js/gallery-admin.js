@@ -426,6 +426,53 @@
   }
 
   // ---------------------------------------------------------------------
+  // Watermarking photos uploaded before the watermark existed
+  // ---------------------------------------------------------------------
+
+  const watermarkBox = el('gallery-watermark');
+  watermarkBox?.querySelector('[data-watermark-start]').addEventListener('click', async (e) => {
+    const button = e.currentTarget;
+    const text = watermarkBox.querySelector('[data-watermark-text]');
+    button.disabled = true;
+    window.addEventListener('beforeunload', warnOnLeave);
+
+    let done = 0;
+    let failures = 0;
+    try {
+      for (;;) {
+        const body = new FormData();
+        body.append(cfg.csrfName, csrfHash);
+        const response = await fetch(cfg.watermarkUrl, {
+          method: 'POST', body, credentials: 'same-origin',
+          headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
+        });
+        const data = await readJson(response);
+        if (data?.csrf) csrfHash = data.csrf;
+        if (!data || data.error) throw new Error(data?.error || describe(response, data));
+
+        done += data.done;
+        text.textContent = `Adding the watermark… ${done} done, ${data.remaining} to go.`;
+        if (data.remaining === 0) break;
+
+        if (data.failed) {
+          // Storage hiccup: pause and carry on, but not forever.
+          if (++failures >= 3) throw new Error('storage is not responding. Please try again later.');
+          await sleep(5000);
+        }
+      }
+      watermarkBox.classList.replace('alert-info', 'alert-success');
+      text.textContent = `Done — ${done} photos now carry the LCNL watermark.`;
+      button.remove();
+    } catch (err) {
+      watermarkBox.classList.replace('alert-info', 'alert-danger');
+      text.textContent = `Stopped after ${done}: ${err.message} Press the button to carry on.`;
+      button.disabled = false;
+    } finally {
+      window.removeEventListener('beforeunload', warnOnLeave);
+    }
+  });
+
+  // ---------------------------------------------------------------------
   // Photo manager: selection, drag-to-reorder
   // ---------------------------------------------------------------------
 
