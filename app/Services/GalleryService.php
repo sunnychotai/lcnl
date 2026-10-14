@@ -180,6 +180,39 @@ class GalleryService
         }
     }
 
+    /**
+     * The newest public albums, each with its cover photo's URLs under
+     * 'cover' (null if it has none).
+     */
+    public function latestAlbums(int $limit): array
+    {
+        $albums = $this->albums->visible()
+            ->orderBy('album_date IS NULL', '', false)
+            ->orderBy('album_date', 'DESC')
+            ->orderBy('id', 'DESC')
+            ->findAll($limit);
+
+        return $this->withCovers($albums);
+    }
+
+    /** Add each album's cover photo, with its URLs, as 'cover'. */
+    public function withCovers(array $albums): array
+    {
+        $ids    = array_filter(array_column($albums, 'cover_photo_id'));
+        $covers = [];
+
+        if ($ids !== []) {
+            foreach ($this->photos->whereIn('id', $ids)->findAll() as $photo) {
+                $covers[(int) $photo['id']] = $photo + ['urls' => $this->urls($photo)];
+            }
+        }
+
+        return array_map(
+            static fn(array $album): array => $album + ['cover' => $covers[(int) $album['cover_photo_id']] ?? null],
+            $albums,
+        );
+    }
+
     public function countUnwatermarked(int $albumId): int
     {
         return $this->photos->where('album_id', $albumId)->where('watermarked', 0)->countAllResults();

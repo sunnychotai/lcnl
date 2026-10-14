@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\FaqModel;
+use App\Services\GalleryService;
 use App\Models\EventModel;
 
 class Home extends BaseController
@@ -14,6 +15,7 @@ class Home extends BaseController
 
         $data = [
             'upcomingEvents' => $eventModel->getUpcomingEvents([], 10),
+            'latestAlbums'   => (new GalleryService())->latestAlbums(4),
 
             // SAFE: we never call session() directly
             'isLoggedIn' => session()->get('isMemberLoggedIn') ?? false,
