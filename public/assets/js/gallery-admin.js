@@ -173,6 +173,7 @@
       return;
     }
 
+    let lastError = '';
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       const body = new FormData();
       body.append(cfg.csrfName, csrfHash);
@@ -190,9 +191,11 @@
           headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
           credentials: 'same-origin',
         });
-        data = await response.json().catch(() => ({}));
+        data = (await readJson(response)) || {};
+        lastError = data.error || describe(response, data);
       } catch (e) {
         response = null; // network drop: retry
+        lastError = 'no connection to the server';
       }
 
       if (data.csrf) csrfHash = data.csrf;
@@ -217,7 +220,7 @@
       }
 
       // Expired session token, server hiccup or network drop.
-      if (!response || response.status === 403 || !response.headers.get('content-type')?.includes('json')) {
+      if (!response || response.status === 403 || response.redirected || response.badJson) {
         await refreshToken();
       }
 
@@ -227,7 +230,7 @@
     }
 
     stats.failed++;
-    addLog(`${job.file.name}: upload failed after ${MAX_ATTEMPTS} tries. Drop the folder again to retry the missing ones.`, 'danger');
+    addLog(`${job.file.name}: upload failed after ${MAX_ATTEMPTS} tries (${lastError}). Drop the folder again to retry the missing ones.`, 'danger');
     updateProgress();
   }
 
@@ -285,12 +288,32 @@
         headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
         credentials: 'same-origin',
       });
-      const data = await response.json().catch(() => null);
-      if (!response.ok || !data) throw new Error('could not check for existing photos — are you still signed in?');
+      const data = await readJson(response);
+      if (!response.ok || !data) throw new Error('could not check for existing photos. ' + describe(response, data));
       if (data.csrf) csrfHash = data.csrf;
       data.existing.forEach((h) => found.add(h));
     }
     return found;
+  }
+
+  // Parse a JSON reply, keeping the raw text when it isn't JSON so the
+  // message can say what actually came back.
+  async function readJson(response) {
+    const text = await response.text();
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      response.badJson = true;
+      response.rawText = text;
+      return null;
+    }
+  }
+
+  function describe(response, data) {
+    if (response.redirected) return 'The server redirected the request — you may have been signed out. Reload the page and sign in again.';
+    if (data) return `The server replied ${response.status}.`;
+    const snippet = (response.rawText || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+    return `The server replied ${response.status} with something unexpected${snippet ? ': “' + snippet + '”' : ''}.`;
   }
 
   async function refreshToken() {
