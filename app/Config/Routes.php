@@ -27,7 +27,6 @@ $routes->get('auth/logout', 'Auth::logout');
 $routes->get('/', 'Home::index');
 $routes->get('aboutus', 'Home::aboutUs');
 $routes->get('privacy', 'Home::privacy');
-$routes->get('gallery', 'Home::gallery');
 $routes->get('contact', 'Home::contact');
 $routes->post('contact/send', 'ContactController::send');
 $routes->get('membership', 'Home::membership');
@@ -47,6 +46,17 @@ $routes->get('mahila', 'Committee::mahila');
 $routes->get('lcf', 'Committee::lcf');
 
 $routes->get('sitemap.xml', 'Sitemap::index');
+
+/* =========================================================
+   PHOTO GALLERY (PUBLIC)
+
+   Images are served from Cloudflare R2 (Config\R2), never from this server;
+   only the download route passes through here, to hand over a JPEG.
+========================================================= */
+
+$routes->get('gallery', 'GalleryController::index');
+$routes->get('gallery/photo/(:num)/download', 'GalleryController::download/$1');
+$routes->get('gallery/(:segment)', 'GalleryController::album/$1');
 
 /* =========================================================
    GOLF TOURNAMENT 2026 (PUBLIC)
@@ -333,6 +343,34 @@ $routes->group('admin/legacy50', [
     $routes->get('export', 'Admin\Legacy50Controller::export');
     $routes->get('export/plaque', 'Admin\Legacy50Controller::exportPlaque');
     $routes->get('export/gift-aid', 'Admin\Legacy50Controller::exportGiftAid');
+});
+
+
+/* =========================================================
+   ADMIN PHOTO GALLERY
+
+   ADMIN only. The uploader posts one photo per request (upload), after
+   asking which files the album already holds (check).
+========================================================= */
+
+$routes->group('admin/gallery', [
+    'filter' => 'authAdmin:ADMIN'
+], function ($routes) {
+    $routes->get('/', 'Admin\GalleryController::index');
+    $routes->get('create', 'Admin\GalleryController::create');
+    $routes->post('store', 'Admin\GalleryController::store');
+    $routes->get('edit/(:num)', 'Admin\GalleryController::edit/$1');
+    $routes->post('update/(:num)', 'Admin\GalleryController::update/$1');
+    $routes->post('delete/(:num)', 'Admin\GalleryController::delete/$1');
+    $routes->post('publish/(:num)', 'Admin\GalleryController::togglePublish/$1');
+    $routes->get('token', 'Admin\GalleryController::token');
+
+    $routes->get('album/(:num)', 'Admin\GalleryController::album/$1');
+    $routes->post('album/(:num)/check', 'Admin\GalleryController::check/$1');
+    $routes->post('album/(:num)/upload', 'Admin\GalleryController::upload/$1');
+    $routes->post('album/(:num)/reorder', 'Admin\GalleryController::reorder/$1');
+    $routes->post('album/(:num)/photos/delete', 'Admin\GalleryController::deletePhotos/$1');
+    $routes->post('album/(:num)/cover/(:num)', 'Admin\GalleryController::setCover/$1/$2');
 });
 
 

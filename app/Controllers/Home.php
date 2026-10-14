@@ -33,14 +33,6 @@ class Home extends BaseController
         ]);
     }
 
-    public function gallery()
-    {
-        return view('gallery', [
-            'title'           => 'Gallery',
-            'metaDescription' => 'Photographs from LCNL events, festivals and community gatherings.',
-        ]);
-    }
-
     public function contact()
     {
         return view('contact', [

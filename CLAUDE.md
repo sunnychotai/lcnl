@@ -83,6 +83,12 @@ Several app-specific configs extend `BaseConfig` and read from `.env`:
 - `Config\MemberStatus` — disable reason labels/icons
 - `Config\Family` — relation types and gender options
 - `Config\LiveStreams` — live stream URLs
+- `Config\R2` — Cloudflare R2 credentials and bucket for gallery images (`r2.*`)
+- `Config\Gallery` — gallery page sizes, image variants, default photo credit
+
+### Photo gallery
+
+Public at `/gallery`, managed at `/admin/gallery` (ADMIN only). Images live in a public Cloudflare R2 bucket on a custom domain (`photos.lcnl.co.uk`; `photos-dev.` locally) and are never served from Hostinger. The browser hashes each original (dedup and resume), resizes it to 1600px and posts it alone; `GalleryService::addPhoto()` re-encodes with GD into `-web.webp` and `-thumb.webp` and PUTs both via `App\Libraries\R2Client`, a hand-written SigV4 client (no AWS SDK). Originals are not kept. Always change photos through `GalleryService` so R2, `photo_count` and the cover stay in step. Tests swap in `Tests\Support\Libraries\FakeR2Client` via `Services::injectMock('r2', ...)`.
 
 ### Views / layout
 

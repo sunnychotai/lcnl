@@ -19,6 +19,19 @@ use CodeIgniter\Config\BaseService;
  */
 class Services extends BaseService
 {
+    /**
+     * Cloudflare R2 client for the photo gallery. Tests swap it for a fake
+     * with Services::injectMock('r2', ...).
+     */
+    public static function r2(bool $getShared = true): \App\Libraries\R2Client
+    {
+        if ($getShared) {
+            return static::getSharedInstance('r2');
+        }
+
+        return new \App\Libraries\R2Client(config('R2'));
+    }
+
     /*
      * public static function example($getShared = true)
      * {
