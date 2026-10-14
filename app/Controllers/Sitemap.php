@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\EventModel;
+use App\Models\GalleryAlbumModel;
 
 class Sitemap extends BaseController
 {
@@ -29,6 +30,20 @@ class Sitemap extends BaseController
             $xml .= "    <lastmod>{$lastmod}</lastmod>\n";
             $xml .= "    <changefreq>yearly</changefreq>\n";
             $xml .= "    <priority>0.6</priority>\n";
+            $xml .= "  </url>\n";
+        }
+
+        $xml .= "<!-- Gallery albums -->\n";
+
+        // Same visibility rule as the public gallery: published and not empty.
+        foreach ((new GalleryAlbumModel())->visible()->orderBy('album_date', 'DESC')->findAll() as $album) {
+            $url     = esc(base_url('gallery/' . $album['slug']));
+            $lastmod = date('Y-m-d', strtotime($album['updated_at'] ?? 'now'));
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>{$url}</loc>\n";
+            $xml .= "    <lastmod>{$lastmod}</lastmod>\n";
+            $xml .= "    <changefreq>monthly</changefreq>\n";
+            $xml .= "    <priority>0.5</priority>\n";
             $xml .= "  </url>\n";
         }
 

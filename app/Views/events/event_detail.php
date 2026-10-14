@@ -340,10 +340,15 @@ if (!function_exists('fmtEventText')) {
     </div>
   <?php endif; ?>
 
-  <div>
+  <div class="d-flex flex-wrap gap-2">
     <a href="<?= base_url('events') ?>" class="btn btn-outline-secondary px-4">
       <i class="bi bi-arrow-left me-2"></i>Back to Events
     </a>
+    <?php if (! empty($album)): ?>
+      <a href="<?= base_url('gallery/' . $album['slug']) ?>" class="btn btn-brand px-4">
+        <i class="bi bi-images me-2"></i>View photos (<?= number_format((int) $album['photo_count']) ?>)
+      </a>
+    <?php endif; ?>
   </div>
 
 </div>

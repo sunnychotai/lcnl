@@ -1,0 +1,170 @@
+/* =========================================
+   LCNL PHOTO GALLERY
+   -----------------------------------------
+   Album cards, the justified photo grid and
+   the admin photo manager.
+   ========================================= */
+
+/* --- Album cards --- */
+.gallery-album-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.gallery-album-card:hover,
+.gallery-album-card:focus-within {
+    transform: translateY(-3px);
+    box-shadow: 0 .75rem 1.5rem rgba(0, 0, 0, .12) !important;
+}
+
+.gallery-album-cover {
+    aspect-ratio: 4 / 3;
+    background: #f1ecee;
+    overflow: hidden;
+}
+
+.gallery-album-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Justified grid ---
+   Every photo in a row ends up the same height: each item grows in
+   proportion to its aspect ratio (--r = width / height), and the padding
+   trick holds the box at that ratio before the image arrives, so nothing
+   jumps while loading. The ::after filler stops the last row stretching. */
+.gallery-grid {
+    --row: 170px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+@media (min-width: 768px) {
+    .gallery-grid { --row: 230px; }
+}
+
+.gallery-grid::after {
+    content: "";
+    flex-grow: 999999;
+}
+
+.gallery-item {
+    position: relative;
+    display: block;
+    flex-grow: calc(var(--r) * 100);
+    flex-basis: calc(var(--r) * var(--row));
+    overflow: hidden;
+    border-radius: 6px;
+    background: #f1ecee;
+}
+
+.gallery-item::before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% / var(--r));
+}
+
+.gallery-item img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
+    transform: scale(1.03);
+}
+
+.gallery-item:focus-visible {
+    outline: 3px solid var(--brand, #7a1d3c);
+    outline-offset: 2px;
+}
+
+/* --- Admin photo manager --- */
+.gallery-admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+}
+
+.gallery-admin-photo {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f1ecee;
+    cursor: grab;
+}
+
+.gallery-admin-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-admin-photo .form-check-input {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .8);
+}
+
+.gallery-admin-photo .gallery-cover-badge {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+}
+
+.gallery-admin-photo .gallery-photo-actions {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    opacity: 0;
+    transition: opacity .15s ease;
+}
+
+.gallery-admin-photo:hover .gallery-photo-actions,
+.gallery-admin-photo:focus-within .gallery-photo-actions {
+    opacity: 1;
+}
+
+@media (hover: none) {
+    .gallery-admin-photo .gallery-photo-actions { opacity: 1; }
+}
+
+.gallery-admin-photo.is-selected {
+    outline: 3px solid var(--bs-danger);
+    outline-offset: -3px;
+}
+
+.gallery-admin-photo.sortable-ghost {
+    opacity: .4;
+}
+
+.gallery-dropzone {
+    border: 2px dashed #c9b3bb;
+    border-radius: 12px;
+    background: #fbf8f9;
+    transition: background .15s ease, border-color .15s ease;
+}
+
+.gallery-dropzone.is-dragover {
+    background: #f4e9ed;
+    border-color: var(--brand, #7a1d3c);
+}
+
+.gallery-upload-log {
+    max-height: 220px;
+    overflow-y: auto;
+}

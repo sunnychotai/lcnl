@@ -41,6 +41,7 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
       <ul class="navbar-nav mx-auto lcnl-nav">
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('/') ? ' active' : '' ?>"<?= $navIsActive('/') ? ' aria-current="page"' : '' ?> href="<?= base_url('/') ?>">Home</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('events') ? ' active' : '' ?>"<?= $navIsActive('events') ? ' aria-current="page"' : '' ?> href="<?= base_url('events') ?>">Events</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('gallery') ? ' active' : '' ?>"<?= $navIsActive('gallery') ? ' aria-current="page"' : '' ?> href="<?= base_url('gallery') ?>">Gallery</a></li>
 
         <!-- Committees Dropdown -->
         <li class="nav-item dropdown">
@@ -139,6 +140,13 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/legacy50') ?>">
                 <i class="bi bi-heart-fill me-1"></i> Legacy 50
+              </a>
+            </li>
+
+            <!-- Photo gallery -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/gallery') ?>">
+                <i class="bi bi-images me-1"></i> Gallery
               </a>
             </li>
 

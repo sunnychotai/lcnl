@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\EventModel;
+use App\Models\GalleryAlbumModel;
 use App\Models\EventRegistrationModel;
 
 class Events extends BaseController
@@ -135,6 +136,7 @@ class Events extends BaseController
             'ogImage'         => $ogImage,
             'jsonLd'          => $this->eventJsonLd($event, $ogImage),
             'event'           => $event,
+            'album'           => (new GalleryAlbumModel())->findVisibleForEvent((int) $event['id']),
             'upcomingEvents'  => $upcomingEvents
         ]);
     }
