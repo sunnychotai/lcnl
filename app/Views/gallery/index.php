@@ -21,7 +21,7 @@
   <?php else: ?>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
       <?php foreach ($albums as $album): ?>
-        <?php $cover = $covers[(int) $album['id']] ?? null; ?>
+        <?php $cover = $album['cover']; ?>
         <div class="col">
           <article class="card gallery-album-card border-0 shadow-sm h-100">
             <div class="gallery-album-cover">

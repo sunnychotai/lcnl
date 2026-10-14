@@ -37,19 +37,10 @@ class GalleryController extends BaseController
             ->orderBy('id', 'DESC')
             ->paginate($this->config->albumsPerPage);
 
-        $covers = [];
-        $ids    = array_filter(array_column($albums, 'cover_photo_id'));
-        if ($ids !== []) {
-            foreach ($this->photos->whereIn('id', $ids)->findAll() as $photo) {
-                $covers[(int) $photo['album_id']] = $photo + ['urls' => $this->gallery->urls($photo)];
-            }
-        }
-
         return view('gallery/index', [
             'title'           => 'Photo Gallery',
             'metaDescription' => 'Photographs from LCNL events, festivals and community gatherings.',
-            'albums'          => $albums,
-            'covers'          => $covers,
+            'albums'          => $this->gallery->withCovers($albums),
             'pager'           => $this->albums->pager,
         ]);
     }

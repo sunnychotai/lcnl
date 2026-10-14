@@ -437,6 +437,29 @@ final class GalleryTest extends CIUnitTestCase
         $result->assertSee('gallery/navratri-2026');
     }
 
+    public function testHomePageShowsTheFourNewestPublicAlbums(): void
+    {
+        $this->assertStringNotContainsString('Latest Photos', $this->get('/')->response()->getBody());
+
+        foreach (['2026-01-01', '2026-03-01', '2026-05-01', '2026-07-01', '2026-09-01'] as $i => $date) {
+            $id = $this->album(['title' => "Album {$date}", 'slug' => "album-{$i}", 'album_date' => $date]);
+            $this->addPhoto($id, $i + 1);
+        }
+        $draft = $this->album(['title' => 'Draft Album', 'slug' => 'draft', 'album_date' => '2026-12-01', 'is_published' => 0]);
+        $this->addPhoto($draft, 9);
+
+        $body = $this->get('/')->response()->getBody();
+        $this->assertStringContainsString('Latest Photos', $body);
+        $this->assertStringNotContainsString('Draft Album', $body);
+        $this->assertStringNotContainsString('Album 2026-01-01', $body, 'Only the newest four.');
+
+        $positions = array_map(static fn(string $d): int|false => strpos($body, "Album {$d}"), ['2026-09-01', '2026-07-01', '2026-05-01', '2026-03-01']);
+        $this->assertNotContains(false, $positions);
+        $sorted = $positions;
+        sort($sorted);
+        $this->assertSame($sorted, $positions, 'Newest first.');
+    }
+
     public function testSitemapListsPublicAlbumsOnly(): void
     {
         $live = $this->album(['slug' => 'live']);

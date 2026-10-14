@@ -189,6 +189,8 @@
   </section>
 <?php endif; ?>
 
+<?= $this->include('gallery/_home_latest') ?>
+
 <section class="py-3">
   <div class="container">
     <div class="row g-4 align-items-start">
