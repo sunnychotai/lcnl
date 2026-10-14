@@ -63,15 +63,15 @@ final class Legacy50Test extends CIUnitTestCase
         return (new LegacyPledgeModel())->insert(array_merge([
             'pledge_ref'            => 'L50-' . strtoupper(bin2hex(random_bytes(3))),
             'first_name'            => 'Asha',
-            'last_name'             => 'Patel',
+            'last_name'             => 'Chotai',
             'email'                 => 'asha@example.com',
             'phone'                 => '07700900123',
-            'plaque_name'           => 'The Patel Family',
-            'plaque_name_submitted' => 'The Patel Family',
+            'plaque_name'           => 'The Chotai Family',
+            'plaque_name_submitted' => 'The Chotai Family',
             'gift_aid'              => 1,
             'house_name_number'     => '12',
             'postcode'              => 'HA2 6NG',
-            'payment_reference'     => 'LCNL50 PATEL',
+            'payment_reference'     => 'LCNL50 CHOTAI',
             'payment_timing'        => 'will_pay',
             'amount'                => 500,
             'confirmed_donation'    => 1,
@@ -131,13 +131,13 @@ final class Legacy50Test extends CIUnitTestCase
         $id = $this->pledge();
 
         $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", [
-            'plaque_name' => 'Asha  &  Raj Patel',
+            'plaque_name' => 'Asha  &  Raj Chotai',
             'admin_notes' => 'Confirmed by phone',
         ])->assertRedirect();
 
         $row = (new LegacyPledgeModel())->find($id);
-        $this->assertSame('Asha & Raj Patel', $row['plaque_name']);
-        $this->assertSame('The Patel Family', $row['plaque_name_submitted']);
+        $this->assertSame('Asha & Raj Chotai', $row['plaque_name']);
+        $this->assertSame('The Chotai Family', $row['plaque_name_submitted']);
     }
 
     public function testGiftAidExportListsOnlyPaidGiftAidDonors(): void
@@ -161,7 +161,7 @@ final class Legacy50Test extends CIUnitTestCase
 
         $result = $this->withSession(['legacy50_pledge_id' => $id])->get('legacy50/thank-you');
         $result->assertOK();
-        $result->assertSee('LCNL50 PATEL');
+        $result->assertSee('LCNL50 CHOTAI');
         $result->assertSee('GB61MYMB23058018161893');
     }
 

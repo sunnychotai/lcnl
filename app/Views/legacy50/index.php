@@ -227,7 +227,7 @@ $giftAidOpen = $old('gift_aid_treat') || $old('gift_aid_taxpayer');
                 <button type="button" class="btn btn-outline-secondary" id="plaqueUseName">Use my name</button>
               </div>
               <div class="form-text d-flex justify-content-between gap-2" id="plaque_help">
-                <span>Exactly as you would like it engraved, e.g. &ldquo;Ramesh &amp; Nila Patel&rdquo; or &ldquo;The Patel Family&rdquo;.</span>
+                <span>Exactly as you would like it engraved, e.g. &ldquo;Ramesh &amp; Nila Chotai&rdquo; or &ldquo;The Chotai Family&rdquo;.</span>
                 <span class="text-nowrap"><span id="plaqueCount">0</span>/<?= esc($config->plaqueMaxLength) ?></span>
               </div>
               <?= $fieldError('plaque_name') ?>
