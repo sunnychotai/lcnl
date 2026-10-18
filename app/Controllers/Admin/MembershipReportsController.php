@@ -3,37 +3,18 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\MemberModel;
-use App\Models\MembershipModel;
 use CodeIgniter\Database\BaseBuilder;
 
 class MembershipReportsController extends BaseController
 {
+    // Each card is the row count of the CSV it sits next to, so the two can't disagree.
     public function index()
     {
-        $total = (int) (new MemberModel())->where('deleted_at', null)->countAllResults();
-
-        $life = (int) (new MembershipModel())
-            ->where('membership_type', 'life')
-            ->where('status', 'active')
-            ->countAllResults();
-
-        $db = \Config\Database::connect();
-        $stripe = (int) $db->query("
-            SELECT COUNT(DISTINCT mp.member_id)
-            FROM membership_payments mp
-            INNER JOIN members m ON m.id = mp.member_id
-            WHERE mp.provider = 'stripe'
-              AND mp.status = 'paid'
-              AND m.status = 'active'
-              AND m.deleted_at IS NULL
-        ")->getRow()->{'COUNT(DISTINCT mp.member_id)'};
-
         $stats = [
-            'total'    => $total,
-            'life'     => $life,
-            'non_life' => max(0, $total - $life),
-            'stripe'   => $stripe,
+            'total'    => $this->allMembers()->countAllResults(),
+            'life'     => $this->lifeMembers()->countAllResults(),
+            'non_life' => $this->nonLifeMembers()->countAllResults(),
+            'stripe'   => $this->stripeMembers()->countAllResults(),
         ];
 
         $activeTab = 'reports';
@@ -43,132 +24,140 @@ class MembershipReportsController extends BaseController
     // GET /admin/membership/reports/export
     public function exportAll()
     {
-        $b = $this->baseQuery();
-        $b->where('m.deleted_at', null)->orderBy('m.last_name', 'ASC')->orderBy('m.first_name', 'ASC');
-        return $this->streamCsv($b, 'all_members_' . date('Ymd') . '.csv');
+        return $this->csv($this->allMembers(), 'all_members_' . date('Ymd') . '.csv');
     }
 
     // GET /admin/membership/reports/life/export
     public function exportLife()
     {
-        $b = $this->baseQuery();
-        $b->where('ms.membership_type', 'life')
-            ->where('ms.status', 'active')
-            ->where('m.deleted_at', null)
-            ->orderBy('m.last_name', 'ASC')
-            ->orderBy('m.first_name', 'ASC');
-        return $this->streamCsv($b, 'life_members_' . date('Ymd') . '.csv');
+        return $this->csv($this->lifeMembers(), 'life_members_' . date('Ymd') . '.csv');
     }
 
     // GET /admin/membership/reports/non-life/export
     public function exportNonLife()
     {
-        $b = $this->baseQuery();
-        $b->where('ms.membership_type !=', 'life')
-            ->where('m.deleted_at', null)
-            ->orderBy('m.last_name', 'ASC')
-            ->orderBy('m.first_name', 'ASC');
-        return $this->streamCsv($b, 'non_life_members_' . date('Ymd') . '.csv');
+        return $this->csv($this->nonLifeMembers(), 'non_life_members_' . date('Ymd') . '.csv');
     }
 
     // GET /admin/membership/reports/stripe/export
     public function exportStripe()
     {
-        $db = \Config\Database::connect();
-        $b = $db->table('members m');
-        $b->select('
-            m.id,
-            m.first_name,
-            m.last_name,
-            m.email,
-            m.mobile,
-            m.address1,
-            m.address2,
-            m.city,
-            m.status AS member_status,
-            mp.amount_minor,
-            mp.currency,
-            mp.paid_at,
-            mp.stripe_payment_intent_id,
-            mp.stripe_checkout_session_id,
-            mp.stripe_customer_id
-        ');
-        $b->join('membership_payments mp', 'm.id = mp.member_id', 'inner');
-        $b->where('mp.provider', 'stripe');
-        $b->where('mp.status', 'paid');
-        $b->where('m.status', 'active');
-        $b->where('m.deleted_at', null);
-        $b->orderBy('mp.paid_at', 'DESC');
-
-        return $this->streamCsv($b, 'stripe_paid_members_' . date('Ymd') . '.csv');
+        return $this->csv($this->stripeMembers(), 'stripe_paid_members_' . date('Ymd') . '.csv');
     }
 
-    private function baseQuery(): BaseBuilder
+    /**
+     * Every member who isn't soft-deleted, one row each, with their current
+     * membership: the latest active row, or the latest row of any status if
+     * none is active. Member and membership status are columns, not filters.
+     */
+    private function allMembers(): BaseBuilder
     {
         $db = \Config\Database::connect();
+        $memberships = $db->prefixTable('memberships');
 
-        $latestMemberships = "(
-            SELECT ms.member_id, ms.id, ms.membership_type, ms.status, ms.start_date
-            FROM memberships ms
-            INNER JOIN (
-                SELECT member_id, MAX(id) as max_id
-                FROM memberships
-                WHERE status = 'active'
-                GROUP BY member_id
-            ) latest ON ms.id = latest.max_id
+        $currentMembership = "ms.id = (
+            SELECT x.id FROM {$memberships} x
+            WHERE x.member_id = m.id
+            ORDER BY CASE WHEN x.status = 'active' THEN 0 ELSE 1 END, x.id DESC
+            LIMIT 1
         )";
 
-        $b = $db->table('members m');
-        $b->select('
-            m.id,
-            m.first_name,
-            m.last_name,
-            m.email,
-            m.mobile,
-            m.address1,
-            m.address2,
-            m.city,
-            m.gender,
-            m.date_of_birth,
-            m.status,
-            m.verified_at,
-            m.created_at,
-            ms.membership_type,
-            ms.status AS membership_status,
-            ms.start_date AS membership_start
-        ');
-        $b->join("$latestMemberships ms", 'm.id = ms.member_id', 'left', false);
-
-        return $b;
+        return $db->table('members m')
+            ->select('
+                m.id,
+                m.first_name,
+                m.last_name,
+                m.email,
+                m.mobile,
+                m.address1,
+                m.address2,
+                m.city,
+                m.postcode,
+                m.gender,
+                m.date_of_birth,
+                m.status,
+                m.verified_at,
+                m.created_at,
+                ms.membership_type,
+                ms.membership_number,
+                ms.status AS membership_status,
+                ms.start_date AS membership_start
+            ')
+            ->join("{$memberships} ms", $currentMembership, 'left', false)
+            ->where('m.deleted_at', null)
+            ->orderBy('m.last_name', 'ASC')
+            ->orderBy('m.first_name', 'ASC');
     }
 
-    private function streamCsv(BaseBuilder $b, string $filename)
+    // Life is the membership type, whatever the member or membership status.
+    private function lifeMembers(): BaseBuilder
     {
-        $db  = \Config\Database::connect();
-        $sql = $b->getCompiledSelect();
-        $query = $db->query($sql, [], false);
+        return $this->allMembers()->where("LOWER(ms.membership_type) = 'life'", null, false);
+    }
 
-        $this->response->setHeader('Content-Type', 'text/csv; charset=utf-8');
-        $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
-        $this->response->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        $this->response->setHeader('Pragma', 'no-cache');
-        $this->response->setHeader('Expires', '0');
-        $this->response->sendHeaders();
+    // Everyone else, including members whose type is blank.
+    private function nonLifeMembers(): BaseBuilder
+    {
+        return $this->allMembers()->where("COALESCE(LOWER(ms.membership_type), '') <> 'life'", null, false);
+    }
 
-        $out = fopen('php://output', 'w');
+    // Active members with a paid Stripe payment, one row each with their latest
+    // payment; paid_payments shows anyone who has paid more than once.
+    private function stripeMembers(): BaseBuilder
+    {
+        $db = \Config\Database::connect();
+        $payments = $db->prefixTable('membership_payments');
+        $paid = "p.member_id = m.id AND p.provider = 'stripe' AND p.status = 'paid'";
+
+        return $db->table('members m')
+            ->select("
+                m.id,
+                m.first_name,
+                m.last_name,
+                m.email,
+                m.mobile,
+                m.address1,
+                m.address2,
+                m.city,
+                m.postcode,
+                m.status AS member_status,
+                mp.amount_minor,
+                mp.currency,
+                mp.paid_at,
+                mp.stripe_payment_intent_id,
+                mp.stripe_checkout_session_id,
+                mp.stripe_customer_id,
+                (SELECT COUNT(*) FROM {$payments} p WHERE {$paid}) AS paid_payments
+            ", false)
+            ->join("{$payments} mp", "mp.id = (SELECT MAX(p.id) FROM {$payments} p WHERE {$paid})", 'inner', false)
+            ->where('m.status', 'active')
+            ->where('m.deleted_at', null)
+            ->orderBy('mp.paid_at', 'DESC');
+    }
+
+    private function csv(BaseBuilder $b, string $filename)
+    {
+        $out = fopen('php://temp', 'r+');
         fwrite($out, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
 
-        $first = $query->getUnbufferedRow('array');
-        if ($first) {
-            fputcsv($out, array_keys($first));
-            fputcsv($out, $first);
-            while ($row = $query->getUnbufferedRow('array')) {
+        $rows = $b->get()->getResultArray();
+        if ($rows) {
+            fputcsv($out, array_keys($rows[0]));
+            foreach ($rows as $row) {
                 fputcsv($out, $row);
             }
         }
 
+        rewind($out);
+        $body = stream_get_contents($out);
         fclose($out);
-        $query->freeResult();
-        exit(0);
+
+        return $this->response
+            ->setHeader('Content-Type', 'text/csv; charset=utf-8')
+            ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->setHeader('Pragma', 'no-cache')
+            ->setHeader('Expires', '0')
+            ->setBody($body);
     }
 }
