@@ -312,8 +312,8 @@ class MembersController extends BaseController
          * Membership record (default = Standard)
          * --------------------------------------------------------- */
         $membershipType = $payload['membership_type'] === 'life'
-            ? 'life'
-            : 'standard';
+            ? 'Life'
+            : 'Standard';
 
         $membershipModel = new \App\Models\MembershipModel();
         $membershipModel->insert([
@@ -383,7 +383,10 @@ class MembersController extends BaseController
 
     public function updateType($memberId)
     {
-        $type = $this->request->getPost('membership_type');
+        $type = ucfirst(strtolower((string) $this->request->getPost('membership_type')));
+        if (! in_array($type, ['Standard', 'Life'], true)) {
+            return redirect()->back()->with('error', 'Choose Standard or Life.');
+        }
 
         $membershipModel = new \App\Models\MembershipModel();
 

@@ -147,7 +147,7 @@
         <div class="report-row-icon icon-indigo"><i class="bi bi-people-fill"></i></div>
         <div class="flex-grow-1">
             <p class="report-row-title">All Members</p>
-            <p class="report-row-desc"><?= number_format($stats['total']) ?> members &mdash; complete export of all member records</p>
+            <p class="report-row-desc"><?= number_format($stats['total']) ?> members &mdash; every member record, with their current membership</p>
         </div>
         <a href="<?= base_url('admin/membership/reports/export') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-download me-1"></i>CSV
@@ -158,7 +158,7 @@
         <div class="report-row-icon icon-amber"><i class="bi bi-star-fill"></i></div>
         <div class="flex-grow-1">
             <p class="report-row-title">Life Members</p>
-            <p class="report-row-desc"><?= number_format($stats['life']) ?> members &mdash; active Life membership only</p>
+            <p class="report-row-desc"><?= number_format($stats['life']) ?> members &mdash; Life membership type, any member or membership status</p>
         </div>
         <a href="<?= base_url('admin/membership/reports/life/export') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-download me-1"></i>CSV
@@ -169,7 +169,7 @@
         <div class="report-row-icon icon-sky"><i class="bi bi-award-fill"></i></div>
         <div class="flex-grow-1">
             <p class="report-row-title">Non-Life Members</p>
-            <p class="report-row-desc"><?= number_format($stats['non_life']) ?> members &mdash; all members excluding Life membership</p>
+            <p class="report-row-desc"><?= number_format($stats['non_life']) ?> members &mdash; every member who isn&rsquo;t a Life member</p>
         </div>
         <a href="<?= base_url('admin/membership/reports/non-life/export') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-download me-1"></i>CSV
