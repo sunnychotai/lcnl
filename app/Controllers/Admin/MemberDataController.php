@@ -21,6 +21,7 @@ class MemberDataController extends BaseController
         $length = (int) $request->getPost('length');
         $searchTerm = trim((string) $request->getPost('searchTerm'));
         $status = trim((string) ($request->getPost('status') ?? 'all'));
+        $membershipType = strtolower(trim((string) $request->getPost('membershipType')));
 
         if ($length <= 0 || $length > 500) {
             $length = 25;
@@ -29,25 +30,49 @@ class MemberDataController extends BaseController
         // ---------------------------------------------------------
         // Base Query
         // ---------------------------------------------------------
-        $builder = $model->builder();
+        $db = \Config\Database::connect();
+        $memberships = $db->prefixTable('memberships');
+
+        // Same rule as the membership reports: the latest active membership,
+        // or the latest of any status if none is active.
+        $currentMembership = "ms.id = (
+            SELECT x.id FROM {$memberships} x
+            WHERE x.member_id = m.id
+            ORDER BY CASE WHEN x.status = 'active' THEN 0 ELSE 1 END, x.id DESC
+            LIMIT 1
+        )";
+
+        $builder = $db->table('members m');
 
         $builder->select("
-            id,
-            first_name,
-            last_name,
-            email,
-            is_valid_email,
-            mobile,
-            city,
-            status,
-            created_at
+            m.id,
+            m.first_name,
+            m.last_name,
+            m.email,
+            m.is_valid_email,
+            m.mobile,
+            m.city,
+            m.status,
+            m.created_at,
+            ms.membership_type
         ");
+
+        $builder->join("{$memberships} ms", $currentMembership, 'left', false);
 
         // ---------------------------------------------------------
         // Status Filter
         // ---------------------------------------------------------
         if ($status !== 'all') {
-            $builder->where('status', $status);
+            $builder->where('m.status', $status);
+        }
+
+        // ---------------------------------------------------------
+        // Membership Type Filter (Standard = anything not Life, as in the reports)
+        // ---------------------------------------------------------
+        if ($membershipType === 'life') {
+            $builder->where("LOWER(ms.membership_type) = 'life'", null, false);
+        } elseif ($membershipType === 'standard') {
+            $builder->where("COALESCE(LOWER(ms.membership_type), '') <> 'life'", null, false);
         }
 
         // ---------------------------------------------------------
@@ -55,13 +80,13 @@ class MemberDataController extends BaseController
         // ---------------------------------------------------------
         if ($searchTerm !== '') {
             $builder->groupStart()
-                ->like('first_name', $searchTerm)
-                ->orLike('last_name', $searchTerm)
-                ->orWhere("CONCAT(first_name, ' ', last_name) LIKE", "%{$searchTerm}%")
-                ->orWhere("CONCAT(last_name, ' ', first_name) LIKE", "%{$searchTerm}%")
-                ->orLike('email', $searchTerm)
-                ->orLike('mobile', $searchTerm)
-                ->orLike('city', $searchTerm)
+                ->like('m.first_name', $searchTerm)
+                ->orLike('m.last_name', $searchTerm)
+                ->orWhere("CONCAT(m.first_name, ' ', m.last_name) LIKE", "%{$searchTerm}%")
+                ->orWhere("CONCAT(m.last_name, ' ', m.first_name) LIKE", "%{$searchTerm}%")
+                ->orLike('m.email', $searchTerm)
+                ->orLike('m.mobile', $searchTerm)
+                ->orLike('m.city', $searchTerm)
                 ->groupEnd();
         }
 
@@ -71,29 +96,27 @@ class MemberDataController extends BaseController
         $recordsFiltered = $builder->countAllResults(false);
 
         // ---------------------------------------------------------
-        // Sorting
+        // Sorting (indexes match the table columns; 0 is the checkbox)
         // ---------------------------------------------------------
         $order = $request->getPost('order')[0] ?? null;
 
         $columnMap = [
-            0 => 'id',
-            1 => 'first_name',
-            2 => 'email',
-            3 => 'is_valid_email', // 👈 NEW (Email Valid column)
-            4 => 'mobile',
-            5 => 'city',
-            6 => 'status',
-            7 => 'created_at'
+            1 => 'm.id',
+            2 => 'm.first_name',
+            5 => 'm.mobile',
+            6 => 'm.city',
+            7 => 'ms.membership_type',
+            8 => 'm.status',
+            9 => 'm.created_at',
         ];
-
 
         if ($order) {
             $colIndex = (int) $order['column'];
             $dir = strtolower($order['dir']) === 'asc' ? 'ASC' : 'DESC';
 
-            $builder->orderBy($columnMap[$colIndex] ?? 'id', $dir);
+            $builder->orderBy($columnMap[$colIndex] ?? 'm.id', $dir);
         } else {
-            $builder->orderBy('id', 'DESC');
+            $builder->orderBy('m.id', 'DESC');
         }
 
         // ---------------------------------------------------------
@@ -159,6 +182,18 @@ class MemberDataController extends BaseController
                 ) . '">' . ucfirst($r['status']) . '</span>';
 
             /* -------------------------------------------------
+             * Membership type badge
+             * ------------------------------------------------- */
+            $type = strtolower((string) ($r['membership_type'] ?? ''));
+            if ($type === 'life') {
+                $typeBadge = '<span class="badge-type badge-life"><i class="bi bi-star-fill"></i> Life</span>';
+            } elseif ($type !== '') {
+                $typeBadge = '<span class="badge-type badge-standard">' . esc(ucfirst($type)) . '</span>';
+            } else {
+                $typeBadge = '<span class="text-muted">—</span>';
+            }
+
+            /* -------------------------------------------------
              * Actions
              * ------------------------------------------------- */
             $actions = '
@@ -180,6 +215,7 @@ class MemberDataController extends BaseController
                 'email_validity_html' => $emailValidityHtml, // 👈 NEW FIELD
                 'mobile' => esc($r['mobile'] ?? ''),
                 'city' => esc($r['city'] ?? ''),
+                'membership_type_badge' => $typeBadge,
                 'status_badge' => $statusBadge,
                 'created_at' => esc($r['created_at']),
                 'actions' => $actions,
