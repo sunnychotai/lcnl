@@ -257,6 +257,31 @@
     color: #374151;
   }
 
+  .badge-type {
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    white-space: nowrap;
+  }
+
+  .badge-type i {
+    font-size: 0.65rem;
+  }
+
+  .badge-life {
+    background: rgba(186, 27, 66, 0.1);
+    color: var(--brand);
+  }
+
+  .badge-standard {
+    background: #e0e7ff;
+    color: #3730a3;
+  }
+
   /* Email Display */
   .email-wrapper {
     display: flex;
@@ -723,6 +748,7 @@
               <th class="text-center" style="width:70px;">Valid</th>
               <th>Mobile</th>
               <th>City</th>
+              <th>Type</th>
               <th>Status</th>
               <th>Created</th>
               <th class="text-end" style="width: 150px;">Actions</th>
@@ -1065,6 +1091,9 @@
       },
       {
         data: "city"
+      },
+      {
+        data: "membership_type_badge"
       },
       {
         data: "status_badge",
