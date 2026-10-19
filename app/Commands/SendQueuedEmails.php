@@ -236,6 +236,19 @@ class SendQueuedEmails extends BaseCommand
                         $email->setSubject($row['subject'] ?? '(no subject)');
                     }
 
+                    // Extra headers stored with the row, e.g. the contact form's Reply-To.
+                    // Without an explicit Reply-To, CI4 falls back to the From address.
+                    $headers = json_decode((string) ($row['headers_json'] ?? ''), true);
+                    foreach (is_array($headers) ? $headers : [] as $name => $value) {
+                        if (strcasecmp($name, 'Reply-To') === 0) {
+                            if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                                $email->setReplyTo($value);
+                            }
+                        } else {
+                            $email->setHeader($name, (string) $value);
+                        }
+                    }
+
                     $email->setMessage($rawHtml);
                     $email->setAltMessage($rawText);
 
