@@ -71,9 +71,9 @@ final class MembershipReportsTest extends CIUnitTestCase
 
     private function seedMembers(): void
     {
-        $this->member('active', [['Life', 'active']]);
+        $this->member('active', [['life', 'active']]);          // lowercase from admin create
         $this->member('pending', [['Life', 'active']]);          // imported, never activated
-        $this->member('disabled', [['life', 'active']]);         // lowercase from admin create
+        $this->member('disabled', [['life', 'active']]);         // disabled: not counted as Life
         $this->member('active', [['Life', 'pending']]);          // was missing from both CSVs
         $this->member('pending', [['Standard', 'pending']]);     // was missing from Non-Life CSV
         $this->member('active', [['Standard', 'active']]);
@@ -107,8 +107,9 @@ final class MembershipReportsTest extends CIUnitTestCase
         preg_match_all('/stat-value">([\d,]+)</', $result->getBody(), $m);
         [$total, $life, $nonLife, $stripe] = array_map(static fn ($v) => (int) str_replace(',', '', $v), $m[1]);
 
-        $this->assertSame([9, 5, 4, 1], [$total, $life, $nonLife, $stripe]);
-        $this->assertSame($total, $life + $nonLife);
+        $this->assertSame([9, 4, 4, 1], [$total, $life, $nonLife, $stripe]);
+        // The disabled Life member is in neither Life nor Non-Life.
+        $this->assertSame($total - 1, $life + $nonLife);
 
         $this->assertCount($total, $this->csvRows('admin/membership/reports/export'));
         $this->assertCount($life, $this->csvRows('admin/membership/reports/life/export'));
