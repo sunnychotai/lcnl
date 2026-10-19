@@ -158,7 +158,7 @@
         <div class="report-row-icon icon-amber"><i class="bi bi-star-fill"></i></div>
         <div class="flex-grow-1">
             <p class="report-row-title">Life Members</p>
-            <p class="report-row-desc"><?= number_format($stats['life']) ?> members &mdash; Life membership type, any member or membership status</p>
+            <p class="report-row-desc"><?= number_format($stats['life']) ?> members &mdash; Life membership type, active and pending members (disabled excluded)</p>
         </div>
         <a href="<?= base_url('admin/membership/reports/life/export') ?>" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-download me-1"></i>CSV

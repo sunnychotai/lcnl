@@ -89,10 +89,13 @@ class MembershipReportsController extends BaseController
             ->orderBy('m.first_name', 'ASC');
     }
 
-    // Life is the membership type, whatever the member or membership status.
+    // Life is the membership type, for active and pending members; disabled members
+    // are left out, so they appear in neither Life nor Non-Life.
     private function lifeMembers(): BaseBuilder
     {
-        return $this->allMembers()->where("LOWER(ms.membership_type) = 'life'", null, false);
+        return $this->allMembers()
+            ->where("LOWER(ms.membership_type) = 'life'", null, false)
+            ->whereIn('m.status', ['active', 'pending']);
     }
 
     // Everyone else, including members whose type is blank.
