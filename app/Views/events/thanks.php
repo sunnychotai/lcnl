@@ -1,15 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero -->
-<section class="hero-lcnl-watermark hero-overlay-gold d-flex align-items-center justify-content-center">
-  <div class="container text-center text-white py-4">
-    <h1 class="fw-bold display-6 mb-1">
-      <i class="bi bi-check-circle-fill me-2"></i>Thank You
-    </h1>
-    <p class="opacity-75 mb-0">Your registration has been received</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'gold',
+  'heading'    => 'Thank You',
+  'subheading' => 'Your registration has been received',
+]) ?>
 
 <div class="container py-5">
   <div class="row justify-content-center">

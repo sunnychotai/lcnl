@@ -1,61 +1,43 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
-<!-- Hero Banner -->
-<div class="position-relative w-100" style="height: 300px; overflow: hidden;">
-  <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>" alt="LCNL Executive Committee 2025"
-    class="img-fluid w-100 h-100" style="object-fit: cover; object-position: top;"
-    width="1920" height="616" decoding="async" fetchpriority="high">
 
-  <!-- Semi-transparent dark layer -->
-  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.4);"></div>
+<?= view('partials/page_header', [
+  'heading'    => 'Executive Committee',
+  'subheading' => 'The elected committee that runs LCNL, 2025–27',
+  'tone'       => 'brand',
+]) ?>
 
-  <!-- Overlay text -->
-  <div class="position-absolute top-50 start-0 translate-middle-y w-100 text-white">
-    <div class="container text-center">
-      <h1 class="fw-bold display-5 mb-2">Executive Committee</h1>
-      <p class="lead fs-5 mb-0">Meet the LCNL 2025-2027 Executive Committee</p>
-    </div>
-  </div>
-</div>
+<div class="container py-4 py-md-5">
+  <div class="cmt-page">
 
-<div class="container py-4">
-  <div class="row g-4">
-    <h2>2025-2027 Committee</h2>
-    <?php foreach ($members as $m): ?>
-      <div class="col-md-3 col-sm-6">
-        <div class="card h-100 text-center">
-          <?php
-          // Base path for committee images
-          $basePath = 'assets/img/committee/';
-          $imagePath = $basePath . ($m['image'] ?? '');
+    <?= view('committees/_more', ['current' => 'committee']) ?>
 
+    <figure class="cmt-group-photo">
+      <img src="<?= base_url('assets/img/committee/lcnl-ec-large.jpg') ?>"
+        alt="Group photo of the LCNL Executive Committee 2025–27"
+        width="1920" height="616" decoding="async" fetchpriority="high">
+      <figcaption>LCNL Executive Committee 2025–27</figcaption>
+    </figure>
 
-          // Check if file exists, otherwise use placeholder
-          if (empty($m['image']) || !is_file(FCPATH . $imagePath)) {
-            $imagePath = $basePath . 'lcnl-placeholder.png';
-          }
-          ?>
-          <img src="<?= base_url($imagePath) ?>" class="card-img-top committee-photo"
-            alt="<?= esc($m['firstname'] . ' ' . $m['surname']) ?>"
-            width="720" height="480" loading="lazy" decoding="async">
+    <?php
+    $sections = [
+      'officers'        => ['Officers', 'The President and the officers who run LCNL day to day.'],
+      'members'         => ['Committee members', null],
+      'representatives' => ['Representatives', 'Members who represent the bodies that work alongside LCNL.'],
+    ];
+    ?>
 
-          <div class="card-body">
-            <h3 class="h5 card-title mb-1">
-              <?= esc($m['firstname'] . ' ' . $m['surname']) ?>
-            </h3>
-            <?php if (!empty($m['role'])): ?>
-              <p class="text-muted mb-1"><?= esc($m['role']) ?></p>
-            <?php endif; ?>
-            <?php if (!empty($m['url'])): ?>
-              <a href="<?= esc($m['url']) ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">More</a>
-            <?php endif; ?>
-          </div>
-        </div>
-      </div>
+    <?php foreach ($sections as $key => [$title, $intro]): ?>
+      <?php if (empty($groups[$key])) continue; ?>
+      <section class="cmt-section" aria-labelledby="cmt-<?= $key ?>">
+        <h2 id="cmt-<?= $key ?>" class="cmt-section-title"><?= esc($title) ?></h2>
+        <?php if ($intro): ?>
+          <p class="cmt-section-intro"><?= esc($intro) ?></p>
+        <?php endif; ?>
+        <?= view('committees/_people', ['people' => $groups[$key]]) ?>
+      </section>
     <?php endforeach; ?>
   </div>
 </div>
 
-
 <?= $this->endSection() ?>
-

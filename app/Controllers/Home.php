@@ -71,14 +71,16 @@ class Home extends BaseController
 
     public function membership()
     {
-        $memberId = session()->get('member_id');
+        $memberId = (int) session()->get('member_id');
+        $loggedIn = (bool) session()->get('isMemberLoggedIn');
 
+        $member = null;
         $membership = null;
 
-        if ($memberId) {
-            $membershipModel = new \App\Models\MembershipModel();
+        if ($loggedIn && $memberId) {
+            $member = (new \App\Models\MemberModel())->find($memberId);
 
-            $membership = $membershipModel
+            $membership = (new \App\Models\MembershipModel())
                 ->where('member_id', $memberId)
                 ->orderBy('id', 'DESC')
                 ->first();
@@ -94,8 +96,12 @@ class Home extends BaseController
 
         return view('membership/index', [
             'title'           => 'Membership',
-            'metaDescription' => 'Become a member of Lohana Community North London — Standard and Life membership options, benefits and how to join.',
-            'membership'      => $membership,
+            'metaDescription' => 'Become a Life Member of Lohana Community North London for a one-off £75: a vote at the AGM, the Raghuvanshi Diwali Magazine and first word on events.',
+            'loggedIn'        => $loggedIn,
+            'memberId'        => $memberId,
+            'memberName'      => (string) session()->get('member_name'),
+            'isLife'          => strtoupper((string) ($membership['membership_type'] ?? '')) === 'LIFE',
+            'memberStatus'    => (string) ($member['status'] ?? 'active'),
         ]);
     }
 

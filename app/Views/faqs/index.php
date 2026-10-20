@@ -1,13 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">Frequently Asked Questions</h1>
-    <p class="lead fs-5 mb-0">Answers to the questions our community asks most</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'Frequently Asked Questions',
+  'subheading' => 'Answers to the questions our community asks most',
+]) ?>
 
 </div>
 <div class="container">

@@ -68,48 +68,6 @@
 }
 
 /* =========================
-   COMMITTEE / TRUSTEES
-   ========================= */
-.committee-photo {
-    height: 300px;
-    width: 100%;
-    object-fit: contain;
-    background: #f8f9fa;
-    padding: 10px;
-    border-radius: var(--radius);
-}
-
-.trustee-photo {
-    object-fit: cover;
-    aspect-ratio: 3 / 4;
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
-}
-
-.trustee-card {
-    background: #fff;
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.trustee-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
-}
-
-.trustee-name {
-    margin-top: 8px;
-    font-weight: 600;
-    font-size: .95rem;
-}
-
-.trustee-card img:hover {
-    filter: brightness(.9);
-}
-
-/* =========================
    THEMED TABS
    ========================= */
 .nav-tabs {

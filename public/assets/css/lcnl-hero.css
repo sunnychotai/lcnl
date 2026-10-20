@@ -431,3 +431,114 @@
         font-size: 0.75rem;
     }
 }
+/* =========================================================================
+   PAGE HEADER (app/Views/partials/page_header.php)
+   The one header for every page except home and the campaign pages.
+   Compact, so content starts near the top on a phone. Maroon by default;
+   committee pages take their logo colour via .cmt-tone-*.
+   ========================================================================= */
+.hero-lcnl-watermark.page-header {
+    min-height: 0;
+}
+
+.page-header.cmt-tone-ruby::before {
+    background: radial-gradient(ellipse at center, rgba(120, 0, 30, .95), rgba(80, 0, 20, .75));
+}
+
+.page-header.cmt-tone-yls::before {
+    background: radial-gradient(ellipse at center, rgba(65, 37, 99, .96), rgba(40, 20, 66, .85));
+}
+
+/* teal into the orange of the LYC logo; white text passes on both ends */
+.page-header.cmt-tone-lyc::before {
+    background: linear-gradient(115deg, rgba(0, 112, 107, .97) 0%, rgba(0, 86, 92, .95) 55%, rgba(160, 70, 10, .92) 100%);
+}
+
+.page-header.cmt-tone-lcf::before {
+    background: linear-gradient(135deg, rgba(31, 58, 74, .97), rgba(15, 30, 40, .9));
+}
+
+.page-header-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .75rem;
+    text-align: center;
+    color: #fff;
+}
+
+@media (min-width: 576px) {
+    .page-header-inner:has(.page-header-logo) {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1.25rem;
+        text-align: left;
+    }
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.page-header-eyebrow {
+    margin: 0 0 .4rem;
+    font-size: .8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    opacity: .85;
+}
+
+.page-header-sub {
+    margin: .4rem 0 0;
+    font-size: 1.05rem;
+    opacity: .9;
+}
+
+.page-header-extra {
+    margin-top: .9rem;
+}
+
+.page-header-logo {
+    flex-shrink: 0;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: #fff;
+    padding: 4px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+}
+
+/* gold on maroon is 4.95:1 */
+.page-header-highlight {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent1);
+}
+
+/* Event details in the header (date, location) */
+.page-header .badge-glass {
+    background: rgba(255, 255, 255, .18);
+    color: #fff;
+    font-weight: 600;
+}
+
+.page-header .badge-brand {
+    background: var(--accent1);
+    color: var(--on-accent);
+    font-weight: 600;
+}
+
+.page-header-extra .badge {
+    padding: .5em .85em;
+    font-size: .85rem;
+}
+
+/* Hall hire: the navy it had as an inline style before headers were unified */
+.hero-overlay-dlc::before {
+    background: linear-gradient(135deg, rgba(26, 26, 46, .97) 0%, rgba(22, 33, 62, .97) 50%, rgba(15, 52, 96, .97) 100%);
+}

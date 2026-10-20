@@ -10,20 +10,20 @@ $err = static fn(string $field): string => isset($errors[$field]) ? ' is-invalid
 $req = '<span class="mela-req" aria-hidden="true">*</span>';
 ?>
 
-<!-- ======================= Hero ======================= -->
-<section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-4">
-    <h1 class="fw-bold display-6 mb-2">Stall Holder Booking</h1>
-    <p class="lead fs-5 mb-0">Golden Jubilee 50th Anniversary &mdash; Event 3: Mela</p>
-
+<?php ob_start(); ?>
     <div class="mela-hero-pills">
       <span class="pill"><i class="bi bi-calendar-event"></i> <?= esc($config->eventLabel()) ?></span>
       <span class="pill"><i class="bi bi-clock"></i> <?= esc($config->eventTimes) ?></span>
       <span class="pill"><i class="bi bi-geo-alt"></i> <?= esc($config->venue['name']) ?>, <?= esc($config->venue['postcode']) ?></span>
       <span class="pill is-accent"><i class="bi bi-tag-fill"></i> &pound;<?= esc($config->fee) ?> per stall</span>
     </div>
-  </div>
-</section>
+<?php $headerExtra = ob_get_clean(); ?>
+<?= view('partials/page_header', [
+  'overlay'    => 'ruby',
+  'heading'    => 'Stall Holder Booking',
+  'subheading' => 'Golden Jubilee 50th Anniversary — Event 3: Mela',
+  'extra'      => $headerExtra,
+]) ?>
 
 <div class="container py-4">
   <div class="row justify-content-center">

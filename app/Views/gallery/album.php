@@ -4,17 +4,15 @@
 <?= $this->include('gallery/_styles') ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.css">
 
-<section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2"><?= esc($album['title']) ?></h1>
-    <p class="lead fs-5 mb-0">
-      <?php if ($album['album_date']): ?>
-        <?= esc(date('j F Y', strtotime($album['album_date']))) ?> &middot;
-      <?php endif; ?>
-      <?= number_format($total) ?> <?= $total === 1 ? 'photo' : 'photos' ?>
-    </p>
-  </div>
-</section>
+<?php
+$albumMeta = ($album['album_date'] ? date('j F Y', strtotime($album['album_date'])) . ' · ' : '')
+  . number_format($total) . ($total === 1 ? ' photo' : ' photos');
+?>
+<?= view('partials/page_header', [
+  'overlay'    => 'ruby',
+  'heading'    => $album['title'],
+  'subheading' => $albumMeta,
+]) ?>
 
 <div class="container py-4">
 

@@ -1,163 +1,39 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">Mahila Committee</h1>
-    <p class="lead fs-5 mb-0">Supporting and empowering the women of our community.</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'heading'    => 'Mahila Committee',
+  'subheading' => 'Supporting and empowering the women of our community',
+  'tone'       => 'ruby',
+]) ?>
 
-<div class="container py-5">
+<div class="container py-4 py-md-5">
+  <div class="cmt-page">
 
-  <!-- Tabs Navigation -->
-  <ul class="nav nav-tabs justify-content-center" id="mahilaTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="true">
-        About
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab" aria-controls="events" aria-selected="false">
-        Upcoming Events
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="committee-tab" data-bs-toggle="tab" data-bs-target="#committee" type="button" role="tab" aria-controls="committee" aria-selected="false">
-        Committee
-      </button>
-    </li>
-  </ul>
+    <?= view('committees/_more', ['current' => 'mahila']) ?>
 
-  <!-- Tabs Content -->
-  <div class="tab-content py-4" id="mahilaTabsContent">
+    <figure class="cmt-group-photo">
+      <img src="<?= base_url('assets/img/committee/mahila-committee.jpg') ?>"
+        alt="The LCNL Mahila Committee 2025–27"
+        width="1920" height="699" decoding="async" fetchpriority="high">
+      <figcaption>LCNL Mahila Committee 2025–27</figcaption>
+    </figure>
 
-    <!-- About Tab -->
-    <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab" tabindex="0">
-      <div class="mb-4 text-center">
-        <?php 
-          $basePath = 'assets/img/committee/';
-          $imagePath = $basePath . 'mahila-committee.jpg';
+    <section class="cmt-section cmt-prose" aria-labelledby="mahila-about">
+      <h2 id="mahila-about" class="cmt-section-title">About us</h2>
+      <p class="cmt-lead">
+        The Mahila Committee has been at the heart of LCNL, bringing women together through cultural, social and
+        charitable activities.
+      </p>
+      <p>
+        We encourage everyone to participate and celebrate our traditions while supporting each other.
+      </p>
+    </section>
 
-          if (!is_file(FCPATH . $imagePath)) {
-              $imagePath = $basePath . 'lcnl-placeholder.png';
-          }
-        ?>
-        <img src="<?= base_url($imagePath) ?>" 
-             alt="LCNL Mahila"
-             class="img-fluid rounded shadow committee-img"
-             style="max-width: 100%;"
-             data-bs-toggle="modal" data-bs-target="#committeeModal">
-        <p class="mt-2 fw-semibold text-muted">LCNL Mahila Committee 2025-7</p>
-      </div>
-
-      <div>
-        <p>
-          The Mahila Committee has been at the heart of LCNL, bringing women together 
-          through cultural, social and charitable activities. 
-          We encourage everyone to participate and celebrate our traditions while 
-          supporting each other.
-        </p>
-        <a href="<?= base_url('events') ?>" class="btn btn-brand mt-3">
-          View Upcoming Events
-        </a>
-      </div>
-    </div>
-
-    <!-- Events Tab -->
-    <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">
-      <h2 class="h3 mb-4">Upcoming Events</h2>
-      
-      <div class="container">
-  <?php if (!empty($groupedEvents)): ?>
-    <?php foreach ($groupedEvents as $month => $events): ?>
-      <h3 class="h2 mb-4 mt-5"><?= esc($month) ?></h3>
-
-      <div class="d-flex overflow-auto gap-3 pb-2">
-        <?php foreach ($events as $event): ?>
-          <?php if (in_array($event['committee'], ['Mahila'])): ?>
-            <a href="<?= base_url('events/'.$event['id']) ?>"
-               class="text-decoration-none flex-shrink-0 event-card-link">
-              <div class="card shadow-sm border-0 h-100 event-card">
-                <div class="event-img-wrapper">
-                  <?php
-                    // Robust local file fallback (same pattern as your guide)
-                    $imagePath = $event['image'] ?? '';
-                    $imagePath = is_string($imagePath) ? trim($imagePath) : '';
-                    $fullPath  = $imagePath ? FCPATH . ltrim($imagePath, '/') : '';
-
-                    if (empty($imagePath) || !is_file($fullPath)) {
-                      $imagePath = 'assets/img/lcnl-placeholder-320.png';
-                    }
-                  ?>
-                  <img src="<?= base_url($imagePath) ?>"
-                       class="card-img-top"
-                       alt="<?= esc($event['title']) ?>"
-                       loading="lazy">
-
-                  <div class="event-overlay">
-                    <h4 class="h6 text-white mb-1"><?= esc($event['title']) ?></h4>
-                    <small class="text-light">
-                      <?= date('d M Y', strtotime($event['event_date'])) ?>
-                      <?php if (!empty($event['time_from'])): ?>
-                        · <?= date('H:i', strtotime($event['time_from'])) ?>
-                      <?php endif; ?>
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </a>
-          <?php endif; ?>
-        <?php endforeach; ?>
-      </div>
-    <?php endforeach; ?>
-  <?php else: ?>
-    <p>No upcoming events found.</p>
-  <?php endif; ?>
-</div>
-
-    </div>
-
-<!-- Committee Tab -->
-<div class="tab-pane fade" id="committee" role="tabpanel" aria-labelledby="committee-tab" tabindex="0">
-  <h2 class="h3 mb-4 text-center">Committee Members</h2>
-  <div class="row g-4">
-    <?php foreach ($members as $m): ?>
-      <div class="col-md-3 col-sm-6">
-        <div class="card h-100 text-center">
-          <?php 
-            $basePath = 'assets/img/committee/';
-            $filename = basename($m['image'] ?? ''); // only keep filename
-            $imagePath = $basePath . $filename;
-
-            if (empty($filename) || !is_file(FCPATH . $imagePath)) {
-                $imagePath = $basePath . 'lcnl-placeholder.png';
-            }
-          ?>
-          <img src="<?= base_url($imagePath) ?>"
-               class="card-img-top committee-photo"
-               alt="<?= esc($m['firstname'].' '.$m['surname']) ?>"
-               width="720" height="480" loading="lazy" decoding="async">
-
-          <div class="card-body">
-            <h3 class="h5 card-title mb-1">
-              <?= esc($m['firstname'].' '.$m['surname']) ?>
-            </h3>
-            <?php if (!empty($m['role'])): ?>
-              <p class="text-muted mb-1"><?= esc($m['role']) ?></p>
-            <?php endif; ?>
-            <?php if (!empty($m['url'])): ?>
-              <a href="<?= esc($m['url']) ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">More</a>
-            <?php endif; ?>
-          </div>
-        </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
-</div>
-
-
+    <section class="cmt-section" aria-labelledby="mahila-events">
+      <h2 id="mahila-events" class="cmt-section-title">Upcoming Mahila events</h2>
+      <?= view('committees/_events', ['events' => $events, 'who' => 'Mahila']) ?>
+    </section>
   </div>
 </div>
 

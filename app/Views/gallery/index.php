@@ -3,12 +3,11 @@
 
 <?= $this->include('gallery/_styles') ?>
 
-<section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">Photo Gallery</h1>
-    <p class="lead fs-5 mb-0">Moments from our community</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'ruby',
+  'heading'    => 'Photo Gallery',
+  'subheading' => 'Moments from our community',
+]) ?>
 
 <div class="container py-4 py-lg-5">
 

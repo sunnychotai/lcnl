@@ -1,16 +1,13 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero -->
-<section class="hero-lcnl-watermark d-flex align-items-center justify-content-center"
-  style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 280px;">
-  <div class="container position-relative text-center text-white py-4">
-    <span class="badge mb-3 px-3 py-2 fw-semibold" style="background:rgba(255,193,7,0.2); color:#ffc107; border:1px solid rgba(255,193,7,0.4); font-size:0.8rem; letter-spacing:0.05em;">WEEKDAY ENTERTAINMENT PACKAGE</span>
-    <h1 class="fw-bold display-5 mb-2">Dhamecha Lohana Centre</h1>
-    <p class="lead mb-3 opacity-90">A venue at the heart of our community — now available to hire</p>
-    <p class="fs-5 fw-semibold" style="color:#ffc107;">Event packages from just <strong>£19 per person</strong></p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'dlc',
+  'eyebrow'    => 'Weekday entertainment package',
+  'heading'    => 'Dhamecha Lohana Centre',
+  'subheading' => 'A venue at the heart of our community — now available to hire',
+  'extra'      => '<p class="page-header-highlight">Event packages from just <strong>£19 per person</strong></p>',
+]) ?>
 
 <div class="container py-5">
 

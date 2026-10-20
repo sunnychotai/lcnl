@@ -2,14 +2,11 @@
 <?= $this->section('content') ?>
 
 <!-- HERO -->
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container text-center text-white py-4">
-    <h1 class="fw-bold display-6 mb-1">
-      <i class="bi bi-person-lines-fill me-2"></i> My Profile
-    </h1>
-    <p class="mb-0 opacity-75">Update your contact details and preferences</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'My Profile',
+  'subheading' => 'Update your contact details and preferences',
+]) ?>
 
 <!-- MAIN CONTENT -->
 <div class="container py-5">

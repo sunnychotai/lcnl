@@ -7,14 +7,11 @@
 <!-- =========================
      HERO
      ========================= -->
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center text-center text-white py-5">
-  <div class="container position-relative">
-    <h1 class="fw-bold display-5 mb-3">
-      <i class="bi bi-envelope-paper-heart me-2"></i> Contact Us
-    </h1>
-    <p class="lead fs-5 opacity-90 mb-0">We'd love to hear from you — get in touch below.</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'Contact Us',
+  'subheading' => 'We\'d love to hear from you — get in touch below.',
+]) ?>
 
 <!-- =========================
      MAIN CONTENT

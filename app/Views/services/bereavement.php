@@ -62,13 +62,12 @@ $steps = [
 ];
 ?>
 
-<section class="hero-lcnl-watermark hero-overlay-midnight d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-4">
-    <span class="legacy-eyebrow">Lohana Community North London</span>
-    <h1 class="fw-bold display-6 mb-2">Bereavement Support</h1>
-    <p class="lead fs-5 mb-0">Guiding families with care and dignity at the hardest of times</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'midnight',
+  'eyebrow'    => 'Lohana Community North London',
+  'heading'    => 'Bereavement Support',
+  'subheading' => 'Guiding families with care and dignity at the hardest of times',
+]) ?>
 
 <div class="container py-4 py-lg-5">
 

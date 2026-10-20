@@ -1,13 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero -->
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-4">
-    <h1 class="fw-bold display-6 mb-1"><i class="bi bi-box-arrow-in-right me-2"></i>Member Login</h1>
-    <p class="mb-0 opacity-75">Access your LCNL account</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'Member Login',
+  'subheading' => 'Access your LCNL account',
+]) ?>
 
 <div class="container py-5">
   <?php if ($msg = session()->getFlashdata('message')): ?>
@@ -65,7 +63,7 @@
               </a>
             </div>
 
-            <button class="btn btn-accent btn-lg rounded-pill px-4 w-100" type="submit">
+            <button class="btn btn-brand btn-lg rounded-pill px-4 w-100" type="submit">
               <i class="bi bi-door-open-fill me-2"></i>Login
             </button>
           </form>

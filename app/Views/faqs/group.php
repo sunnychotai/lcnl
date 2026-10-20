@@ -1,4 +1,16 @@
-<div class="faq mt-5">
-    <h1 class="h3 mb-4"><?= esc($groupName) ?> FAQs</h1>
-    <?= view('faqs/_accordion', ['faqs' => $faqs, 'headingLevel' => 2]) ?>
+<?= $this->extend('layout/main') ?>
+<?= $this->section('content') ?>
+
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => $groupName . ' FAQs',
+  'subheading' => 'Answers to the questions our community asks most',
+]) ?>
+
+<div class="container py-4 py-md-5">
+    <div class="faq">
+        <?= view('faqs/_accordion', ['faqs' => $faqs, 'headingLevel' => 2]) ?>
+    </div>
 </div>
+
+<?= $this->endSection() ?>

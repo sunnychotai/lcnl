@@ -43,27 +43,7 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('events') ? ' active' : '' ?>"<?= $navIsActive('events') ? ' aria-current="page"' : '' ?> href="<?= base_url('events') ?>">Events</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('gallery') ? ' active' : '' ?>"<?= $navIsActive('gallery') ? ' aria-current="page"' : '' ?> href="<?= base_url('gallery') ?>">Gallery</a></li>
 
-        <!-- Committees Dropdown -->
-        <li class="nav-item dropdown">
-          <a class="nav-link fw-semibold dropdown-toggle<?= $navIsActive('committee', 'mahila', 'yls', 'youth', 'lcf') ? ' active' : '' ?>"
-            href="#" id="committeeDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Committees
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="committeeDropdown">
-            <li><a class="dropdown-item<?= $navIsActive('/committee') ? ' active' : '' ?>"<?= $navIsActive('/committee') ? ' aria-current="page"' : '' ?> href="<?= base_url('/committee') ?>">Executive Committee</a></li>
-            <li><a class="dropdown-item<?= $navIsActive('/mahila') ? ' active' : '' ?>"<?= $navIsActive('/mahila') ? ' aria-current="page"' : '' ?> href="<?= base_url('/mahila') ?>">Mahila Committee</a></li>
-            <li><a class="dropdown-item<?= $navIsActive('/yls') ? ' active' : '' ?>"<?= $navIsActive('/yls') ? ' aria-current="page"' : '' ?> href="<?= base_url('/yls') ?>">Young Lohana Society</a></li>
-            <li><a class="dropdown-item<?= $navIsActive('/youth') ? ' active' : '' ?>"<?= $navIsActive('/youth') ? ' aria-current="page"' : '' ?> href="<?= base_url('/youth') ?>">Lohana Youth Club</a></li>
-            <li><a class="dropdown-item<?= $navIsActive('/lcf') ? ' active' : '' ?>"<?= $navIsActive('/lcf') ? ' aria-current="page"' : '' ?> href="<?= base_url('/lcf') ?>">Lohana Charitable Foundation</a></li>
-
-          </ul>
-        </li>
-
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('membership') ? ' active' : '' ?>"<?= $navIsActive('membership') ? ' aria-current="page"' : '' ?> href="<?= base_url('membership') ?>">Membership</a></li>
-        <?php if (config('Navratri')->isPromoted()): ?>
-          <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('navratri') ? ' active' : '' ?>"<?= $navIsActive('navratri') ? ' aria-current="page"' : '' ?> href="<?= base_url('navratri') ?>">Navratri</a></li>
-        <?php endif; ?>
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('legacy50') ? ' active' : '' ?>"<?= $navIsActive('legacy50') ? ' aria-current="page"' : '' ?> href="<?= base_url('legacy50') ?>">Legacy 50</a></li>
 
         <!-- Services Dropdown -->
@@ -86,7 +66,8 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
 
 
         <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('contact') ? ' active' : '' ?>"<?= $navIsActive('contact') ? ' aria-current="page"' : '' ?> href="<?= base_url('contact') ?>">Contact</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('aboutus') ? ' active' : '' ?>"<?= $navIsActive('aboutus') ? ' aria-current="page"' : '' ?> href="<?= base_url('aboutus') ?>">About Us</a></li>
+        <!-- About Us also lights up on the committee pages, which it links to -->
+        <li class="nav-item"><a class="nav-link fw-semibold<?= $navIsActive('aboutus', 'committee', 'mahila', 'yls', 'youth', 'lcf') ? ' active' : '' ?>"<?= $navIsActive('aboutus') ? ' aria-current="page"' : '' ?> href="<?= base_url('aboutus') ?>">About Us</a></li>
       </ul>
     </div>
   </div>

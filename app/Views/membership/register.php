@@ -1,468 +1,323 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero -->
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-4">
-    <h1 class="fw-bold display-6 mb-1"><i class="bi bi-person-plus-fill me-2"></i>Register</h1>
-    <p class="mb-0 opacity-75">Join LCNL - Quick and secure sign up</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'Join LCNL',
+  'subheading' => 'Lohana Community North London',
+]) ?>
 
-<div class="container py-5">
-  <?php if ($msg = session()->getFlashdata('message')): ?>
-    <div class="alert alert-success shadow-sm alert-dismissible fade show" role="alert">
-      <i class="bi bi-check-circle-fill me-2"></i><?= esc($msg) ?>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  <?php endif; ?>
+<?php
+// Server errors are keyed by field; each is shown under its field and summarised above the form
+$fieldErrors = session()->getFlashdata('errors') ?? [];
+$emailExists = (bool) session()->getFlashdata('email_exists');
 
-  <?php
-  // Field errors are shown twice: summarised here, and under each field
-  $fieldErrors = session()->getFlashdata('errors') ?? [];
-  $invalid = static fn(string $f): string => isset($fieldErrors[$f]) ? ' is-invalid' : '';
-  $feedback = static fn(string $f): string => isset($fieldErrors[$f])
-    ? '<div class="invalid-feedback d-block">' . esc($fieldErrors[$f]) . '</div>'
-    : '';
-  ?>
+// old() escapes for HTML by default; take it raw so esc() is applied exactly once
+$old = static fn(string $f): string => esc((string) old($f, '', false), 'attr');
+$error = static fn(string $f): string => esc($fieldErrors[$f] ?? '');
+// Appended inside class="…": closes the class and adds aria-invalid when the field has an error
+$invalid = static fn(string $f): string => isset($fieldErrors[$f]) ? ' is-invalid" aria-invalid="true' : '';
 
-  <?php if (session()->getFlashdata('email_exists')): ?>
-    <div class="alert alert-info shadow-sm" role="alert" id="formErrors" tabindex="-1">
-      <h2 class="h5 fw-bold mb-2"><i class="bi bi-person-check-fill me-2"></i>You’re already registered with us</h2>
-      <p class="mb-2">
-        There is already an LCNL account for <strong><?= esc(old('email')) ?></strong>.
-        If you have never logged in, or can’t remember your password, set a new one and you’ll be straight in.
+$labels = [
+  'first_name' => 'First name', 'last_name' => 'Surname', 'email' => 'Email address',
+  'mobile' => 'Mobile number', 'address1' => 'Address line 1', 'address2' => 'Address line 2',
+  'city' => 'Town or city', 'postcode' => 'Postcode', 'password' => 'Password', 'consent' => 'Consent',
+];
+?>
+
+<div class="container py-4 py-md-5">
+  <div class="join-page">
+
+    <?= view('membership/_steps', ['step' => 1]) ?>
+
+    <p class="join-signin">
+      Already a member? <a href="<?= base_url('membership/login') ?>">Log in</a>.
+      Joined before but never logged in here? <a href="<?= base_url('membership/forgot') ?>">Set your password</a>.
+    </p>
+
+    <?php if ($emailExists): ?>
+      <div class="alert alert-info join-summary border-info" role="alert" id="existingAccount" tabindex="-1">
+        <h2><i class="bi bi-person-check-fill me-2"></i>You’re already registered with us</h2>
+        <p class="mb-3">
+          There is already an LCNL account for <strong><?= $old('email') ?></strong>.
+          If you have never logged in, or can’t remember your password, set a new one and you’ll be straight in.
+        </p>
+        <a href="<?= base_url('membership/forgot') ?>" class="btn btn-brand rounded-pill px-4 me-2 mb-2">Set my password</a>
+        <a href="<?= base_url('membership/login') ?>" class="btn btn-outline-brand rounded-pill px-4 mb-2">Log in</a>
+      </div>
+    <?php elseif ($fieldErrors): ?>
+      <div class="alert alert-danger join-summary" role="alert" id="formErrors" tabindex="-1">
+        <h2>Please check the following</h2>
+        <ul>
+          <?php foreach ($fieldErrors as $field => $message): ?>
+            <li>
+              <?php if (isset($labels[$field])): ?>
+                <a href="#<?= esc($field, 'attr') ?>"><?= esc($message) ?></a>
+              <?php else: ?>
+                <?= esc($message) ?>
+              <?php endif; ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+    <div class="join-card">
+      <h2 class="h4 fw-bold mb-2">Create your account</h2>
+      <p class="join-intro">
+        Registering is free. Once you’ve confirmed your email you can become a
+        <strong>Life Member</strong> for a one-off £75, by card or bank transfer.
       </p>
-      <a href="<?= base_url('membership/forgot') ?>" class="btn btn-brand rounded-pill px-4 me-2 mb-2">
-        <i class="bi bi-key-fill me-1"></i> Set my password
-      </a>
-      <a href="<?= base_url('membership/login') ?>" class="btn btn-outline-secondary rounded-pill px-4 mb-2">
-        <i class="bi bi-box-arrow-in-right me-1"></i> Log in
-      </a>
-    </div>
-  <?php elseif ($fieldErrors): ?>
-    <div class="alert alert-danger shadow-sm" role="alert" id="formErrors" tabindex="-1">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      <strong>Please fix the following issues:</strong>
-      <ul class="mb-0 mt-2">
-        <?php foreach ($fieldErrors as $err): ?>
-          <li><?= esc($err) ?></li>
-        <?php endforeach; ?>
-      </ul>
-    </div>
-  <?php endif; ?>
 
-  <div class="row justify-content-center">
-    <div class="col-lg-8 col-xl-7">
-      <div class="card shadow-lg border-0 auth-card">
-        <div class="card-header bg-gradient py-3">
-          <h3 class="mb-0 d-flex align-items-center">
-            <i class="bi bi-person-lines-fill me-2"></i>
-            Create your LCNL account
-          </h3>
-          <p class="mb-0 mt-1 small opacity-90">Please fill in all required fields marked with *</p>
+      <form method="post" action="<?= route_to('membership.create') ?>" novalidate id="registerForm" class="join-form">
+        <?= csrf_field() ?>
+        <input type="text" name="website" value="" class="d-none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <fieldset class="join-fieldset">
+          <legend>About you</legend>
+
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label" for="first_name">First name</label>
+              <input type="text" id="first_name" name="first_name" value="<?= $old('first_name') ?>"
+                class="form-control<?= $invalid('first_name') ?>" autocomplete="given-name"
+                aria-describedby="first_name-error" required data-validate
+                data-msg-required="Please enter your first name.">
+              <div class="join-error" id="first_name-error"><?= $error('first_name') ?></div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label" for="last_name">Surname</label>
+              <input type="text" id="last_name" name="last_name" value="<?= $old('last_name') ?>"
+                class="form-control<?= $invalid('last_name') ?>" autocomplete="family-name"
+                aria-describedby="last_name-error" required data-validate
+                data-msg-required="Please enter your surname.">
+              <div class="join-error" id="last_name-error"><?= $error('last_name') ?></div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="email">Email address</label>
+              <div class="form-text mt-0 mb-2" id="email-hint">We’ll send a link to this address to confirm it’s yours.</div>
+              <input type="email" id="email" name="email" value="<?= $old('email') ?>"
+                class="form-control<?= $invalid('email') ?>" autocomplete="email" inputmode="email"
+                autocapitalize="off" spellcheck="false"
+                aria-describedby="email-hint email-error" required data-validate
+                data-msg-required="Please enter your email address."
+                data-msg-format="Please enter an email address like name@example.com.">
+              <div class="join-error" id="email-error"><?= $error('email') ?></div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="mobile">Mobile number <span class="join-optional">(optional)</span></label>
+              <div class="form-text mt-0 mb-2" id="mobile-hint">For last-minute event updates. A UK number like 07700 900123 is fine.</div>
+              <input type="tel" id="mobile" name="mobile" value="<?= $old('mobile') ?>"
+                class="form-control<?= $invalid('mobile') ?>" autocomplete="tel" inputmode="tel"
+                pattern="^\+?[\d\s\-\(\)]{7,20}$"
+                aria-describedby="mobile-hint mobile-error" data-validate
+                data-msg-format="Please enter a valid mobile number, e.g. 07700 900123.">
+              <div class="join-error" id="mobile-error"><?= $error('mobile') ?></div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="join-fieldset">
+          <legend>Your address</legend>
+          <p class="join-legend-hint">We post the Diwali magazine and AGM notices to members.</p>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label" for="address1">Address line 1</label>
+              <input type="text" id="address1" name="address1" value="<?= $old('address1') ?>"
+                class="form-control<?= $invalid('address1') ?>" autocomplete="address-line1"
+                aria-describedby="address1-error" required data-validate
+                data-msg-required="Please enter the first line of your address.">
+              <div class="join-error" id="address1-error"><?= $error('address1') ?></div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="address2">Address line 2 <span class="join-optional">(optional)</span></label>
+              <input type="text" id="address2" name="address2" value="<?= $old('address2') ?>"
+                class="form-control<?= $invalid('address2') ?>" autocomplete="address-line2"
+                aria-describedby="address2-error">
+              <div class="join-error" id="address2-error"><?= $error('address2') ?></div>
+            </div>
+
+            <div class="col-sm-7">
+              <label class="form-label" for="city">Town or city</label>
+              <input type="text" id="city" name="city" value="<?= $old('city') ?>"
+                class="form-control<?= $invalid('city') ?>" autocomplete="address-level2"
+                aria-describedby="city-error" required data-validate
+                data-msg-required="Please enter your town or city.">
+              <div class="join-error" id="city-error"><?= $error('city') ?></div>
+            </div>
+
+            <div class="col-sm-5">
+              <label class="form-label" for="postcode">Postcode</label>
+              <input type="text" id="postcode" name="postcode" value="<?= $old('postcode') ?>"
+                class="form-control<?= $invalid('postcode') ?>" autocomplete="postal-code"
+                autocapitalize="characters" spellcheck="false" maxlength="12"
+                aria-describedby="postcode-error" required data-validate
+                data-msg-required="Please enter your postcode.">
+              <div class="join-error" id="postcode-error"><?= $error('postcode') ?></div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="join-fieldset">
+          <legend>Choose a password</legend>
+
+          <label class="form-label" for="password">Password</label>
+          <div class="form-text mt-0 mb-2" id="password-hint">At least 8 characters.</div>
+          <div class="input-group">
+            <input type="password" id="password" name="password"
+              class="form-control<?= $invalid('password') ?>" autocomplete="new-password"
+              minlength="8" aria-describedby="password-hint password-error" required data-validate
+              data-msg-required="Please choose a password."
+              data-msg-short="Your password needs at least 8 characters.">
+            <button class="btn join-toggle" type="button" data-toggle-password="password" aria-pressed="false"
+              aria-controls="password">Show</button>
+          </div>
+          <div class="join-error" id="password-error"><?= $error('password') ?></div>
+        </fieldset>
+
+        <div class="join-consent mb-4">
+          <input class="form-check-input<?= $invalid('consent') ?>" type="checkbox" name="consent" id="consent" value="1"
+            <?= old('consent') ? 'checked' : '' ?> aria-describedby="consent-error" required data-validate
+            data-msg-required="Please tick the box to agree, so we can register you.">
+          <div>
+            <label for="consent">
+              I agree to LCNL keeping my details and contacting me about my membership, events and community news.
+            </label>
+            <div class="join-error" id="consent-error"><?= $error('consent') ?></div>
+          </div>
         </div>
 
-        <div class="card-body p-4 p-md-5">
-          <form method="post" action="<?= route_to('membership.create') ?>" novalidate id="registerForm">
-            <?= csrf_field() ?>
-            <input type="text" name="website" value="" class="d-none" tabindex="-1" autocomplete="off"
-              aria-hidden="true">
-
-            <!-- Personal Information -->
-            <div class="form-section">
-              <h5 class="section-title mb-3">
-                <i class="bi bi-person-badge me-2"></i>Personal Information
-              </h5>
-
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="first_name">
-                    First Name <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-person-fill text-brand"></i></span>
-                    <input type="text" id="first_name" name="first_name" value="<?= esc(old('first_name') ?? '') ?>"
-                      class="form-control<?= $invalid('first_name') ?>" autocomplete="given-name" placeholder="John" required>
-                  </div>
-                  <?= $feedback('first_name') ?>
-                </div>
-
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="last_name">
-                    Surname <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-person-fill text-brand"></i></span>
-                    <input type="text" id="last_name" name="last_name" value="<?= esc(old('last_name') ?? '') ?>"
-                      class="form-control<?= $invalid('last_name') ?>" autocomplete="family-name" placeholder="Smith" required>
-                  </div>
-                  <?= $feedback('last_name') ?>
-                </div>
-
-                <div class="col-12">
-                  <label class="form-label fw-semibold" for="email">
-                    Email Address <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-envelope-fill text-brand"></i></span>
-                    <input type="email" id="email" name="email" value="<?= esc(old('email') ?? '') ?>"
-                      class="form-control<?= $invalid('email') ?>" inputmode="email" autocomplete="email" placeholder="john.smith@example.com"
-                      required>
-                  </div>
-                  <?= $feedback('email') ?>
-                  <div class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-
-                <div class="col-12">
-                  <label class="form-label fw-semibold" for="mobile">Mobile Number</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-telephone-fill text-brand"></i></span>
-                    <input type="tel" id="mobile" name="mobile" value="<?= esc(old('mobile') ?? '') ?>"
-                      class="form-control<?= $invalid('mobile') ?>" inputmode="tel" autocomplete="tel" placeholder="07700 900123"
-                      pattern="^\+?[\d\s\-\(\)]{7,20}$">
-                  </div>
-                  <?= $feedback('mobile') ?>
-                  <div class="form-text">
-                    <i class="bi bi-info-circle me-1"></i>A UK mobile like 07700 900123 is fine.
-                  </div>
-                </div>
-                <!-- DOB + Gender (optional) -->
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="date_of_birth">
-                    Date of Birth <span class="text-muted">(optional)</span>
-                  </label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-calendar-date text-brand"></i></span>
-                    <input type="date"
-                      id="date_of_birth"
-                      name="date_of_birth"
-                      value="<?= esc(old('date_of_birth') ?? '') ?>"
-                      class="form-control<?= $invalid('date_of_birth') ?>"
-                      autocomplete="bday">
-                  </div>
-                  <?= $feedback('date_of_birth') ?>
-                </div>
-
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="gender">
-                    Gender <span class="text-muted">(optional)</span>
-                  </label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-gender-ambiguous text-brand"></i></span>
-                    <select id="gender" name="gender" class="form-select<?= $invalid('gender') ?>">
-                      <option value="">— Select —</option>
-                      <?php foreach (config('Family')->genders as $g): ?>
-                        <option value="<?= esc($g) ?>" <?= old('gender') === $g ? 'selected' : '' ?>>
-                          <?= ucwords(str_replace('_', ' ', $g)) ?>
-                        </option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                  <?= $feedback('gender') ?>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Address Details -->
-            <div class="form-section">
-              <h5 class="section-title mb-3">
-                <i class="bi bi-house-door-fill me-2"></i>Address Details
-              </h5>
-
-              <div class="row g-3">
-                <div class="col-12">
-                  <label class="form-label fw-semibold" for="address1">
-                    Address Line 1 <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill text-brand"></i></span>
-                    <input type="text" id="address1" name="address1" value="<?= esc(old('address1') ?? '') ?>"
-                      class="form-control<?= $invalid('address1') ?>" autocomplete="address-line1" placeholder="123 High Street" required>
-                  </div>
-                  <?= $feedback('address1') ?>
-                </div>
-
-                <div class="col-12">
-                  <label class="form-label fw-semibold" for="address2">Address Line 2</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-geo-fill text-brand"></i></span>
-                    <input type="text" id="address2" name="address2" value="<?= esc(old('address2') ?? '') ?>"
-                      class="form-control<?= $invalid('address2') ?>" autocomplete="address-line2" placeholder="Apartment, suite, unit, etc.">
-                  </div>
-                  <?= $feedback('address2') ?>
-                </div>
-
-                <div class="col-md-7">
-                  <label class="form-label fw-semibold" for="city">
-                    City / Town <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-building text-brand"></i></span>
-                    <input type="text" id="city" name="city" value="<?= esc(old('city') ?? '') ?>" class="form-control<?= $invalid('city') ?>"
-                      autocomplete="address-level2" placeholder="London" required>
-                  </div>
-                  <?= $feedback('city') ?>
-                </div>
-
-                <div class="col-md-5">
-                  <label class="form-label fw-semibold" for="postcode">
-                    Postcode <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-mailbox text-brand"></i></span>
-                    <input type="text" id="postcode" name="postcode" value="<?= esc(old('postcode') ?? '') ?>"
-                      class="form-control<?= $invalid('postcode') ?>" autocomplete="postal-code" placeholder="SW1A 1AA" maxlength="12" required>
-                  </div>
-                  <?= $feedback('postcode') ?>
-                </div>
-              </div>
-            </div>
-
-
-
-            <!-- Security -->
-            <div class="form-section">
-              <h5 class="section-title mb-3">
-                <i class="bi bi-shield-lock-fill me-2"></i>Security
-              </h5>
-
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="password">
-                    Password <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-key-fill text-brand"></i></span>
-                    <input type="password" id="password" name="password" class="form-control<?= $invalid('password') ?>"
-                      autocomplete="new-password" placeholder="Enter password" required>
-                    <button class="btn btn-outline-secondary" type="button" id="togglePassword"
-                      aria-label="Show password">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                  </div>
-                  <?= $feedback('password') ?>
-                  <div class="form-text">
-                    <i class="bi bi-info-circle me-1"></i>Use 8+ characters with letters, numbers & symbols.
-                  </div>
-                  <div class="password-strength mt-2" id="passwordStrength" style="display: none;">
-                    <div class="progress" style="height: 4px;">
-                      <div class="progress-bar" role="progressbar" style="width: 0%"></div>
-                    </div>
-                    <small class="strength-text"></small>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="pass_confirm">
-                    Confirm Password <span class="text-danger">*</span>
-                  </label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text bg-light"><i class="bi bi-key-fill text-brand"></i></span>
-                    <input type="password" id="pass_confirm" name="pass_confirm" class="form-control<?= $invalid('pass_confirm') ?>"
-                      autocomplete="new-password" placeholder="Re-enter password" required>
-                    <button class="btn btn-outline-secondary" type="button" id="toggleConfirm"
-                      aria-label="Show password">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                  </div>
-                  <?= $feedback('pass_confirm') ?>
-                  <div class="invalid-feedback" id="confirmFeedback">
-                    <i class="bi bi-x-circle me-1"></i>Passwords do not match.
-                  </div>
-                  <div class="valid-feedback" id="confirmSuccess">
-                    <i class="bi bi-check-circle me-1"></i>Passwords match!
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Consent -->
-            <div class="form-section">
-              <div class="form-check p-3 bg-light rounded border">
-                <input class="form-check-input<?= $invalid('consent') ?>" type="checkbox" name="consent" id="consent" value="1" required
-                  <?= old('consent') ? 'checked' : '' ?>>
-                <label class="form-check-label" for="consent">
-                  <strong>I consent</strong> to LCNL storing my details and contacting me about membership, events and
-                  other community related activities.
-
-                </label>
-                <?= $feedback('consent') ?>
-              </div>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="d-grid gap-2">
-              <button class="btn btn-accent btn-lg rounded-pill shadow-sm" type="submit">
-                <i class="bi bi-check2-circle me-2"></i>Create My Account
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div class="card-footer bg-light text-center py-3">
-          <span class="text-muted">Already have an account?</span>
-          <a class="fw-semibold ms-1" href="<?= base_url('membership/login') ?>">
-            Sign in here <i class="bi bi-arrow-right-short"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="text-center mt-4">
-        <a href="<?= base_url('/') ?>" class="btn btn-link text-decoration-none">
-          <i class="bi bi-arrow-left-circle me-1"></i>Back to homepage
-        </a>
-      </div>
+        <button class="btn btn-brand btn-lg rounded-pill w-100" type="submit">Create my account</button>
+      </form>
     </div>
+
+    <p class="text-center text-muted small mt-4 mb-0">
+      Questions about membership? Email <a href="mailto:membership@lcnl.org">membership@lcnl.org</a>
+    </p>
   </div>
 </div>
 
 <script>
-  (function() {
+  (function () {
     'use strict';
 
-    // Password Toggle Functionality
-    function setupPasswordToggle(btnId, inputId) {
-      const btn = document.getElementById(btnId);
-      const input = document.getElementById(inputId);
+    const form = document.getElementById('registerForm');
+    if (!form) return;
 
-      if (!btn || !input) return;
+    const fields = Array.from(form.querySelectorAll('[data-validate]'));
+    const submit = form.querySelector('[type="submit"]');
 
-      btn.addEventListener('click', function() {
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
-
-        const icon = this.querySelector('i');
-        icon.className = isPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
-        this.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+    // Show / hide password
+    form.querySelectorAll('[data-toggle-password]').forEach(function (btn) {
+      const input = document.getElementById(btn.dataset.togglePassword);
+      btn.addEventListener('click', function () {
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.textContent = show ? 'Hide' : 'Show';
+        btn.setAttribute('aria-pressed', String(show));
       });
+    });
+
+    function messageFor(el) {
+      const v = el.validity;
+      if (v.valid) return '';
+      if (v.valueMissing) return el.dataset.msgRequired;
+      if (v.typeMismatch || v.patternMismatch) return el.dataset.msgFormat;
+      if (v.tooShort) return el.dataset.msgShort;
+      return el.validationMessage;
     }
 
-    setupPasswordToggle('togglePassword', 'password');
-    setupPasswordToggle('toggleConfirm', 'pass_confirm');
-
-    // Password Strength Indicator
-    const passwordInput = document.getElementById('password');
-    const strengthIndicator = document.getElementById('passwordStrength');
-
-    if (passwordInput && strengthIndicator) {
-      const progressBar = strengthIndicator.querySelector('.progress-bar');
-      const strengthText = strengthIndicator.querySelector('.strength-text');
-
-      passwordInput.addEventListener('input', function() {
-        const password = this.value;
-
-        if (password.length === 0) {
-          strengthIndicator.style.display = 'none';
-          return;
-        }
-
-        strengthIndicator.style.display = 'block';
-
-        let strength = 0;
-        const checks = {
-          length: password.length >= 8,
-          lowercase: /[a-z]/.test(password),
-          uppercase: /[A-Z]/.test(password),
-          number: /[0-9]/.test(password),
-          special: /[^A-Za-z0-9]/.test(password)
-        };
-
-        strength = Object.values(checks).filter(Boolean).length;
-        const percentage = (strength / 5) * 100;
-
-        progressBar.style.width = percentage + '%';
-
-        if (strength <= 2) {
-          progressBar.className = 'progress-bar bg-danger';
-          strengthText.textContent = 'Weak password';
-          strengthText.className = 'strength-text text-danger';
-        } else if (strength === 3) {
-          progressBar.className = 'progress-bar bg-warning';
-          strengthText.textContent = 'Fair password';
-          strengthText.className = 'strength-text text-warning';
-        } else if (strength === 4) {
-          progressBar.className = 'progress-bar bg-info';
-          strengthText.textContent = 'Good password';
-          strengthText.className = 'strength-text text-info';
-        } else {
-          progressBar.className = 'progress-bar bg-success';
-          strengthText.textContent = 'Strong password';
-          strengthText.className = 'strength-text text-success';
-        }
-      });
+    function setError(el, message) {
+      const box = document.getElementById(el.id + '-error');
+      if (box) box.textContent = message || '';
+      el.classList.toggle('is-invalid', !!message);
+      if (message) {
+        el.setAttribute('aria-invalid', 'true');
+      } else {
+        el.removeAttribute('aria-invalid');
+      }
     }
 
-    // Password Confirmation Validation
-    const pwd = document.getElementById('password');
-    const confirm = document.getElementById('pass_confirm');
-    const feedback = document.getElementById('confirmFeedback');
-    const success = document.getElementById('confirmSuccess');
+    // Same summary the server renders: a list of links that jump to each field
+    function showSummary(errors) {
+      let summary = document.getElementById('formErrors');
+      if (!summary) {
+        summary = document.createElement('div');
+        summary.id = 'formErrors';
+        summary.className = 'alert alert-danger join-summary';
+        summary.setAttribute('role', 'alert');
+        summary.tabIndex = -1;
+        const card = form.closest('.join-card');
+        card.parentNode.insertBefore(summary, card);
+      }
 
-    function checkPasswordMatch() {
-      if (!pwd || !confirm || !feedback) return;
+      const heading = document.createElement('h2');
+      heading.textContent = 'Please check the following';
+      const list = document.createElement('ul');
 
-      if (confirm.value.length === 0) {
-        confirm.classList.remove('is-invalid', 'is-valid');
+      errors.forEach(function (err) {
+        const link = document.createElement('a');
+        link.href = '#' + err.el.id;
+        link.textContent = err.message;
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          err.el.focus();
+        });
+        const item = document.createElement('li');
+        item.appendChild(link);
+        list.appendChild(item);
+      });
+
+      summary.replaceChildren(heading, list);
+      summary.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      const errors = [];
+
+      fields.forEach(function (el) {
+        const message = messageFor(el);
+        setError(el, message);
+        if (message) errors.push({ el: el, message: message });
+      });
+
+      if (errors.length) {
+        e.preventDefault();
+        showSummary(errors);
         return;
       }
 
-      const match = pwd.value === confirm.value;
+      submit.disabled = true;
+      submit.textContent = 'Creating your account…';
+    });
 
-      if (match) {
-        confirm.classList.remove('is-invalid');
-        confirm.classList.add('is-valid');
-      } else {
-        confirm.classList.remove('is-valid');
-        confirm.classList.add('is-invalid');
-      }
-    }
+    // Clear a field's error as soon as it is fixed — never flag it while still typing
+    fields.forEach(function (el) {
+      const clear = function () {
+        if (el.classList.contains('is-invalid') && el.validity.valid) setError(el, '');
+      };
+      el.addEventListener('input', clear);
+      el.addEventListener('change', clear);
+    });
 
-    if (pwd && confirm) {
-      pwd.addEventListener('input', checkPasswordMatch);
-      confirm.addEventListener('input', checkPasswordMatch);
-    }
-
-    // Form Validation Enhancement
-    const form = document.getElementById('registerForm');
-
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        if (!form.checkValidity()) {
+    // Server summary links: move focus to the field, not just scroll
+    document.querySelectorAll('#formErrors a[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        const target = document.getElementById(link.getAttribute('href').slice(1));
+        if (target) {
           e.preventDefault();
-          e.stopPropagation();
+          target.focus();
         }
-
-        form.classList.add('was-validated');
       });
+    });
 
-      // Real-time validation for required fields
-      const requiredInputs = form.querySelectorAll('input[required]');
-
-      requiredInputs.forEach(input => {
-        input.addEventListener('blur', function() {
-          if (this.value.trim() === '') {
-            this.classList.add('is-invalid');
-          } else {
-            this.classList.remove('is-invalid');
-          }
-        });
-
-        input.addEventListener('input', function() {
-          if (this.classList.contains('is-invalid') && this.value.trim() !== '') {
-            this.classList.remove('is-invalid');
-          }
-        });
-      });
-    }
-
-    // Bring returned errors into view and announce them
-    const formErrors = document.getElementById('formErrors');
-    if (formErrors) {
-      formErrors.focus();
-    }
-
+    const notice = document.getElementById('formErrors') || document.getElementById('existingAccount');
+    if (notice) notice.focus();
   })();
 </script>
 

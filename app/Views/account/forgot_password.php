@@ -1,12 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2"><i class="bi bi-key-fill me-2"></i>Forgot Password</h1>
-    <p class="lead fs-6 mb-0">Enter your email and we’ll send you a reset link</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'Forgot Password',
+  'subheading' => 'Enter your email and we’ll send you a reset link',
+]) ?>
 
 <div class="container py-5">
   <div class="row justify-content-center">

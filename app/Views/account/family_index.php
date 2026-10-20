@@ -9,14 +9,11 @@ $genders = $familyConfig->genders;
 ?>
 
 <!-- HERO -->
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-    <div class="container position-relative text-center text-white py-4">
-        <h1 class="fw-bold display-6 mb-1">
-            <i class="bi bi-people-fill me-2"></i> My Family
-        </h1>
-        <p class="mb-0 opacity-75">Manage family members linked to your account.</p>
-    </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'My Family',
+  'subheading' => 'Manage family members linked to your account.',
+]) ?>
 
 <div class="container py-4">
 

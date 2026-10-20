@@ -14,7 +14,7 @@
    attributes still reserve layout space and prevent shift.
 
    This is an element selector, so any class or inline rule that genuinely sets
-   a width (.img-fluid, .w-100, .committee-photo, .card-img-top) still wins. */
+   a width (.img-fluid, .w-100, .cmt-person-photo, .card-img-top) still wins. */
 img {
   width: auto;
 }
@@ -243,6 +243,21 @@ img {
 .btn-link-brand:hover {
   color: var(--brand-600) !important;
   text-decoration: underline;
+}
+
+/* =========================
+   FORM CONTROLS (brand defaults, sitewide)
+   ========================= */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .25rem rgba(122, 29, 60, .25);
+}
+
+.form-check-input:checked {
+  background-color: var(--brand);
+  border-color: var(--brand);
 }
 
 /* Focus ring */
