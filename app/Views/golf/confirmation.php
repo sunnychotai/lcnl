@@ -1,14 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-4">
-    <h1 class="fw-bold display-6 mb-1">
-      <i class="bi bi-check-circle-fill me-2"></i>Registration Received
-    </h1>
-    <p class="mb-0 opacity-75">LCNL Golf Event 2026 &mdash; Moor Park Golf Club</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading'    => 'Registration Received',
+  'subheading' => 'LCNL Golf Event 2026 — Moor Park Golf Club',
+]) ?>
 
 <div class="container py-5">
   <div class="row justify-content-center">

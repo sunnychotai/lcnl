@@ -1,107 +1,75 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-cobalt d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">Lohana Charitable Foundation</h1>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'heading'    => 'Lohana Charitable Foundation',
+  'subheading' => 'Looking after the Dhamecha Lohana Centre for future generations',
+  'tone'       => 'lcf',
+  'logo'       => 'assets/img/logos/lcf.jpg',
+]) ?>
 
-<div class="container py-5">
+<div class="container py-4 py-md-5">
+  <div class="cmt-page">
 
-  <!-- Logo in main body -->
-  <div class="text-center mb-4">
-    <img src="<?= base_url('assets/img/logos/lcf.jpg') ?>"
-         alt="Lohana Charitable Foundation Logo"
-         class="img-fluid shadow-sm rounded"
-         style="max-height:150px;"
-         width="359" height="359" decoding="async">
-  </div>
+    <?= view('committees/_more', ['current' => 'lcf']) ?>
 
-  <div class="mb-4">
-    <p class="lead">
-      The Trust Board of <strong>Lohana Charitable Foundations Ltd (LCF)</strong> is honoured to oversee 
-      the governance of our charity and safeguard community assets for future generations.
-    </p>
-    <p>
-      Through our subsidiary, <strong>Dhamecha Lohana Centre Ltd (DLC)</strong>, we manage essential operations 
-      including functions, bookings, maintenance, improvements, security, and finance — ensuring the centre 
-      runs smoothly, efficiently, and safely.
-    </p>
-    <p>
-      We are thankful to the members and wider community for their generous donations and support since 
-      the acquisition of the property on <strong>2nd March 2011</strong> and its inauguration on 
-      <strong>29th June 2014</strong>.
-    </p>
-    <p>
-      It is encouraging to see record attendance at LCNL community events and prayer meetings, reflecting 
-      the strong spirit and unity of our members. Families are also invited to consider booking DLC for 
-      personal celebrations. This not only provides an opportunity to enjoy the centre, but also supports 
-      essential income. Alongside steady external bookings, we continue to explore ways to make full use 
-      of this valuable facility for the community.
-    </p>
-    <p>
-      With the dedication of the <strong>LCF Trustees</strong>, <strong>DLC Directors</strong>, 
-      <strong>LCNL President</strong>, <strong>LCNL Secretary</strong>, 
-      <strong>LCNL Executive Committee</strong>, and our many committed volunteers, 
-      we remain focused on maintaining the highest standards and enhancing the centre 
-      for the benefit of both our community and external users.
-    </p>
-  </div>
+    <div class="row g-4 g-lg-5 mb-2">
+      <section class="col-lg-8 cmt-prose" aria-labelledby="lcf-about">
+        <h2 id="lcf-about" class="cmt-section-title">About the LCF</h2>
+        <p class="cmt-lead">
+          The Trust Board of <strong>Lohana Charitable Foundations Ltd (LCF)</strong> is honoured to oversee the
+          governance of our charity and safeguard community assets for future generations.
+        </p>
+        <p>
+          Through our subsidiary, <strong>Dhamecha Lohana Centre Ltd (DLC)</strong>, we manage essential operations
+          including functions, bookings, maintenance, improvements, security and finance, ensuring the centre runs
+          smoothly, efficiently and safely.
+        </p>
+        <p>
+          We are thankful to the members and wider community for their generous donations and support since the
+          acquisition of the property on 2nd March 2011 and its inauguration on 29th June 2014.
+        </p>
+        <p>
+          It is encouraging to see record attendance at LCNL community events and prayer meetings, reflecting the
+          strong spirit and unity of our members. Families are also invited to consider booking DLC for personal
+          celebrations. This not only provides an opportunity to enjoy the centre, but also supports essential income.
+          Alongside steady external bookings, we continue to explore ways to make full use of this valuable facility
+          for the community.
+        </p>
+        <p>
+          With the dedication of the LCF Trustees, DLC Directors, LCNL President, LCNL Secretary, LCNL Executive
+          Committee, and our many committed volunteers, we remain focused on maintaining the highest standards and
+          enhancing the centre for the benefit of both our community and external users.
+        </p>
+        <p class="cmt-signature">
+          <strong>Vinod Thakrar</strong><br>
+          Chairperson (2024–2027), Lohana Charitable Foundation Ltd
+        </p>
+      </section>
 
-  <div class="bg-light p-3 rounded shadow-sm mb-4">
-    <p class="mb-1"><strong>Vinod Thakrar</strong></p>
-    <p class="mb-1">Chairperson (2024–2027)</p>
-    <p class="mb-1">Lohana Charitable Foundation Ltd</p>
-    <p class="mb-1">Charity Registered Number: <strong>1161788</strong></p>
-    <p class="mb-0">Registered address: Brember Road, South Harrow, Middlesex, HA2 8AX</p>
-  </div>
-
-<hr class="my-5">
-
-<h2 class="fw-bold text-center mb-4">Trustees</h2>
-
-<div class="row g-4 justify-content-center">
-  <?php
-    // Define display order (edit this array as needed)
-    $trustees = [
-      'pradip-dhamecha.jpg'    => 'Pradip Dhamecha',
-      'vinod-thakrar.jpg'      => 'Vinod Thakrar',
-      'bhavesh-radia.jpg'      => 'Bhavesh Radia',
-      'janu-kotecha.jpg'       => 'Janu Kotecha',
-      'vimal-pau.jpg'          => 'Vimal Pau',
-      'yatinbhai-dawada.jpg'   => 'Yatinbhai Dawada',
-      'jagdish-nagrecha.jpg'   => 'Jagdish Nagrecha',
-      'sudhir-karia.jpg'       => 'Sudhir Karia',
-      'rashik-kantaria.jpg'    => 'Rashik Kantaria',
-      'reena-popat.jpg'        => 'Reena Popat',
-      'ramesh-kantaria.jpg'    => 'Ramesh Kantaria',
-      'yagnish-chotai.jpg'     => 'Yagnish Chotai',
-      'narendra-thakrar.jpg'   => 'Narendra Thakrar',
-      'ronak-paw.jpg'   => 'Ronak Paw',
-      'jeet-rughani.jpg'   => 'Jeet Rughani',
-      'ajay-gokani.jpg'        => 'Ajay Gokani',      
-    ];
-  ?>
-
-<div class="row g-4 justify-content-center">
-  <?php foreach ($trustees as $file => $name): ?>
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
-      <div class="trustee-card shadow-sm h-100 p-2">
-        <img src="<?= base_url('assets/img/committee/lcf/' . $file) ?>"
-             alt="<?= esc($name) ?>"
-             class="trustee-photo"
-             loading="lazy" decoding="async">
-        <p class="trustee-name"><?= esc($name) ?></p>
-      </div>
+      <aside class="col-lg-4" aria-labelledby="lcf-facts">
+        <div class="cmt-facts cmt-tone-lcf">
+          <h2 id="lcf-facts" class="visually-hidden">Key facts</h2>
+          <dl>
+            <dt>Property acquired</dt>
+            <dd>2 March 2011</dd>
+            <dt>Centre inaugurated</dt>
+            <dd>29 June 2014</dd>
+            <dt>Registered charity</dt>
+            <dd>No. 1161788</dd>
+            <dt>Registered address</dt>
+            <dd>Brember Road, South Harrow, Middlesex, HA2 8AX</dd>
+          </dl>
+          <a href="<?= base_url('dlc-hire') ?>" class="btn btn-outline-dark rounded-pill w-100">Hire the centre</a>
+        </div>
+      </aside>
     </div>
-  <?php endforeach; ?>
-</div>
 
-  
-</div>
-
+    <section class="cmt-section" aria-labelledby="lcf-trustees">
+      <h2 id="lcf-trustees" class="cmt-section-title">Trustees</h2>
+      <?= view('committees/_people', ['people' => $trustees]) ?>
+    </section>
+  </div>
 </div>
 
 <?= $this->endSection() ?>

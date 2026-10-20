@@ -1,178 +1,83 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-cobalt d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">Young Lohana Society</h1>
-    <p class="lead fs-5 mb-0">Supporting and empowering the youth of our community.</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'heading'    => 'Young Lohana Society',
+  'subheading' => 'Growing up together, as part of LCNL',
+  'tone'       => 'yls',
+]) ?>
 
-<div class="container py-5">
+<div class="container py-4 py-md-5">
+  <div class="cmt-page yls-page">
 
-  <!-- Tabs Navigation -->
-  <ul class="nav nav-tabs justify-content-center" id="ylsTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="true">
-        About
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab" aria-controls="events" aria-selected="false">
-        Upcoming Events
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="committee-tab" data-bs-toggle="tab" data-bs-target="#committee" type="button" role="tab" aria-controls="committee" aria-selected="false">
-        Committee
-      </button>
-    </li>
-  </ul>
+    <?= view('committees/_more', ['current' => 'yls']) ?>
 
-  <!-- Tabs Content -->
-  <div class="tab-content py-4" id="ylsTabsContent">
-
-    <!-- About Tab -->
-<div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab" tabindex="0">
-  <div class="">
-    <h2>About Us</h2>
-    
-    <div class="text-center mb-4">
-      <img src="<?= base_url('assets/img/committee/yls-logo.png') ?>"
-           alt="YLS Logo"
-           class="img-fluid"
-           style="max-height:120px;"
-           width="1776" height="1776" decoding="async">
+    <!-- Intro -->
+    <div class="yls-intro">
+      <img src="<?= base_url('assets/img/committee/yls-logo-320.webp') ?>"
+        alt="Young Lohana Society logo" class="yls-logo" width="160" height="160" decoding="async">
+      <div>
+        <h2 class="yls-heading mt-0">Who we are</h2>
+        <p class="yls-lead mb-0">
+          YLS is a youth organisation launched to capture and cater for the younger generation within the
+          Lohana community, bringing young Lohanas in North London together.
+        </p>
+      </div>
     </div>
 
-    <p>
-      We would like to take this opportunity to introduce ourselves and how we were formed.
-    </p>
+    <section class="yls-section">
+      <h2 class="yls-heading">How we started</h2>
+      <p>
+        With no official youth community in North London, LCNL invited a group of youngsters, many of whom had never
+        met each other, to come together to discuss the future of young Lohanas. Many came to learn about the Lohana
+        community, others were keen on the free pizza, but it was a great opportunity to meet fellow like-minded
+        Lohanas and to brainstorm ideas for serving the young Lohanas of North London. And so the Young Lohana
+        Society was formed!
+      </p>
+      <p class="mb-0">
+        Our committee is diverse, which lets us reach a wider audience. The youngest member is 18 and the eldest are in
+        their 30s. Some only moved to London in the last few years; others have grown up here.
+      </p>
+    </section>
 
-    <p>
-      With no official youth community in North London, LCNL invited a group of youngsters, many of whom had never met each other, to come together to discuss the future of young Lohanas. Many came to learn about the Lohana community, others were keen on the free pizza, but it was a great opportunity to meet fellow like minded Lohanas and discuss and brainstorm ideas about serving the young Lohanas in North London. So the “Young Lohana Society (YLS) was formed!
-    </p>
+    <section class="yls-section">
+      <h2 class="yls-heading">Our aim</h2>
+      <p class="mb-0">
+        To put it simply, our aim is to bring the Lohana youth together, and to preserve and strengthen our sense of
+        belonging within the community by encouraging young Lohanas to take an active part in community events.
+      </p>
+    </section>
 
-    <p>
-      The members of the committee are diverse allowing us to reach out to a wider audience. The youngest committee member is aged 18 and the eldest are in their 30s! Some of the members only moved to London in the last few years whilst others have been brought up here.
-    </p>
+    <section class="yls-section">
+      <h2 class="yls-heading">What we do</h2>
+      <p>We hold a variety of religious, cultural and social events, including:</p>
+      <ul class="yls-activities">
+        <li>Sports days</li>
+        <li>Summer BBQ &amp; fete</li>
+        <li>Mehfil nights</li>
+        <li>Quiz nights</li>
+        <li>Parties</li>
+        <li>…and many more</li>
+      </ul>
+    </section>
 
-    <p>
-      So, what is our aim and purpose? To put it quite simply, our aim is to bring the Lohana youth together as well as preserving and strengthening our sense of belongingness within the community by promoting and encouraging the young lohanas to actively integrate and participate in community events. YLS is a youth organisation launched to capture and cater for the younger generation within the Lohana community.
-    </p>
+    <!-- Motto -->
+    <figure class="yls-motto">
+      <blockquote class="mb-0">
+        <p>Growing up together</p>
+      </blockquote>
+      <figcaption>
+        The LCNL motto is “we move forward together”. For YLS, it is simply a case of us all growing up together.
+      </figcaption>
+    </figure>
 
-    <p>
-      We will hold a variety of events ranging from religious, cultural and social including sports days, summer BBQ/Fete, mehfil night, quiz night, parties and many more.
-    </p>
-
-    <p>
-      The LCNL motto is “we move forward together”, for the YLS it is simply a case of us all “growing up together”. Whether you’re a young Lohana or whether you’ve been part of the LCNL for years I hope you’ll take an active part in our future: whether it is suggesting ideas, attending functions, or even coming up to say hello to us!
-    </p>
-
-    <p>
-      We look forward to seeing you all soon!
-    </p>
-
-    <a href="<?= base_url('events') ?>" class="btn btn-brand mt-3">
-      View Upcoming Events
-    </a>
-  </div>
-</div>
-
-
-<!-- Events Tab -->
-<div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">
-  <h2 class="h3 mb-4">Upcoming YLS Events</h2>
-  
-<div class="container">
-  <?php if (!empty($groupedEvents)): ?>
-    <?php foreach ($groupedEvents as $month => $events): ?>
-      <h3 class="h2 mb-4 mt-5"><?= esc($month) ?></h3>
-
-      <div class="d-flex overflow-auto gap-3 pb-2">
-        <?php foreach ($events as $event): ?>
-          <?php if (in_array($event['committee'], ['YLS'])): ?>
-            <a href="<?= base_url('events/'.$event['id']) ?>"
-               class="text-decoration-none flex-shrink-0 event-card-link">
-              <div class="card shadow-sm border-0 h-100 event-card">
-                <div class="event-img-wrapper">
-                  <?php
-                    // Robust local file fallback (same pattern as your guide)
-                    $imagePath = $event['image'] ?? '';
-                    $imagePath = is_string($imagePath) ? trim($imagePath) : '';
-                    $fullPath  = $imagePath ? FCPATH . ltrim($imagePath, '/') : '';
-
-                    if (empty($imagePath) || !is_file($fullPath)) {
-                      $imagePath = 'assets/img/lcnl-placeholder-320.png';
-                    }
-                  ?>
-                  <img src="<?= base_url($imagePath) ?>"
-                       class="card-img-top"
-                       alt="<?= esc($event['title']) ?>"
-                       loading="lazy">
-
-                  <div class="event-overlay">
-                    <h4 class="h6 text-white mb-1"><?= esc($event['title']) ?></h4>
-                    <small class="text-light">
-                      <?= date('d M Y', strtotime($event['event_date'])) ?>
-                      <?php if (!empty($event['time_from'])): ?>
-                        · <?= date('H:i', strtotime($event['time_from'])) ?>
-                      <?php endif; ?>
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </a>
-          <?php endif; ?>
-        <?php endforeach; ?>
-      </div>
-    <?php endforeach; ?>
-  <?php else: ?>
-    <p>No upcoming events found.</p>
-  <?php endif; ?>
-</div>
-
-</div>
-
-
-    <!-- Committee Tab -->
-   <div class="tab-pane fade" id="committee" role="tabpanel" aria-labelledby="committee-tab" tabindex="0">
-  <h2 class="h3 mb-4 text-center">Committee Members</h2>
-  <div class="row g-4">
-    <?php foreach ($members as $m): ?>
-      <div class="col-md-3 col-sm-6">
-        <div class="card h-100 text-center">
-          <?php 
-            $basePath = 'assets/img/committee/';
-            $filename = basename($m['image'] ?? ''); // only keep filename
-            $imagePath = $basePath . $filename;
-
-            if (empty($filename) || !is_file(FCPATH . $imagePath)) {
-                $imagePath = $basePath . 'lcnl-placeholder.png';
-            }
-          ?>
-          <img src="<?= base_url($imagePath) ?>"
-               class="card-img-top committee-photo"
-               alt="<?= esc($m['firstname'].' '.$m['surname']) ?>"
-               width="720" height="480" loading="lazy" decoding="async">
-
-          <div class="card-body">
-            <h3 class="h5 card-title mb-1">
-              <?= esc($m['firstname'].' '.$m['surname']) ?>
-            </h3>
-            <?php if (!empty($m['role'])): ?>
-              <p class="text-muted mb-1"><?= esc($m['role']) ?></p>
-            <?php endif; ?>
-            <?php if (!empty($m['url'])): ?>
-              <a href="<?= esc($m['url']) ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">More</a>
-            <?php endif; ?>
-          </div>
-        </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
-</div>
+    <section class="yls-section yls-closing">
+      <p>
+        Whether you’re a young Lohana or you’ve been part of LCNL for years, we hope you’ll take an active part in our
+        future: suggesting ideas, coming along to events, or even just coming up to say hello!
+      </p>
+      <p class="yls-signoff mb-0">We look forward to seeing you all soon!</p>
+    </section>
 
   </div>
 </div>

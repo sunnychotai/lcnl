@@ -24,56 +24,25 @@ $type = ucfirst(strtolower($typeRaw));
 ?>
 
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center" style="min-height: 200px;">
-  <div class="container position-relative">
-    <div class="row align-items-center">
-      <div class="col-lg-8">
-        <h1 class="fw-bold display-5 mb-3 text-white">
-          Welcome back, <?= esc($memberName) ?> 👋
-        </h1>
-        <?php if (!empty($events)): ?>
-          <div
-            class="d-inline-flex align-items-center bg-white bg-opacity-25 backdrop-blur rounded-pill px-4 py-2 text-white">
-            <i class="bi bi-calendar-event-fill me-2 text-accent"></i>
-            <span class="fw-semibold">Next Event:</span>
-            <span class="ms-2"><?= esc($events[0]['title']) ?></span>
-            <span class="mx-2">•</span>
-            <span><?= date('d M Y', strtotime($events[0]['event_date'])) ?></span>
-          </div>
-        <?php endif; ?>
-      </div>
-      <!-- Replace the progress circle section in the hero with this: -->
-      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-        <?php
-        $totalTasks = count($tasks['todo']) + count($tasks['done']);
-        $doneTasks = count($tasks['done']);
-        $progress = $totalTasks > 0 ? round(($doneTasks / $totalTasks) * 100) : 0;
-        ?>
-        <div class="d-inline-block bg-white rounded-4 shadow-lg p-4">
-          <div class="d-flex align-items-center gap-3">
-            <div class="position-relative">
-              <svg width="80" height="80">
-                <circle cx="40" cy="40" r="32" fill="none" stroke="#e9ecef" stroke-width="6"></circle>
-                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--brand)" stroke-width="6"
-                  stroke-dasharray="<?= $progress * 2.01 ?> 201" stroke-linecap="round" transform="rotate(-90 40 40)">
-                </circle>
-              </svg>
-              <div class="position-absolute top-50 start-50 translate-middle">
-                <div class="fw-bold text-brand" style="font-size: 1.25rem; line-height: 1;"><?= $progress ?>%</div>
-              </div>
-            </div>
-            <div class="text-start">
-              <div class="fw-bold text-brand">Profile Complete</div>
-              <div class="small text-muted"><?= $doneTasks ?> of <?= $totalTasks ?> tasks</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<?php
+$totalTasks = count($tasks['todo']) + count($tasks['done']);
+$doneTasks = count($tasks['done']);
+$progress = $totalTasks > 0 ? round(($doneTasks / $totalTasks) * 100) : 0;
 
-</section>
+ob_start();
+if (!empty($events)): ?>
+  <span class="badge badge-glass">
+    <i class="bi bi-calendar-event-fill me-1"></i>Next event: <?= esc($events[0]['title']) ?>
+    &middot; <?= date('d M Y', strtotime($events[0]['event_date'])) ?>
+  </span>
+<?php endif;
+$headerExtra = ob_get_clean();
+?>
+<?= view('partials/page_header', [
+  'overlay'    => 'steel',
+  'heading' => 'Welcome back, ' . $memberName,
+  'extra'   => $headerExtra,
+]) ?>
 <div class="container py-4">
   <!-- Welcome + Member ID -->
   <div class="row justify-content-center my-4">
@@ -91,6 +60,27 @@ $type = ucfirst(strtolower($typeRaw));
               <i class="bi bi-person-vcard me-1"></i>
               Member ID: <strong>LCNL<?= esc(session()->get('member_id')) ?></strong>
             </span>
+          </div>
+        </div>
+
+        <!-- Profile progress -->
+        <div class="d-inline-block">
+          <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+              <svg width="80" height="80">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="#e9ecef" stroke-width="6"></circle>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--brand)" stroke-width="6"
+                  stroke-dasharray="<?= $progress * 2.01 ?> 201" stroke-linecap="round" transform="rotate(-90 40 40)">
+                </circle>
+              </svg>
+              <div class="position-absolute top-50 start-50 translate-middle">
+                <div class="fw-bold text-brand" style="font-size: 1.25rem; line-height: 1;"><?= $progress ?>%</div>
+              </div>
+            </div>
+            <div class="text-start">
+              <div class="fw-bold text-brand">Profile Complete</div>
+              <div class="small text-muted"><?= $doneTasks ?> of <?= $totalTasks ?> tasks</div>
+            </div>
           </div>
         </div>
 

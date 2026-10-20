@@ -25,36 +25,7 @@
     border-radius: 2px;
 }
 
-/* --- Price Highlight / Gradient Text --- */
-.text-brand.fw-bold.fs-4 {
-    background: linear-gradient(135deg, var(--brand) 0%, #9c2b52 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 2.5rem !important;
-    font-weight: 800 !important;
-    display: inline-block;
-    position: relative;
-}
 
-/* --- Enhanced CTA Cards --- */
-.cta-card i.bi-person-plus-fill {
-    color: var(--brand);
-    filter: drop-shadow(0 4px 8px rgba(122, 29, 60, .2));
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-}
 
 .btn-brand.btn-lg {
     background: linear-gradient(135deg, var(--brand) 0%, #9c2b52 100%);
@@ -194,16 +165,6 @@
     font-weight: 800;
 }
 
-/* --- Responsive Tweaks --- */
-@media (max-width: 768px) {
-    .text-brand.fw-bold.fs-4 {
-        font-size: 2rem !important;
-    }
-
-    .cta-card .card-body {
-        padding: 1.5rem !important;
-    }
-}
 /* =========================================================================
    MELA STALL BOOKING FORM
    Uses the existing brand tokens only. Text on gold uses --on-accent
@@ -1409,4 +1370,937 @@
     background: var(--muted);
     border-radius: var(--radius);
     padding: 1.5rem;
+}
+
+/* =========================================================================
+   MEMBERSHIP LANDING (/membership)
+   Plain on purpose: one price block, one gold accent, no hover motion.
+   Header, buttons and the step list come from the .join-* journey styles.
+   ========================================================================= */
+.mship-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    background: #fff;
+    border: 1px solid #e7e1e2;
+    border-radius: var(--radius);
+}
+
+.mship-title {
+    font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.25rem);
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: .75rem;
+}
+
+.mship-lead {
+    font-size: 1.125rem;
+    color: #495057;
+    max-width: 38rem;
+    margin-bottom: 2rem;
+}
+
+.mship-subtitle {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+}
+
+.mship-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.25rem 2rem;
+}
+
+@media (min-width: 768px) {
+    .mship-benefits {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.mship-benefits li {
+    position: relative;
+    padding-left: 1.75rem;
+}
+
+.mship-benefits li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 700;
+    color: var(--brand);
+}
+
+.mship-benefits strong {
+    display: block;
+    margin-bottom: .15rem;
+}
+
+.mship-benefits span {
+    color: #5c636a;
+}
+
+/* --- Price block --- */
+.mship-price {
+    background: var(--muted);
+    border-top: 4px solid var(--accent1);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+}
+
+.mship-price-amount {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand);
+    margin: 0;
+}
+
+.mship-price-term {
+    font-weight: 600;
+    margin: .5rem 0 1.25rem;
+}
+
+.mship-price-note {
+    font-size: .9rem;
+    color: #5c636a;
+    text-align: center;
+    margin: .75rem 0 0;
+}
+
+.mship-price a,
+.mship-existing a,
+.mship-faq a {
+    color: var(--brand);
+    font-weight: 600;
+}
+
+.mship-steps-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 1.5rem 0 .75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(0, 0, 0, .08);
+}
+
+.mship-steps {
+    padding-left: 1.25rem;
+    margin: 0;
+}
+
+.mship-steps li + li {
+    margin-top: .5rem;
+}
+
+/* --- Existing members and FAQ --- */
+.mship-existing,
+.mship-faq {
+    max-width: 46rem;
+}
+
+.mship-existing {
+    border-top: 1px solid #eee7e8;
+    padding-top: 2rem;
+}
+
+.mship-faq details {
+    border-bottom: 1px solid #eee7e8;
+}
+
+.mship-faq summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .9rem 0;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+}
+
+.mship-faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.mship-faq summary::after {
+    content: "+";
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.mship-faq details[open] summary::after {
+    content: "\2212";
+}
+
+.mship-faq summary:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+}
+
+.mship-faq details p {
+    color: #495057;
+    margin: 0;
+    padding-bottom: 1rem;
+}
+
+/* =========================================================================
+   YOUNG LOHANA SOCIETY (/yls)
+   Colours are sampled from the YLS logo. Yellow is only ever a fill behind
+   purple or a highlight on purple (9:1); it is never used as text on white.
+   ========================================================================= */
+.yls-page {
+    --yls-purple: #412563;
+    --yls-purple-dark: #2c1844;
+    --yls-yellow: #f2e45b;
+    --yls-yellow-soft: #fbf6d2;
+}
+
+.yls-intro {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 1.75rem;
+    margin-bottom: 2.5rem;
+    background: var(--yls-yellow-soft);
+    border-radius: var(--radius);
+}
+
+.yls-logo {
+    flex-shrink: 0;
+    width: 160px;
+    height: 160px;
+}
+
+@media (max-width: 575.98px) {
+    .yls-intro {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .yls-logo {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+.yls-lead {
+    font-size: 1.15rem;
+    color: #343a40;
+}
+
+.yls-heading {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--yls-purple);
+    margin: 0 0 .75rem;
+}
+
+.yls-heading::after {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 4px;
+    margin-top: .4rem;
+    border-radius: 2px;
+    background: var(--yls-yellow);
+}
+
+.yls-intro .yls-heading::after {
+    display: none;
+}
+
+.yls-section {
+    max-width: 46rem;
+    margin-bottom: 2.25rem;
+    color: #343a40;
+    line-height: 1.7;
+}
+
+.yls-activities {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.yls-activities li {
+    padding: .4rem .9rem;
+    border-radius: 999px;
+    background: var(--yls-yellow-soft);
+    border: 1px solid #ece08f;
+    color: var(--yls-purple);
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+.yls-motto {
+    margin: 0 0 2.25rem;
+    padding: 2rem 1.75rem;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--yls-purple), var(--yls-purple-dark));
+    color: #fff;
+    text-align: center;
+}
+
+.yls-motto blockquote p {
+    font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+    font-weight: 800;
+    color: var(--yls-yellow);
+    margin: 0 0 .5rem;
+}
+
+.yls-motto blockquote p::before {
+    content: "\201C";
+}
+
+.yls-motto blockquote p::after {
+    content: "\201D";
+}
+
+.yls-motto figcaption {
+    color: rgba(255, 255, 255, .85);
+    max-width: 30rem;
+    margin-inline: auto;
+}
+
+.yls-signoff {
+    font-weight: 700;
+    color: var(--yls-purple);
+}
+
+/* =========================================================================
+   ABOUT US + COMMITTEE PAGES (.cmt-*, .about-*)
+   One system for /aboutus, /committee, /mahila, /yls, /youth and /lcf.
+   Each committee has a tone taken from its own logo or header; tones only
+   ever colour text that passes 4.5:1 on white.
+   ========================================================================= */
+
+/* --- Tones --- */
+.cmt-tone-brand { --cmt-accent: var(--brand);  --cmt-soft: var(--muted); }
+.cmt-tone-ruby  { --cmt-accent: #8c1230;       --cmt-soft: #fbeef1; }
+.cmt-tone-yls   { --cmt-accent: #412563;       --cmt-soft: #f3eff8; }
+.cmt-tone-lyc   { --cmt-accent: #00706b;       --cmt-soft: #e8f5f3; --cmt-accent-2: #ea6810; }
+.cmt-tone-lcf   { --cmt-accent: #1f3a4a;       --cmt-soft: #eef2f5; }
+
+/* --- Page and sections --- */
+.cmt-page {
+    max-width: 68rem;
+    margin-inline: auto;
+}
+
+.cmt-section {
+    margin-top: 3rem;
+}
+
+.cmt-section-title {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: .75rem;
+}
+
+.cmt-section-title::before {
+    content: "";
+    flex-shrink: 0;
+    width: .35rem;
+    height: 1.35rem;
+    border-radius: 2px;
+    background: var(--accent1);
+}
+
+.cmt-section-intro {
+    color: #5c636a;
+    max-width: 46rem;
+    margin-bottom: 1.5rem;
+}
+
+.cmt-prose {
+    max-width: 46rem;
+}
+
+.cmt-prose p {
+    color: #343a40;
+    line-height: 1.7;
+}
+
+.cmt-lead {
+    font-size: 1.15rem;
+}
+
+.cmt-signature {
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--accent1);
+}
+
+/* --- Group photo --- */
+.cmt-group-photo {
+    margin: 0;
+}
+
+.cmt-group-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+}
+
+.cmt-group-photo figcaption {
+    margin-top: .6rem;
+    font-size: .9rem;
+    color: #6c757d;
+    text-align: center;
+}
+
+/* --- People grid: portrait headshots, faces kept in frame --- */
+.cmt-people {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .cmt-people {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
+}
+
+.cmt-person {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.cmt-person-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border-radius: 12px;
+    background: #f1eef0;
+    margin-bottom: .6rem;
+}
+
+.cmt-person-photo.is-placeholder {
+    object-fit: contain;
+    padding: 22%;
+}
+
+.cmt-person-name {
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.cmt-person-role {
+    margin-top: .15rem;
+    font-size: .85rem;
+    color: #6c757d;
+}
+
+/* --- Committee cards (About Us) --- */
+.cmt-cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.cmt-cards > li {
+    display: flex;
+}
+
+.cmt-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e9e4e5;
+    border-top: 4px solid var(--cmt-accent);
+    border-radius: var(--radius);
+    color: inherit;
+    text-decoration: none;
+    transition: box-shadow .15s ease;
+}
+
+.cmt-card:hover {
+    color: inherit;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+}
+
+.cmt-card:focus-visible {
+    outline: 3px solid var(--cmt-accent);
+    outline-offset: 3px;
+}
+
+.cmt-card-media {
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: var(--cmt-soft);
+}
+
+.cmt-card-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cmt-card-media.is-cover img {
+    object-fit: cover;
+}
+
+.cmt-card-media.is-contain {
+    background: #fff;
+}
+
+.cmt-card-media.is-contain img {
+    object-fit: contain;
+    padding: 1rem;
+}
+
+.cmt-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.cmt-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cmt-accent);
+}
+
+.cmt-card-summary {
+    flex: 1;
+    font-size: .95rem;
+    color: #5c636a;
+}
+
+.cmt-card-more {
+    margin-top: .25rem;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--cmt-accent);
+}
+
+.cmt-card:hover .cmt-card-more {
+    text-decoration: underline;
+}
+
+/* --- "More from LCNL" strip, under the header --- */
+.cmt-more {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #eee7e8;
+}
+
+.cmt-more-label {
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #5c636a;
+}
+
+.cmt-more ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.cmt-more a {
+    display: inline-block;
+    padding: .35rem .9rem;
+    border: 1px solid #ddd3d5;
+    border-radius: 999px;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--brand);
+    text-decoration: none;
+}
+
+.cmt-more a:hover {
+    background: var(--muted);
+}
+
+.cmt-more a[aria-current="page"] {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+
+/* --- Upcoming events list --- */
+.cmt-events {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: .75rem;
+    max-width: 46rem;
+}
+
+.cmt-event {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: .85rem 1rem;
+    border: 1px solid #e9e4e5;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.cmt-event:hover {
+    color: inherit;
+    background: var(--muted);
+}
+
+.cmt-event-date {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    width: 3.5rem;
+    padding: .35rem 0;
+    border-radius: 10px;
+    background: var(--brand);
+    color: #fff;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.cmt-event-day {
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.cmt-event-month {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.cmt-event-title {
+    display: block;
+    font-weight: 700;
+}
+
+.cmt-event-when {
+    display: block;
+    font-size: .9rem;
+    color: #6c757d;
+}
+
+.cmt-empty {
+    color: #5c636a;
+}
+
+.cmt-empty a,
+.about-doc a {
+    color: var(--brand);
+    font-weight: 600;
+}
+
+/* --- Join panel (LYC) --- */
+.cmt-join {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding: 1.75rem;
+    background: var(--cmt-soft);
+    border-left: 5px solid var(--cmt-accent-2, var(--cmt-accent));
+    border-radius: var(--radius);
+}
+
+@media (max-width: 767.98px) {
+    .cmt-join {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.cmt-join .cmt-section-title::before {
+    background: var(--cmt-accent-2, var(--accent1));
+}
+
+.cmt-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+}
+
+.cmt-checklist li {
+    position: relative;
+    padding-left: 1.6rem;
+}
+
+.cmt-checklist li + li {
+    margin-top: .4rem;
+}
+
+.cmt-checklist li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: var(--cmt-accent);
+}
+
+.cmt-join-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
+.cmt-join-qr {
+    flex-shrink: 0;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.cmt-join-qr img {
+    display: block;
+    width: 180px;
+    height: 180px;
+}
+
+.cmt-join-qr p {
+    margin: .5rem 0 0;
+    font-size: .85rem;
+    color: #5c636a;
+}
+
+/* --- Photo pair and bios (LYC) --- */
+.cmt-photo-pair {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .cmt-photo-pair {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.cmt-photo-pair img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+}
+
+.cmt-bios {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .cmt-bios {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.cmt-bio {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #e9e4e5;
+    border-radius: var(--radius);
+}
+
+.cmt-bio img {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 20%;
+}
+
+.cmt-bio-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: .35rem;
+}
+
+.cmt-bio p {
+    font-size: .95rem;
+    color: #495057;
+}
+
+/* --- Key facts box --- */
+.cmt-facts {
+    padding: 1.5rem;
+    background: var(--cmt-soft);
+    border-top: 4px solid var(--cmt-accent);
+    border-radius: var(--radius);
+}
+
+.cmt-facts dl {
+    margin: 0;
+}
+
+.cmt-facts dl:not(:last-child) {
+    margin-bottom: 1.25rem;
+}
+
+.cmt-facts dt {
+    font-size: .8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #5c636a;
+}
+
+.cmt-facts dd {
+    margin: 0 0 .9rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+.cmt-facts dd:last-child {
+    margin-bottom: 0;
+}
+
+/* --- About Us only --- */
+.about-aims {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.about-aims li {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: 1rem 1.25rem;
+    background: var(--muted);
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.about-aims i {
+    font-size: 1.4rem;
+    color: var(--brand);
+}
+
+.about-also {
+    margin-top: 1.25rem;
+    color: #5c636a;
+}
+
+/* gold on maroon is 4.95:1, fine for text this large */
+.about-motto {
+    margin: 3.5rem 0;
+    padding: 2.5rem 1.5rem;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--brand), var(--brand-700));
+    color: #fff;
+    text-align: center;
+}
+
+.about-motto blockquote p {
+    margin: 0 0 .5rem;
+    font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+    font-weight: 800;
+    color: var(--accent1);
+}
+
+.about-motto blockquote p::before {
+    content: "\201C";
+}
+
+.about-motto blockquote p::after {
+    content: "\201D";
+}
+
+.about-motto figcaption {
+    max-width: 36rem;
+    margin-inline: auto;
+    color: rgba(255, 255, 255, .88);
+}
+
+.about-doc {
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+    padding: 1.5rem;
+    border: 1px solid #e9e4e5;
+    border-radius: var(--radius);
+}
+
+.about-doc > i {
+    font-size: 2rem;
+    color: var(--brand);
+}
+
+.about-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: .75rem;
+}
+
+.about-links a {
+    display: block;
+    padding: .9rem 1.1rem;
+    border: 1px solid #e9e4e5;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.about-links a:hover {
+    background: var(--muted);
+}
+
+.about-links strong {
+    display: block;
+    color: var(--brand);
+}
+
+.about-links span {
+    font-size: .9rem;
+    color: #6c757d;
 }

@@ -1,13 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-storm d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2"><i class="bi bi-shield-lock-fill me-2"></i>Privacy Policy</h1>
-    <p class="lead fs-6 mb-0">How LCNL collects, uses and protects your data</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'storm',
+  'heading'    => 'Privacy Policy',
+  'subheading' => 'How LCNL collects, uses and protects your data',
+]) ?>
 
 <div class="container py-5">
   <div class="row g-4">

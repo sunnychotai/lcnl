@@ -3,12 +3,11 @@
 
 <?php /** @var \Config\MelaStalls $config */ ?>
 
-<section class="hero-lcnl-watermark hero-overlay-moss d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">Stall booking received</h1>
-    <p class="lead fs-5 mb-0"><?= esc($config->eventName) ?></p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'moss',
+  'heading'    => 'Stall booking received',
+  'subheading' => $config->eventName,
+]) ?>
 
 <div class="container py-4">
   <div class="row justify-content-center">

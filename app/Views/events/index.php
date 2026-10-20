@@ -1,14 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-midnight d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2"><i class="bi bi-calendar-event me-2"></i> Events</h1>
-    <p class="lead fs-6 mb-0">Upcoming LCNL events</p>
-  </div>
-</section>
-
+<?= view('partials/page_header', [
+  'overlay'    => 'midnight',
+  'heading'    => 'Events',
+  'subheading' => 'Upcoming LCNL events',
+]) ?>
 
 <div class="container py-1">
   <?php if (!empty($groupedEvents)): ?>

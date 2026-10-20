@@ -109,16 +109,8 @@ if (!function_exists('fmtEventText')) {
 }
 ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-moss d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-
-    <h1 class="fw-bold display-6 mb-2">
-      <i class="bi bi-calendar-event me-2"></i>
-      <?= esc($event['title'] ?? 'Event') ?>
-    </h1>
-
-    <div class="d-flex justify-content-center flex-wrap gap-2 mt-2">
+<?php ob_start(); ?>
+    <div class="d-flex justify-content-center flex-wrap gap-2">
 
       <?php if (!empty($event['event_date'])): ?>
         <span class="badge badge-glass">
@@ -150,9 +142,12 @@ if (!function_exists('fmtEventText')) {
       <?php endif; ?>
 
     </div>
-
-  </div>
-</section>
+<?php $headerExtra = ob_get_clean(); ?>
+<?= view('partials/page_header', [
+  'overlay'    => 'moss',
+  'heading' => $event['title'] ?? 'Event',
+  'extra'   => $headerExtra,
+]) ?>
 
 <div class="container py-4">
 

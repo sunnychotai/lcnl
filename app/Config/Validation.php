@@ -105,7 +105,6 @@ class Validation extends BaseConfig
         'email' => ['label' => 'Email', 'rules' => 'trim|required|valid_email|is_unique[members.email]'],
         'mobile' => ['label' => 'Mobile', 'rules' => 'permit_empty|regex_match[/^\+?\d{7,15}$/]'],
         'password' => ['label' => 'Password', 'rules' => 'required|min_length[8]'],
-        'pass_confirm' => ['label' => 'Confirm Password', 'rules' => 'required|matches[password]'],
 
         'address1' => ['label' => 'Address Line 1', 'rules' => 'trim|required|min_length[3]|max_length[150]'],
         'address2' => ['label' => 'Address Line 2', 'rules' => 'trim|permit_empty|max_length[150]'],
@@ -134,10 +133,6 @@ class Validation extends BaseConfig
         'password' => [
             'required' => 'Please choose a password.',
             'min_length' => 'Use at least 8 characters for your password.',
-        ],
-        'pass_confirm' => [
-            'required' => 'Please type your password again.',
-            'matches' => 'The two passwords do not match.',
         ],
         'first_name' => [
             'required' => 'Please enter your first name.',

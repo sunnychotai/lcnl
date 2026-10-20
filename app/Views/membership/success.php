@@ -1,59 +1,54 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero-lcnl-watermark hero-overlay-steel d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <h1 class="fw-bold display-6 mb-2">
-      <i class="bi bi-envelope-check-fill me-2"></i> Thanks for Registering!
-    </h1>
-    <p class="lead fs-6 mb-0">
-      Please confirm your email to activate your account.
-    </p>
-  </div>
-</section>
+<?= view('partials/page_header', ['overlay' => 'steel', 'heading' => 'Check your email', 'subheading' => 'One more step to join LCNL']) ?>
 
-<div class="container py-5">
-  <div class="col-lg-8 mx-auto">
+<?php $pendingEmail = session('pending_email'); ?>
+
+<div class="container py-4 py-md-5">
+  <div class="join-page">
+
+    <?= view('membership/_steps', ['step' => 2]) ?>
+
     <?php if ($msg = session()->getFlashdata('message')): ?>
-      <div class="alert alert-success shadow-sm" role="status">
+      <div class="alert alert-success" role="status">
         <i class="bi bi-check-circle-fill me-2"></i><?= esc($msg) ?>
       </div>
     <?php endif; ?>
     <?php if ($err = session()->getFlashdata('error')): ?>
-      <div class="alert alert-danger shadow-sm" role="alert">
+      <div class="alert alert-danger" role="alert">
         <i class="bi bi-exclamation-triangle-fill me-2"></i><?= esc($err) ?>
       </div>
     <?php endif; ?>
 
-    <div class="constitution-box">
-      <p class="mb-3">
-        We’ve received your details<?= session('pending_email') ? ' for <strong>'.esc(session('pending_email')).'</strong>' : '' ?>.
-      </p>
+    <div class="join-card join-status">
+      <div class="join-status-icon" aria-hidden="true"><i class="bi bi-envelope-paper-fill"></i></div>
+      <h2>Confirm your email address</h2>
 
-      <p class="mb-3">
-        An email has been sent with a link to verify your account.  
-        Click the link in that email to complete your registration.
-      </p>
+      <div class="join-status-body">
+        <p>
+          We’ve sent a link to
+          <?= $pendingEmail ? '<strong>' . esc($pendingEmail) . '</strong>' : 'your email address' ?>.
+          Click it to confirm your address and activate your account.
+        </p>
+        <p class="mb-0">The link works for 48 hours. It can take a few minutes to arrive, so check your spam or junk folder too.</p>
+      </div>
 
-      <p class="mb-4">
-        Didn’t get the email? Please check your spam/junk folder, or request another verification email below.
-      </p>
-
-      <?php if (session('pending_email')): ?>
-        <form method="post" action="<?= route_to('membership.resend') ?>">
+      <?php if ($pendingEmail): ?>
+        <form method="post" action="<?= route_to('membership.resend') ?>"
+          onsubmit="this.querySelector('button').disabled = true;">
           <?= csrf_field() ?>
-          <input type="hidden" name="email" value="<?= esc(session('pending_email'), 'attr') ?>">
-          <button type="submit" class="btn btn-brand rounded-pill px-4">
-            <i class="bi bi-arrow-repeat me-2"></i> Resend Verification Email
-          </button>
+          <input type="hidden" name="email" value="<?= esc($pendingEmail, 'attr') ?>">
+          <button type="submit" class="btn btn-outline-brand rounded-pill px-4">Send the email again</button>
         </form>
       <?php endif; ?>
 
-      <p class="text-muted small mt-4 mb-0">
-        If you continue to have issues, contact us at
-        <a href="mailto:membership@lcnl.org">membership@lcnl.org</a>.
+      <p class="join-status-help">
+        Typed the wrong address? <a href="<?= base_url('membership/register') ?>">Register again</a> with the right one.<br>
+        Still stuck? Email <a href="mailto:membership@lcnl.org">membership@lcnl.org</a>.
       </p>
     </div>
+
   </div>
 </div>
 

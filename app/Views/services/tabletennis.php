@@ -1,13 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-cobalt d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-4 py-md-5">
-    <h1 class="fw-bold display-5 mb-3">🏓 Table Tennis</h1>
-    <p class="lead fs-5 mb-0">Community • Coaching • Competition</p>
-  </div>
-</section>
+<?= view('partials/page_header', [
+  'overlay'    => 'cobalt',
+  'heading'    => 'Table Tennis',
+  'subheading' => 'Community • Coaching • Competition',
+]) ?>
 
 <div class="container py-5">
 
