@@ -188,7 +188,7 @@
       <div class="mt-3">
 
         <!-- STRIPE CHECKOUT FORM -->
-        <form action="<?= base_url('account/membership/upgrade/checkout') ?>" method="post">
+        <form action="<?= base_url('account/membership/upgrade/checkout') ?>" method="post" onsubmit="this.querySelector('button').disabled = true;">
           <?= csrf_field() ?>
           <button type="submit" class="btn btn-accent btn-lg rounded-pill px-5 shadow">
             <i class="bi bi-credit-card-fill me-2"></i>

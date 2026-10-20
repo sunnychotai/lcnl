@@ -62,6 +62,11 @@ class MemberAuth extends BaseController
             return redirect()->back()->withInput()->with('error', 'Invalid email or password.');
         }
 
+        // A closed account must not be offered a verification link: verifying reactivates
+        if (($member['status'] ?? '') === 'disabled') {
+            return redirect()->back()->withInput()->with('error', 'This account is closed. Please contact <a href="mailto:membership@lcnl.org">membership@lcnl.org</a> if you think this is a mistake.');
+        }
+
         // Status must be active
         if (($member['status'] ?? 'pending') !== 'active') {
             $resendUrl = base_url('membership/resend-verification?email=' . urlencode($member['email']));

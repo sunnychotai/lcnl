@@ -14,6 +14,17 @@
 
 <div class="container py-5">
   <div class="col-lg-8 mx-auto">
+    <?php if ($msg = session()->getFlashdata('message')): ?>
+      <div class="alert alert-success shadow-sm" role="status">
+        <i class="bi bi-check-circle-fill me-2"></i><?= esc($msg) ?>
+      </div>
+    <?php endif; ?>
+    <?php if ($err = session()->getFlashdata('error')): ?>
+      <div class="alert alert-danger shadow-sm" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i><?= esc($err) ?>
+      </div>
+    <?php endif; ?>
+
     <div class="constitution-box">
       <p class="mb-3">
         We’ve received your details<?= session('pending_email') ? ' for <strong>'.esc(session('pending_email')).'</strong>' : '' ?>.
@@ -29,10 +40,13 @@
       </p>
 
       <?php if (session('pending_email')): ?>
-        <a href="<?= base_url('membership/resend-verification?email=' . urlencode(session('pending_email'))) ?>"
-           class="btn btn-brand rounded-pill px-4">
-          <i class="bi bi-arrow-repeat me-2"></i> Resend Verification Email
-        </a>
+        <form method="post" action="<?= route_to('membership.resend') ?>">
+          <?= csrf_field() ?>
+          <input type="hidden" name="email" value="<?= esc(session('pending_email'), 'attr') ?>">
+          <button type="submit" class="btn btn-brand rounded-pill px-4">
+            <i class="bi bi-arrow-repeat me-2"></i> Resend Verification Email
+          </button>
+        </form>
       <?php endif; ?>
 
       <p class="text-muted small mt-4 mb-0">

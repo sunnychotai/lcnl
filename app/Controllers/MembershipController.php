@@ -41,17 +41,31 @@ class MembershipController extends BaseController
         // Honeypot: hidden field 'website' should be empty
         if (!empty($this->request->getPost('website'))) {
             // silently succeed (anti-bot)
-            return redirect()->to(route_to('membership.success'))
-                ->with('message', 'Please check your email to verify your account.');
+            return redirect()->to(route_to('membership.success'));
         }
 
-        if (!$this->validate('memberRegisterV2')) {
+        // Every rule field present (as '' if not posted): the trim rule rejects null
+        $payload = array_merge(
+            array_fill_keys(array_keys(config('Validation')->memberRegisterV2), ''),
+            $this->request->getPost()
+        );
+
+        // People type mobiles as "07700 900123" or "(020) 8000-0000"; strip the
+        // separators before validating so they aren't rejected for formatting.
+        $payload['mobile'] = preg_replace('/[\s\-().]/', '', (string) ($payload['mobile'] ?? ''));
+
+        if (!$this->validateData($payload, 'memberRegisterV2')) {
+            // An existing member (often one imported from the old list) trying to
+            // register again: point them at login / password reset instead.
+            $email = strtolower(trim((string) ($payload['email'] ?? '')));
+            $emailExists = $email !== '' && (new MemberModel())->where('email', $email)->countAllResults() > 0;
+
             return redirect()->back()
                 ->withInput()
-                ->with('errors', $this->validator->getErrors());
+                ->with('errors', $this->validator->getErrors())
+                ->with('email_exists', $emailExists);
         }
 
-        $payload = $this->request->getPost();
         $payload['source'] = $this->request->getGet('src') ?? 'web';
 
         try {
@@ -66,9 +80,10 @@ class MembershipController extends BaseController
                 $payload['last_name'] ?? ''
             );
 
-            // 3) Redirect with success message
-            return redirect()->to(route_to('membership.success'))
-                ->with('message', 'Please check your email to verify your account.');
+            // 3) Show "check your email" with a resend button for this address
+            session()->set('pending_email', strtolower(trim($payload['email'])));
+
+            return redirect()->to(route_to('membership.success'));
 
         } catch (\Throwable $e) {
             log_message('error', '[MembershipController::create V2] ' . $e->getMessage());
@@ -93,8 +108,21 @@ class MembershipController extends BaseController
         // Mark token as used
         $verifications->markUsed((int) $row['id']);
 
-        // Activate member + activate most recent membership record
-        $this->svc->activate((int) $row['member_id'], null);
+        // Only a pending member is activated by verifying. activate() clears the
+        // disabled fields, so a disabled member must never come through here.
+        $member = (new MemberModel())->find((int) $row['member_id']);
+        $status = $member['status'] ?? null;
+
+        if ($status === 'disabled') {
+            return view('membership/verify_failed', [
+                'title'    => 'Verification Failed',
+                'disabled' => true,
+            ]);
+        }
+
+        if ($status === 'pending') {
+            $this->svc->activate((int) $row['member_id'], null);
+        }
 
         return view('membership/verify_success', ['title' => 'Email Verified']);
     }
@@ -105,23 +133,36 @@ class MembershipController extends BaseController
         return view('membership/success', ['title' => 'Registration Received']);
     }
 
+    /**
+     * GET from the links in the login error and dashboard checklist,
+     * POST from the forms on the "check your email" and link-expired pages.
+     */
     public function resendVerification()
     {
-        $email = strtolower(trim($this->request->getGet('email') ?? ''));
+        $email = strtolower(trim((string) $this->request->getVar('email')));
 
         if (!$email) {
-            return redirect()->back()->with('error', 'No email provided.');
+            return redirect()->back()->with('error', 'Please enter your email address.');
+        }
+
+        // Throttle: max 3 resends per 10 minutes per IP
+        if (service('throttler')->check('resend-verify-' . $this->request->getIPAddress(), 3, MINUTE * 10) === false) {
+            return redirect()->back()->with('error', 'Too many requests. Please wait a few minutes and try again.');
         }
 
         $members = new MemberModel();
         $member = $members->where('email', $email)->first();
 
         if (!$member) {
-            return redirect()->back()->with('error', 'No member found for that email.');
+            return redirect()->back()->with('error', 'We couldn’t find an account for that email address. Please check the spelling, or register as a new member.');
         }
 
-        if (!empty($member['verified_at'])) {
-            return redirect()->back()->with('message', 'Your email is already verified.');
+        if (($member['status'] ?? '') === 'disabled') {
+            return redirect()->back()->with('error', 'This account is closed. Please contact membership@lcnl.org if you think this is a mistake.');
+        }
+
+        if (($member['status'] ?? '') !== 'pending') {
+            return redirect()->to(route_to('member.login'))->with('message', 'Your email is already verified. Please log in.');
         }
 
         $this->sendVerificationEmail(
@@ -131,7 +172,10 @@ class MembershipController extends BaseController
             $member['last_name'] ?? ''
         );
 
-        return redirect()->back()->with('message', 'Verification email has been resent.');
+        session()->set('pending_email', $email);
+
+        return redirect()->to(route_to('membership.success'))
+            ->with('message', 'We’ve sent you a new verification email.');
     }
 
     private function sendVerificationEmail(

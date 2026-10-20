@@ -124,12 +124,13 @@ $routes->get('membership/logout', 'MemberAuth::logout');
 
 // Register
 $routes->get('membership/register', 'MembershipController::register');
-$routes->post('membership/register', 'MembershipController::create');
+$routes->post('membership/register', 'MembershipController::create', ['as' => 'membership.create']);
 
 // Email verification
 $routes->get('membership/verify/(:segment)', 'MembershipController::verify/$1');
-$routes->get('membership/success', 'MembershipController::success');
+$routes->get('membership/success', 'MembershipController::success', ['as' => 'membership.success']);
 $routes->get('membership/resend-verification', 'MembershipController::resendVerification');
+$routes->post('membership/resend-verification', 'MembershipController::resendVerification', ['as' => 'membership.resend']);
 $routes->get('membership/activated', 'MembershipController::activated');
 
 $routes->get('membership/login', 'MemberAuth::login', ['as' => 'member.login']);
