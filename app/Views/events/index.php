@@ -48,7 +48,18 @@
       </div>
     <?php endforeach; ?>
   <?php else: ?>
-    <p>No upcoming events found.</p>
+    <section class="events-empty" aria-labelledby="events-empty-title">
+      <div class="events-empty-icon" aria-hidden="true"><i class="bi bi-calendar-heart"></i></div>
+      <h2 id="events-empty-title">No upcoming events just now</h2>
+      <p>
+        We’re planning the next ones, so please check back soon. Members are the first to hear about new events.
+        In the meantime, relive our recent celebrations in the photo gallery.
+      </p>
+      <div class="events-empty-actions">
+        <a href="<?= base_url('gallery') ?>" class="btn btn-brand rounded-pill px-4">See the photo gallery</a>
+        <a href="<?= base_url('membership') ?>" class="btn btn-outline-brand rounded-pill px-4">Become a member</a>
+      </div>
+    </section>
   <?php endif; ?>
 </div>
 
