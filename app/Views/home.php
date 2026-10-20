@@ -128,7 +128,6 @@
   });
 </script>
 
-<?= $this->include('navratri/_home_banner') ?>
 <?= $this->include('legacy50/_home_banner') ?>
 
 <?php if (!empty($upcomingEvents)): ?>
