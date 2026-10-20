@@ -17,16 +17,38 @@
     </div>
   <?php endif; ?>
 
-  <?php if ($errors = session()->getFlashdata('errors')): ?>
-    <div class="alert alert-danger shadow-sm alert-dismissible fade show" role="alert">
+  <?php
+  // Field errors are shown twice: summarised here, and under each field
+  $fieldErrors = session()->getFlashdata('errors') ?? [];
+  $invalid = static fn(string $f): string => isset($fieldErrors[$f]) ? ' is-invalid' : '';
+  $feedback = static fn(string $f): string => isset($fieldErrors[$f])
+    ? '<div class="invalid-feedback d-block">' . esc($fieldErrors[$f]) . '</div>'
+    : '';
+  ?>
+
+  <?php if (session()->getFlashdata('email_exists')): ?>
+    <div class="alert alert-info shadow-sm" role="alert" id="formErrors" tabindex="-1">
+      <h2 class="h5 fw-bold mb-2"><i class="bi bi-person-check-fill me-2"></i>You’re already registered with us</h2>
+      <p class="mb-2">
+        There is already an LCNL account for <strong><?= esc(old('email')) ?></strong>.
+        If you have never logged in, or can’t remember your password, set a new one and you’ll be straight in.
+      </p>
+      <a href="<?= base_url('membership/forgot') ?>" class="btn btn-brand rounded-pill px-4 me-2 mb-2">
+        <i class="bi bi-key-fill me-1"></i> Set my password
+      </a>
+      <a href="<?= base_url('membership/login') ?>" class="btn btn-outline-secondary rounded-pill px-4 mb-2">
+        <i class="bi bi-box-arrow-in-right me-1"></i> Log in
+      </a>
+    </div>
+  <?php elseif ($fieldErrors): ?>
+    <div class="alert alert-danger shadow-sm" role="alert" id="formErrors" tabindex="-1">
       <i class="bi bi-exclamation-triangle-fill me-2"></i>
       <strong>Please fix the following issues:</strong>
       <ul class="mb-0 mt-2">
-        <?php foreach ($errors as $err): ?>
+        <?php foreach ($fieldErrors as $err): ?>
           <li><?= esc($err) ?></li>
         <?php endforeach; ?>
       </ul>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   <?php endif; ?>
 
@@ -61,8 +83,9 @@
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-person-fill text-brand"></i></span>
                     <input type="text" id="first_name" name="first_name" value="<?= esc(old('first_name') ?? '') ?>"
-                      class="form-control" autocomplete="given-name" placeholder="John" required>
+                      class="form-control<?= $invalid('first_name') ?>" autocomplete="given-name" placeholder="John" required>
                   </div>
+                  <?= $feedback('first_name') ?>
                 </div>
 
                 <div class="col-md-6">
@@ -72,8 +95,9 @@
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-person-fill text-brand"></i></span>
                     <input type="text" id="last_name" name="last_name" value="<?= esc(old('last_name') ?? '') ?>"
-                      class="form-control" autocomplete="family-name" placeholder="Smith" required>
+                      class="form-control<?= $invalid('last_name') ?>" autocomplete="family-name" placeholder="Smith" required>
                   </div>
+                  <?= $feedback('last_name') ?>
                 </div>
 
                 <div class="col-12">
@@ -83,9 +107,10 @@
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-envelope-fill text-brand"></i></span>
                     <input type="email" id="email" name="email" value="<?= esc(old('email') ?? '') ?>"
-                      class="form-control" inputmode="email" autocomplete="email" placeholder="john.smith@example.com"
+                      class="form-control<?= $invalid('email') ?>" inputmode="email" autocomplete="email" placeholder="john.smith@example.com"
                       required>
                   </div>
+                  <?= $feedback('email') ?>
                   <div class="form-text">We'll never share your email with anyone else.</div>
                 </div>
 
@@ -94,11 +119,12 @@
                   <div class="input-group">
                     <span class="input-group-text bg-light"><i class="bi bi-telephone-fill text-brand"></i></span>
                     <input type="tel" id="mobile" name="mobile" value="<?= esc(old('mobile') ?? '') ?>"
-                      class="form-control" inputmode="tel" autocomplete="tel" placeholder="+447123456789"
-                      pattern="^\+?\d{7,15}$">
+                      class="form-control<?= $invalid('mobile') ?>" inputmode="tel" autocomplete="tel" placeholder="07700 900123"
+                      pattern="^\+?[\d\s\-\(\)]{7,20}$">
                   </div>
+                  <?= $feedback('mobile') ?>
                   <div class="form-text">
-                    <i class="bi bi-info-circle me-1"></i>Use international format, e.g. +447...
+                    <i class="bi bi-info-circle me-1"></i>A UK mobile like 07700 900123 is fine.
                   </div>
                 </div>
                 <!-- DOB + Gender (optional) -->
@@ -112,9 +138,10 @@
                       id="date_of_birth"
                       name="date_of_birth"
                       value="<?= esc(old('date_of_birth') ?? '') ?>"
-                      class="form-control"
+                      class="form-control<?= $invalid('date_of_birth') ?>"
                       autocomplete="bday">
                   </div>
+                  <?= $feedback('date_of_birth') ?>
                 </div>
 
                 <div class="col-md-6">
@@ -123,7 +150,7 @@
                   </label>
                   <div class="input-group">
                     <span class="input-group-text bg-light"><i class="bi bi-gender-ambiguous text-brand"></i></span>
-                    <select id="gender" name="gender" class="form-select">
+                    <select id="gender" name="gender" class="form-select<?= $invalid('gender') ?>">
                       <option value="">— Select —</option>
                       <?php foreach (config('Family')->genders as $g): ?>
                         <option value="<?= esc($g) ?>" <?= old('gender') === $g ? 'selected' : '' ?>>
@@ -132,6 +159,7 @@
                       <?php endforeach; ?>
                     </select>
                   </div>
+                  <?= $feedback('gender') ?>
                 </div>
 
               </div>
@@ -151,8 +179,9 @@
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill text-brand"></i></span>
                     <input type="text" id="address1" name="address1" value="<?= esc(old('address1') ?? '') ?>"
-                      class="form-control" autocomplete="address-line1" placeholder="123 High Street" required>
+                      class="form-control<?= $invalid('address1') ?>" autocomplete="address-line1" placeholder="123 High Street" required>
                   </div>
+                  <?= $feedback('address1') ?>
                 </div>
 
                 <div class="col-12">
@@ -160,8 +189,9 @@
                   <div class="input-group">
                     <span class="input-group-text bg-light"><i class="bi bi-geo-fill text-brand"></i></span>
                     <input type="text" id="address2" name="address2" value="<?= esc(old('address2') ?? '') ?>"
-                      class="form-control" autocomplete="address-line2" placeholder="Apartment, suite, unit, etc.">
+                      class="form-control<?= $invalid('address2') ?>" autocomplete="address-line2" placeholder="Apartment, suite, unit, etc.">
                   </div>
+                  <?= $feedback('address2') ?>
                 </div>
 
                 <div class="col-md-7">
@@ -170,9 +200,10 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-building text-brand"></i></span>
-                    <input type="text" id="city" name="city" value="<?= esc(old('city') ?? '') ?>" class="form-control"
+                    <input type="text" id="city" name="city" value="<?= esc(old('city') ?? '') ?>" class="form-control<?= $invalid('city') ?>"
                       autocomplete="address-level2" placeholder="London" required>
                   </div>
+                  <?= $feedback('city') ?>
                 </div>
 
                 <div class="col-md-5">
@@ -182,8 +213,9 @@
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-mailbox text-brand"></i></span>
                     <input type="text" id="postcode" name="postcode" value="<?= esc(old('postcode') ?? '') ?>"
-                      class="form-control" autocomplete="postal-code" placeholder="SW1A 1AA" maxlength="12" required>
+                      class="form-control<?= $invalid('postcode') ?>" autocomplete="postal-code" placeholder="SW1A 1AA" maxlength="12" required>
                   </div>
+                  <?= $feedback('postcode') ?>
                 </div>
               </div>
             </div>
@@ -203,13 +235,14 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-key-fill text-brand"></i></span>
-                    <input type="password" id="password" name="password" class="form-control"
+                    <input type="password" id="password" name="password" class="form-control<?= $invalid('password') ?>"
                       autocomplete="new-password" placeholder="Enter password" required>
                     <button class="btn btn-outline-secondary" type="button" id="togglePassword"
                       aria-label="Show password">
                       <i class="bi bi-eye"></i>
                     </button>
                   </div>
+                  <?= $feedback('password') ?>
                   <div class="form-text">
                     <i class="bi bi-info-circle me-1"></i>Use 8+ characters with letters, numbers & symbols.
                   </div>
@@ -227,13 +260,14 @@
                   </label>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-key-fill text-brand"></i></span>
-                    <input type="password" id="pass_confirm" name="pass_confirm" class="form-control"
+                    <input type="password" id="pass_confirm" name="pass_confirm" class="form-control<?= $invalid('pass_confirm') ?>"
                       autocomplete="new-password" placeholder="Re-enter password" required>
                     <button class="btn btn-outline-secondary" type="button" id="toggleConfirm"
                       aria-label="Show password">
                       <i class="bi bi-eye"></i>
                     </button>
                   </div>
+                  <?= $feedback('pass_confirm') ?>
                   <div class="invalid-feedback" id="confirmFeedback">
                     <i class="bi bi-x-circle me-1"></i>Passwords do not match.
                   </div>
@@ -247,12 +281,14 @@
             <!-- Consent -->
             <div class="form-section">
               <div class="form-check p-3 bg-light rounded border">
-                <input class="form-check-input" type="checkbox" name="consent" id="consent" value="1" required>
+                <input class="form-check-input<?= $invalid('consent') ?>" type="checkbox" name="consent" id="consent" value="1" required
+                  <?= old('consent') ? 'checked' : '' ?>>
                 <label class="form-check-label" for="consent">
                   <strong>I consent</strong> to LCNL storing my details and contacting me about membership, events and
                   other community related activities.
 
                 </label>
+                <?= $feedback('consent') ?>
               </div>
             </div>
 
@@ -421,14 +457,11 @@
       });
     }
 
-    // Auto-dismiss alerts after 5 seconds
-    const alerts = document.querySelectorAll('.alert-dismissible');
-    alerts.forEach(alert => {
-      setTimeout(() => {
-        const bsAlert = new bootstrap.Alert(alert);
-        bsAlert.close();
-      }, 5000);
-    });
+    // Bring returned errors into view and announce them
+    const formErrors = document.getElementById('formErrors');
+    if (formErrors) {
+      formErrors.focus();
+    }
 
   })();
 </script>

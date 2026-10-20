@@ -119,6 +119,47 @@ class Validation extends BaseConfig
         'consent' => ['label' => 'Consent', 'rules' => 'required|in_list[1]'],
     ];
 
+    /**
+     * Custom error messages for memberRegisterV2 (picked up by name)
+     */
+    public array $memberRegisterV2_errors = [
+        'email' => [
+            'required' => 'Please enter your email address.',
+            'valid_email' => 'Please enter a valid email address.',
+            'is_unique' => 'You already have an account with this email address.',
+        ],
+        'mobile' => [
+            'regex_match' => 'Please enter a valid mobile number, e.g. 07700 900123.',
+        ],
+        'password' => [
+            'required' => 'Please choose a password.',
+            'min_length' => 'Use at least 8 characters for your password.',
+        ],
+        'pass_confirm' => [
+            'required' => 'Please type your password again.',
+            'matches' => 'The two passwords do not match.',
+        ],
+        'first_name' => [
+            'required' => 'Please enter your first name.',
+        ],
+        'last_name' => [
+            'required' => 'Please enter your surname.',
+        ],
+        'address1' => [
+            'required' => 'Please enter the first line of your address.',
+        ],
+        'city' => [
+            'required' => 'Please enter your town or city.',
+        ],
+        'postcode' => [
+            'required' => 'Please enter your postcode.',
+        ],
+        'consent' => [
+            'required' => 'Please tick the consent box to continue.',
+            'in_list' => 'Please tick the consent box to continue.',
+        ],
+    ];
+
 
     // --------------------------------------------------------------------
     // (Add more named rule sets here as the project grows)

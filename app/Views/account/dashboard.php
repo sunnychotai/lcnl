@@ -206,7 +206,7 @@ $type = ucfirst(strtolower($typeRaw));
             </div>
 
             <!-- Primary: pay by card -->
-            <form method="post" action="<?= route_to('account.membership.upgrade.checkout') ?>" class="mb-3">
+            <form method="post" action="<?= route_to('account.membership.upgrade.checkout') ?>" class="mb-3" onsubmit="this.querySelector('button').disabled = true;">
               <?= csrf_field() ?>
               <button class="btn btn-light btn-pill px-4 w-100 fw-semibold text-brand">
                 <i class="bi bi-credit-card me-2"></i>
@@ -223,7 +223,7 @@ $type = ucfirst(strtolower($typeRaw));
                 <div><strong>Sort Code:</strong> 40-23-13</div>
                 <div><strong>Account No:</strong> 21497995</div>
                 <div class="mt-2">
-                  <strong>Reference:</strong> MEMBERSHIP-LCNL<?= esc(session()->get('member_id')) ?>
+                  <strong>Reference:</strong> LIFE-LCNL<?= esc(session()->get('member_id')) ?>
                 </div>
               </div>
               <p class="mb-0 small opacity-75 mt-2">

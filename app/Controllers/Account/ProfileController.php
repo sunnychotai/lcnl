@@ -49,7 +49,11 @@ class ProfileController extends BaseController
             'gender'        => 'permit_empty|in_list[male,female,other,prefer_not_to_say]',
         ];
 
-        if (!$this->validate($rules)) {
+        // Accept "07700 900123" as typed: strip separators before validating and saving
+        $post = $this->request->getPost();
+        $post['mobile'] = preg_replace('/[\s\-().]/', '', (string) ($post['mobile'] ?? ''));
+
+        if (!$this->validateData($post, $rules)) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
@@ -59,7 +63,7 @@ class ProfileController extends BaseController
 
         $payload = [
             'id'            => $memberId,
-            'mobile'        => $this->request->getPost('mobile') ?: null,
+            'mobile'        => $post['mobile'] ?: null,
             'postcode'      => $this->request->getPost('postcode') ?: null,
             'address1'      => $this->request->getPost('address1') ?: null,
             'address2'      => $this->request->getPost('address2') ?: null,
