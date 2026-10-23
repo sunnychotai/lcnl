@@ -200,6 +200,10 @@
     text-align: center;
 }
 
+#adminNav .dropdown-menu {
+    text-align: left;
+}
+
 /* --- Header Buttons (Login/Register) --- */
 .lcnl-header .btn-brand,
 .lcnl-header .btn-outline-brand {

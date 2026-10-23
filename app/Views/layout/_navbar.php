@@ -103,18 +103,29 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
           <?php endif; ?>
 
           <?php if (hasRole('ADMIN')): ?>
-            <!-- Users -->
-            <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/system/users') ?>">
-                <i class="bi bi-person-gear me-1"></i> Users
+            <!-- System: users, email queue, cron logs -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="adminSystemDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-gear-fill me-1"></i> Admin
               </a>
-            </li>
-
-            <!-- Emails -->
-            <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/system/emails') ?>">
-                <i class="bi bi-envelope-fill me-1"></i> Emails
-              </a>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminSystemDropdown">
+                <li>
+                  <a class="dropdown-item" href="<?= base_url('admin/system/users') ?>">
+                    <i class="bi bi-person-gear me-1"></i> Users
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="<?= base_url('admin/system/emails') ?>">
+                    <i class="bi bi-envelope-fill me-1"></i> Emails
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="<?= base_url('admin/system/cron-logs') ?>">
+                    <i class="bi bi-clock-history me-1"></i> Cron Jobs
+                  </a>
+                </li>
+              </ul>
             </li>
 
             <!-- Legacy 50 pledges -->
@@ -130,14 +141,6 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
                 <i class="bi bi-images me-1"></i> Gallery
               </a>
             </li>
-
-            <!-- ⭐ NEW: CRON JOB LOGS -->
-            <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/system/cron-logs') ?>">
-                <i class="bi bi-clock-history me-1"></i> Cron Jobs
-              </a>
-            </li>
-
           <?php endif; ?>
 
 
@@ -166,10 +169,10 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
               </a>
             </li>
 
-            <!-- Mela stall bookings -->
+            <!-- Chopda Pujan registrations -->
             <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/content/mela-stalls') ?>">
-                <i class="bi bi-shop me-1"></i> Mela Stalls
+              <a class="nav-link" href="<?= base_url('admin/chopda-pujan') ?>">
+                <i class="bi bi-journal-check me-1"></i> Chopda Pujan
               </a>
             </li>
           <?php endif; ?>
