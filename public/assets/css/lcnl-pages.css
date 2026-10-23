@@ -2348,3 +2348,133 @@
     justify-content: center;
     gap: .75rem;
 }
+
+/* =========================================================================
+   CHOPDA PUJAN 2026
+   Reuses the .mela-* form components and the Legacy 50 eyebrow and button.
+   These rules add the flier, the Yajman rule and the home page banner.
+   The rule text (#b42318) is 6.4:1 on white.
+   ========================================================================= */
+
+.chopda-flier {
+    display: block;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(94, 22, 48, .2);
+    transition: box-shadow .25s ease, transform .25s ease;
+}
+
+.chopda-flier:hover,
+.chopda-flier:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(94, 22, 48, .3);
+}
+
+.chopda-flier img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.chopda-facts {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    margin-bottom: 1rem;
+}
+
+.chopda-attendees {
+    max-width: 8rem;
+}
+
+.chopda-rule {
+    color: #b42318;
+    font-weight: 600;
+}
+
+/* --- Home page banner --- */
+.chopda-banner {
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(94, 22, 48, .25);
+    background:
+        radial-gradient(circle at 90% 10%, rgba(212, 175, 55, .3) 0, transparent 45%),
+        linear-gradient(120deg, #4a0f22 0%, var(--brand) 60%, #a3341f 100%);
+}
+
+.chopda-banner-flier {
+    background: #3d0e20;
+    border-right: 1px solid rgba(212, 175, 55, .35);
+}
+
+.chopda-banner-flier a,
+.chopda-banner-flier img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.chopda-banner-flier img {
+    object-fit: cover;
+    object-position: top center;
+    max-height: 420px;
+}
+
+.chopda-banner-body {
+    padding: 1.75rem 2rem;
+}
+
+.chopda-banner-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: .25rem;
+}
+
+.chopda-banner-tagline {
+    color: var(--accent1);
+    font-style: italic;
+}
+
+.chopda-banner-facts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: .5rem;
+}
+
+.chopda-banner-facts li {
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+}
+
+.chopda-banner-facts i {
+    color: var(--accent1);
+    flex-shrink: 0;
+    margin-top: .1rem;
+}
+
+.chopda-banner-note {
+    color: rgba(255, 255, 255, .85);
+}
+
+@media (max-width: 767.98px) {
+    .chopda-banner-flier {
+        border-right: 0;
+        border-bottom: 1px solid rgba(212, 175, 55, .35);
+    }
+
+    .chopda-banner-flier img {
+        max-height: 260px;
+    }
+
+    .chopda-banner-body {
+        padding: 1.25rem 1.1rem;
+    }
+
+    .chopda-banner-title {
+        font-size: 1.6rem;
+    }
+}

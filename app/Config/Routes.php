@@ -96,6 +96,19 @@ $routes->post($legacySlug, 'Legacy50Controller::submit');
 $routes->get($legacySlug . '/thank-you', 'Legacy50Controller::thankYou');
 
 /* =========================================================
+   CHOPDA PUJAN 2026 (PUBLIC)
+
+   One registration books one pooja, paid by bank transfer. The thank-you
+   page reads the registration from the session, never from the URL.
+========================================================= */
+
+$chopdaSlug = config('ChopdaPujan')->slug;
+
+$routes->get($chopdaSlug, 'ChopdaPujanController::index');
+$routes->post($chopdaSlug, 'ChopdaPujanController::submit');
+$routes->get($chopdaSlug . '/thank-you', 'ChopdaPujanController::thankYou');
+
+/* =========================================================
    NAVRATRI FESTIVAL 2026 (PUBLIC)
 ========================================================= */
 
@@ -344,6 +357,24 @@ $routes->group('admin/legacy50', [
     $routes->get('export', 'Admin\Legacy50Controller::export');
     $routes->get('export/plaque', 'Admin\Legacy50Controller::exportPlaque');
     $routes->get('export/gift-aid', 'Admin\Legacy50Controller::exportGiftAid');
+});
+
+
+/* =========================================================
+   ADMIN CHOPDA PUJAN REGISTRATIONS
+========================================================= */
+
+$routes->group('admin/chopda-pujan', [
+    'filter' => 'authAdmin:ADMIN,EVENTS'
+], function ($routes) {
+    $routes->get('/', 'Admin\ChopdaPujanController::index');
+    $routes->get('edit/(:num)', 'Admin\ChopdaPujanController::edit/$1');
+    $routes->post('update/(:num)', 'Admin\ChopdaPujanController::update/$1');
+    $routes->post('payment/(:num)', 'Admin\ChopdaPujanController::togglePayment/$1');
+    $routes->post('remind/(:num)', 'Admin\ChopdaPujanController::remind/$1');
+    $routes->post('cancel/(:num)', 'Admin\ChopdaPujanController::cancel/$1');
+    $routes->post('reinstate/(:num)', 'Admin\ChopdaPujanController::reinstate/$1');
+    $routes->get('export', 'Admin\ChopdaPujanController::export');
 });
 
 
