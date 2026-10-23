@@ -38,7 +38,7 @@ class MembershipUpgradeController extends BaseController
             return redirect()->to('account/dashboard')->with('message', 'You already have Life Membership.');
         }
 
-        $amountMinor = 75; // £75.00
+        $amountMinor = 7500; // £75.00 in pence
         $currency = 'GBP';
 
         // Create an internal payment record first

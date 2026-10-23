@@ -2,7 +2,10 @@
 <?= $this->section('content') ?>
 
 <?php
-/** @var \Config\ChopdaPujan $config */
+/**
+ * @var \Config\ChopdaPujan $config
+ * @var list<string> $methods 'card' and/or 'bank', card first
+ */
 $errors = session('errors') ?? [];
 $old    = static fn(string $k, $default = '') => old($k, $default);
 $err    = static fn(string $field): string => isset($errors[$field]) ? ' is-invalid' : '';
@@ -14,6 +17,10 @@ $fieldError = static function (string $field) use ($errors): string {
     ? '<div class="invalid-feedback d-block">' . esc($errors[$field]) . '</div>'
     : '';
 };
+
+$hasCard = in_array('card', $methods, true);
+$hasBank = in_array('bank', $methods, true);
+$chosen  = count($methods) === 1 ? $methods[0] : old('payment_method', 'card');
 
 $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.webp');
 ?>
@@ -110,7 +117,11 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
             <ul>
               <li><strong><?= esc($config->yajmansPerPooja) ?> Yajmans</strong> can sit for one pooja.</li>
               <li>Family and guests are very welcome to attend and observe.</li>
-              <li>Please pay in advance by bank transfer &mdash; the details are shown once you register.</li>
+              <?php if ($hasCard): ?>
+                <li>Pay securely online by card when you register<?= $hasBank ? ', or by bank transfer' : '' ?>.</li>
+              <?php else: ?>
+                <li>Please pay in advance by bank transfer &mdash; the details are shown once you register.</li>
+              <?php endif; ?>
             </ul>
           </div>
 
@@ -227,7 +238,7 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
                   <label for="email" class="form-label fw-semibold">Email address <?= $req ?></label>
                   <input type="email" class="form-control<?= $err('email') ?>" id="email" name="email"
                     value="<?= esc($old('email')) ?>" maxlength="255" autocomplete="email" inputmode="email" required>
-                  <div class="form-text">Your confirmation and the bank details are sent here.</div>
+                  <div class="form-text">Your confirmation<?= $hasBank ? ' and payment details are' : ' is' ?> sent here.</div>
                   <?= $fieldError('email') ?>
                 </div>
 
@@ -270,45 +281,80 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
                 <h3>Your payment</h3>
               </div>
 
-              <p class="small text-muted">
-                The nyochavar is <strong>&pound;<?= esc($config->fee) ?></strong>, paid by bank transfer to LCNL.
-                We will show you the bank details as soon as you register and email them to you too.
-                Your place is confirmed once your payment arrives.
-              </p>
+              <?php if (count($methods) > 1): ?>
+                <fieldset class="mb-3">
+                  <legend class="form-label fw-semibold fs-6">How would you like to pay? <?= $req ?></legend>
+                  <div class="form-check">
+                    <input class="form-check-input<?= $err('payment_method') ?>" type="radio" name="payment_method"
+                      id="method_card" value="card" <?= $chosen === 'card' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="method_card">
+                      <strong>Pay now by card</strong>
+                      <span class="d-block text-muted small">Debit or credit card, Apple Pay or Google Pay. Your place is confirmed straight away.</span>
+                    </label>
+                  </div>
+                  <div class="form-check mt-2">
+                    <input class="form-check-input<?= $err('payment_method') ?>" type="radio" name="payment_method"
+                      id="method_bank" value="bank" <?= $chosen === 'bank' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="method_bank">
+                      <strong>Bank transfer</strong>
+                      <span class="d-block text-muted small">Your place is confirmed once your payment arrives.</span>
+                    </label>
+                  </div>
+                  <?= $fieldError('payment_method') ?>
+                </fieldset>
+              <?php endif; ?>
 
-              <div class="mb-3">
-                <label for="payment_reference" class="form-label fw-semibold">
-                  Payment reference <?= $req ?>
-                </label>
-                <input type="text" class="form-control text-uppercase<?= $err('payment_reference') ?>"
-                  id="payment_reference" name="payment_reference" value="<?= esc($old('payment_reference')) ?>"
-                  maxlength="<?= esc($config->paymentReferenceMaxLength, 'attr') ?>"
-                  aria-describedby="reference_help" required>
-                <div class="form-text" id="reference_help">
-                  The reference you will put on your bank transfer, so we can match your payment.
-                  We suggest <?= esc($config->paymentReferencePrefix) ?> + your first initial + surname
-                  (e.g. <?= esc($config->paymentReferencePrefix) ?>SCHOTAI) &mdash; change it if you like. Up to
-                  <?= esc($config->paymentReferenceMaxLength) ?> characters.
-                </div>
-                <?= $fieldError('payment_reference') ?>
-              </div>
+              <?php if ($hasCard): ?>
+                <p class="small text-muted" id="cardInfo" data-method="card">
+                  <i class="bi bi-lock-fill me-1"></i>
+                  The nyochavar is <strong>&pound;<?= esc($config->fee) ?></strong>. When you register you will go
+                  to Stripe&rsquo;s secure payment page to pay; LCNL never sees your card details.
+                </p>
+              <?php endif; ?>
 
-              <fieldset>
-                <legend class="form-label fw-semibold fs-6">Have you already made the transfer? <?= $req ?></legend>
-                <div class="form-check">
-                  <input class="form-check-input<?= $err('payment_timing') ?>" type="radio" name="payment_timing"
-                    id="timing_will_pay" value="will_pay" <?= $old('payment_timing') === 'will_pay' ? 'checked' : '' ?>>
-                  <label class="form-check-label" for="timing_will_pay">
-                    Not yet &mdash; I will pay by <?= esc($config->closingLabel()) ?> using the bank details shown after I register
-                  </label>
+              <?php if ($hasBank): ?>
+                <div id="bankFields" data-method="bank">
+                  <p class="small text-muted">
+                    The nyochavar is <strong>&pound;<?= esc($config->fee) ?></strong>, paid by bank transfer to LCNL.
+                    We will show you the bank details as soon as you register and email them to you too.
+                    Your place is confirmed once your payment arrives.
+                  </p>
+
+                  <div class="mb-3">
+                    <label for="payment_reference" class="form-label fw-semibold">
+                      Payment reference <?= $req ?>
+                    </label>
+                    <input type="text" class="form-control text-uppercase<?= $err('payment_reference') ?>"
+                      id="payment_reference" name="payment_reference" value="<?= esc($old('payment_reference')) ?>"
+                      maxlength="<?= esc($config->paymentReferenceMaxLength, 'attr') ?>"
+                      aria-describedby="reference_help" required>
+                    <div class="form-text" id="reference_help">
+                      The reference you will put on your bank transfer, so we can match your payment.
+                      We suggest <?= esc($config->paymentReferencePrefix) ?> + your first initial + surname
+                      (e.g. <?= esc($config->paymentReferencePrefix) ?>SCHOTAI) &mdash; change it if you like. Up to
+                      <?= esc($config->paymentReferenceMaxLength) ?> characters.
+                    </div>
+                    <?= $fieldError('payment_reference') ?>
+                  </div>
+
+                  <fieldset>
+                    <legend class="form-label fw-semibold fs-6">Have you already made the transfer? <?= $req ?></legend>
+                    <div class="form-check">
+                      <input class="form-check-input<?= $err('payment_timing') ?>" type="radio" name="payment_timing"
+                        id="timing_will_pay" value="will_pay" <?= $old('payment_timing') === 'will_pay' ? 'checked' : '' ?>>
+                      <label class="form-check-label" for="timing_will_pay">
+                        Not yet &mdash; I will pay by <?= esc($config->closingLabel()) ?> using the bank details shown after I register
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input<?= $err('payment_timing') ?>" type="radio" name="payment_timing"
+                        id="timing_paid" value="paid" <?= $old('payment_timing') === 'paid' ? 'checked' : '' ?>>
+                      <label class="form-check-label" for="timing_paid">Yes, I have already paid</label>
+                    </div>
+                    <?= $fieldError('payment_timing') ?>
+                  </fieldset>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input<?= $err('payment_timing') ?>" type="radio" name="payment_timing"
-                    id="timing_paid" value="paid" <?= $old('payment_timing') === 'paid' ? 'checked' : '' ?>>
-                  <label class="form-check-label" for="timing_paid">Yes, I have already paid</label>
-                </div>
-                <?= $fieldError('payment_timing') ?>
-              </fieldset>
+              <?php endif; ?>
             </div>
 
             <!-- 4. Submit -->
@@ -339,7 +385,9 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
               </div>
 
               <button type="submit" class="btn btn-brand btn-lg w-100 mt-2">
-                <i class="bi bi-journal-check me-1"></i> Register and see payment details
+                <i class="bi bi-journal-check me-1"></i>
+                <span data-method="card">Register and pay &pound;<?= esc($config->fee) ?></span>
+                <span data-method="bank">Register and see payment details</span>
               </button>
             </div>
           </form>
@@ -359,6 +407,19 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
   document.addEventListener('DOMContentLoaded', function () {
     var errors = document.getElementById('formErrors');
     if (errors) errors.focus();
+
+    // Show only what applies to the chosen payment method. Without script
+    // everything stays visible and the server ignores what does not apply.
+    var radios = document.querySelectorAll('input[name="payment_method"]');
+    var chosen = <?= json_encode($chosen, JSON_HEX_TAG) ?>;
+    function showMethod() {
+      radios.forEach(function (r) { if (r.checked) chosen = r.value; });
+      document.querySelectorAll('[data-method]').forEach(function (el) {
+        el.hidden = el.getAttribute('data-method') !== chosen;
+      });
+    }
+    radios.forEach(function (r) { r.addEventListener('change', showMethod); });
+    showMethod();
 
     var first = document.getElementById('first_name');
     var last  = document.getElementById('last_name');
