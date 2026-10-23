@@ -38,7 +38,10 @@ final class ChopdaPujanTest extends CIUnitTestCase
         unset($filters->globals['before']['csrf']);
         Factories::injectMock('config', 'Filters', $filters);
 
-        // Card and bank transfer both on offer, against a fake Stripe.
+        // Card and bank transfer both on offer, against a fake Stripe, whatever
+        // the local .env says.
+        $this->setConfig('ChopdaPujan', ['cardPayments' => true, 'bankTransfer' => true]);
+
         $stripeConfig                = config('Stripe');
         $stripeConfig->secretKey     = 'sk_test_fake';
         $stripeConfig->chopdaPriceId = 'price_test_chopda';
