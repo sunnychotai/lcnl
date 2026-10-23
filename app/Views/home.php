@@ -128,9 +128,12 @@
   });
 </script>
 
+<?= $this->include('chopda/_home_banner') ?>
 <?= $this->include('legacy50/_home_banner') ?>
 
-<?php if (!empty($upcomingEvents)): ?>
+<?php // Upcoming Events temporarily hidden (Oct 2026); set to true to bring it back.
+$showUpcomingEvents = false; ?>
+<?php if ($showUpcomingEvents && !empty($upcomingEvents)): ?>
   <section class="container py-3">
     <h2 class="mb-3">
       <a href="<?= base_url('events') ?>" class="text-decoration-none text-dark">
