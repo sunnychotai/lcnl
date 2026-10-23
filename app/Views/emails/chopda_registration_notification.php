@@ -12,9 +12,11 @@ $rows = [
     'Mobile'            => $registration['phone'],
     'Attending'         => $registration['num_attendees'],
     'Payment reference' => $registration['payment_reference'],
-    'Already paid?'     => $registration['payment_timing'] === 'paid'
-        ? 'Says yes (check the LCNL statement)'
-        : 'Not yet – will pay by ' . $config->closingLabel(),
+    'Payment'           => match (true) {
+        $registration['payment_method'] === 'card' => 'By card – the admin page shows it as received once Stripe confirms it',
+        $registration['payment_timing'] === 'paid' => 'Bank transfer – says already paid (check the LCNL statement)',
+        default                                    => 'Bank transfer – will pay by ' . $config->closingLabel(),
+    },
 ];
 ?>
 
@@ -51,8 +53,9 @@ $rows = [
 </p>
 
 <p style="color:#666; font-size:13px;">
-    Mark the registration as paid once the transfer appears on the LCNL bank statement &mdash; that
-    sends the registrant an email confirming their place.
+    Card payments are marked paid automatically. For a bank transfer, mark the registration as paid
+    once it appears on the LCNL bank statement &mdash; that sends the registrant an email confirming
+    their place.
 </p>
 
 <?= $this->endSection() ?>

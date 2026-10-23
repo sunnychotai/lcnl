@@ -109,6 +109,10 @@
               </td>
               <td class="text-center fw-semibold"><?= esc($r['num_attendees']) ?></td>
               <td>
+                <?php $card = $r['payment_method'] === 'card'; ?>
+                <span class="badge <?= $card ? 'bg-primary' : 'bg-secondary' ?>">
+                  <i class="bi <?= $card ? 'bi-credit-card' : 'bi-bank' ?> me-1"></i><?= $card ? 'Card' : 'Bank' ?>
+                </span>
                 <?php if (! empty($r['payment_received'])): ?>
                   <span class="badge bg-success">received</span>
                   <div class="text-muted small">
@@ -118,7 +122,13 @@
                 <?php else: ?>
                   <span class="badge bg-warning text-dark">awaiting</span>
                   <div class="text-muted small">
-                    <?= $r['payment_timing'] === 'paid' ? 'says paid' : 'will pay' ?>
+                    <?= $card ? 'card payment not completed' : ($r['payment_timing'] === 'paid' ? 'says paid' : 'will pay') ?>
+                  </div>
+                <?php endif; ?>
+                <?php if (! empty($r['stripe_payment_intent_id'])): ?>
+                  <div class="small mt-1">
+                    <a href="<?= esc(\App\Libraries\StripeService::dashboardPaymentUrl($r['stripe_payment_intent_id']), 'attr') ?>"
+                      target="_blank" rel="noopener">View in Stripe <i class="bi bi-box-arrow-up-right"></i></a>
                   </div>
                 <?php endif; ?>
                 <div class="small mt-1">Ref: <strong><?= esc($r['payment_reference']) ?></strong></div>
@@ -186,8 +196,15 @@
           Online registration closes at midnight on <strong><?= esc($config->closingLabel()) ?></strong>.</li>
         <li>One registration is one pooja (&pound;<?= esc($config->fee) ?>, up to <?= esc($config->yajmansPerPooja) ?> Yajmans).
           &ldquo;Attending&rdquo; is everyone coming, for breakfast numbers.</li>
-        <li>Tick <strong>Mark paid</strong> once the transfer shows on the LCNL statement &mdash; the registrant gets a
-          &ldquo;place confirmed&rdquo; email the first time.</li>
+        <li>Payment methods on offer: <strong><?= esc(implode(' and ', array_map(
+              static fn(string $m): string => $m === 'card' ? 'card (Stripe)' : 'bank transfer',
+              $config->paymentMethods()
+            ))) ?></strong>.
+          Switch them with <code>chopda.cardPayments</code> / <code>chopda.bankTransfer</code> in <code>.env</code>.</li>
+        <li><strong>Card</strong> payments are marked paid automatically when Stripe confirms them. Refunds are made
+          in the Stripe dashboard; then cancel the registration here.</li>
+        <li>For a <strong>bank transfer</strong>, tick <strong>Mark paid</strong> once it shows on the LCNL statement
+          &mdash; the registrant gets a &ldquo;place confirmed&rdquo; email the first time.</li>
         <li>New registrations are emailed to <?= esc(implode(', ', $config->notifyEmails) ?: 'nobody — set chopda.notifyEmails') ?>.</li>
       </ul>
     </div>

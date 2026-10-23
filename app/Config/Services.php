@@ -32,6 +32,15 @@ class Services extends BaseService
         return new \App\Libraries\R2Client(config('R2'));
     }
 
+    public static function stripe(bool $getShared = true): \App\Libraries\StripeService
+    {
+        if ($getShared) {
+            return static::getSharedInstance('stripe');
+        }
+
+        return new \App\Libraries\StripeService();
+    }
+
     /*
      * public static function example($getShared = true)
      * {

@@ -14,7 +14,8 @@ class ChopdaRegistrationModel extends Model
 
     protected $allowedFields = [
         'registration_ref', 'first_name', 'last_name', 'email', 'phone', 'num_attendees',
-        'payment_reference', 'payment_timing', 'amount', 'privacy_consent', 'comments',
+        'payment_reference', 'payment_timing', 'payment_method', 'pay_token',
+        'stripe_checkout_session_id', 'stripe_payment_intent_id', 'amount', 'privacy_consent', 'comments',
         'payment_received', 'payment_received_at', 'payment_marked_by',
         'confirmed_sent_at', 'reminder_sent_at', 'reminder_count',
         'status', 'admin_notes', 'ip_address',
@@ -24,6 +25,12 @@ class ChopdaRegistrationModel extends Model
     public function countActive(): int
     {
         return $this->where('status !=', 'cancelled')->countAllResults();
+    }
+
+    /** Secret for the pay-by-card link; long enough that it cannot be guessed. */
+    public function generatePayToken(): string
+    {
+        return bin2hex(random_bytes(24));
     }
 
     /**

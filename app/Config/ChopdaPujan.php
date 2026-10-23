@@ -7,8 +7,9 @@ use CodeIgniter\Config\BaseConfig;
 /**
  * Chopda Pujan 2026 registrations.
  *
- * One registration books one pooja at a fixed nyochavar, paid by bank transfer
- * to LCNL. A place is confirmed only once an admin has matched the payment.
+ * One registration books one pooja at a fixed nyochavar, paid by card through
+ * Stripe or by bank transfer to LCNL. A place is confirmed once the card payment
+ * completes, or once an admin has matched the transfer.
  *
  * Overridable from .env with the `chopda.*` prefix.
  */
@@ -71,6 +72,17 @@ class ChopdaPujan extends BaseConfig
     /** YouTube embed URL for the livestream; the section is hidden while blank. */
     public string $livestreamUrl = '';
 
+    /**
+     * Payment methods offered on the form. Card also needs the Stripe keys and
+     * stripe.chopdaPriceId; while it is unavailable, bank transfer is offered
+     * whatever this says, so the form always has a way to pay.
+     */
+    public bool $cardPayments = true;
+    public bool $bankTransfer = true;
+
+    /** Appended to LCNL's statement descriptor on the payer's card statement. */
+    public string $statementDescriptorSuffix = 'CHOPDA';
+
     /** Payments go to LCNL's own account. */
     public array $bank = [
         'accountName'   => 'Lohana Community North London',
@@ -91,6 +103,8 @@ class ChopdaPujan extends BaseConfig
         $this->capacity      = (int) env('chopda.capacity', $this->capacity);
         $this->fee           = (int) env('chopda.fee', $this->fee);
         $this->livestreamUrl = (string) env('chopda.livestreamUrl', $this->livestreamUrl);
+        $this->cardPayments  = (bool) env('chopda.cardPayments', $this->cardPayments);
+        $this->bankTransfer  = (bool) env('chopda.bankTransfer', $this->bankTransfer);
 
         $raw = (string) env('chopda.notifyEmails', '');
         if (trim($raw) !== '') {
@@ -99,6 +113,32 @@ class ChopdaPujan extends BaseConfig
                 static fn(string $e): bool => filter_var($e, FILTER_VALIDATE_EMAIL) !== false
             ));
         }
+    }
+
+    public function acceptsCard(): bool
+    {
+        $stripe = config('Stripe');
+
+        return $this->cardPayments && $stripe->secretKey !== '' && $stripe->chopdaPriceId !== '';
+    }
+
+    public function acceptsBank(): bool
+    {
+        return $this->bankTransfer || ! $this->acceptsCard();
+    }
+
+    /** The methods on offer, card first: 'card' and/or 'bank'. */
+    public function paymentMethods(): array
+    {
+        return array_keys(array_filter(['card' => $this->acceptsCard(), 'bank' => $this->acceptsBank()]));
+    }
+
+    /** The registrant's pay-by-card link, or null while card is not on offer. */
+    public function payUrl(array $registration): ?string
+    {
+        return $this->acceptsCard() && ! empty($registration['pay_token'])
+            ? site_url($this->slug . '/pay/' . $registration['pay_token'])
+            : null;
     }
 
     public function isOpen(?\DateTimeInterface $now = null): bool

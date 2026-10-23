@@ -5,7 +5,13 @@
 /**
  * @var \Config\ChopdaPujan $config
  * @var array $registration
+ * @var string|null $payUrl pay-by-card link, when card is on offer
  */
+$paid     = ! empty($registration['payment_received']);
+$isCard   = $registration['payment_method'] === 'card';
+$fee      = '&pound;' . esc(number_format((float) $registration['amount']));
+// A bank registrant still sees the details if bank transfer is later switched off.
+$showBank = ! $paid && ($config->acceptsBank() || ! $isCard);
 ?>
 
 <?= view('partials/page_header', [
@@ -19,26 +25,68 @@
   <div class="row justify-content-center">
     <div class="col-lg-8">
 
+      <?php if ($msg = session('error')): ?>
+        <div class="alert alert-warning d-flex align-items-start gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+          <div><?= esc($msg) ?></div>
+        </div>
+      <?php endif; ?>
+
       <div class="lcnl-card border-0 shadow-sm mb-4">
         <div class="card-body p-4 text-center">
-          <i class="bi bi-journal-check text-brand" style="font-size:3rem;" aria-hidden="true"></i>
-          <h2 class="h4 fw-bold mt-3 mb-2">Thank you, <?= esc($registration['first_name']) ?></h2>
-          <p class="mb-0">
-            Your registration has been received. <strong>Please now pay the
-            &pound;<?= esc(number_format((float) $registration['amount'])) ?> nyochavar</strong> to the
-            account below, using your reference. Your place is confirmed once your payment arrives.
-          </p>
+          <?php if ($paid): ?>
+            <i class="bi bi-patch-check-fill text-success" style="font-size:3rem;" aria-hidden="true"></i>
+            <h2 class="h4 fw-bold mt-3 mb-2">Your place is confirmed</h2>
+            <p class="mb-0">
+              Thank you, <?= esc($registration['first_name']) ?>. We have received your <?= $fee ?> nyochavar.
+              A confirmation email is on its way to <strong><?= esc($registration['email']) ?></strong>.
+            </p>
+          <?php elseif ($isCard): ?>
+            <i class="bi bi-credit-card text-brand" style="font-size:3rem;" aria-hidden="true"></i>
+            <h2 class="h4 fw-bold mt-3 mb-2">Your payment has not been completed</h2>
+            <p class="mb-3">
+              Thank you, <?= esc($registration['first_name']) ?> &mdash; your registration is saved, but your place is
+              not confirmed until the <?= $fee ?> nyochavar is paid.
+            </p>
+            <?php if ($payUrl): ?>
+              <a href="<?= esc($payUrl, 'attr') ?>" class="btn btn-brand btn-lg">
+                <i class="bi bi-lock-fill me-1"></i> Pay <?= $fee ?> by card
+              </a>
+            <?php endif; ?>
+            <?php if ($showBank): ?>
+              <p class="small text-muted mt-3 mb-0">
+                <?= $payUrl ? 'Or pay' : 'Please pay' ?> by bank transfer using the details below.
+              </p>
+            <?php endif; ?>
+          <?php else: ?>
+            <i class="bi bi-journal-check text-brand" style="font-size:3rem;" aria-hidden="true"></i>
+            <h2 class="h4 fw-bold mt-3 mb-2">Thank you, <?= esc($registration['first_name']) ?></h2>
+            <p class="mb-0">
+              Your registration has been received. <strong>Please now pay the <?= $fee ?> nyochavar</strong> to the
+              account below, using your reference. Your place is confirmed once your payment arrives.
+            </p>
+            <?php if ($payUrl): ?>
+              <p class="small mt-3 mb-0">
+                Prefer to pay by card? <a href="<?= esc($payUrl, 'attr') ?>" class="fw-semibold">Pay <?= $fee ?> now</a>
+                and your place is confirmed straight away.
+              </p>
+            <?php endif; ?>
+          <?php endif; ?>
         </div>
       </div>
 
-      <h2 class="h5 fw-bold text-brand mb-3"><i class="bi bi-bank me-1"></i> Make your payment</h2>
-      <?= view('chopda/_bank', ['config' => $config, 'reference' => $registration['payment_reference']]) ?>
+      <?php if ($showBank): ?>
+        <h2 class="h5 fw-bold text-brand mb-3"><i class="bi bi-bank me-1"></i> <?= $isCard ? 'Pay by bank transfer' : 'Make your payment' ?></h2>
+        <?= view('chopda/_bank', ['config' => $config, 'reference' => $registration['payment_reference']]) ?>
 
-      <div class="alert alert-info small">
-        <i class="bi bi-envelope-check me-1"></i>
-        We have also emailed these details to <strong><?= esc($registration['email']) ?></strong>.
-        If it doesn&rsquo;t arrive within a few minutes, please check your spam folder.
-      </div>
+        <?php if (! $isCard): ?>
+          <div class="alert alert-info small">
+            <i class="bi bi-envelope-check me-1"></i>
+            We have also emailed these details to <strong><?= esc($registration['email']) ?></strong>.
+            If it doesn&rsquo;t arrive within a few minutes, please check your spam folder.
+          </div>
+        <?php endif; ?>
+      <?php endif; ?>
 
       <div class="lcnl-card border-0 shadow-sm mb-4">
         <div class="card-body p-4">
@@ -65,10 +113,15 @@
             </dd>
 
             <dt class="col-sm-4">Nyochavar</dt>
-            <dd class="col-sm-8">&pound;<?= esc(number_format((float) $registration['amount'])) ?> (1 pooja)</dd>
+            <dd class="col-sm-8">
+              <?= $fee ?> (1 pooja) &mdash;
+              <?= $paid ? '<span class="text-success fw-semibold">paid' . ($isCard ? ' by card' : '') . '</span>' : 'not yet paid' ?>
+            </dd>
 
-            <dt class="col-sm-4">Payment reference</dt>
-            <dd class="col-sm-8 fw-semibold"><?= esc($registration['payment_reference']) ?></dd>
+            <?php if ($showBank): ?>
+              <dt class="col-sm-4">Payment reference</dt>
+              <dd class="col-sm-8 fw-semibold"><?= esc($registration['payment_reference']) ?></dd>
+            <?php endif; ?>
           </dl>
         </div>
       </div>

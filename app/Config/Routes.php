@@ -98,8 +98,9 @@ $routes->get($legacySlug . '/thank-you', 'Legacy50Controller::thankYou');
 /* =========================================================
    CHOPDA PUJAN 2026 (PUBLIC)
 
-   One registration books one pooja, paid by bank transfer. The thank-you
-   page reads the registration from the session, never from the URL.
+   One registration books one pooja, paid by card (Stripe) or bank transfer.
+   The thank-you page reads the registration from the session, never from the
+   URL; pay/<token> is the secret pay-by-card link sent in emails.
 ========================================================= */
 
 $chopdaSlug = config('ChopdaPujan')->slug;
@@ -107,6 +108,8 @@ $chopdaSlug = config('ChopdaPujan')->slug;
 $routes->get($chopdaSlug, 'ChopdaPujanController::index');
 $routes->post($chopdaSlug, 'ChopdaPujanController::submit');
 $routes->get($chopdaSlug . '/thank-you', 'ChopdaPujanController::thankYou');
+$routes->get($chopdaSlug . '/pay/(:segment)', 'ChopdaPujanController::pay/$1');
+$routes->get($chopdaSlug . '/paid', 'ChopdaPujanController::paid');
 
 /* =========================================================
    NAVRATRI FESTIVAL 2026 (PUBLIC)
