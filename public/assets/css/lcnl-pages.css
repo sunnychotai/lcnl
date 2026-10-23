@@ -2390,7 +2390,7 @@
     font-weight: 600;
 }
 
-/* --- Home page banner --- */
+/* --- Home page spotlight (half width beside "LCNL in the media") --- */
 .chopda-banner {
     border-radius: var(--radius);
     overflow: hidden;
@@ -2416,24 +2416,24 @@
 .chopda-banner-flier img {
     object-fit: cover;
     object-position: top center;
-    max-height: 420px;
 }
 
 .chopda-banner-body {
-    padding: 1.75rem 2rem;
+    padding: 1.5rem 1.5rem 1.4rem;
 }
 
 .chopda-banner-title {
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: 2rem;
+    font-size: 1.65rem;
     font-weight: 800;
     color: #fff;
-    margin-bottom: .25rem;
+    margin-bottom: .2rem;
 }
 
 .chopda-banner-tagline {
     color: var(--accent1);
     font-style: italic;
+    font-size: .95rem;
 }
 
 .chopda-banner-facts {
@@ -2441,7 +2441,8 @@
     padding: 0;
     margin: 0;
     display: grid;
-    gap: .5rem;
+    gap: .45rem;
+    font-size: .925rem;
 }
 
 .chopda-banner-facts li {
@@ -2456,25 +2457,132 @@
     margin-top: .1rem;
 }
 
+.chopda-banner-facts small {
+    color: rgba(255, 255, 255, .8);
+}
+
 .chopda-banner-note {
     color: rgba(255, 255, 255, .85);
 }
 
-@media (max-width: 767.98px) {
-    .chopda-banner-flier {
+/* =========================================================================
+   LCNL IN THE MEDIA – home spotlight
+   Newsprint cream so it reads as a press cutting beside the maroon Chopda
+   Pujan card. Body text #3a2f2a on #fbf6ec is 11:1.
+   ========================================================================= */
+
+.media-spotlight {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #fbf6ec;
+    border: 1px solid #eadfcb;
+    box-shadow: 0 10px 30px rgba(60, 40, 20, .12);
+    color: #3a2f2a;
+}
+
+.media-spotlight-page {
+    background: #efe6d4;
+    border-right: 1px solid #eadfcb;
+}
+
+.media-spotlight-page a,
+.media-spotlight-page img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.media-spotlight-page img {
+    object-fit: cover;
+    object-position: top center;
+    transition: transform .4s ease;
+}
+
+.media-spotlight-page a:hover img {
+    transform: scale(1.03);
+}
+
+.media-spotlight-body {
+    padding: 1.5rem 1.5rem 1.4rem;
+}
+
+.media-spotlight-eyebrow {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: .4rem;
+}
+
+.media-spotlight-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #241a20;
+    margin-bottom: .35rem;
+}
+
+.media-spotlight-source {
+    font-size: .85rem;
+    color: #6b5d52;
+    margin-bottom: 1rem;
+}
+
+.media-spotlight-quote {
+    border-left: 3px solid var(--accent1);
+    padding-left: .9rem;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: .975rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 575.98px) {
+    .chopda-banner-flier,
+    .media-spotlight-page {
         border-right: 0;
+        max-height: 240px;
+        overflow: hidden;
+    }
+
+    .chopda-banner-flier {
         border-bottom: 1px solid rgba(212, 175, 55, .35);
     }
 
-    .chopda-banner-flier img {
-        max-height: 260px;
+    .media-spotlight-page {
+        border-bottom: 1px solid #eadfcb;
     }
 
-    .chopda-banner-body {
+    .chopda-banner-body,
+    .media-spotlight-body {
         padding: 1.25rem 1.1rem;
     }
 
     .chopda-banner-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+    }
+
+    .media-spotlight-title {
+        font-size: 1.3rem;
+    }
+}
+
+/* Side by side, the text sets the card height and the image fills it. */
+@media (min-width: 576px) {
+    .chopda-banner-flier,
+    .media-spotlight-page {
+        position: relative;
+        min-height: 300px;
+    }
+
+    .chopda-banner-flier a,
+    .media-spotlight-page a {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
     }
 }

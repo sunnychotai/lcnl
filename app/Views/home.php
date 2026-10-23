@@ -128,7 +128,13 @@
   });
 </script>
 
-<?= $this->include('chopda/_home_banner') ?>
+<!-- Spotlights: each partial renders one equal-width column, or nothing. -->
+<section class="container pt-4 pb-2">
+  <div class="row g-4">
+    <?= $this->include('chopda/_home_banner') ?>
+    <?= $this->include('partials/_media_spotlight') ?>
+  </div>
+</section>
 <?= $this->include('legacy50/_home_banner') ?>
 
 <?php // Upcoming Events temporarily hidden (Oct 2026); set to true to bring it back.
