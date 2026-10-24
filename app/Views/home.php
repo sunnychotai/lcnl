@@ -1,132 +1,44 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Banner -->
-<section class="hero-lcnl-watermark hero-overlay-ruby d-flex align-items-center justify-content-center">
-  <div class="container position-relative text-center text-white py-3">
-    <!-- The first slide is rendered server-side: the top-level heading must
-         exist in the served HTML for search engines and screen readers, and
-         the hero must not be blank while JavaScript boots. The script below
-         rotates from here rather than populating an empty heading. -->
-    <h1 id="heroTitle" class="motto show">&quot;WE MOVE <span class="script">FORWARD</span> TOGETHER&quot;</h1>
-    <p id="heroSubtitle" class="lead fs-5 mb-0 show">&hellip; bringing people together since 1976. Proud of our heritage</p>
+<?php $legacy = config('Legacy50'); ?>
 
-    <button type="button" id="heroToggle" class="hero-toggle btn btn-sm mt-3"
-      aria-pressed="false" hidden>
-      <i class="bi bi-pause-fill me-1" aria-hidden="true"></i><span class="hero-toggle-label">Pause</span>
-    </button>
+<!-- Hero: the Golden Jubilee. Static on purpose: the old rotating tagline
+     was rarely read, and with nothing moving no pause control is needed. -->
+<section class="hero-lcnl-watermark hero-overlay-ruby home-hero" aria-labelledby="heroTitle">
+  <div class="container position-relative py-4 py-lg-5">
+    <div class="home-hero-inner">
+
+      <div class="home-hero-emblem" aria-hidden="true">
+        <span class="home-hero-num">50</span>
+        <span class="home-hero-years">1976 &ndash; 2026</span>
+      </div>
+
+      <div class="home-hero-copy">
+        <p class="home-hero-eyebrow">Golden Jubilee</p>
+        <h1 id="heroTitle" class="home-hero-title">
+          Celebrating <span class="script">50 years</span> of LCNL
+        </h1>
+        <p class="home-hero-sub">
+          &ldquo;We move forward together&rdquo; &mdash; bringing the Lohana community of
+          North London together since 1976.
+        </p>
+
+        <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-2 mt-3">
+          <?php if ($legacy->isOpen()): ?>
+            <a href="<?= base_url($legacy->slug) ?>" class="btn home-hero-btn rounded-pill px-4">
+              <i class="bi bi-heart-fill me-2" aria-hidden="true"></i>Support the Legacy 50 appeal
+            </a>
+          <?php endif; ?>
+          <a href="<?= base_url('aboutus') ?>" class="btn btn-outline-light rounded-pill px-4">
+            Our story
+          </a>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
-
-<style>
-  #heroTitle,
-  #heroSubtitle {
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-    transform: translateY(10px);
-  }
-
-  #heroTitle.show,
-  #heroSubtitle.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .hero-toggle {
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, .55);
-    background: rgba(0, 0, 0, .18);
-  }
-
-  .hero-toggle:hover,
-  .hero-toggle:focus-visible {
-    color: #fff;
-    background: rgba(0, 0, 0, .35);
-    border-color: #fff;
-  }
-
-  /* Never animate the hero for readers who have asked for reduced motion —
-     the script also stops rotating in that case. */
-  @media (prefers-reduced-motion: reduce) {
-
-    #heroTitle,
-    #heroSubtitle {
-      transition: none;
-    }
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const slides = [{
-      title: `"WE MOVE <span class='script'>FORWARD</span> TOGETHER"`,
-      subtitle: "... bringing people together since 1976. Proud of our heritage"
-    },
-    {
-      title: `"CELEBRATING <span class='script'>COMMUNITY</span> & CULTURE"`,
-      subtitle: "Uniting Lohanas across North London"
-    },
-    {
-      title: `"SUPPORTING <span class='script'>FAMILIES</span> IN NEED"`,
-      subtitle: "From bereavement care to cultural guidance, LCNL is here for everyone."
-    }
-    ];
-
-    const titleEl = document.getElementById('heroTitle');
-    const subEl = document.getElementById('heroSubtitle');
-    const toggle = document.getElementById('heroToggle');
-    let idx = 0;
-    let timer = null;
-
-    function showSlide(i) {
-      titleEl.classList.remove('show');
-      subEl.classList.remove('show');
-
-      setTimeout(() => {
-        titleEl.innerHTML = slides[i].title;
-        subEl.innerHTML = slides[i].subtitle;
-
-        titleEl.classList.add('show');
-        subEl.classList.add('show');
-      }, 800);
-    }
-
-    // Slide 0 is already in the HTML, so start the timer without re-rendering it.
-    function start() {
-      if (timer) return;
-      timer = setInterval(() => {
-        idx = (idx + 1) % slides.length;
-        showSlide(idx);
-      }, 5000);
-    }
-
-    function stop() {
-      clearInterval(timer);
-      timer = null;
-    }
-
-    // WCAG 2.2.2: anything that moves automatically for more than five seconds
-    // needs a way to stop it. The control is hidden without JS because with no
-    // JS there is nothing to pause.
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    if (!reduceMotion.matches) {
-      toggle.hidden = false;
-      start();
-    }
-
-    toggle.addEventListener('click', () => {
-      const running = timer !== null;
-      running ? stop() : start();
-
-      toggle.setAttribute('aria-pressed', String(running));
-      toggle.querySelector('.hero-toggle-label').textContent = running ? 'Play' : 'Pause';
-      toggle.querySelector('i').className = running
-        ? 'bi bi-play-fill me-1'
-        : 'bi bi-pause-fill me-1';
-    });
-  });
-</script>
 
 <!-- Spotlights: each partial renders one equal-width column, or nothing. -->
 <section class="container pt-4 pb-2">
@@ -136,6 +48,32 @@
   </div>
 </section>
 <?= $this->include('legacy50/_home_banner') ?>
+
+<!-- Explore LCNL: the main routes into the site, one row on desktop. -->
+<?php
+$exploreTiles = [
+  ['events',      'bi-calendar-event-fill', 'text-brand',   'Events',              'Navratri, Diwali & year-round programmes'],
+  ['bereavement', 'bi-flower1',             'text-danger',  'Bereavement',         'Support, notices & community prayers'],
+  ['mahila',      'bi-gem',                 'text-pink',    'Mahila Committee',    'Women-led programmes & activities'],
+  ['yls',         'bi-people-fill',         'text-primary', 'Young Lohana Society', 'Youth events, networking & socials'],
+  ['youth',       'bi-controller',          'text-warning', 'Lohana Youth Club',   'Activities for 13–18 year olds'],
+  ['aboutus',     'bi-clock-history',       'text-accent1', 'About LCNL',          'Our story since 1976'],
+];
+?>
+<section class="container py-3" aria-labelledby="explore-lcnl">
+  <h2 id="explore-lcnl" class="mb-3">Explore LCNL</h2>
+  <div class="row g-3">
+    <?php foreach ($exploreTiles as [$path, $icon, $tone, $title, $blurb]): ?>
+      <div class="col-6 col-md-4 col-xl-2">
+        <a href="<?= base_url($path) ?>" class="home-tile">
+          <i class="bi <?= $icon ?> <?= $tone ?>" aria-hidden="true"></i>
+          <span class="home-tile-title"><?= esc($title) ?></span>
+          <span class="home-tile-blurb"><?= esc($blurb) ?></span>
+        </a>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</section>
 
 <?php // Upcoming Events temporarily hidden (Oct 2026); set to true to bring it back.
 $showUpcomingEvents = false; ?>
@@ -201,213 +139,77 @@ $showUpcomingEvents = false; ?>
 
 <section class="py-3">
   <div class="container">
-    <div class="row g-4 align-items-start">
+    <div class="row g-4">
 
-      <!-- Left column -->
-      <div class="col-md-8">
+      <!-- Message from the President -->
+      <div class="col-lg-8">
+        <article class="home-president h-100" aria-labelledby="president-message">
+          <header class="home-president-head">
+            <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>"
+              class="home-president-photo" alt="Ronak Paw, LCNL President"
+              width="112" height="112" loading="lazy" decoding="async">
+            <div>
+              <p class="home-president-eyebrow">Jai Shree Krishna &middot; Jai Shree Ram &middot; Jai Jalaram</p>
+              <h2 id="president-message" class="h4 fw-bold mb-1">Message from the President</h2>
+              <p class="mb-0 text-muted">Ronak Paw &middot; LCNL President 2025&ndash;2027</p>
+            </div>
+          </header>
 
-<?php if (date('Y-m-d') <= '2026-07-29'): ?>
-<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-  <div class="row g-0 align-items-center">
+          <blockquote class="home-president-quote">Together we can keep LCNL thriving for the next 50 years.</blockquote>
 
-    <div class="col-md-5 d-flex align-items-center justify-content-center"
-      style="background: linear-gradient(135deg, #1a4731 0%, #2d7a4f 60%, #3da668 100%);
-             min-height: 280px;">
-      <div class="text-center text-white p-4">
-        <i class="bi bi-flag-fill" style="font-size: 4rem; opacity: 0.9;"></i>
-        <div class="mt-3 fw-bold" style="font-size: 1.1rem; letter-spacing: 0.05em;">
-          MOOR PARK<br>GOLF CLUB
-        </div>
-        <div class="mt-1 opacity-75 small">Rickmansworth</div>
-      </div>
-    </div>
-
-    <div class="col-md-7">
-      <div class="p-4">
-
-        <span class="badge bg-success-subtle text-success border mb-2">
-          Registration Now Open
-        </span>
-
-        <h2 class="h3 fw-bold mb-3">LCNL Golf Event 2026</h2>
-
-        <p class="mb-2">
-          Join us for a fantastic day of golf, networking, friendly competition, and community
-          spirit at the prestigious <strong>Moor Park Golf Club</strong>.
-        </p>
-
-        <p class="mb-3">
-          Breakfast, shotgun start, BBQ &amp; evening gathering — all as part of the LCNL
-          events calendar. Proudly supported by our Main Sponsor <strong>Harold Benjamin</strong>.
-        </p>
-
-        <div class="d-flex flex-wrap gap-2 mb-4">
-          <a href="<?= site_url('golf/register') ?>" class="btn btn-brand rounded-pill px-4">
-            <i class="bi bi-pencil-square me-2"></i>Register Now
-          </a>
-          <a href="<?= site_url('golf') ?>" class="btn btn-outline-secondary rounded-pill px-4">
-            Event Details
-          </a>
-        </div>
-
-        <div class="border rounded-4 p-3 bg-light">
-          <h3 class="h6 fw-semibold mb-1">Event Highlights</h3>
-          <p class="mb-0 small text-muted">
-            <strong>Wednesday 29th July 2026</strong> &bull;
-            Registration &amp; Breakfast: 11:00am &bull;
-            Shotgun Start: 1:00pm &bull;
-            BBQ &amp; Evening: 6:30pm
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</div>
-<?php endif; ?>
-
-<?php if (date('Y-m-d') <= '2026-09-05'): ?>
-<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-  <div class="p-4">
-
-    <span class="badge bg-danger-subtle text-danger border mb-2">
-      <i class="bi bi-broadcast me-1" aria-hidden="true"></i>Live Stream
-    </span>
-
-    <h2 class="h3 fw-bold mb-3">Janmashtami &mdash; Watch Live</h2>
-
-    <p class="mb-3">
-      Can&rsquo;t join us in person? Watch this evening&rsquo;s Janmashtami celebrations live
-      below, or on the <a href="https://www.youtube.com/@lcnlmahajan" target="_blank"
-        rel="noopener">LCNL YouTube channel</a>.
-    </p>
-
-    <div class="ratio ratio-16x9 rounded overflow-hidden">
-      <iframe src="https://www.youtube-nocookie.com/embed/Ze6sNXD5OdY"
-        title="Janmashtami live stream" loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-
-    <p class="small text-muted mt-3 mb-0">
-      The stream goes live later this evening &mdash; if it hasn&rsquo;t started yet, the
-      player will show a countdown.
-    </p>
-
-  </div>
-</div>
-<?php endif; ?>
-
-<?php if (date('Y-m-d') <= '2026-09-26'): ?>
-<div class="lcnl-card rounded border-0 shadow-sm mb-4 overflow-hidden">
-  <div class="p-4">
-
-    <span class="badge bg-danger-subtle text-danger border mb-2">
-      <i class="bi bi-broadcast me-1" aria-hidden="true"></i>Live Stream
-    </span>
-
-    <h2 class="h3 fw-bold mb-3">Golden Jubilee &mdash; Mahabharata Katha (In English) &mdash; Watch Live</h2>
-
-    <p class="mb-3">
-      Can&rsquo;t join us at Dhamecha Lohana Centre? Watch today&rsquo;s Mahābhārata Katha by
-      Suri Shandilya live below, or on the <a href="https://www.youtube.com/@lcnlmahajan" target="_blank"
-        rel="noopener">LCNL YouTube channel</a>.
-    </p>
-
-    <div class="ratio ratio-16x9 rounded overflow-hidden">
-      <iframe src="https://www.youtube-nocookie.com/embed/OPdvM4yJVA4"
-        title="Mahabharata Katha live stream" loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-
-    <p class="small text-muted mt-3 mb-0">
-      Saturday 26th September 2026 &bull; 11:00am &ndash; 5:00pm &mdash; if the stream
-      hasn&rsquo;t started yet, the player will show a countdown.
-    </p>
-
-  </div>
-</div>
-<?php endif; ?>
-
-        <!-- Message from the President -->
-        <div class="lcnl-card rounded border-0 shadow-sm">
-          <h2 class="h4 fw-bold mb-3">Message from the President</h2>
-
-          <img src="<?= base_url('assets/img/committee/ronak-paw.jpg') ?>"
-            class="mx-auto d-block d-md-inline float-md-start me-md-3 mb-2 rounded-circle shadow-sm"
-            style="width:220px; height:220px; object-fit:cover; object-position: top;" alt="President Photo"
-            width="220" height="220" loading="lazy" decoding="async">
-
-          <p>Jai Shree Krishna | Jai Shree Ram | Jai Jalaram</p>
-
-          <p>It is an honour to serve as one of the youngest, and first UK-born, LCNL President as we mark our 50th year. This
-            milestone is a reflection of the dedication of past presidents, committees and members.</p>
+          <p>It is an honour to serve as one of the youngest, and first UK-born, LCNL President as we mark our 50th
+            year. This milestone is a reflection of the dedication of past presidents, committees and members.</p>
 
           <p>We have introduced a portfolio system where each Executive Committee member leads or supports an area of
             activity. This ensures events and services are well-managed and gives everyone the chance to contribute.</p>
 
           <p>Our focus will be to maintain LCNL’s cultural and religious programmes, while also introducing new
-            initiatives that appeal to all generations—especially children and youth, who are key to our future.</p>
+            initiatives that appeal to all generations&mdash;especially children and youth, who are key to our future.</p>
 
-          <p>I encourage all members to take part, share ideas, and support our events. Together we can keep LCNL
-            thriving for the next 50 years.</p>
+          <p class="mb-0">I encourage all members to take part, share ideas, and support our events.</p>
 
-          <p class="fw-bold mb-0">Ronak Paw</p>
-          <p class="mb-0">LCNL President 2025 – 2027</p>
-        </div>
+          <p class="home-president-sign">Ronak Paw</p>
+        </article>
       </div>
 
-      <!-- Right column -->
-      <div class="col-md-4 d-flex flex-column gap-3">
-        <h2 class="visually-hidden">More from LCNL</h2>
+      <div class="col-lg-4 d-flex flex-column gap-4">
 
-        <!-- Membership Card -->
+        <!-- The page's one membership call to action -->
         <?php if (empty($isLoggedIn)): ?>
-          <div class="lcnl-card shadow-lg border-0">
-            <div class="card-body text-center">
-              <h3 class="fw-bold mb-3">
-                <i class="bi bi-person-plus-fill text-success"></i> Register Now!
-              </h3>
-              <p class="text-muted mb-4">
-                Create your LCNL membership in minutes. Enter your details,
-                confirm your email, and start enjoying the benefits of our community.
-              </p>
-              <a href="<?= base_url('membership/register') ?>" class="btn btn-success btn-lg rounded-pill px-4">
-                <i class="bi bi-pencil-square me-2"></i> Register Now
-              </a>
-            </div>
+          <div class="home-join">
+            <i class="bi bi-person-plus-fill home-join-icon" aria-hidden="true"></i>
+            <h2 class="h4 fw-bold mb-2">Join LCNL</h2>
+            <p class="mb-4">
+              Be part of our next 50 years. Membership takes a few minutes &mdash; enter your details,
+              confirm your email and you&rsquo;re in.
+            </p>
+            <a href="<?= base_url('membership/register') ?>" class="btn btn-brand btn-lg rounded-pill px-4 w-100">
+              Become a member
+            </a>
+            <a href="<?= base_url('membership') ?>" class="d-inline-block mt-3 small fw-semibold home-join-link">
+              Why join? See membership benefits <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </a>
           </div>
-
         <?php else: ?>
-
-          <div class="card shadow-lg border-0 rounded-4 mb-4">
-            <div class="card-body text-center p-4">
-              <div class="mb-3">
-                <i class="bi bi-speedometer2 text-brand" style="font-size:3rem;"></i>
-              </div>
-              <h3 class="fw-bold mb-3">Your Dashboard</h3>
-              <p class="text-muted mb-4">
-                Access your profile and upcoming events from your member dashboard.
-              </p>
-              <a href="<?= route_to('account.dashboard') ?>" class="btn btn-brand btn-lg rounded-pill px-4">
-                <i class="bi bi-speedometer2 me-2"></i> Go to Dashboard
-              </a>
-            </div>
+          <div class="home-join">
+            <i class="bi bi-speedometer2 home-join-icon" aria-hidden="true"></i>
+            <h2 class="h4 fw-bold mb-2">Your Dashboard</h2>
+            <p class="mb-4">Access your profile and upcoming events from your member dashboard.</p>
+            <a href="<?= route_to('account.dashboard') ?>" class="btn btn-brand btn-lg rounded-pill px-4 w-100">
+              Go to Dashboard
+            </a>
           </div>
-
         <?php endif; ?>
 
         <!-- DLC Hall Hire Banner -->
-        <a href="<?= base_url('dlc-hire') ?>" class="text-decoration-none d-block">
-          <div class="rounded-4 shadow-sm overflow-hidden" style="background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);">
+        <a href="<?= base_url('dlc-hire') ?>" class="text-decoration-none d-block flex-grow-1">
+          <div class="rounded-4 shadow-sm overflow-hidden h-100" style="background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);">
             <div class="p-4 text-white position-relative">
               <div class="position-absolute top-0 end-0 p-3 opacity-25">
                 <i class="bi bi-stars" style="font-size:4rem;"></i>
               </div>
               <span class="badge mb-2 px-2 py-1 fw-semibold" style="background:rgba(255,193,7,0.2);color:#ffc107;border:1px solid rgba(255,193,7,0.4);font-size:0.7rem;letter-spacing:.05em;">DLC HALL HIRE</span>
-              <h3 class="h5 fw-bold mb-1">Host Your Event at DLC</h3>
+              <h2 class="h5 fw-bold mb-1">Host Your Event at DLC</h2>
               <p class="mb-3 opacity-90 small">Fully equipped halls with professional lighting, sound &amp; screens — available to hire on weekdays.</p>
               <div class="d-flex align-items-center justify-content-between">
                 <span class="fw-bold fs-5" style="color:#ffc107;">From £19 <span class="fw-normal fs-6 opacity-90">per person</span></span>
@@ -417,89 +219,10 @@ $showUpcomingEvents = false; ?>
           </div>
         </a>
 
-        <!-- Events Card -->
-        <div class="card shadow-sm border-0">
-          <a href="<?= base_url('events') ?>" class="stretched-link text-decoration-none text-dark">
-            <div class="card-body d-flex align-items-center">
-              <i class="bi bi-calendar-event-fill text-brand fs-3 me-3"></i>
-              <div>
-                <h3 class="h5 card-title mb-1">Events</h3>
-                <p class="card-text text-muted small">Navratri, Diwali & year-round programmes.</p>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- Membership Info -->
-        <div class="card shadow-sm border-0">
-          <a href="<?= base_url('membership') ?>" class="stretched-link text-decoration-none text-dark">
-            <div class="card-body d-flex align-items-center">
-              <i class="bi bi-person-badge-fill text-accent fs-3 me-3"></i>
-              <div>
-                <h3 class="h5 card-title mb-1">Membership</h3>
-                <p class="card-text text-muted small">Become a member and support LCNL.</p>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- Bereavement -->
-        <div class="card shadow-sm border-0">
-          <a href="<?= base_url('bereavement') ?>" class="stretched-link text-decoration-none text-dark">
-            <div class="card-body d-flex align-items-center">
-              <i class="bi bi-flower1 text-danger fs-3 me-3"></i>
-              <div>
-                <h3 class="h5 card-title mb-1">Bereavement</h3>
-                <p class="card-text text-muted small">Support, notices & community prayers.</p>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- Mahila Committee -->
-        <div class="card shadow-sm border-0">
-          <a href="<?= base_url('mahila') ?>" class="stretched-link text-decoration-none text-dark">
-            <div class="card-body d-flex align-items-center">
-              <i class="bi bi-gem text-pink fs-3 me-3"></i>
-              <div>
-                <h3 class="h5 card-title mb-1">Mahila Committee</h3>
-                <p class="card-text text-muted small">Women-led programmes & activities.</p>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- YLS -->
-        <div class="card shadow-sm border-0">
-          <a href="<?= base_url('yls') ?>" class="stretched-link text-decoration-none text-dark">
-            <div class="card-body d-flex align-items-center">
-              <i class="bi bi-people-fill text-primary fs-3 me-3"></i>
-              <div>
-                <h3 class="h5 card-title mb-1">Young Lohana Society</h3>
-                <p class="card-text text-muted small">Youth events, networking & socials.</p>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- Youth -->
-        <div class="card shadow-sm border-0">
-          <a href="<?= base_url('youth') ?>" class="stretched-link text-decoration-none text-dark">
-            <div class="card-body d-flex align-items-center">
-              <i class="bi bi-controller text-warning fs-3 me-3"></i>
-              <div>
-                <h3 class="h5 card-title mb-1">Lohana Youth Club</h3>
-                <p class="card-text text-muted small">Activities & events for 13–18 year olds.</p>
-              </div>
-            </div>
-          </a>
-        </div>
-
       </div>
     </div>
   </div>
 </section>
-
 <style>
   .sold-out-banner {
     position: absolute;
