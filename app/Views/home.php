@@ -47,6 +47,7 @@
     <?= $this->include('partials/_media_spotlight') ?>
   </div>
 </section>
+<?= $this->include('events/_diwali_home_banner') ?>
 <?= $this->include('legacy50/_home_banner') ?>
 
 <!-- Explore LCNL: the main routes into the site, one row on desktop. -->
