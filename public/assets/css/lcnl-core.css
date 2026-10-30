@@ -162,6 +162,14 @@ img {
   padding-bottom: .35rem;
 }
 
+/* A heading in a coloured card header takes the header's text colour. */
+.lcnl-card .card-header :is(h1, h2, h3, h4, h5, h6) {
+  color: inherit;
+  margin-bottom: 0;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
 .lcnl-card p {
   margin-bottom: .85rem;
   line-height: 1.65;
