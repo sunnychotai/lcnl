@@ -15,8 +15,16 @@
         <td><?= esc($event_name) ?></td>
     </tr>
     <tr>
-        <td style="font-weight:bold;">Participants</td>
-        <td><?= esc($num_participants) ?></td>
+        <td style="font-weight:bold;">Registered by</td>
+        <td><?= esc($first_name) ?> <?= esc($last_name) ?></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Guests</td>
+        <td><?= esc($num_guests) ?></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Total attending</td>
+        <td><?= esc($total_people) ?></td>
     </tr>
     <tr>
         <td style="font-weight:bold;">Status</td>
