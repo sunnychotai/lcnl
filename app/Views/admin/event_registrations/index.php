@@ -56,8 +56,7 @@
     $(function () {
         $('#eventSummaryTable').DataTable({
             ajax: {
-                url: '<?= site_url('admin/content/events/event-registrations/summary') ?>',
-                type: 'POST'
+                url: '<?= site_url('admin/content/events/event-registrations/summary') ?>'
             },
 
             pageLength: 25,

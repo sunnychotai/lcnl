@@ -306,7 +306,7 @@ $routes->group('admin/content', [
     $routes->get('events/clone/(:num)', 'Admin\Events::clone/$1');
 
     $routes->get('events/event-registrations', 'Admin\EventRegistrationController::index');
-    $routes->post('events/event-registrations/summary', 'Admin\EventRegistrationController::summary');
+    $routes->get('events/event-registrations/summary', 'Admin\EventRegistrationController::summary');
 
     // Golf Tournament 2026
     $routes->get('golf', 'Admin\GolfRegistrationController::index');
