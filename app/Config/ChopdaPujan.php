@@ -70,11 +70,46 @@ class ChopdaPujan extends BaseConfig
         'Gujarati' => 'assets/documents/chopda-pujan/sticker-2026-gujarati.pdf',
     ];
 
+    /** Samagri for the pooja: what manorathis bring, and what LCNL provides. */
+    public array $samagri = [
+        'bring' => [
+            '1 swaroop of Lord Ganesh',
+            'Laxmi coins (any coins will do instead)',
+            '1 book (chopda) for the pujan',
+            'Some sweets for distribution',
+        ],
+        'provided' => [
+            'Abil, gulal, kankoo and chandan, on a plate or in a small bowl',
+            'Dry fruits for the pooja, on a plate or in a small bowl',
+            'Kesar water in a small bowl',
+            'Some cinnamon, cloves and cardamom, on a plate or in a small bowl',
+            '3 sopari: 1 for the kalash, and 1 each for Riddhi and Siddhi, placed near the Ganeshji swaroop',
+            '1 nariyal per pooja plate',
+            '1 kalash and a bottle of water',
+            '7 nagarwel paan per pooja plate',
+            'Panchamrut (milk, yogurt, honey, sugar and ghee) in a small plastic tub',
+            'Nada chede: 1 half a foot long for the kalash, and 7 small ones for Ganeshji, Riddhi, Siddhi, the Laxmi coin, the red pen and the Yajman’s wrist (right wrist for gents, left for ladies)',
+            'A few fresh flower petals on a pooja plate',
+            '1 janoi per plate',
+            'A tea light or homemade divo, and a matchbox, for the aarti',
+            'A cloth napkin or tissues to dry your hands',
+            'Some rice for the pooja',
+            'Agarbatti',
+            'Red pen',
+            'Mishri or sugar',
+            'Some warm water to bathe the Ganeshji swaroop',
+            'A large plate with small containers for all the poojapo; a steel bowl, spoon and plate for bathing the swaroop; a steel plate to keep him on for the pooja after his bath; and a steel plate for the aarti',
+        ],
+    ];
+
     /**
-     * Samagri needed for the pooja, one item per entry (e.g. '5 sopari').
-     * While empty the page says the list is coming soon.
+     * Sthapna decoration colour per deity, each with a ghee divo and flowers.
+     * The colour also styles the card (`.chopda-sthapna-item.is-red`).
      */
-    public array $samagri = [];
+    public array $sthapna = [
+        'Ganeshji'      => 'red',
+        'Laxmi Narayan' => 'yellow',
+    ];
 
     /** YouTube embed URL for the livestream; the section is hidden while blank. */
     public string $livestreamUrl = '';
