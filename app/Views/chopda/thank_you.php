@@ -132,7 +132,7 @@ $showBank = ! $paid && ($config->acceptsBank() || ! $isCard);
           <ul class="mb-0">
             <li><strong><?= esc($config->eventLabel()) ?></strong> at <?= esc($config->venueLine()) ?></li>
             <li>Registration <?= esc($config->registrationTimes) ?>; pooja <?= esc($config->poojaTimes) ?></li>
-            <li>All pooja samagri is provided &mdash; please bring your own <strong>book</strong> and <strong>swaroop of Lord Ganesh</strong></li>
+            <li>Please bring your own <strong>swaroop of Lord Ganesh</strong>, <strong>Laxmi coins</strong> (any coins will do), <strong>book</strong> and some <strong>sweets</strong> for distribution &mdash; all other samagri is provided (<a href="<?= esc(site_url($config->slug) . '#samagri', 'attr') ?>">full list</a>)</li>
           </ul>
         </div>
       </div>

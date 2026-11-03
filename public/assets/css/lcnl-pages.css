@@ -2480,8 +2480,34 @@
 }
 
 .chopda-facts {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     margin-bottom: 1rem;
+}
+
+.chopda-facts a.value {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--brand) 35%, transparent);
+    text-underline-offset: 3px;
+}
+
+.chopda-facts a.value:hover {
+    color: var(--brand);
+}
+
+.chopda-facts .note {
+    display: block;
+    margin-top: .2rem;
+    font-size: .8rem;
+    color: #6c6470;
+}
+
+.chopda-fee {
+    background: var(--accent1);
+    color: var(--on-accent);
+    border-radius: 999px;
+    padding: .15rem .75rem;
+    font-weight: 800;
 }
 
 .chopda-attendees {
@@ -2491,6 +2517,141 @@
 .chopda-rule {
     color: #b42318;
     font-weight: 600;
+}
+
+/* --- Pooja samagri panel --- */
+.chopda-prep {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-top: 4px solid var(--accent1);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+    scroll-margin-top: 90px;
+}
+
+.chopda-prep-head {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: 1.25rem;
+}
+
+.chopda-prep-head h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--brand);
+}
+
+.chopda-prep-head p {
+    margin: 0;
+    font-size: .9rem;
+    color: #6c6470;
+}
+
+.chopda-prep h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: .6rem;
+}
+
+.chopda-bring {
+    background: color-mix(in srgb, var(--accent1) 14%, #fff);
+    border: 1px solid color-mix(in srgb, var(--accent1) 45%, transparent);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+}
+
+.chopda-bring ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chopda-bring li {
+    display: flex;
+    gap: .55rem;
+    padding: .3rem 0;
+    font-weight: 600;
+}
+
+.chopda-bring li i {
+    color: var(--brand);
+    margin-top: .15rem;
+}
+
+.chopda-sticker {
+    margin-top: 1rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px dashed rgba(0, 0, 0, .15);
+    border-radius: var(--radius);
+}
+
+.chopda-sticker p {
+    font-size: .875rem;
+    color: #6c6470;
+    margin-bottom: .75rem;
+}
+
+.chopda-samagri-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: .9rem;
+}
+
+.chopda-samagri-list li {
+    position: relative;
+    padding-left: 1.1rem;
+    margin-bottom: .45rem;
+    break-inside: avoid;
+}
+
+.chopda-samagri-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .5em;
+    width: .45rem;
+    height: .45rem;
+    border-radius: 50%;
+    background: var(--accent1);
+}
+
+@media (min-width: 768px) {
+    .chopda-samagri-list {
+        columns: 2;
+        column-gap: 2rem;
+    }
+}
+
+.chopda-sthapna {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: .75rem;
+}
+
+.chopda-sthapna-item {
+    border-radius: 10px;
+    border-left: 5px solid;
+    padding: .7rem .9rem;
+    font-size: .875rem;
+}
+
+.chopda-sthapna-item strong {
+    display: block;
+}
+
+.chopda-sthapna-item.is-red {
+    border-color: #c0262d;
+    background: #fdf0f0;
+}
+
+.chopda-sthapna-item.is-yellow {
+    border-color: #e0b100;
+    background: #fff8dc;
 }
 
 /* --- Home page spotlight (half width beside "LCNL in the media") --- */

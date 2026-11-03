@@ -80,8 +80,10 @@ $showBank = $config->acceptsBank() || ! $isCard;
 <p style="margin-bottom:6px;"><strong>On the day</strong></p>
 <ul style="margin-top:0; padding-left:18px;">
     <li>Registration <?= esc($config->registrationTimes) ?>; pooja <?= esc($config->poojaTimes) ?>.</li>
-    <li>All pooja samagri is provided &ndash; please bring your own <strong>book</strong> and
-        <strong>swaroop of Lord Ganesh</strong>.</li>
+    <li>Please bring your own <strong>swaroop of Lord Ganesh</strong>, <strong>Laxmi coins</strong>
+        (any coins will do), <strong>book</strong> and some <strong>sweets</strong> for distribution.
+        All other samagri is provided &ndash;
+        <a href="<?= esc(site_url($config->slug) . '#samagri', 'attr') ?>">see the full list</a>.</li>
     <li style="color:#b42318;"><strong>Only <?= esc($config->yajmansPerPooja) ?> Yajmans can sit in 1 pooja.</strong>
         Others are welcome to attend but won&rsquo;t be able to participate in the pooja.</li>
     <li>The pooja will be conducted by <?= esc($config->conductedBy) ?>.</li>

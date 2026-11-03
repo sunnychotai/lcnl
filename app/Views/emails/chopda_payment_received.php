@@ -42,8 +42,10 @@
 
 <ul style="padding-left:18px;">
     <li>Please arrive during registration so the pooja can start on time.</li>
-    <li>All pooja samagri is provided &ndash; please bring your own <strong>book</strong> and
-        <strong>swaroop of Lord Ganesh</strong>.</li>
+    <li>Please bring your own <strong>swaroop of Lord Ganesh</strong>, <strong>Laxmi coins</strong>
+        (any coins will do), <strong>book</strong> and some <strong>sweets</strong> for distribution.
+        All other samagri is provided &ndash;
+        <a href="<?= esc(site_url($config->slug) . '#samagri', 'attr') ?>">see the full list</a>.</li>
     <li>Only <?= esc($config->yajmansPerPooja) ?> Yajmans can sit in 1 pooja; family and guests are
         welcome to attend and watch.</li>
 </ul>

@@ -93,99 +93,100 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
               <span class="value"><?= esc($config->eventLabel()) ?></span>
             </div>
             <div class="mela-fact">
-              <i class="bi bi-cup-hot"></i>
-              <span class="label">Registration</span>
-              <span class="value"><?= esc($config->registrationTimes) ?></span>
-            </div>
-            <div class="mela-fact">
               <i class="bi bi-clock"></i>
-              <span class="label">Pooja</span>
-              <span class="value"><?= esc($config->poojaTimes) ?></span>
+              <span class="label">Times</span>
+              <span class="value">Registration <?= esc($config->registrationTimes) ?></span>
+              <span class="value">Pooja <?= esc($config->poojaTimes) ?></span>
             </div>
             <div class="mela-fact">
               <i class="bi bi-geo-alt"></i>
               <span class="label">Venue</span>
-              <span class="value"><?= esc($config->venue['name']) ?>, <?= esc($config->venue['address1']) ?>, <?= esc($config->venue['postcode']) ?></span>
+              <a class="value" href="https://www.google.com/maps/search/?api=1&amp;query=<?= esc(rawurlencode($config->venueLine()), 'attr') ?>"
+                target="_blank" rel="noopener"><?= esc($config->venue['name']) ?>, <?= esc($config->venue['address2']) ?> <?= esc($config->venue['postcode']) ?></a>
+            </div>
+            <div class="mela-fact">
+              <i class="bi bi-currency-pound"></i>
+              <span class="label">Nyochavar</span>
+              <span class="value">&pound;<?= esc($config->fee) ?> per pooja</span>
+              <span class="note"><?= esc($config->yajmansPerPooja) ?> Yajmans per pooja; family welcome to watch</span>
             </div>
           </div>
 
-          <div class="mela-info mb-3">
-            <div class="mela-info-head">
-              <span class="mela-info-icon is-accent"><i class="bi bi-currency-pound"></i></span>
-              <h2>Nyochavar &pound;<?= esc($config->fee) ?> per pooja</h2>
+          <?php if ($isOpen): ?>
+            <div class="mela-deadline mb-2">
+              <i class="bi bi-hourglass-split"></i>
+              <span>Registration closes <strong><?= esc($config->closingLabel()) ?></strong></span>
+              <a href="#registerForm" class="btn btn-brand btn-sm ms-auto flex-shrink-0">
+                Register <i class="bi bi-arrow-down ms-1"></i>
+              </a>
             </div>
-            <ul>
-              <li><strong><?= esc($config->yajmansPerPooja) ?> Yajmans</strong> can sit for one pooja.</li>
-              <li>Family and guests are very welcome to attend and observe.</li>
-              <?php if ($hasCard): ?>
-                <li>Pay securely online by card when you register<?= $hasBank ? ', or by bank transfer' : '' ?>.</li>
-              <?php else: ?>
-                <li>Please pay in advance by bank transfer &mdash; the details are shown once you register.</li>
-              <?php endif; ?>
-            </ul>
-          </div>
-
-          <div class="mela-info">
-            <div class="mela-info-head">
-              <span class="mela-info-icon"><i class="bi bi-book"></i></span>
-              <h2>What to bring</h2>
-            </div>
-            <p>
-              All pooja samagri is provided. Please bring your own <strong>book</strong> (chopda) and
-              <strong>swaroop of Lord Ganesh</strong>.
-            </p>
-          </div>
+          <?php endif; ?>
+          <a href="#samagri" class="btn btn-sm btn-outline-brand">
+            <i class="bi bi-basket me-1"></i> What to bring &amp; chopda sticker
+          </a>
         </div>
       </div>
 
-      <div class="row g-4 mb-4">
-        <!-- ======================= Chopda sticker ======================= -->
-        <div class="col-md-6">
-          <div class="lcnl-card border-0 shadow-sm h-100">
-            <div class="card-body p-4 text-center">
-              <h2 class="h5 fw-bold text-brand mb-1"><i class="bi bi-file-earmark-pdf me-1"></i> Chopda sticker</h2>
-              <p class="text-muted small mb-3">
-                Print the page for the front of your chopda and fill in your name and address.
-              </p>
-              <div class="d-flex flex-wrap justify-content-center gap-2">
+      <!-- ======================= Preparing for the pooja ======================= -->
+      <section class="chopda-prep mb-4" id="samagri" aria-labelledby="samagriHeading">
+        <div class="chopda-prep-head">
+          <span class="mela-info-icon is-accent"><i class="bi bi-basket"></i></span>
+          <div>
+            <h2 id="samagriHeading">Pooja samagri</h2>
+            <p>Bring the few things below; LCNL provides everything else.</p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="chopda-bring">
+              <h3><i class="bi bi-bag-check me-1"></i> Please bring</h3>
+              <ul>
+                <?php foreach ($config->samagri['bring'] as $item): ?>
+                  <li><i class="bi bi-check-circle-fill"></i><?= esc($item) ?></li>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+
+            <div class="chopda-sticker">
+              <h3><i class="bi bi-file-earmark-pdf me-1"></i> Chopda sticker</h3>
+              <p>Print it for the front of your chopda and fill in your name and address.</p>
+              <div class="d-flex flex-wrap gap-2">
                 <?php foreach ($config->documents as $label => $path): ?>
                   <?php if ($path !== '' && is_file(FCPATH . $path)): ?>
-                    <a href="<?= base_url($path) ?>" class="btn btn-outline-brand" target="_blank" rel="noopener">
-                      <i class="bi bi-download me-1"></i> <?= esc($label) ?> (PDF)
+                    <a href="<?= base_url($path) ?>" class="btn btn-sm btn-outline-brand" target="_blank" rel="noopener">
+                      <i class="bi bi-download me-1"></i> <?= esc($label) ?>
                     </a>
                   <?php else: ?>
-                    <span class="btn btn-outline-secondary disabled" aria-disabled="true">
-                      <i class="bi bi-hourglass-split me-1"></i> <?= esc($label) ?> &mdash; coming soon
+                    <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">
+                      <?= esc($label) ?> &mdash; coming soon
                     </span>
                   <?php endif; ?>
                 <?php endforeach; ?>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- ======================= Samagri ======================= -->
-        <div class="col-md-6">
-          <div class="lcnl-card border-0 shadow-sm h-100" id="samagri">
-            <div class="card-body p-4 text-center">
-              <h2 class="h5 fw-bold text-brand mb-1"><i class="bi bi-basket me-1"></i> Pooja samagri</h2>
-              <?php if ($config->samagri === []): ?>
-                <p class="text-muted small mb-3">The samagri needed for the pooja will be listed here.</p>
-                <span class="btn btn-outline-secondary disabled" aria-disabled="true">
-                  <i class="bi bi-hourglass-split me-1"></i> Samagri list &mdash; coming soon
-                </span>
-              <?php else: ?>
-                <p class="text-muted small mb-3">The samagri needed for the pooja.</p>
-                <ul class="text-start mb-0">
-                  <?php foreach ($config->samagri as $item): ?>
-                    <li><?= esc($item) ?></li>
-                  <?php endforeach; ?>
-                </ul>
-              <?php endif; ?>
+          <div class="col-lg-7">
+            <h3 class="chopda-prep-subhead"><i class="bi bi-check2-circle me-1"></i> Provided by LCNL</h3>
+            <ul class="chopda-samagri-list">
+              <?php foreach ($config->samagri['provided'] as $item): ?>
+                <li><?= esc($item) ?></li>
+              <?php endforeach; ?>
+            </ul>
+
+            <h3 class="chopda-prep-subhead mt-4"><i class="bi bi-flower1 me-1"></i> Sthapna</h3>
+            <div class="chopda-sthapna">
+              <?php foreach ($config->sthapna as $deity => $colour): ?>
+                <div class="chopda-sthapna-item is-<?= esc($colour, 'attr') ?>">
+                  <strong><?= esc($deity) ?></strong>
+                  <span><?= esc(ucfirst($colour)) ?> decoration, with a ghee divo and flowers</span>
+                </div>
+              <?php endforeach; ?>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <?php if ($config->livestreamUrl !== ''): ?>
         <!-- ======================= Livestream ======================= -->
@@ -198,16 +199,6 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
                 allowfullscreen loading="lazy"></iframe>
             </div>
           </div>
-        </div>
-      <?php endif; ?>
-
-      <?php if ($isOpen): ?>
-        <div class="mela-deadline">
-          <i class="bi bi-hourglass-split"></i>
-          <span>Online registration closes <strong><?= esc($config->closingLabel()) ?></strong></span>
-          <a href="#registerForm" class="btn btn-brand btn-sm ms-auto flex-shrink-0">
-            Register <i class="bi bi-arrow-down ms-1"></i>
-          </a>
         </div>
       <?php endif; ?>
 
@@ -227,7 +218,7 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
         <div class="mela-form-card mt-4" id="registerForm">
           <div class="mela-form-head">
             <h2 class="h4"><i class="bi bi-pencil-square me-2"></i>Register for a pooja</h2>
-            <p>One form books one pooja (&pound;<?= esc($config->fee) ?>). Fields marked <span class="mela-req">*</span> are required.</p>
+            <p>One form books one pooja. Fields marked <span class="mela-req">*</span> are required.</p>
           </div>
 
           <form method="post" action="<?= esc(site_url($config->slug)) ?>" novalidate>
@@ -307,6 +298,7 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
               <div class="mela-section-head">
                 <span class="mela-step-num">3</span>
                 <h3>Your payment</h3>
+                <span class="chopda-fee ms-auto">&pound;<?= esc($config->fee) ?></span>
               </div>
 
               <?php if (count($methods) > 1): ?>
@@ -335,17 +327,16 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
               <?php if ($hasCard): ?>
                 <p class="small text-muted" id="cardInfo" data-method="card">
                   <i class="bi bi-lock-fill me-1"></i>
-                  The nyochavar is <strong>&pound;<?= esc($config->fee) ?></strong>. When you register you will go
-                  to Stripe&rsquo;s secure payment page to pay; LCNL never sees your card details.
+                  When you register you will go to Stripe&rsquo;s secure payment page to pay;
+                  LCNL never sees your card details.
                 </p>
               <?php endif; ?>
 
               <?php if ($hasBank): ?>
                 <div id="bankFields" data-method="bank">
                   <p class="small text-muted">
-                    The nyochavar is <strong>&pound;<?= esc($config->fee) ?></strong>, paid by bank transfer to LCNL.
-                    We will show you the bank details as soon as you register and email them to you too.
-                    Your place is confirmed once your payment arrives.
+                    We will show you LCNL&rsquo;s bank details as soon as you register and email them to you too.
+                    <?php if (count($methods) === 1): ?>Your place is confirmed once your payment arrives.<?php endif; ?>
                   </p>
 
                   <div class="mb-3">
