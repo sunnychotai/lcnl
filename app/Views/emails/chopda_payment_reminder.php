@@ -6,6 +6,7 @@
  * @var array $registration
  * @var \Config\ChopdaPujan $config
  */
+$showBank = $config->acceptsBank() || $registration['payment_method'] !== 'card';
 ?>
 
 <p>Dear <?= esc($registration['first_name']) ?>,</p>
@@ -16,12 +17,20 @@
 </p>
 
 <p>
-    We have not yet been able to match your nyochavar on the LCNL bank statement, so your place is
-    not yet confirmed. If you have not made the transfer, the details are below &ndash; please use the
-    reference shown so we can match it.
+    We have not yet received your nyochavar, so your place is not yet confirmed. If you have not paid
+    yet, please do so by <strong><?= esc($config->closingLabel()) ?></strong>.
+</p>
+
+<?= $this->include('emails/_chopda_pay_button') ?>
+
+<?php if ($showBank): ?>
+<p>
+    <?= $config->acceptsCard() ? 'Or pay' : 'Please pay' ?> by bank transfer using the details below &ndash;
+    please use the reference shown so we can match it.
 </p>
 
 <?= $this->include('emails/_chopda_bank') ?>
+<?php endif; ?>
 
 <p>
     If you have already paid, thank you &mdash; please reply to

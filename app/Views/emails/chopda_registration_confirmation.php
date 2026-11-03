@@ -3,9 +3,14 @@
 
 <?php
 /**
+ * Sent at registration for a bank transfer, or when a card payment was started
+ * but not completed.
+ *
  * @var array $registration
  * @var \Config\ChopdaPujan $config
  */
+$isCard   = $registration['payment_method'] === 'card';
+$showBank = $config->acceptsBank() || ! $isCard;
 ?>
 
 <p>Dear <?= esc($registration['first_name']) ?>,</p>
@@ -16,13 +21,34 @@
     <strong><?= esc($config->venueLine()) ?></strong>.
 </p>
 
+<?php if ($isCard): ?>
+<p>
+    <strong>Your card payment was not completed, so your registration is pending.</strong> Please pay the
+    &pound;<?= esc(number_format((float) $registration['amount'])) ?> nyochavar by
+    <strong><?= esc($config->closingLabel()) ?></strong> to confirm your place.
+</p>
+
+<?= $this->include('emails/_chopda_pay_button') ?>
+
+<?php if ($showBank): ?>
+<p>Or, if you prefer, pay by bank transfer using the reference below so we can match it.</p>
+<?php endif; ?>
+<?php else: ?>
 <p>
     <strong>Your registration is pending until we receive your payment.</strong> Please transfer the
     &pound;<?= esc(number_format((float) $registration['amount'])) ?> nyochavar by
     <strong><?= esc($config->closingLabel()) ?></strong>, using the reference below so we can match it.
 </p>
+<?php endif; ?>
 
+<?php if ($showBank): ?>
 <?= $this->include('emails/_chopda_bank') ?>
+<?php endif; ?>
+
+<?php if (! $isCard && $config->acceptsCard()): ?>
+<p>Prefer to pay by card? Use the button below instead &ndash; there is no need to do both.</p>
+<?= $this->include('emails/_chopda_pay_button') ?>
+<?php endif; ?>
 
 <p>We will email you again once your payment has arrived to confirm your place.</p>
 

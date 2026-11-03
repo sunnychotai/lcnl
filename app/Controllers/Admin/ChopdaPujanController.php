@@ -4,7 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\ChopdaRegistrationModel;
-use App\Models\EmailQueueModel;
+use App\Services\ChopdaPaymentService;
 use Config\ChopdaPujan;
 
 /**
@@ -17,13 +17,13 @@ class ChopdaPujanController extends BaseController
 
     protected ChopdaPujan $config;
     protected ChopdaRegistrationModel $registrations;
-    protected EmailQueueModel $emails;
+    protected ChopdaPaymentService $payments;
 
     public function __construct()
     {
         $this->config        = config('ChopdaPujan');
         $this->registrations = new ChopdaRegistrationModel();
-        $this->emails        = new EmailQueueModel();
+        $this->payments      = new ChopdaPaymentService();
     }
 
     public function index()
@@ -113,7 +113,7 @@ class ChopdaPujanController extends BaseController
     /**
      * Toggle whether the transfer has been matched on the LCNL statement. The
      * first time a registration is marked paid, the registrant is told their
-     * place is confirmed.
+     * place is confirmed. Card payments are marked paid by Stripe itself.
      */
     public function togglePayment(int $id)
     {
@@ -123,28 +123,23 @@ class ChopdaPujanController extends BaseController
             return redirect()->to(self::BASE)->with('error', 'Registration not found or cancelled.');
         }
 
-        $nowPaid = empty($registration['payment_received']);
-        $data    = [
-            'payment_received'    => $nowPaid ? 1 : 0,
-            'payment_received_at' => $nowPaid ? date('Y-m-d H:i:s') : null,
-            'payment_marked_by'   => $nowPaid ? (session()->get('admin_name') ?? 'Admin') : null,
-            'status'              => $nowPaid ? 'paid' : 'registered',
-        ];
-
-        $confirmed = false;
-        if ($nowPaid && empty($registration['confirmed_sent_at'])) {
-            $this->queue($registration, 'chopda_payment_received', 'Chopda Pujan – your place is confirmed');
-            $data['confirmed_sent_at'] = date('Y-m-d H:i:s');
-            $confirmed = true;
-        }
-
-        $this->registrations->update($id, $data);
-
         $name = $registration['first_name'] . ' ' . $registration['last_name'];
 
-        return redirect()->to(self::BASE)->with('success', $nowPaid
-            ? $name . ' marked as paid.' . ($confirmed ? ' Confirmation email queued.' : '')
-            : $name . ' marked as unpaid.');
+        if (empty($registration['payment_received'])) {
+            $confirmed = $this->payments->markPaid($registration, session()->get('admin_name') ?? 'Admin');
+
+            return redirect()->to(self::BASE)
+                ->with('success', $name . ' marked as paid.' . ($confirmed ? ' Confirmation email queued.' : ''));
+        }
+
+        $this->registrations->update($id, [
+            'payment_received'    => 0,
+            'payment_received_at' => null,
+            'payment_marked_by'   => null,
+            'status'              => 'registered',
+        ]);
+
+        return redirect()->to(self::BASE)->with('success', $name . ' marked as unpaid.');
     }
 
     public function remind(int $id)
@@ -155,7 +150,7 @@ class ChopdaPujanController extends BaseController
             return redirect()->to(self::BASE)->with('error', 'Only unpaid registrations can be sent a reminder.');
         }
 
-        $this->queue($registration, 'chopda_payment_reminder', 'Chopda Pujan – payment reminder');
+        $this->payments->email($registration, 'chopda_payment_reminder', 'Chopda Pujan – payment reminder');
 
         $this->registrations->update($id, [
             'reminder_sent_at' => date('Y-m-d H:i:s'),
@@ -182,13 +177,15 @@ class ChopdaPujanController extends BaseController
         $rows = $this->registrations->orderBy('created_at', 'ASC')->findAll();
 
         return $this->csv('chopda_pujan_' . date('Ymd') . '.csv', [
-            'Ref', 'First name', 'Last name', 'Email', 'Mobile', 'Attending',
+            'Ref', 'First name', 'Last name', 'Email', 'Mobile', 'Attending', 'Payment method',
             'Payment reference', 'Said paid at registration', 'Amount', 'Payment received',
-            'Received at', 'Marked by', 'Status', 'Reminders sent', 'Comments', 'Admin notes', 'Registered at',
+            'Received at', 'Marked by', 'Stripe payment', 'Status', 'Reminders sent', 'Comments', 'Admin notes', 'Registered at',
         ], array_map(static fn(array $r): array => [
             $r['registration_ref'], $r['first_name'], $r['last_name'], $r['email'], $r['phone'], $r['num_attendees'],
+            $r['payment_method'] === 'card' ? 'Card' : 'Bank transfer',
             $r['payment_reference'], $r['payment_timing'] === 'paid' ? 'Yes' : 'No', $r['amount'],
-            $r['payment_received'] ? 'Yes' : 'No', $r['payment_received_at'], $r['payment_marked_by'], $r['status'],
+            $r['payment_received'] ? 'Yes' : 'No', $r['payment_received_at'], $r['payment_marked_by'],
+            $r['stripe_payment_intent_id'], $r['status'],
             $r['reminder_count'], $r['comments'], $r['admin_notes'], $r['created_at'],
         ], $rows));
     }
@@ -215,22 +212,6 @@ class ChopdaPujanController extends BaseController
 
         return redirect()->to(self::BASE)
             ->with('success', 'Registration ' . $registration['registration_ref'] . ' ' . $verb . '.');
-    }
-
-    private function queue(array $registration, string $view, string $subject): void
-    {
-        $html = view('emails/' . $view, ['registration' => $registration, 'config' => $this->config]);
-
-        $this->emails->enqueue([
-            'to_email'   => $registration['email'],
-            'to_name'    => $registration['first_name'] . ' ' . $registration['last_name'],
-            'subject'    => $subject,
-            'type'       => $view,
-            'related_id' => $registration['id'],
-            'body_html'  => $html,
-            'body_text'  => html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-            'priority'   => 1,
-        ]);
     }
 
     /** At most a few hundred rows, so build the file in memory and return it. */

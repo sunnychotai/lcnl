@@ -11,6 +11,7 @@ use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
 use App\Models\EmailQueueModel;
 use App\Models\MemberModel;
+use App\Services\ChopdaPaymentService;
 
 
 class StripeWebhookController extends BaseController
@@ -61,12 +62,31 @@ class StripeWebhookController extends BaseController
 
         // Process supported events
         try {
+            $object = $event->data->object;
+            $isChopda = str_starts_with($event->type, 'checkout.session.')
+                && ($object->metadata->purpose ?? '') === ChopdaPaymentService::PURPOSE;
+
             switch ($event->type) {
                 case 'checkout.session.completed':
-                    $this->handleCheckoutSessionCompleted($event->data->object);
+                    if ($isChopda) {
+                        (new ChopdaPaymentService())->fulfil($object);
+                    } else {
+                        $this->handleCheckoutSessionCompleted($object);
+                    }
                     $eventModel->where('stripe_event_id', $event->id)->set([
                         'processed_at' => date('Y-m-d H:i:s'),
                         'process_status' => 'ok',
+                    ])->update();
+                    break;
+
+                // Chopda only: email the registrant a link to finish paying.
+                case 'checkout.session.expired':
+                    if ($isChopda) {
+                        (new ChopdaPaymentService())->expired($object);
+                    }
+                    $eventModel->where('stripe_event_id', $event->id)->set([
+                        'processed_at' => date('Y-m-d H:i:s'),
+                        'process_status' => $isChopda ? 'ok' : 'ignored',
                     ])->update();
                     break;
 
@@ -135,6 +155,8 @@ class StripeWebhookController extends BaseController
         // Update payment record
         $paymentModel->update((int) $paymentRow['id'], [
             'status' => 'paid',
+            // What Stripe actually charged, in pence.
+            'amount_minor' => (int) ($sessionObject->amount_total ?? $paymentRow['amount_minor']),
             'stripe_payment_intent_id' => $paymentIntentId ?: ($paymentRow['stripe_payment_intent_id'] ?? null),
             'stripe_customer_id' => $customerId ?: ($paymentRow['stripe_customer_id'] ?? null),
             'paid_at' => date('Y-m-d H:i:s'),
