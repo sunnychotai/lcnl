@@ -127,23 +127,51 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
         </div>
       </div>
 
-      <!-- ======================= Ceremony guides ======================= -->
-      <div class="lcnl-card border-0 shadow-sm mb-4">
-        <div class="card-body p-4 text-center">
-          <h2 class="h5 fw-bold text-brand mb-1"><i class="bi bi-file-earmark-pdf me-1"></i> Ceremony guide</h2>
-          <p class="text-muted small mb-3">Follow the pooja step by step in your preferred language.</p>
-          <div class="d-flex flex-wrap justify-content-center gap-2">
-            <?php foreach ($config->documents as $label => $path): ?>
-              <?php if ($path !== '' && is_file(FCPATH . $path)): ?>
-                <a href="<?= base_url($path) ?>" class="btn btn-outline-brand" target="_blank" rel="noopener">
-                  <i class="bi bi-download me-1"></i> <?= esc($label) ?> (PDF)
-                </a>
-              <?php else: ?>
+      <div class="row g-4 mb-4">
+        <!-- ======================= Chopda sticker ======================= -->
+        <div class="col-md-6">
+          <div class="lcnl-card border-0 shadow-sm h-100">
+            <div class="card-body p-4 text-center">
+              <h2 class="h5 fw-bold text-brand mb-1"><i class="bi bi-file-earmark-pdf me-1"></i> Chopda sticker</h2>
+              <p class="text-muted small mb-3">
+                Print the page for the front of your chopda and fill in your name and address.
+              </p>
+              <div class="d-flex flex-wrap justify-content-center gap-2">
+                <?php foreach ($config->documents as $label => $path): ?>
+                  <?php if ($path !== '' && is_file(FCPATH . $path)): ?>
+                    <a href="<?= base_url($path) ?>" class="btn btn-outline-brand" target="_blank" rel="noopener">
+                      <i class="bi bi-download me-1"></i> <?= esc($label) ?> (PDF)
+                    </a>
+                  <?php else: ?>
+                    <span class="btn btn-outline-secondary disabled" aria-disabled="true">
+                      <i class="bi bi-hourglass-split me-1"></i> <?= esc($label) ?> &mdash; coming soon
+                    </span>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================= Samagri ======================= -->
+        <div class="col-md-6">
+          <div class="lcnl-card border-0 shadow-sm h-100" id="samagri">
+            <div class="card-body p-4 text-center">
+              <h2 class="h5 fw-bold text-brand mb-1"><i class="bi bi-basket me-1"></i> Pooja samagri</h2>
+              <?php if ($config->samagri === []): ?>
+                <p class="text-muted small mb-3">The samagri needed for the pooja will be listed here.</p>
                 <span class="btn btn-outline-secondary disabled" aria-disabled="true">
-                  <i class="bi bi-hourglass-split me-1"></i> <?= esc($label) ?> &mdash; coming soon
+                  <i class="bi bi-hourglass-split me-1"></i> Samagri list &mdash; coming soon
                 </span>
+              <?php else: ?>
+                <p class="text-muted small mb-3">The samagri needed for the pooja.</p>
+                <ul class="text-start mb-0">
+                  <?php foreach ($config->samagri as $item): ?>
+                    <li><?= esc($item) ?></li>
+                  <?php endforeach; ?>
+                </ul>
               <?php endif; ?>
-            <?php endforeach; ?>
+            </div>
           </div>
         </div>
       </div>

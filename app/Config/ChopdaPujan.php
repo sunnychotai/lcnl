@@ -60,13 +60,20 @@ class ChopdaPujan extends BaseConfig
     public string $flier = 'assets/img/chopda-pujan/flier-2026';
 
     /**
-     * Ceremony guides, label => path under public/. A blank path shows the
-     * button as "coming soon" until the PDF is uploaded.
+     * Chopda stickers to print for the front of the book, label => path under
+     * public/. A blank path shows the button as "coming soon" until the PDF is
+     * uploaded.
      */
     public array $documents = [
-        'English'  => '',
-        'Gujarati' => '',
+        'English'  => 'assets/documents/chopda-pujan/sticker-2026-english.pdf',
+        'Gujarati' => 'assets/documents/chopda-pujan/sticker-2026-gujarati.pdf',
     ];
+
+    /**
+     * Samagri needed for the pooja, one item per entry (e.g. '5 sopari').
+     * While empty the page says the list is coming soon.
+     */
+    public array $samagri = [];
 
     /** YouTube embed URL for the livestream; the section is hidden while blank. */
     public string $livestreamUrl = '';
