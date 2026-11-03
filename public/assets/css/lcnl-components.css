@@ -229,6 +229,33 @@ footer a:hover {
     opacity: 1;
 }
 
+/* Developer's initials after the footer copyright: a faint watermark that only
+   firms up on hover or keyboard focus. The copyright line is already at 75%
+   opacity, so these values multiply with it. */
+footer a.footer-sig {
+    margin-left: .6em;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: .8rem;
+    font-style: italic;
+    letter-spacing: .15em;
+    color: #fff;
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: .25;
+}
+
+footer a.footer-sig::before {
+    content: "·";
+    margin-right: .6em;
+    font-style: normal;
+}
+
+footer a.footer-sig:hover,
+footer a.footer-sig:focus-visible {
+    opacity: .8;
+    color: #fff;
+}
+
 .accordion-button {
     background: #f1f1f1;
     font-weight: 600;
