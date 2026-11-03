@@ -150,7 +150,7 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
 
             <div class="chopda-sticker">
               <h3><i class="bi bi-file-earmark-pdf me-1"></i> Chopda sticker</h3>
-              <p>Print it for the front of your chopda and fill in your name and address.</p>
+              <p>No need to print it. LCNL will have one ready for you.</p>
               <div class="d-flex flex-wrap gap-2">
                 <?php foreach ($config->documents as $label => $path): ?>
                   <?php if ($path !== '' && is_file(FCPATH . $path)): ?>
