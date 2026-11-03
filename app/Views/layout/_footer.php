@@ -56,6 +56,6 @@
       </div>
     </div>
 
-    <div class="text-center small mt-3 opacity-75">© <?= date('Y') ?> Lohana Community of North London</div>
+    <div class="text-center small mt-3 opacity-75">© <?= date('Y') ?> Lohana Community of North London<a href="mailto:sunny@chotai.cloud" class="footer-sig" aria-label="Website by Sunny Chotai (email)" title="Website by Sunny Chotai">SC</a></div>
   </div>
 </footer>
