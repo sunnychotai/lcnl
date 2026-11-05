@@ -1,11 +1,11 @@
 <?php
 /**
- * Home page spotlight for the Legacy 50 campaign. Shown while pledges are open.
- * Deliberately shows no progress figures.
+ * Home page spotlight for the Legacy 50 campaign. Shown while pledges are open
+ * and the cap has not been reached. Deliberately shows no progress figures.
  */
 $legacy = config('Legacy50');
 
-if (! $legacy->isOpen()) {
+if (! $legacy->isOpen() || (new \App\Models\LegacyPledgeModel())->isFull($legacy->capacity)) {
   return;
 }
 ?>

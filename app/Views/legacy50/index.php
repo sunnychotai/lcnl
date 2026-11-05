@@ -140,7 +140,7 @@ $giftAidOpen = $old('gift_aid_treat') || $old('gift_aid_taxpayer');
         <div class="mela-form-card mt-4">
           <div class="card-body p-4 p-md-5 text-center mela-closed">
             <i class="bi bi-heart-fill"></i>
-            <h2 class="h4 fw-bold mt-3">Pledges have closed</h2>
+            <h2 class="h4 fw-bold mt-3"><?= ! empty($isFull) ? 'Fully pledged' : 'Pledges have closed' ?></h2>
             <p class="text-muted mb-0"><?= esc($closedMessage) ?></p>
           </div>
         </div>

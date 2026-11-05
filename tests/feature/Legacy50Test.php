@@ -153,6 +153,28 @@ final class Legacy50Test extends CIUnitTestCase
         $this->assertStringNotContainsString('NoGiftAid', $csv);
     }
 
+    public function testPledgesStopAtTheCapAndCancelledOnesFreeAPlace(): void
+    {
+        $config           = config('Legacy50');
+        $config->capacity = 2;
+        \CodeIgniter\Config\Factories::injectMock('config', 'Legacy50', $config);
+
+        $this->pledge();
+        $this->pledge(['status' => 'cancelled']);
+        $this->assertFalse((new LegacyPledgeModel())->isFull(2));
+
+        $this->pledge();
+        $this->assertTrue((new LegacyPledgeModel())->isFull(2));
+
+        $page = $this->get('legacy50');
+        $page->assertSee('Fully pledged');
+        $page->assertSee('All pledges for this campaign have been made.');
+        $page->assertDontSee('id="pledgeForm"');
+
+        $this->post('legacy50', [])->assertRedirectTo(site_url('legacy50'));
+        $this->assertSame(3, (new LegacyPledgeModel())->countAllResults());
+    }
+
     public function testThankYouPageNeedsThePledgingSession(): void
     {
         $id = $this->pledge();

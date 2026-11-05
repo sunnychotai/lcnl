@@ -1,7 +1,10 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<?php $legacy = config('Legacy50'); ?>
+<?php
+$legacy     = config('Legacy50');
+$legacyOpen = $legacy->isOpen() && ! (new \App\Models\LegacyPledgeModel())->isFull($legacy->capacity);
+?>
 
 <!-- Hero: the Golden Jubilee. Static on purpose: the old rotating tagline
      was rarely read, and with nothing moving no pause control is needed. -->
@@ -25,7 +28,7 @@
         </p>
 
         <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-2 mt-3">
-          <?php if ($legacy->isOpen()): ?>
+          <?php if ($legacyOpen): ?>
             <a href="<?= base_url($legacy->slug) ?>" class="btn home-hero-btn rounded-pill px-4">
               <i class="bi bi-heart-fill me-2" aria-hidden="true"></i>Support the Legacy 50 appeal
             </a>

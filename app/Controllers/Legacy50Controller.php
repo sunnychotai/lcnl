@@ -276,13 +276,16 @@ class Legacy50Controller extends BaseController
 
     private function isFull(): bool
     {
-        return $this->config->capacity > 0
-            && $this->pledges->countActive() >= $this->config->capacity;
+        return $this->pledges->isFull($this->config->capacity);
     }
 
     private function closedMessage(): string
     {
-        return 'Pledges for this campaign have now closed. Thank you to everyone who took part. '
+        $lead = $this->isFull()
+            ? 'All pledges for this campaign have been made.'
+            : 'Pledges for this campaign have now closed.';
+
+        return $lead . ' Thank you to everyone who took part. '
             . 'If you would still like to give, please contact info@lcnl.org.';
     }
 
@@ -294,6 +297,7 @@ class Legacy50Controller extends BaseController
                 . 'and have your name on a commemorative plaque at the Centre.',
             'config'          => $this->config,
             'isOpen'          => $this->isOpen(),
+            'isFull'          => $this->isFull(),
             'closedMessage'   => $this->closedMessage(),
         ], $extra);
     }
