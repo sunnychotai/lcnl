@@ -39,9 +39,9 @@ class Legacy50 extends BaseConfig
 
     /**
      * Maximum pledges, or 0 for no limit. Cancelled pledges do not count.
-     * Left unlimited so the form never hints at how close the target is.
+     * Once it is reached the form closes. No count is ever shown publicly.
      */
-    public int $capacity = 0;
+    public int $capacity = 100;
 
     /** Who is told when a pledge comes in. Comma-separated in .env. */
     public array $notifyEmails = ['info@lcnl.org'];

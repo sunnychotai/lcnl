@@ -30,6 +30,12 @@ class LegacyPledgeModel extends Model
         return $this->where('status !=', 'cancelled')->countAllResults();
     }
 
+    /** True once the active pledges reach the cap (0 means no cap). */
+    public function isFull(int $capacity): bool
+    {
+        return $capacity > 0 && $this->countActive() >= $capacity;
+    }
+
     /**
      * Short reference, e.g. L50-7F3A2C. Never used to look a pledge up from
      * a public URL, so it only needs to be unique, not secret.
