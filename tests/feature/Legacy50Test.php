@@ -70,6 +70,7 @@ final class Legacy50Test extends CIUnitTestCase
             'plaque_name_submitted' => 'The Chotai Family',
             'gift_aid'              => 1,
             'house_name_number'     => '12',
+            'town'                  => 'Harrow',
             'postcode'              => 'HA2 6NG',
             'payment_reference'     => 'LCNL50 CHOTAI',
             'payment_timing'        => 'will_pay',
@@ -126,18 +127,118 @@ final class Legacy50Test extends CIUnitTestCase
         $this->assertSame('1', (string) (new LegacyPledgeModel())->find($unpaid)['reminder_count']);
     }
 
+    /** The edit form as an admin would post it unchanged, with overrides. */
+    private function editForm(int $id, array $overrides = []): array
+    {
+        $row  = (new LegacyPledgeModel())->find($id);
+        $form = array_intersect_key($row, array_flip([
+            'title', 'first_name', 'last_name', 'email', 'phone', 'plaque_name', 'payment_reference',
+            'payment_timing', 'comments', 'admin_notes', 'house_name_number', 'street', 'town', 'postcode',
+        ]));
+        $form = array_map(static fn($v) => (string) $v, $form);
+        if ($row['gift_aid']) {
+            $form['gift_aid'] = '1';
+        }
+
+        return array_merge($form, $overrides);
+    }
+
     public function testPlaqueEditKeepsTheSubmittedName(): void
     {
         $id = $this->pledge();
 
-        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", [
+        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", $this->editForm($id, [
             'plaque_name' => 'Asha  &  Raj Chotai',
             'admin_notes' => 'Confirmed by phone',
-        ])->assertRedirect();
+        ]))->assertRedirectTo('/admin/legacy50');
 
         $row = (new LegacyPledgeModel())->find($id);
         $this->assertSame('Asha & Raj Chotai', $row['plaque_name']);
         $this->assertSame('The Chotai Family', $row['plaque_name_submitted']);
+        $this->assertStringStartsWith("Confirmed by phone\n[", $row['admin_notes']);
+        $this->assertStringEndsWith('Test Admin: changed plaque name', $row['admin_notes']);
+    }
+
+    public function testAdminCanCorrectDonorDetails(): void
+    {
+        $id = $this->pledge();
+
+        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", $this->editForm($id, [
+            'title'             => 'Mrs',
+            'email'             => 'asha.chotai@example.com',
+            'payment_reference' => 'lcnl50 asha',
+            'payment_timing'    => 'paid',
+            'postcode'          => 'ha37ab',
+        ]))->assertRedirectTo('/admin/legacy50');
+
+        $row = (new LegacyPledgeModel())->find($id);
+        $this->assertSame('Mrs', $row['title']);
+        $this->assertSame('asha.chotai@example.com', $row['email']);
+        $this->assertSame('LCNL50 ASHA', $row['payment_reference']);
+        $this->assertSame('paid', $row['payment_timing']);
+        $this->assertSame('HA3 7AB', $row['postcode']);
+        $this->assertSame('pledged', $row['status']);
+        $this->assertStringContainsString('changed title, email, payment reference, payment timing, postcode', $row['admin_notes']);
+    }
+
+    public function testSavingUnchangedAddsNoNote(): void
+    {
+        $id = $this->pledge();
+
+        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", $this->editForm($id));
+
+        $this->assertNull((new LegacyPledgeModel())->find($id)['admin_notes']);
+    }
+
+    public function testTurningGiftAidOnNeedsTheDonorConfirmationAndAnAddress(): void
+    {
+        $id   = $this->pledge(['gift_aid' => 0, 'house_name_number' => null, 'town' => null, 'postcode' => null]);
+        $form = $this->editForm($id, ['gift_aid' => '1', 'house_name_number' => '4', 'town' => 'Harrow', 'postcode' => 'HA2 6NG']);
+
+        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", $form)->assertRedirect();
+        $this->assertSame('0', (string) (new LegacyPledgeModel())->find($id)['gift_aid']);
+
+        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", ['gift_aid_confirmed' => '1', 'town' => ''] + $form);
+        $this->assertSame('0', (string) (new LegacyPledgeModel())->find($id)['gift_aid']);
+
+        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", ['gift_aid_confirmed' => '1'] + $form)
+            ->assertRedirectTo('/admin/legacy50');
+
+        $row = (new LegacyPledgeModel())->find($id);
+        $this->assertSame('1', (string) $row['gift_aid']);
+        $this->assertSame('Harrow', $row['town']);
+        $this->assertNotNull($row['gift_aid_declared_at']);
+        $this->assertSame(config('Legacy50')->giftAidVersion, $row['gift_aid_version']);
+        $this->assertSame(config('Legacy50')->giftAidWording(), $row['gift_aid_wording']);
+        $this->assertStringEndsWith('Test Admin: Gift Aid turned on (declaration confirmed by donor)', $row['admin_notes']);
+    }
+
+    public function testTurningGiftAidOffClearsTheDeclarationAndAddress(): void
+    {
+        $id = $this->pledge(['gift_aid_declared_at' => '2026-10-11 09:00:00', 'gift_aid_version' => 'LCF-GA-2026-10']);
+
+        $form = $this->editForm($id);
+        unset($form['gift_aid']);
+        $this->withSession(self::ADMIN)->post("admin/legacy50/update/{$id}", $form)->assertRedirectTo('/admin/legacy50');
+
+        $row = (new LegacyPledgeModel())->find($id);
+        $this->assertSame('0', (string) $row['gift_aid']);
+        $this->assertNull($row['gift_aid_declared_at']);
+        $this->assertNull($row['house_name_number']);
+        $this->assertNull($row['postcode']);
+        $this->assertNull($row['town']);
+        $this->assertStringEndsWith('Test Admin: Gift Aid turned off', $row['admin_notes']);
+    }
+
+    public function testEditPageShowsTheWholeForm(): void
+    {
+        $id = $this->pledge(['comments' => 'Happy to help']);
+
+        $result = $this->withSession(self::ADMIN)->get("admin/legacy50/edit/{$id}");
+        $result->assertOK();
+        $result->assertSee('asha@example.com');
+        $result->assertSee('Happy to help');
+        $result->assertSee('name="gift_aid"');
     }
 
     public function testGiftAidExportListsOnlyPaidGiftAidDonors(): void

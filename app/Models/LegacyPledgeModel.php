@@ -36,6 +36,18 @@ class LegacyPledgeModel extends Model
         return $capacity > 0 && $this->countActive() >= $capacity;
     }
 
+    /** "ha26ng" → "HA2 6NG"; null if it is not a UK postcode. */
+    public static function normalisePostcode(string $raw): ?string
+    {
+        $compact = strtoupper(preg_replace('/\s+/', '', $raw));
+
+        if (! preg_match('/^[A-Z]{1,2}[0-9][A-Z0-9]?[0-9][A-Z]{2}$/', $compact)) {
+            return null;
+        }
+
+        return substr($compact, 0, -3) . ' ' . substr($compact, -3);
+    }
+
     /**
      * Short reference, e.g. L50-7F3A2C. Never used to look a pledge up from
      * a public URL, so it only needs to be unique, not secret.
