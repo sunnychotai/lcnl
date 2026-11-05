@@ -188,13 +188,13 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
         </div>
       </section>
 
-      <?php if ($config->livestreamUrl !== ''): ?>
+      <?php if ($config->livestreamEmbedUrl() !== null): ?>
         <!-- ======================= Livestream ======================= -->
         <div class="lcnl-card border-0 shadow-sm mb-4">
           <div class="card-body p-4">
             <h2 class="h5 fw-bold text-brand mb-3 text-center"><i class="bi bi-broadcast me-1"></i> Watch live</h2>
             <div class="ratio ratio-16x9">
-              <iframe src="<?= esc($config->livestreamUrl, 'attr') ?>" title="Chopda Pujan 2026 livestream"
+              <iframe src="<?= esc($config->livestreamEmbedUrl(), 'attr') ?>" title="Chopda Pujan 2026 livestream"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen loading="lazy"></iframe>
             </div>

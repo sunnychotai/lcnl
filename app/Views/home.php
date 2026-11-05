@@ -43,6 +43,8 @@ $legacyOpen = $legacy->isOpen() && ! (new \App\Models\LegacyPledgeModel())->isFu
   </div>
 </section>
 
+<?= $this->include('chopda/_home_livestream') ?>
+
 <!-- Spotlights: each partial renders one equal-width column, or nothing. -->
 <section class="container pt-4 pb-2">
   <div class="row g-4">

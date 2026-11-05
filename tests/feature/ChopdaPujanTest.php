@@ -447,4 +447,42 @@ final class ChopdaPujanTest extends CIUnitTestCase
         $this->assertSame(0, (new ChopdaRegistrationModel())->countAllResults());
         $this->assertArrayHasKey('payment_method', session('errors'));
     }
+
+    public function testLivestreamAcceptsAnyYouTubeLink(): void
+    {
+        $config = new \Config\ChopdaPujan();
+
+        foreach ([
+            'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=10s',
+            'https://youtu.be/dQw4w9WgXcQ?si=abc',
+            'https://www.youtube.com/live/dQw4w9WgXcQ?feature=share',
+            'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        ] as $url) {
+            $config->livestreamUrl = $url;
+            $this->assertSame('https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0', $config->livestreamEmbedUrl(), $url);
+            $this->assertSame('https://www.youtube.com/watch?v=dQw4w9WgXcQ', $config->livestreamWatchUrl(), $url);
+        }
+
+        $config->livestreamUrl = 'https://www.youtube.com/channel/UCabcdefghijklmnopqrstuv/live';
+        $this->assertSame('https://www.youtube.com/embed/live_stream?channel=UCabcdefghijklmnopqrstuv', $config->livestreamEmbedUrl());
+
+        foreach (['', 'https://vimeo.com/123456'] as $url) {
+            $config->livestreamUrl = $url;
+            $this->assertNull($config->livestreamEmbedUrl());
+            $this->assertNull($config->livestreamWatchUrl());
+        }
+    }
+
+    public function testLivestreamWindowIsTheConfiguredLondonTimes(): void
+    {
+        $config                  = new \Config\ChopdaPujan();
+        $config->livestreamFrom  = '2026-11-08 00:00:00';
+        $config->livestreamUntil = '2026-11-08 23:59:59';
+        $at = static fn(string $t) => new \DateTimeImmutable($t, new \DateTimeZone('Europe/London'));
+
+        $this->assertFalse($config->isLivestreamTime($at('2026-11-07 23:59:00')));
+        $this->assertTrue($config->isLivestreamTime($at('2026-11-08 00:00:00')));
+        $this->assertTrue($config->isLivestreamTime($at('2026-11-08 10:30:00')));
+        $this->assertFalse($config->isLivestreamTime($at('2026-11-09 00:00:01')));
+    }
 }
