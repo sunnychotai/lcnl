@@ -111,8 +111,20 @@ class ChopdaPujan extends BaseConfig
         'Laxmi Narayan' => 'yellow',
     ];
 
-    /** YouTube embed URL for the livestream; the section is hidden while blank. */
+    /**
+     * YouTube livestream, from .env `chopda.livestreamUrl`. Any normal YouTube
+     * link works (watch, youtu.be, /live/, /embed/, or a channel's /live page);
+     * livestreamEmbedUrl() turns it into a player URL. Hidden while blank.
+     */
     public string $livestreamUrl = '';
+
+    /**
+     * When the home page "Watch live" panel shows on the live site
+     * (Europe/London). Outside production it always shows, so it can be
+     * previewed before the day.
+     */
+    public string $livestreamFrom  = '2026-11-08 00:00:00';
+    public string $livestreamUntil = '2026-11-08 23:59:59';
 
     /**
      * Payment methods offered on the form. Card also needs the Stripe keys and
@@ -144,7 +156,9 @@ class ChopdaPujan extends BaseConfig
         $this->closingDate   = (string) env('chopda.closingDate', $this->closingDate);
         $this->capacity      = (int) env('chopda.capacity', $this->capacity);
         $this->fee           = (int) env('chopda.fee', $this->fee);
-        $this->livestreamUrl = (string) env('chopda.livestreamUrl', $this->livestreamUrl);
+        $this->livestreamUrl   = trim((string) env('chopda.livestreamUrl', $this->livestreamUrl));
+        $this->livestreamFrom  = (string) env('chopda.livestreamFrom', $this->livestreamFrom);
+        $this->livestreamUntil = (string) env('chopda.livestreamUntil', $this->livestreamUntil);
         $this->cardPayments  = (bool) env('chopda.cardPayments', $this->cardPayments);
         $this->bankTransfer  = (bool) env('chopda.bankTransfer', $this->bankTransfer);
 
@@ -192,6 +206,63 @@ class ChopdaPujan extends BaseConfig
     public function isUpcoming(?\DateTimeInterface $now = null): bool
     {
         return $this->now($now) <= $this->endOf($this->eventDate);
+    }
+
+    /** True while the home page should carry the livestream (production rules). */
+    public function isLivestreamTime(?\DateTimeInterface $now = null): bool
+    {
+        $tz  = new \DateTimeZone('Europe/London');
+        $now = $this->now($now);
+
+        return $now >= new \DateTimeImmutable($this->livestreamFrom, $tz)
+            && $now <= new \DateTimeImmutable($this->livestreamUntil, $tz);
+    }
+
+    /** Player URL for the iframe, or null if the configured link isn't a YouTube one we understand. */
+    public function livestreamEmbedUrl(): ?string
+    {
+        if ($channel = $this->youtubeChannel()) {
+            return 'https://www.youtube.com/embed/live_stream?channel=' . $channel;
+        }
+
+        $id = $this->youtubeVideoId();
+
+        return $id !== null ? 'https://www.youtube-nocookie.com/embed/' . $id . '?rel=0' : null;
+    }
+
+    /** Link to open the stream on YouTube itself (the app, chat, casting to a TV). */
+    public function livestreamWatchUrl(): ?string
+    {
+        if ($channel = $this->youtubeChannel()) {
+            return 'https://www.youtube.com/channel/' . $channel . '/live';
+        }
+
+        $id = $this->youtubeVideoId();
+
+        return $id !== null ? 'https://www.youtube.com/watch?v=' . $id : null;
+    }
+
+    private function youtubeVideoId(): ?string
+    {
+        $patterns = [
+            '~youtu\.be/([A-Za-z0-9_-]{11})~',
+            '~youtube(?:-nocookie)?\.com/(?:embed|live|shorts|v)/([A-Za-z0-9_-]{11})~',
+            '~youtube\.com/.*[?&]v=([A-Za-z0-9_-]{11})~',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $this->livestreamUrl, $m)) {
+                return $m[1];
+            }
+        }
+
+        return null;
+    }
+
+    private function youtubeChannel(): ?string
+    {
+        return preg_match('~youtube\.com/(?:channel/(UC[A-Za-z0-9_-]{22})/live|embed/live_stream\?channel=(UC[A-Za-z0-9_-]{22}))~',
+            $this->livestreamUrl, $m) ? ($m[1] ?: $m[2]) : null;
     }
 
     public function eventLabel(): string
