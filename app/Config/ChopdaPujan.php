@@ -36,7 +36,7 @@ class ChopdaPujan extends BaseConfig
     public int $maxAttendees = 15;
 
     /** Maximum poojas (registrations), or 0 for no limit. Cancelled ones do not count. */
-    public int $capacity = 100;
+    public int $capacity = 75;
 
     /** Who is told when someone registers. Comma-separated in .env. */
     public array $notifyEmails = ['info@lcnl.org'];
