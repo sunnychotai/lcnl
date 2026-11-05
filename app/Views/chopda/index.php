@@ -208,7 +208,7 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
         <div class="mela-form-card mt-4">
           <div class="card-body p-4 p-md-5 text-center mela-closed">
             <i class="bi bi-journal-check"></i>
-            <h2 class="h4 fw-bold mt-3">Registration has closed</h2>
+            <h2 class="h4 fw-bold mt-3"><?= ! empty($isFull) ? 'Fully booked' : 'Registration has closed' ?></h2>
             <p class="text-muted mb-0"><?= esc($closedMessage) ?></p>
           </div>
         </div>
