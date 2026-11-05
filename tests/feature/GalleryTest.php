@@ -46,9 +46,17 @@ final class GalleryTest extends CIUnitTestCase
 
         $forge = \Config\Database::forge($this->DBGroup);
 
-        foreach (['gallery_photos', 'gallery_albums', 'events', 'event_registrations'] as $table) {
+        foreach (['gallery_photos', 'gallery_albums', 'events', 'event_registrations', 'legacy_pledges', 'chopda_registrations'] as $table) {
             $forge->dropTable($table, true);
         }
+
+        // The home page banners count Legacy 50 pledges and Chopda registrations.
+        require_once APPPATH . 'Database/Migrations/2026-10-10-120000_CreateLegacyPledges.php';
+        (new \App\Database\Migrations\CreateLegacyPledges($forge))->up();
+        require_once APPPATH . 'Database/Migrations/2026-10-23-120000_CreateChopdaRegistrations.php';
+        (new \App\Database\Migrations\CreateChopdaRegistrations($forge))->up();
+        require_once APPPATH . 'Database/Migrations/2026-10-24-090000_AddCardPaymentToChopdaRegistrations.php';
+        (new \App\Database\Migrations\AddCardPaymentToChopdaRegistrations($forge))->up();
 
         require_once APPPATH . 'Database/Migrations/2026-10-14-120000_CreateGalleryAlbums.php';
         require_once APPPATH . 'Database/Migrations/2026-10-14-120001_CreateGalleryPhotos.php';
