@@ -198,6 +198,9 @@ $flier = static fn(int $w): string => base_url($config->flier . '-' . $w . '.web
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen loading="lazy"></iframe>
             </div>
+            <div class="chopda-live-status-light mt-3">
+              <?= $this->include('chopda/_livestream_status') ?>
+            </div>
           </div>
         </div>
       <?php endif; ?>
