@@ -125,7 +125,7 @@ class Legacy50Controller extends BaseController
             $errors['payment_reference'] = 'Please use only letters, numbers, spaces and hyphens in your payment reference.';
         }
 
-        $postcode = $giftAid ? $this->normalisePostcode((string) ($post['postcode'] ?? '')) : null;
+        $postcode = $giftAid ? LegacyPledgeModel::normalisePostcode((string) ($post['postcode'] ?? '')) : null;
         if ($giftAid && ! isset($errors['postcode']) && $postcode === null) {
             $errors['postcode'] = 'Please enter a valid UK postcode.';
         }
@@ -251,18 +251,6 @@ class Legacy50Controller extends BaseController
     /* =====================================================================
        Helpers
     ===================================================================== */
-
-    /** "ha26ng" → "HA2 6NG"; null if it is not a UK postcode. */
-    private function normalisePostcode(string $raw): ?string
-    {
-        $compact = strtoupper(preg_replace('/\s+/', '', $raw));
-
-        if (! preg_match('/^[A-Z]{1,2}[0-9][A-Z0-9]?[0-9][A-Z]{2}$/', $compact)) {
-            return null;
-        }
-
-        return substr($compact, 0, -3) . ' ' . substr($compact, -3);
-    }
 
     private function url(string $suffix = ''): string
     {

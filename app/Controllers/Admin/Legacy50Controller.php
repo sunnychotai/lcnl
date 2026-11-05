@@ -86,7 +86,15 @@ class Legacy50Controller extends BaseController
         ]);
     }
 
-    /** Admins can tidy the plaque wording and keep notes; nothing else is editable. */
+    /**
+     * Correct anything the donor submitted. Payment and status keep their own
+     * buttons, the amount is fixed, and the donor-submitted plaque name is kept.
+     *
+     * Turning Gift Aid on records a declaration the donor made to an admin
+     * (by phone, email or in person), so the admin must confirm that it was made.
+     * Every save appends a dated line to the admin notes naming who changed
+     * what, which gives a record HMRC can see for any Gift Aid change.
+     */
     public function update(int $id)
     {
         $pledge = $this->pledges->find($id);
@@ -95,21 +103,132 @@ class Legacy50Controller extends BaseController
             return redirect()->to(self::BASE)->with('error', 'Pledge not found.');
         }
 
+        $post    = $this->request->getPost();
+        $giftAid = ! empty($post['gift_aid']);
+        $turnOn  = $giftAid && ! $pledge['gift_aid'];
+
         $rules = [
-            'plaque_name' => 'required|trim|max_length[' . $this->config->plaqueMaxLength . ']',
-            'admin_notes' => 'permit_empty|trim|max_length[5000]',
+            'title'             => 'permit_empty|in_list[' . implode(',', $this->config->titles) . ']',
+            'first_name'        => 'required|trim|max_length[100]',
+            'last_name'         => 'required|trim|max_length[100]',
+            'email'             => 'required|trim|valid_email|max_length[255]',
+            'phone'             => 'required|trim|min_length[7]|max_length[30]',
+            'plaque_name'       => 'required|trim|max_length[' . $this->config->plaqueMaxLength . ']',
+            'payment_reference' => 'required|trim|max_length[' . $this->config->paymentReferenceMaxLength . ']',
+            'payment_timing'    => 'required|in_list[paid,will_pay]',
+            'comments'          => 'permit_empty|trim|max_length[2000]',
+            'admin_notes'       => 'permit_empty|trim|max_length[5000]',
         ];
 
-        if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        if ($giftAid) {
+            $rules += [
+                'house_name_number' => 'required|trim|max_length[100]',
+                'street'            => 'permit_empty|trim|max_length[150]',
+                'town'              => 'required|trim|max_length[100]',
+                'postcode'          => 'required|trim|max_length[10]',
+            ];
         }
 
-        $this->pledges->update($id, [
-            'plaque_name' => trim(preg_replace('/\s+/u', ' ', $this->request->getPost('plaque_name'))),
-            'admin_notes' => $this->request->getPost('admin_notes') ?: null,
+        $valid  = $this->validate($rules, [
+            'house_name_number' => ['required' => 'Gift Aid needs the house name or number.'],
+            'town'              => ['required' => 'Gift Aid needs the town or city.'],
+            'postcode'          => ['required' => 'Gift Aid needs the postcode.'],
         ]);
+        $errors = $valid ? [] : $this->validator->getErrors();
+
+        $reference = trim(preg_replace('/\s+/', ' ', (string) ($post['payment_reference'] ?? '')));
+        if (! isset($errors['payment_reference']) && ! preg_match('/^[A-Za-z0-9 \-]+$/', $reference)) {
+            $errors['payment_reference'] = 'The payment reference can only use letters, numbers, spaces and hyphens.';
+        }
+
+        $postcode = $giftAid ? LegacyPledgeModel::normalisePostcode((string) ($post['postcode'] ?? '')) : null;
+        if ($giftAid && ! isset($errors['postcode']) && $postcode === null) {
+            $errors['postcode'] = 'Please enter a valid UK postcode.';
+        }
+
+        if ($turnOn && empty($post['gift_aid_confirmed'])) {
+            $errors['gift_aid_confirmed'] = 'To add Gift Aid, confirm that the donor has made the Gift Aid declaration.';
+        }
+
+        if ($errors !== []) {
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+
+        $trim = static fn(string $key): ?string => ($v = trim((string) ($post[$key] ?? ''))) !== '' ? $v : null;
+
+        $data = [
+            'title'             => $trim('title'),
+            'first_name'        => $trim('first_name'),
+            'last_name'         => $trim('last_name'),
+            'email'             => $trim('email'),
+            'phone'             => $trim('phone'),
+            'plaque_name'       => trim(preg_replace('/\s+/u', ' ', $post['plaque_name'])),
+            'payment_reference' => strtoupper($reference),
+            'payment_timing'    => $post['payment_timing'],
+            'comments'          => $trim('comments'),
+            'gift_aid'          => $giftAid ? 1 : 0,
+            // The address is held only for HMRC, so it goes when Gift Aid does.
+            'house_name_number' => $giftAid ? $trim('house_name_number') : null,
+            'street'            => $giftAid ? $trim('street') : null,
+            'town'              => $giftAid ? $trim('town') : null,
+            'postcode'          => $postcode,
+        ];
+
+        if ($turnOn) {
+            $data += [
+                'gift_aid_declared_at' => date('Y-m-d H:i:s'),
+                'gift_aid_version'     => $this->config->giftAidVersion,
+                'gift_aid_wording'     => $this->config->giftAidWording(),
+            ];
+        } elseif (! $giftAid) {
+            $data += ['gift_aid_declared_at' => null, 'gift_aid_version' => null, 'gift_aid_wording' => null];
+        }
+
+        $notes = $trim('admin_notes');
+        $log   = $this->changeLog($pledge, $data);
+        if ($log !== null) {
+            $notes = ($notes !== null ? $notes . "\n" : '') . $log;
+        }
+        $data['admin_notes'] = $notes !== null ? mb_substr($notes, -5000) : null;
+
+        $this->pledges->update($id, $data);
 
         return redirect()->to(self::BASE)->with('success', 'Pledge ' . $pledge['pledge_ref'] . ' updated.');
+    }
+
+    /** "[5 Nov 2026 14:02] Sunny: Gift Aid turned on; changed email, postcode", or null if nothing changed. */
+    private function changeLog(array $before, array $after): ?string
+    {
+        $labels = [
+            'title' => 'title', 'first_name' => 'first name', 'last_name' => 'last name',
+            'email' => 'email', 'phone' => 'mobile', 'plaque_name' => 'plaque name',
+            'payment_reference' => 'payment reference', 'payment_timing' => 'payment timing',
+            'comments' => 'comments', 'house_name_number' => 'house name/number',
+            'street' => 'street', 'town' => 'town', 'postcode' => 'postcode',
+        ];
+
+        $changed = [];
+        foreach ($labels as $field => $label) {
+            if ((string) ($before[$field] ?? '') !== (string) ($after[$field] ?? '')) {
+                $changed[] = $label;
+            }
+        }
+
+        $parts = [];
+        if ((bool) $before['gift_aid'] !== (bool) $after['gift_aid']) {
+            $parts[] = $after['gift_aid'] ? 'Gift Aid turned on (declaration confirmed by donor)' : 'Gift Aid turned off';
+            // The address follows Gift Aid, so don't list it twice.
+            $changed = array_diff($changed, ['house name/number', 'street', 'town', 'postcode']);
+        }
+        if ($changed !== []) {
+            $parts[] = 'changed ' . implode(', ', $changed);
+        }
+
+        if ($parts === []) {
+            return null;
+        }
+
+        return '[' . date('j M Y H:i') . '] ' . (session()->get('admin_name') ?? 'Admin') . ': ' . implode('; ', $parts);
     }
 
     /**
