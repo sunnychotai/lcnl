@@ -50,7 +50,7 @@ $chopdaImg  = static fn(int $w): string => base_url($chopda->flier . '-' . $w . 
             <?php if ($chopdaOpen): ?>
               Registration closes <?= esc($chopda->closingLabel()) ?>
             <?php elseif ($chopdaFull): ?>
-              All poojas are now booked
+              All poojas are booked
             <?php else: ?>
               Online registration has closed
             <?php endif; ?>

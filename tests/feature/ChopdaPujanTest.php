@@ -220,7 +220,7 @@ final class ChopdaPujanTest extends CIUnitTestCase
 
         $page = $this->get('chopda-pujan');
         $page->assertSee('Fully booked');
-        $page->assertSee('All 2 poojas');
+        $page->assertSee('All poojas for Chopda Pujan are booked.');
         $this->post('chopda-pujan', $this->form())->assertRedirectTo(site_url('chopda-pujan'));
         $this->assertSame(3, (new ChopdaRegistrationModel())->countAllResults());
     }
