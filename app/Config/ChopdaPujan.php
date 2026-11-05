@@ -35,8 +35,8 @@ class ChopdaPujan extends BaseConfig
     /** Upper bound for the attendee count on one registration (breakfast numbers). */
     public int $maxAttendees = 15;
 
-    /** Maximum registrations, or 0 for no limit. Cancelled ones do not count. */
-    public int $capacity = 0;
+    /** Maximum poojas (registrations), or 0 for no limit. Cancelled ones do not count. */
+    public int $capacity = 100;
 
     /** Who is told when someone registers. Comma-separated in .env. */
     public array $notifyEmails = ['info@lcnl.org'];

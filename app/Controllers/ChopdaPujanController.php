@@ -300,7 +300,11 @@ class ChopdaPujanController extends BaseController
 
     private function closedMessage(): string
     {
-        return 'Online registration for Chopda Pujan has now closed. To ask about a place, please call '
+        $lead = $this->isFull()
+            ? 'All ' . $this->config->capacity . ' poojas for Chopda Pujan are now booked.'
+            : 'Online registration for Chopda Pujan has now closed.';
+
+        return $lead . ' To ask about a place, please call '
             . implode(' or ', array_map(
                 static fn(array $c): string => $c['name'] . ' on ' . $c['phone'],
                 $this->config->contacts
@@ -316,6 +320,7 @@ class ChopdaPujanController extends BaseController
             'methods'         => $this->config->paymentMethods(),
             'config'          => $this->config,
             'isOpen'          => $this->isOpen(),
+            'isFull'          => $this->isFull(),
             'closedMessage'   => $this->closedMessage(),
         ], $extra);
     }

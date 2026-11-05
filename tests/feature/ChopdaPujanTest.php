@@ -209,6 +209,22 @@ final class ChopdaPujanTest extends CIUnitTestCase
         $this->assertSame(0, (new ChopdaRegistrationModel())->countAllResults());
     }
 
+    public function testRegistrationStopsAtTheCapacityAndCancelledOnesFreeAPlace(): void
+    {
+        $this->setConfig('ChopdaPujan', ['capacity' => 2]);
+        $this->registration();
+        $this->registration(['status' => 'cancelled']);
+
+        // One cancelled registration does not hold a place, so one more fits.
+        $this->post('chopda-pujan', $this->form())->assertRedirectTo(site_url('chopda-pujan/thank-you'));
+
+        $page = $this->get('chopda-pujan');
+        $page->assertSee('Fully booked');
+        $page->assertSee('All 2 poojas');
+        $this->post('chopda-pujan', $this->form())->assertRedirectTo(site_url('chopda-pujan'));
+        $this->assertSame(3, (new ChopdaRegistrationModel())->countAllResults());
+    }
+
     public function testThankYouPageNeedsTheRegisteringSession(): void
     {
         $id = $this->registration();

@@ -11,7 +11,9 @@ if (! $chopda->isUpcoming()) {
   return;
 }
 
-$chopdaOpen = $chopda->isOpen();
+$chopdaFull = $chopda->capacity > 0
+  && (new \App\Models\ChopdaRegistrationModel())->countActive() >= $chopda->capacity;
+$chopdaOpen = $chopda->isOpen() && ! $chopdaFull;
 $chopdaImg  = static fn(int $w): string => base_url($chopda->flier . '-' . $w . '.webp');
 ?>
 <div class="col-lg">
@@ -47,6 +49,8 @@ $chopdaImg  = static fn(int $w): string => base_url($chopda->flier . '-' . $w . 
           <p class="small chopda-banner-note mt-2 mb-0">
             <?php if ($chopdaOpen): ?>
               Registration closes <?= esc($chopda->closingLabel()) ?>
+            <?php elseif ($chopdaFull): ?>
+              All poojas are now booked
             <?php else: ?>
               Online registration has closed
             <?php endif; ?>
