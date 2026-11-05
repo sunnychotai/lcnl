@@ -473,16 +473,21 @@ final class ChopdaPujanTest extends CIUnitTestCase
         }
     }
 
-    public function testLivestreamWindowIsTheConfiguredLondonTimes(): void
+    public function testLivestreamNoticeAndRefreshTimes(): void
     {
-        $config                  = new \Config\ChopdaPujan();
-        $config->livestreamFrom  = '2026-11-08 00:00:00';
-        $config->livestreamUntil = '2026-11-08 23:59:59';
+        $config                      = new \Config\ChopdaPujan();
+        $config->livestreamStart     = '2026-11-08 09:00:00';
+        $config->livestreamRefreshAt = ['2026-11-08 10:00:00', '2026-11-08 09:00:00'];
         $at = static fn(string $t) => new \DateTimeImmutable($t, new \DateTimeZone('Europe/London'));
 
-        $this->assertFalse($config->isLivestreamTime($at('2026-11-07 23:59:00')));
-        $this->assertTrue($config->isLivestreamTime($at('2026-11-08 00:00:00')));
-        $this->assertTrue($config->isLivestreamTime($at('2026-11-08 10:30:00')));
-        $this->assertFalse($config->isLivestreamTime($at('2026-11-09 00:00:01')));
+        $this->assertSame('9am on Sunday 8 November', $config->livestreamStartLabel());
+        $this->assertFalse($config->livestreamStarted($at('2026-11-08 08:59:59')));
+        $this->assertTrue($config->livestreamStarted($at('2026-11-08 09:00:00')));
+
+        $nine = $at('2026-11-08 09:00:00')->getTimestamp() * 1000;
+        $ten  = $at('2026-11-08 10:00:00')->getTimestamp() * 1000;
+        $this->assertSame([$nine => '9am', $ten => '10am'], $config->livestreamRefreshTimes($at('2026-11-07 12:00:00')));
+        $this->assertSame([$ten => '10am'], $config->livestreamRefreshTimes($at('2026-11-08 09:00:00')));
+        $this->assertSame([], $config->livestreamRefreshTimes($at('2026-11-08 10:00:00')));
     }
 }

@@ -2,21 +2,18 @@
 /**
  * Home page "Watch live" panel for the Chopda Pujan YouTube stream.
  *
- * Live site: shown only between ChopdaPujan::$livestreamFrom and
- * $livestreamUntil, and only once chopda.livestreamUrl is set in .env.
- * Everywhere else it always shows, as a preview, with a placeholder player
- * while the URL is missing.
+ * Shown whenever chopda.livestreamUrl in .env is a YouTube link; clear it to
+ * take the panel down. Outside production it also shows without one, with a
+ * placeholder player, so it can be previewed.
  */
 $chopda  = config('ChopdaPujan');
 $preview = ENVIRONMENT !== 'production';
 $embed   = $chopda->livestreamEmbedUrl();
 $watch   = $chopda->livestreamWatchUrl();
 
-if (! $preview && ($embed === null || ! $chopda->isLivestreamTime())) {
+if (! $preview && $embed === null) {
   return;
 }
-
-$fmt = static fn(string $dt): string => (new DateTimeImmutable($dt, new DateTimeZone('Europe/London')))->format('D j M H:i');
 ?>
 <section class="container pt-4" aria-labelledby="chopdaLiveTitle">
   <div class="chopda-live">
@@ -48,6 +45,8 @@ $fmt = static fn(string $dt): string => (new DateTimeImmutable($dt, new DateTime
           <h2 id="chopdaLiveTitle" class="chopda-banner-title">Chopda Pujan 2026</h2>
           <p class="chopda-banner-tagline mb-3">Join the blessings for the new year from wherever you are</p>
 
+          <?= $this->include('chopda/_livestream_status') ?>
+
           <ul class="chopda-banner-facts">
             <li><i class="bi bi-calendar-event" aria-hidden="true"></i><span><strong><?= esc($chopda->eventLabel()) ?></strong></span></li>
             <li><i class="bi bi-clock" aria-hidden="true"></i><span>Pooja <?= esc($chopda->poojaTimes) ?></span></li>
@@ -66,12 +65,6 @@ $fmt = static fn(string $dt): string => (new DateTimeImmutable($dt, new DateTime
             <?php endif; ?>
           </div>
 
-          <?php if ($preview): ?>
-            <p class="chopda-live-preview mt-3 mb-0">
-              <i class="bi bi-eye me-1" aria-hidden="true"></i>
-              Preview &mdash; on the live site this shows <?= esc($fmt($chopda->livestreamFrom)) ?> to <?= esc($fmt($chopda->livestreamUntil)) ?>
-            </p>
-          <?php endif; ?>
         </div>
       </div>
 

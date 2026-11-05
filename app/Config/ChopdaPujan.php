@@ -118,13 +118,15 @@ class ChopdaPujan extends BaseConfig
      */
     public string $livestreamUrl = '';
 
+    /** When the stream goes live (Europe/London); "starts at" notice shows until then. */
+    public string $livestreamStart = '2026-11-08 09:00:00';
+
     /**
-     * When the home page "Watch live" panel shows on the live site
-     * (Europe/London). Outside production it always shows, so it can be
-     * previewed before the day.
+     * Pages showing the stream reload themselves at these times
+     * (Europe/London), so viewers pick up the stream, or a swapped link,
+     * without pressing refresh.
      */
-    public string $livestreamFrom  = '2026-11-08 00:00:00';
-    public string $livestreamUntil = '2026-11-08 23:59:59';
+    public array $livestreamRefreshAt = ['2026-11-08 09:00:00', '2026-11-08 10:00:00'];
 
     /**
      * Payment methods offered on the form. Card also needs the Stripe keys and
@@ -156,9 +158,7 @@ class ChopdaPujan extends BaseConfig
         $this->closingDate   = (string) env('chopda.closingDate', $this->closingDate);
         $this->capacity      = (int) env('chopda.capacity', $this->capacity);
         $this->fee           = (int) env('chopda.fee', $this->fee);
-        $this->livestreamUrl   = trim((string) env('chopda.livestreamUrl', $this->livestreamUrl));
-        $this->livestreamFrom  = (string) env('chopda.livestreamFrom', $this->livestreamFrom);
-        $this->livestreamUntil = (string) env('chopda.livestreamUntil', $this->livestreamUntil);
+        $this->livestreamUrl = trim((string) env('chopda.livestreamUrl', $this->livestreamUrl));
         $this->cardPayments  = (bool) env('chopda.cardPayments', $this->cardPayments);
         $this->bankTransfer  = (bool) env('chopda.bankTransfer', $this->bankTransfer);
 
@@ -208,14 +208,51 @@ class ChopdaPujan extends BaseConfig
         return $this->now($now) <= $this->endOf($this->eventDate);
     }
 
-    /** True while the home page should carry the livestream (production rules). */
-    public function isLivestreamTime(?\DateTimeInterface $now = null): bool
+    public function livestreamStarted(?\DateTimeInterface $now = null): bool
     {
-        $tz  = new \DateTimeZone('Europe/London');
-        $now = $this->now($now);
+        return $this->now($now) >= $this->london($this->livestreamStart);
+    }
 
-        return $now >= new \DateTimeImmutable($this->livestreamFrom, $tz)
-            && $now <= new \DateTimeImmutable($this->livestreamUntil, $tz);
+    /** "9am on Sunday 8 November" */
+    public function livestreamStartLabel(): string
+    {
+        $start = $this->london($this->livestreamStart);
+
+        return $this->clock($start) . ' on ' . $start->format('l j F');
+    }
+
+    /**
+     * Refresh times still to come, as [Unix milliseconds => "9am"]. The
+     * browser compares against its own clock in UTC, so a visitor's time zone
+     * doesn't matter.
+     *
+     * @return array<int, string>
+     */
+    public function livestreamRefreshTimes(?\DateTimeInterface $now = null): array
+    {
+        $now   = $this->now($now);
+        $times = [];
+
+        foreach ($this->livestreamRefreshAt as $at) {
+            $t = $this->london($at);
+            if ($t > $now) {
+                $times[$t->getTimestamp() * 1000] = $this->clock($t);
+            }
+        }
+        ksort($times);
+
+        return $times;
+    }
+
+    private function london(string $dt): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable($dt, new \DateTimeZone('Europe/London'));
+    }
+
+    /** "9am", or "9:30am" when it isn't on the hour. */
+    private function clock(\DateTimeInterface $t): string
+    {
+        return $t->format($t->format('i') === '00' ? 'ga' : 'g:ia');
     }
 
     /** Player URL for the iframe, or null if the configured link isn't a YouTube one we understand. */
