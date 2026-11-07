@@ -1,9 +1,10 @@
 <?php
 /**
- * "The live stream starts at 9am…" notice plus the auto-refresh, for any
+ * "The live stream will start soon" notice plus the auto-refresh, for any
  * page that shows the Chopda Pujan player.
  *
- * Until ChopdaPujan::$livestreamStart it tells people when to come back. The
+ * Until ChopdaPujan::$livestreamStart it tells people to keep refreshing; it
+ * deliberately doesn't say what time the stream starts. The
  * page reloads itself at each of $livestreamRefreshAt, so anyone who leaves it
  * open picks up the stream (or a newly swapped link) without doing anything.
  */
@@ -14,7 +15,7 @@ $refreshes = $chopda->livestreamRefreshTimes();
   <div class="chopda-live-notice" role="status">
     <i class="bi bi-broadcast" aria-hidden="true"></i>
     <div>
-      <strong>The live stream will start at <?= esc($chopda->livestreamStartLabel()) ?>.</strong>
+      <strong>The live stream will start soon.</strong>
       <span class="d-block">Keep refreshing this page.</span>
     </div>
   </div>
