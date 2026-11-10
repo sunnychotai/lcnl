@@ -43,7 +43,7 @@ $legacyOpen = $legacy->isOpen() && ! (new \App\Models\LegacyPledgeModel())->isFu
   </div>
 </section>
 
-<?= $this->include('chopda/_home_livestream') ?>
+<?= $this->include('events/_diwali_home_banner') ?>
 
 <!-- Spotlights: each partial renders one equal-width column, or nothing. -->
 <section class="container pt-4 pb-2">
@@ -52,7 +52,6 @@ $legacyOpen = $legacy->isOpen() && ! (new \App\Models\LegacyPledgeModel())->isFu
     <?= $this->include('partials/_media_spotlight') ?>
   </div>
 </section>
-<?= $this->include('events/_diwali_home_banner') ?>
 <?= $this->include('legacy50/_home_banner') ?>
 
 <!-- Explore LCNL: the main routes into the site, one row on desktop. -->
