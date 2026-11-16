@@ -14,6 +14,7 @@ $pages = [
     'membership/register' => ['monthly', '0.7'],
     'legacy50'            => ['weekly',  '0.9'],
     'chopda-pujan'        => ['weekly',  '0.9'],
+    'christmas-mehfil'    => ['weekly',  '0.9'],
     'navratri'            => ['daily',   '0.9'],
     'aboutus'             => ['monthly', '0.7'],
     'committee'           => ['monthly', '0.7'],

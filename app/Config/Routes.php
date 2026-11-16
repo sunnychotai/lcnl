@@ -112,6 +112,19 @@ $routes->get($chopdaSlug . '/pay/(:segment)', 'ChopdaPujanController::pay/$1');
 $routes->get($chopdaSlug . '/paid', 'ChopdaPujanController::paid');
 
 /* =========================================================
+   CHRISTMAS MEHFIL 2026 (PUBLIC)
+
+   Ticket bookings paid by bank transfer within 48 hours; no card payment.
+   The thank-you page reads the booking from the session, never from the URL.
+========================================================= */
+
+$mehfilSlug = config('ChristmasMehfil')->slug;
+
+$routes->get($mehfilSlug, 'ChristmasMehfilController::index');
+$routes->post($mehfilSlug, 'ChristmasMehfilController::submit');
+$routes->get($mehfilSlug . '/thank-you', 'ChristmasMehfilController::thankYou');
+
+/* =========================================================
    NAVRATRI FESTIVAL 2026 (PUBLIC)
 ========================================================= */
 
@@ -378,6 +391,24 @@ $routes->group('admin/chopda-pujan', [
     $routes->post('cancel/(:num)', 'Admin\ChopdaPujanController::cancel/$1');
     $routes->post('reinstate/(:num)', 'Admin\ChopdaPujanController::reinstate/$1');
     $routes->get('export', 'Admin\ChopdaPujanController::export');
+});
+
+
+/* =========================================================
+   ADMIN CHRISTMAS MEHFIL BOOKINGS
+========================================================= */
+
+$routes->group('admin/christmas-mehfil', [
+    'filter' => 'authAdmin:ADMIN,EVENTS'
+], function ($routes) {
+    $routes->get('/', 'Admin\ChristmasMehfilController::index');
+    $routes->get('edit/(:num)', 'Admin\ChristmasMehfilController::edit/$1');
+    $routes->post('update/(:num)', 'Admin\ChristmasMehfilController::update/$1');
+    $routes->post('payment/(:num)', 'Admin\ChristmasMehfilController::togglePayment/$1');
+    $routes->post('remind/(:num)', 'Admin\ChristmasMehfilController::remind/$1');
+    $routes->post('cancel/(:num)', 'Admin\ChristmasMehfilController::cancel/$1');
+    $routes->post('reinstate/(:num)', 'Admin\ChristmasMehfilController::reinstate/$1');
+    $routes->get('export', 'Admin\ChristmasMehfilController::export');
 });
 
 

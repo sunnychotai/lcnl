@@ -3238,3 +3238,364 @@
 .home-join-link:hover {
     text-decoration: underline;
 }
+
+/* =========================================================================
+   CHRISTMAS MEHFIL 2026
+   Reuses the .mela-* form components, the Chopda flier and the Legacy 50
+   eyebrow and button. These rules add the price bands, the order summary,
+   the 48-hour warning and the full-width home page feature. Warning text
+   (#7a1414 on #fdecea) is 9.6:1; greyed price bands stay above 4.5:1.
+   ========================================================================= */
+
+.xmas-panel {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-top: 4px solid #1f6b3a;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+.xmas-instore {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: .75rem 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.xmas-instore li {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+}
+
+.xmas-instore i {
+    color: #1f6b3a;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.xmas-note {
+    background: color-mix(in srgb, var(--accent1) 10%, #fff);
+    border: 1px solid color-mix(in srgb, var(--accent1) 40%, transparent);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+}
+
+.xmas-note h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: .4rem;
+}
+
+/* --- Price bands: the one in force is highlighted, the other greyed --- */
+.xmas-prices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.xmas-band {
+    background: #fff;
+    border: 2px solid #e4dde0;
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+}
+
+.xmas-band ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.xmas-band li + li {
+    margin-top: .3rem;
+}
+
+.xmas-band .amt {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--brand);
+    margin-right: .25rem;
+}
+
+.xmas-band-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
+
+.xmas-band-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.xmas-band-badge {
+    background: #1f6b3a;
+    color: #fff;
+    border-radius: 999px;
+    padding: .1rem .65rem;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.xmas-band-when {
+    font-size: .85rem;
+    color: #5f5a62;
+    margin: .1rem 0 .6rem;
+}
+
+.xmas-band.is-current {
+    border-color: var(--accent1);
+    background: color-mix(in srgb, var(--accent1) 8%, #fff);
+    box-shadow: 0 8px 22px rgba(94, 22, 48, .12);
+}
+
+.xmas-band.is-coming,
+.xmas-band.is-ended {
+    background: #f6f5f6;
+    color: #5f5a62;
+}
+
+.xmas-band.is-coming .amt,
+.xmas-band.is-ended .amt {
+    color: #5f5a62;
+}
+
+.xmas-band.is-ended .amt {
+    text-decoration: line-through;
+}
+
+@media (max-width: 575.98px) {
+    .xmas-prices {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- How to book --- */
+.xmas-steps {
+    counter-reset: xmas-step;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+}
+
+.xmas-steps li {
+    counter-increment: xmas-step;
+    position: relative;
+    padding-left: 2.6rem;
+    margin-bottom: .75rem;
+}
+
+.xmas-steps li::before {
+    content: counter(xmas-step);
+    position: absolute;
+    left: 0;
+    top: -.1rem;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.xmas-important {
+    display: flex;
+    gap: .75rem;
+    align-items: flex-start;
+    background: #fdecea;
+    border-left: 4px solid #b42318;
+    border-radius: var(--radius);
+    color: #7a1414;
+    padding: .9rem 1.1rem;
+}
+
+.xmas-important > i {
+    font-size: 1.25rem;
+    color: #b42318;
+    flex-shrink: 0;
+}
+
+/* --- Form: unit prices, table hint and order summary --- */
+.xmas-unit strong {
+    color: var(--brand);
+}
+
+.xmas-unit-other {
+    display: block;
+    color: #6c6470;
+}
+
+.xmas-hint {
+    background: color-mix(in srgb, var(--accent1) 16%, #fff);
+    border-radius: var(--radius);
+    padding: .6rem .9rem;
+    font-size: .9rem;
+}
+
+.xmas-summary {
+    border: 2px solid var(--accent1);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--accent1) 6%, #fff);
+    padding: 1rem 1.25rem;
+}
+
+.xmas-summary-title {
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: .6rem;
+}
+
+.xmas-summary-row,
+.xmas-summary-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.xmas-summary-row {
+    padding: .25rem 0;
+}
+
+.xmas-summary-total {
+    border-top: 1px solid color-mix(in srgb, var(--accent1) 60%, transparent);
+    margin-top: .5rem;
+    padding-top: .6rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--brand);
+    align-items: flex-end;
+}
+
+.xmas-summary-total small {
+    display: block;
+    font-size: .8rem;
+    font-weight: 500;
+    color: #6c6470;
+}
+
+/* --- Home page: full-width feature (same shape as the Diwali panel) --- */
+/* Deep red with a holly-green corner and gold glow, echoing the flier. */
+.xmas-feature {
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: #fff;
+    border: 1px solid rgba(212, 175, 55, .55);
+    box-shadow: 0 14px 40px rgba(94, 22, 48, .35);
+    background:
+        radial-gradient(circle at 88% 14%, rgba(255, 214, 120, .32) 0, transparent 22%),
+        radial-gradient(circle at 70% 96%, rgba(31, 107, 58, .55) 0, transparent 30%),
+        linear-gradient(120deg, #4a0d12 0%, #8f1420 55%, #6a0f1a 100%);
+}
+
+.xmas-feature-flier {
+    display: block;
+    position: relative;
+    height: 100%;
+    min-height: 320px;
+    overflow: hidden;
+    background: #4a0d12;
+}
+
+.xmas-feature-flier img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform .35s ease;
+}
+
+.xmas-feature-flier:hover img {
+    transform: scale(1.04);
+}
+
+.xmas-feature-body {
+    padding: 2rem 2.25rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.xmas-feature-when {
+    display: inline-block;
+    padding: .2rem .7rem;
+    border-radius: 999px;
+    background: #1f6b3a;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.xmas-feature-title {
+    font-size: clamp(1.9rem, 1.2rem + 2.2vw, 2.9rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: .5rem;
+}
+
+.xmas-feature-tagline {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, .9);
+    margin-bottom: 1.25rem;
+}
+
+.xmas-feature-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .6rem 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: rgba(255, 255, 255, .94);
+}
+
+.xmas-feature-facts li {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+}
+
+.xmas-feature-facts i {
+    color: var(--accent1);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.xmas-feature-note {
+    color: var(--accent1);
+    font-weight: 600;
+}
+
+@media (max-width: 767.98px) {
+    .xmas-feature-flier {
+        height: 280px;
+        min-height: 0;
+    }
+
+    .xmas-feature-body {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .xmas-feature-facts {
+        grid-template-columns: 1fr;
+    }
+}

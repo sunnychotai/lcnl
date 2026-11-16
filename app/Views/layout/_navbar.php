@@ -175,6 +175,13 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
                 <i class="bi bi-journal-check me-1"></i> Chopda Pujan
               </a>
             </li>
+
+            <!-- Christmas Mehfil bookings -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/christmas-mehfil') ?>">
+                <i class="bi bi-ticket-perforated me-1"></i> Christmas Mehfil
+              </a>
+            </li>
           <?php endif; ?>
 
 

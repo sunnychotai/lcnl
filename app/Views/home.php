@@ -44,6 +44,7 @@ $legacyOpen = $legacy->isOpen() && ! (new \App\Models\LegacyPledgeModel())->isFu
 </section>
 
 <?= $this->include('events/_diwali_home_banner') ?>
+<?= $this->include('mehfil/_home_banner') ?>
 
 <!-- Spotlights: each partial renders one equal-width column, or nothing. -->
 <section class="container pt-4 pb-2">
