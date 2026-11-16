@@ -28,6 +28,13 @@ $rows = [
         </span>
       </div>
     <?php endforeach; ?>
+    <div class="xmas-ref-note">
+      <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+      <span>
+        Please make sure you use your reference <strong class="text-nowrap"><?= esc($booking['booking_ref']) ?></strong>
+        when you make the payment, so we can match it to your booking.
+      </span>
+    </div>
   </div>
 </div>
 

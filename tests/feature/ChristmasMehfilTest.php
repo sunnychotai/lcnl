@@ -47,7 +47,7 @@ final class ChristmasMehfilTest extends CIUnitTestCase
         $this->setConfig([
             'eventDate'     => '2099-12-13',
             'closingDate'   => '2099-12-10',
-            'earlyBirdEnds' => '2099-12-04',
+            'earlyBirdEnds' => '2099-12-05',
             'capacity'      => 100,
         ]);
 
@@ -139,18 +139,18 @@ final class ChristmasMehfilTest extends CIUnitTestCase
        Config: prices, dates and references
     ===================================================================== */
 
-    public function testEarlyBirdPricesRunToTheEndOfTheFourthThenSwapOver(): void
+    public function testEarlyBirdPricesRunToTheEndOfTheFifthThenSwapOver(): void
     {
         $config                = new ChristmasMehfil();
-        $config->earlyBirdEnds = '2026-12-04';
+        $config->earlyBirdEnds = '2026-12-05';
         $london                = new \DateTimeZone('Europe/London');
 
-        $last  = $config->quote(2, 1, new \DateTimeImmutable('2026-12-04 23:59:00', $london));
-        $first = $config->quote(2, 1, new \DateTimeImmutable('2026-12-05 00:00:01', $london));
+        $last  = $config->quote(2, 1, new \DateTimeImmutable('2026-12-05 23:59:00', $london));
+        $first = $config->quote(2, 1, new \DateTimeImmutable('2026-12-06 00:00:01', $london));
 
         $this->assertSame(['band' => 'early', 'individual_price' => 30, 'table_price' => 270, 'amount' => 330, 'people' => 12], $last);
         $this->assertSame(['band' => 'standard', 'individual_price' => 35, 'table_price' => 300, 'amount' => 370, 'people' => 12], $first);
-        $this->assertSame('5 December', $config->standardFromLabel());
+        $this->assertSame('6 December', $config->standardFromLabel());
     }
 
     public function testReferenceIsXmasPlusThreeLettersOfEachName(): void

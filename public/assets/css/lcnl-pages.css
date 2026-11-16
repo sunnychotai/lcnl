@@ -3426,6 +3426,25 @@
     flex-shrink: 0;
 }
 
+/* "Use your reference" line inside the bank transfer panel */
+.xmas-ref-note {
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+    margin-top: .75rem;
+    padding: .75rem .9rem;
+    border-radius: var(--radius);
+    background: #fdecea;
+    color: #7a1414;
+    font-weight: 600;
+}
+
+.xmas-ref-note > i {
+    color: #b42318;
+    flex-shrink: 0;
+    margin-top: .1rem;
+}
+
 /* --- Form: unit prices, table hint and order summary --- */
 .xmas-unit strong {
     color: var(--brand);
