@@ -127,6 +127,11 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
                       <i class="bi bi-clock-history me-1"></i> Cron Jobs
                     </a>
                   </li>
+                  <li>
+                    <a class="dropdown-item" href="<?= base_url('admin/surveys/ticketing') ?>">
+                      <i class="bi bi-clipboard-data me-1"></i> Ticketing questionnaire
+                    </a>
+                  </li>
                 <?php endif; ?>
                 <li>
                   <a class="dropdown-item" href="<?= base_url('admin/content/faqs') ?>">

@@ -3618,3 +3618,306 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================================
+   Questionnaires (survey/ticketing)
+   Builds on the .mela-form-card / .mela-section form blocks.
+========================================================= */
+.svy-intro .lead {
+    font-size: 1.1rem;
+}
+
+.svy-facts {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: grid;
+    gap: .4rem;
+}
+
+.svy-facts li {
+    display: flex;
+    gap: .6rem;
+    align-items: baseline;
+}
+
+.svy-facts i {
+    color: var(--brand);
+}
+
+/* Sticky "answered" bar above the form */
+.svy-progress {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .55rem 0;
+    background: var(--bs-body-bg, #fff);
+}
+
+.svy-progress-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, .08);
+    overflow: hidden;
+}
+
+.svy-progress-bar span {
+    display: block;
+    height: 100%;
+    background: var(--brand);
+    transition: width .25s ease;
+}
+
+.svy-progress-label {
+    font-size: .8rem;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+/* One question */
+.svy-q {
+    padding: 1rem 0;
+    border-top: 1px dashed rgba(0, 0, 0, .08);
+}
+
+.svy-q:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.svy-q.has-error {
+    border-left: 3px solid #b3261e;
+    padding-left: .85rem;
+}
+
+.svy-label {
+    font-weight: 600;
+    margin-bottom: .45rem;
+    font-size: 1rem;
+    float: none;
+}
+
+.svy-options {
+    display: grid;
+    gap: .35rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .svy-options.is-two-col {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.svy-option .form-check-input:checked {
+    background-color: var(--brand);
+    border-color: var(--brand);
+}
+
+.svy-other {
+    margin-top: .5rem;
+    max-width: 28rem;
+}
+
+/* Scale: a row of buttons that wraps on phones */
+.svy-scale {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+}
+
+.svy-scale-btn,
+.svy-grid-btn {
+    border: 1px solid rgba(0, 0, 0, .18);
+    background: #fff;
+    color: #333;
+    font-size: .9rem;
+}
+
+.svy-scale-btn:hover,
+.svy-grid-btn:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.svy-scale-btn.is-aside {
+    border-style: dashed;
+    color: #6c757d;
+}
+
+.btn-check:checked + .svy-scale-btn,
+.btn-check:checked + .svy-grid-btn {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+
+.btn-check:focus-visible + .svy-scale-btn,
+.btn-check:focus-visible + .svy-grid-btn {
+    outline: 3px solid color-mix(in srgb, var(--brand) 45%, transparent);
+    outline-offset: 2px;
+}
+
+/* Grid: a table on wide screens, a card per row on phones */
+.svy-grid {
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.svy-grid-head,
+.svy-grid-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) repeat(4, 6.6rem);
+    align-items: center;
+    gap: .4rem;
+    padding: .5rem .75rem;
+}
+
+.svy-grid-head {
+    background: var(--muted);
+    font-size: .78rem;
+    font-weight: 700;
+    text-align: center;
+    color: #555;
+}
+
+.svy-grid-row:nth-child(odd) {
+    background: color-mix(in srgb, var(--muted) 45%, #fff);
+}
+
+.svy-grid-label {
+    font-size: .95rem;
+}
+
+.svy-grid-cell {
+    display: flex;
+    justify-content: center;
+}
+
+.svy-grid-btn {
+    width: 100%;
+    font-size: 0;           /* the column heading names it on wide screens */
+    padding: .5rem 0;
+    line-height: 1;
+}
+
+.svy-grid-btn::before {
+    content: "";
+    display: inline-block;
+    width: .85rem;
+    height: .85rem;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    opacity: .5;
+}
+
+.btn-check:checked + .svy-grid-btn::before {
+    background: currentColor;
+    opacity: 1;
+}
+
+@media (max-width: 767.98px) {
+    .svy-grid-head {
+        display: none;
+    }
+
+    .svy-grid-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        padding: .75rem;
+    }
+
+    .svy-grid-label {
+        grid-column: 1 / -1;
+        font-weight: 600;
+    }
+
+    .svy-grid-btn {
+        font-size: .78rem;
+        padding: .45rem .2rem;
+        line-height: 1.15;
+    }
+
+    .svy-grid-btn::before {
+        display: none;
+    }
+}
+
+.svy-submit {
+    text-align: center;
+    background: var(--muted);
+}
+
+/* Results bars (admin) */
+.svy-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 9rem 2.5rem;
+    gap: .75rem;
+    align-items: center;
+    padding: .2rem 0;
+    font-size: .92rem;
+}
+
+.svy-bar-track {
+    height: 10px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, .07);
+    overflow: hidden;
+}
+
+.svy-bar-track span {
+    display: block;
+    height: 100%;
+    background: var(--brand);
+}
+
+.svy-bar-n {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+.svy-stack {
+    display: flex;
+    height: 14px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, .06);
+    min-width: 8rem;
+}
+
+.svy-stack .is-must, .svy-key.is-must { background: #1b7a3d; }
+.svy-stack .is-nice, .svy-key.is-nice { background: #8cc49b; }
+.svy-stack .is-no, .svy-key.is-no { background: #b5b5b5; }
+.svy-stack .is-unsure, .svy-key.is-unsure { background: #e2e2e2; }
+
+.svy-key {
+    display: inline-block;
+    width: .7rem;
+    height: .7rem;
+    border-radius: 2px;
+    margin-right: .25rem;
+    vertical-align: middle;
+}
+
+.svy-quote {
+    border-left: 3px solid var(--accent1);
+    padding: .35rem 0 .35rem .85rem;
+    margin-bottom: .75rem;
+    white-space: pre-line;
+}
+
+.svy-quote footer {
+    font-size: .8rem;
+    color: #6c757d;
+    margin-top: .2rem;
+}
+
+@media (max-width: 575.98px) {
+    .svy-bar {
+        grid-template-columns: minmax(0, 1fr) 5rem 2rem;
+    }
+}

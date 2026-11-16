@@ -125,6 +125,19 @@ $routes->post($mehfilSlug, 'ChristmasMehfilController::submit');
 $routes->get($mehfilSlug . '/thank-you', 'ChristmasMehfilController::thankYou');
 
 /* =========================================================
+   COMMITTEE TICKETING QUESTIONNAIRE (PUBLIC, UNLISTED)
+
+   Shared with committee members by link only; noindex and never linked from
+   the site. The slug lives in Config\TicketingSurvey.
+========================================================= */
+
+$surveySlug = config('TicketingSurvey')->slug;
+
+$routes->get($surveySlug, 'TicketingSurveyController::index');
+$routes->post($surveySlug, 'TicketingSurveyController::submit');
+$routes->get($surveySlug . '/thank-you', 'TicketingSurveyController::thankYou');
+
+/* =========================================================
    NAVRATRI FESTIVAL 2026 (PUBLIC)
 ========================================================= */
 
@@ -409,6 +422,21 @@ $routes->group('admin/christmas-mehfil', [
     $routes->post('cancel/(:num)', 'Admin\ChristmasMehfilController::cancel/$1');
     $routes->post('reinstate/(:num)', 'Admin\ChristmasMehfilController::reinstate/$1');
     $routes->get('export', 'Admin\ChristmasMehfilController::export');
+});
+
+
+/* =========================================================
+   ADMIN QUESTIONNAIRE RESULTS
+
+   ADMIN only: answers carry respondents' names.
+========================================================= */
+
+$routes->group('admin/surveys/ticketing', [
+    'filter' => 'authAdmin:ADMIN'
+], function ($routes) {
+    $routes->get('/', 'Admin\TicketingSurveyController::index');
+    $routes->post('delete/(:num)', 'Admin\TicketingSurveyController::delete/$1');
+    $routes->get('export', 'Admin\TicketingSurveyController::export');
 });
 
 
