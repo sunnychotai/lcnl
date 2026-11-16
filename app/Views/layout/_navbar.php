@@ -102,39 +102,42 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
             </li>
           <?php endif; ?>
 
-          <?php if (hasRole('ADMIN')): ?>
-            <!-- System: users, email queue, cron logs -->
+          <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
+            <!-- Admin: users, email queue and cron logs (ADMIN only), plus FAQs
+                 (ADMIN and WEBSITE, so WEBSITE users see just that) -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="adminSystemDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear-fill me-1"></i> Admin
               </a>
               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminSystemDropdown">
+                <?php if (hasRole('ADMIN')): ?>
+                  <li>
+                    <a class="dropdown-item" href="<?= base_url('admin/system/users') ?>">
+                      <i class="bi bi-person-gear me-1"></i> Users
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="<?= base_url('admin/system/emails') ?>">
+                      <i class="bi bi-envelope-fill me-1"></i> Emails
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="<?= base_url('admin/system/cron-logs') ?>">
+                      <i class="bi bi-clock-history me-1"></i> Cron Jobs
+                    </a>
+                  </li>
+                <?php endif; ?>
                 <li>
-                  <a class="dropdown-item" href="<?= base_url('admin/system/users') ?>">
-                    <i class="bi bi-person-gear me-1"></i> Users
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="<?= base_url('admin/system/emails') ?>">
-                    <i class="bi bi-envelope-fill me-1"></i> Emails
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="<?= base_url('admin/system/cron-logs') ?>">
-                    <i class="bi bi-clock-history me-1"></i> Cron Jobs
+                  <a class="dropdown-item" href="<?= base_url('admin/content/faqs') ?>">
+                    <i class="bi bi-question-circle-fill me-1"></i> FAQs
                   </a>
                 </li>
               </ul>
             </li>
+          <?php endif; ?>
 
-            <!-- Legacy 50 pledges -->
-            <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/legacy50') ?>">
-                <i class="bi bi-heart-fill me-1"></i> Legacy 50
-              </a>
-            </li>
-
+          <?php if (hasRole('ADMIN')): ?>
             <!-- Photo gallery -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/gallery') ?>">
@@ -151,13 +154,6 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
                 <i class="bi bi-people-fill me-1"></i> Committees
               </a>
             </li>
-
-            <!-- FAQs -->
-            <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/content/faqs') ?>">
-                <i class="bi bi-question-circle-fill me-1"></i> FAQs
-              </a>
-            </li>
           <?php endif; ?>
 
 
@@ -166,13 +162,6 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/content/events') ?>">
                 <i class="bi bi-calendar-event-fill me-1"></i> Events
-              </a>
-            </li>
-
-            <!-- Chopda Pujan registrations -->
-            <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('admin/chopda-pujan') ?>">
-                <i class="bi bi-journal-check me-1"></i> Chopda Pujan
               </a>
             </li>
 
