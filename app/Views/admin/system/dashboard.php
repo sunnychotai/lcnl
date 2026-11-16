@@ -60,8 +60,9 @@
   <!-- =======================
        Admin Actions
   ======================== -->
-  <h4 class="fw-bold mb-3">Admin Actions</h4>
-  <div class="row g-4">
+  <?php if (hasRole('ADMIN', 'WEBSITE', 'MEMBERSHIP')): ?>
+    <h4 class="fw-bold mb-3">Admin Actions</h4>
+    <div class="row g-4 mb-5">
 
     <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
       <!-- Committee -->
@@ -69,7 +70,7 @@
         <a href="<?= base_url('admin/content/committee') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-people-fill fs-1 text-brand mb-3"></i>
+              <i class="bi bi-people-fill text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">Committee</h5>
               <p class="text-muted small">Manage committee members</p>
             </div>
@@ -82,7 +83,7 @@
         <a href="<?= base_url('admin/content/faqs') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-question-circle-fill fs-1 text-brand mb-3"></i>
+              <i class="bi bi-question-circle-fill text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">FAQs</h5>
               <p class="text-muted small">Manage FAQs</p>
             </div>
@@ -97,7 +98,7 @@
         <a href="<?= base_url('admin/system/users') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-person-fill-gear fs-1 text-brand mb-3"></i>
+              <i class="bi bi-person-fill-gear text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">Users</h5>
               <p class="text-muted small">Admin only: manage accounts</p>
             </div>
@@ -110,22 +111,9 @@
         <a href="<?= base_url('admin/system/emails') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-envelope-fill fs-1 text-brand mb-3"></i>
+              <i class="bi bi-envelope-fill text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">Emails</h5>
-              <p class="text-muted small">View & retry queued emails</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Legacy 50 pledges -->
-      <div class="col-md-3">
-        <a href="<?= base_url('admin/legacy50') ?>" class="text-decoration-none">
-          <div class="card shadow-sm h-100 text-center border-0 hover-card">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-heart-fill fs-1 text-brand mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Legacy 50 Pledges</h5>
-              <p class="text-muted small">Donations, Gift Aid &amp; plaque exports</p>
+              <p class="text-muted small">View &amp; retry queued emails</p>
             </div>
           </div>
         </a>
@@ -138,58 +126,24 @@
         <a href="<?= base_url('admin/membership') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-person-badge-fill fs-1 text-brand mb-3"></i>
+              <i class="bi bi-person-badge-fill text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">Members</h5>
-              <p class="text-muted small">Review & approve members</p>
+              <p class="text-muted small">Review &amp; approve members</p>
             </div>
           </div>
         </a>
       </div>
     <?php endif; ?>
 
+    </div>
+  <?php endif; ?>
 
-    <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
-      <!-- Events -->
-      <div class="col-md-3">
-        <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
-          <div class="card shadow-sm h-100 text-center border-0 hover-card">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-calendar-event fs-1 text-brand mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Events</h5>
-              <p class="text-muted small">Manage community events</p>
-            </div>
-          </div>
-        </a>
-      </div>
-    <?php endif; ?>
-
-    <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
-      <!-- Event Registrations -->
-      <div class="col-md-3">
-        <a href="<?= base_url('admin/content/events/event-registrations') ?>" class="text-decoration-none">
-          <div class="card shadow-sm h-100 text-center border-0 hover-card">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-clipboard-data-fill fs-1 text-brand mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Event Registrations</h5>
-              <p class="text-muted small">Summary by event + attendee counts</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Golf Tournament 2026 -->
-      <div class="col-md-3">
-        <a href="<?= base_url('admin/content/golf') ?>" class="text-decoration-none">
-          <div class="card shadow-sm h-100 text-center border-0 hover-card">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-flag-fill fs-1 text-success mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Golf Event 2026</h5>
-              <p class="text-muted small">Registrations, stats &amp; CSV export</p>
-            </div>
-          </div>
-        </a>
-      </div>
-    <?php endif; ?>
+  <!-- =======================
+       Events & Campaigns
+  ======================== -->
+  <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
+    <h4 class="fw-bold mb-3">Events &amp; Campaigns</h4>
+    <div class="row g-4">
 
     <?php if (hasRole('ADMIN', 'EVENTS')): ?>
       <!-- Chopda Pujan 2026 -->
@@ -197,7 +151,7 @@
         <a href="<?= base_url('admin/chopda-pujan') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-journal-check fs-1 text-brand mb-3"></i>
+              <i class="bi bi-journal-check text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">Chopda Pujan 2026</h5>
               <p class="text-muted small">Registrations, payments &amp; CSV export</p>
             </div>
@@ -210,7 +164,7 @@
         <a href="<?= base_url('admin/christmas-mehfil') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-ticket-perforated fs-1 text-brand mb-3"></i>
+              <i class="bi bi-ticket-perforated text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">Christmas Mehfil 2026</h5>
               <p class="text-muted small">Ticket bookings, payments &amp; CSV export</p>
             </div>
@@ -219,23 +173,65 @@
       </div>
     <?php endif; ?>
 
-
-
-    <?php if (hasRole('ADMIN', 'FINANCE')): ?>
-      <!-- Finance (Inactive Dummy) -->
+    <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
+      <!-- Golf Tournament 2026 -->
       <div class="col-md-3">
-        <div class="card shadow-sm h-100 text-center border-0 hover-none bg-light-subtle opacity-75">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center position-relative">
-            <i class="bi bi-cash-coin fs-1 text-secondary mb-3"></i>
-            <h5 class="card-title text-muted mb-1">Finance (Coming Soon)</h5>
-            <p class="text-muted small">Module under development</p>
-            <span class="badge bg-secondary position-absolute top-0 end-0 m-2">Inactive</span>
+        <a href="<?= base_url('admin/content/golf') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-flag-fill text-success fs-1 mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Golf Event 2026</h5>
+              <p class="text-muted small">Registrations, stats &amp; CSV export</p>
+            </div>
           </div>
-        </div>
+        </a>
+      </div>
+
+      <!-- Events -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-calendar-event text-brand fs-1 mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Events</h5>
+              <p class="text-muted small">Manage community events</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Event Registrations -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/events/event-registrations') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-clipboard-data-fill text-brand fs-1 mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Event Registrations</h5>
+              <p class="text-muted small">Summary by event + attendee counts</p>
+            </div>
+          </div>
+        </a>
       </div>
     <?php endif; ?>
 
-  </div>
+    <?php if (hasRole('ADMIN')): ?>
+      <!-- Legacy 50 pledges (ADMIN only: pledges hold home addresses) -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/legacy50') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-heart-fill text-brand fs-1 mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Legacy 50 Pledges</h5>
+              <p class="text-muted small">Donations, Gift Aid &amp; plaque exports</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <?php endif; ?>
+
+    </div>
+  <?php endif; ?>
+
 </div>
 
 <?= $this->endSection() ?>
