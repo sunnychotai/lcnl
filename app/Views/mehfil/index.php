@@ -94,7 +94,7 @@ $otherBand = $config->prices[$early ? 'standard' : 'early'];
             title="Open the full-size flier">
             <img src="<?= $flier(480) ?>" srcset="<?= $flier(480) ?> 480w, <?= $flier(1024) ?> 1024w"
               sizes="(min-width: 768px) 40vw, 100vw" width="480" height="640" decoding="async"
-              alt="Christmas Mehfil flier: <?= esc($config->eventLabel(), 'attr') ?>, <?= esc($config->times, 'attr') ?>, at <?= esc($config->venueLine(), 'attr') ?>. Early bird tickets before 5 December £270 for a table of 10 or £30 per person; after 5 December £300 a table or £35 per person. Vegetarian dinner by Desi Delite and drinks included, live band by RKB Entertainment, Christmas bingo, charity raffle, best dressed competitions.">
+              alt="Christmas Mehfil flier: <?= esc($config->eventLabel(), 'attr') ?>, <?= esc($config->times, 'attr') ?>, at <?= esc($config->venueLine(), 'attr') ?>. Early bird tickets until 5 December £270 for a table of 10 or £30 per person; from 6 December £300 a table or £35 per person. Vegetarian dinner by Desi Delite and drinks included, live band by RKB Entertainment, Christmas bingo, charity raffle, best dressed competitions.">
           </a>
           <p class="small text-muted text-center mt-2 mb-0">
             <i class="bi bi-arrows-fullscreen me-1"></i>Tap the flier to see it full size

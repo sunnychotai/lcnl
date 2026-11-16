@@ -30,4 +30,11 @@ $bankRows = [
         <td><strong>Your reference</strong></td>
         <td style="color:#7a1d3c; font-weight:bold; font-size:16px;"><?= esc($booking['booking_ref']) ?></td>
     </tr>
+    <tr>
+        <td colspan="2" style="background-color:#fdecea; color:#7a1414; font-weight:bold; border-top:1px solid #e0d0d5;">
+            Please make sure you use your reference
+            <span style="white-space:nowrap;"><?= esc($booking['booking_ref']) ?></span>
+            when you make the payment, so we can match it to your booking.
+        </td>
+    </tr>
 </table>

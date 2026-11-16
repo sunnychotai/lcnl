@@ -31,7 +31,7 @@ class ChristmasMehfil extends BaseConfig
     public string $closingDate = '2026-12-10';
 
     /** Early bird prices apply until the end of this day (Europe/London). */
-    public string $earlyBirdEnds = '2026-12-04';
+    public string $earlyBirdEnds = '2026-12-05';
 
     /** Prices in pounds, by band. A table seats $tableSize. */
     public array $prices = [
@@ -142,13 +142,13 @@ class ChristmasMehfil extends BaseConfig
         return $this->dateLabel($this->closingDate, 'l j F');
     }
 
-    /** "Friday 4 December": the last early bird day. */
+    /** "Saturday 5 December": the last early bird day. */
     public function earlyBirdLabel(): string
     {
         return $this->dateLabel($this->earlyBirdEnds, 'l j F');
     }
 
-    /** "5 December": the first full-price day, as the flier puts it. */
+    /** "6 December": the first full-price day. */
     public function standardFromLabel(): string
     {
         return $this->endOf($this->earlyBirdEnds)->modify('+1 second')->format('j F');
