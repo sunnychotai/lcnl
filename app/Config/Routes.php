@@ -333,6 +333,9 @@ $routes->group('admin/content', [
 
     $routes->get('events/event-registrations', 'Admin\EventRegistrationController::index');
     $routes->get('events/event-registrations/summary', 'Admin\EventRegistrationController::summary');
+    $routes->get('events/event-registrations/(:num)', 'Admin\EventRegistrationController::event/$1');
+    $routes->get('events/event-registrations/(:num)/export', 'Admin\EventRegistrationController::export/$1');
+    $routes->post('events/event-registrations/status/(:num)', 'Admin\EventRegistrationController::setStatus/$1');
 
     // Golf Tournament 2026
     $routes->get('golf', 'Admin\GolfRegistrationController::index');
