@@ -117,6 +117,12 @@
                   </div>
                 <?php endif; ?>
 
+                <div class="mt-1">
+                  <a href="<?= site_url('admin/content/events/event-registrations/' . $event['id']) ?>" class="small">
+                    <i class="bi bi-people me-1"></i>View registrations
+                  </a>
+                </div>
+
               <?php else: ?>
                 <span class="badge bg-secondary">Not Required</span>
               <?php endif; ?>
