@@ -123,6 +123,11 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
                     </a>
                   </li>
                   <li>
+                    <a class="dropdown-item" href="<?= base_url('admin/group-emails') ?>">
+                      <i class="bi bi-envelope-paper-fill me-1"></i> Group emails
+                    </a>
+                  </li>
+                  <li>
                     <a class="dropdown-item" href="<?= base_url('admin/system/cron-logs') ?>">
                       <i class="bi bi-clock-history me-1"></i> Cron Jobs
                     </a>

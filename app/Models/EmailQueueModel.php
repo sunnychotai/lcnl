@@ -16,6 +16,7 @@ class EmailQueueModel extends Model
         'subject',
         'type',
         'related_id',
+        'group_email_id',
         'body_html',
         'body_text',
         'headers_json',

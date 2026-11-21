@@ -47,10 +47,18 @@ $statusUrl = site_url('admin/content/events/event-registrations/status');
         <a href="<?= site_url('admin/content/events/event-registrations') ?>" class="btn btn-outline-secondary rounded-pill">
             <i class="bi bi-arrow-left me-1"></i>All events
         </a>
-        <a href="<?= site_url('admin/content/events/event-registrations/' . $event['id'] . '/export') ?>"
-            class="btn btn-success rounded-pill px-4">
-            <i class="bi bi-download me-2"></i>Export CSV
-        </a>
+        <div class="d-flex gap-2 flex-wrap">
+            <?php if (hasRole('ADMIN')): ?>
+                <a href="<?= site_url('admin/group-emails/new/event/' . $event['id']) ?>"
+                    class="btn btn-primary rounded-pill px-4">
+                    <i class="bi bi-envelope-fill me-2"></i>Email registrants
+                </a>
+            <?php endif; ?>
+            <a href="<?= site_url('admin/content/events/event-registrations/' . $event['id'] . '/export') ?>"
+                class="btn btn-success rounded-pill px-4">
+                <i class="bi bi-download me-2"></i>Export CSV
+            </a>
+        </div>
     </div>
 
     <!-- Summary stats -->
