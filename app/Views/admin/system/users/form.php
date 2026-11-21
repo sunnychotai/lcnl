@@ -26,26 +26,29 @@
     <div class="mb-3">
       <label class="form-label">Name</label>
       <input type="text" name="name" class="form-control"
-        value="<?= old('name', $user['name'] ?? '') ?>" required>
+        value="<?= esc(old('name', $user['name'] ?? ''), 'attr') ?>" required>
     </div>
 
     <div class="mb-3">
       <label class="form-label">Email</label>
       <input type="email" name="email" class="form-control"
-        value="<?= old('email', $user['email'] ?? '') ?>" required>
+        value="<?= esc(old('email', $user['email'] ?? ''), 'attr') ?>" required>
     </div>
 
     <div class="mb-3">
       <label class="form-label">Role</label>
-      <select name="role" class="form-select" required>
+      <?php $isSelf = isset($user) && (int) $user['id'] === (int) session('admin_id'); ?>
+      <select name="role" class="form-select" required <?= $isSelf ? 'disabled' : '' ?>>
         <option value="">-- Select Role --</option>
-        <?php $roles = ['ADMIN', 'WEBSITE', 'EVENTS', 'MEMBERSHIP', 'FINANCE']; ?>
-        <?php foreach ($roles as $role): ?>
-          <option value="<?= $role ?>" <?= old('role', $user['role'] ?? '') == $role ? 'selected' : '' ?>>
-            <?= $role ?>
+        <?php foreach (config('AdminAccess')->roles as $role => $label): ?>
+          <option value="<?= esc($role, 'attr') ?>" <?= strtoupper((string) old('role', $user['role'] ?? '')) === $role ? 'selected' : '' ?>>
+            <?= esc($label) ?>
           </option>
         <?php endforeach; ?>
       </select>
+      <?php if ($isSelf): ?>
+        <div class="form-text">You can't change your own role, so you can't lock yourself out.</div>
+      <?php endif; ?>
     </div>
 
     <div class="mb-3">

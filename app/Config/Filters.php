@@ -30,7 +30,7 @@ class Filters extends BaseFilters
         'honeypot'      => Honeypot::class,
         // ADMIN auth (map your existing 'auth' to Admin filter)
         
-        'authAdmin'  => \App\Filters\AuthAdmin::class,
+        'can'        => \App\Filters\AdminAccess::class, // can:<feature>, see Config\AdminAccess
 
         // MEMBER auth
         'authMember' => \App\Filters\AuthMember::class,

@@ -48,7 +48,7 @@ $statusUrl = site_url('admin/content/events/event-registrations/status');
             <i class="bi bi-arrow-left me-1"></i>All events
         </a>
         <div class="d-flex gap-2 flex-wrap">
-            <?php if (hasRole('ADMIN')): ?>
+            <?php if (canAccess('group_emails')): ?>
                 <a href="<?= site_url('admin/group-emails/new/event/' . $event['id']) ?>"
                     class="btn btn-primary rounded-pill px-4">
                     <i class="bi bi-envelope-fill me-2"></i>Email registrants

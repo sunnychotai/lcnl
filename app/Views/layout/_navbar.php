@@ -93,7 +93,7 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
             </span>
           </li>
 
-          <?php if (hasRole('ADMIN', 'WEBSITE', 'FINANCE', 'MEMBERSHIP', 'EVENTS')): ?>
+          <?php if (canAccess('dashboard')): ?>
             <!-- System Dashboard -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/system/dashboard') ?>">
@@ -102,52 +102,35 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
             </li>
           <?php endif; ?>
 
-          <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
-            <!-- Admin: users, email queue and cron logs (ADMIN only), plus FAQs
-                 (ADMIN and WEBSITE, so WEBSITE users see just that) -->
+          <?php if (canAccess('users', 'email_queue', 'group_emails', 'cron', 'ticketing_survey', 'content')): ?>
+            <!-- Admin menu: each item shows only to roles that can use it (Config\AdminAccess) -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="adminSystemDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear-fill me-1"></i> Admin
               </a>
               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminSystemDropdown">
-                <?php if (hasRole('ADMIN')): ?>
-                  <li>
-                    <a class="dropdown-item" href="<?= base_url('admin/system/users') ?>">
-                      <i class="bi bi-person-gear me-1"></i> Users
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="<?= base_url('admin/system/emails') ?>">
-                      <i class="bi bi-envelope-fill me-1"></i> Emails
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="<?= base_url('admin/group-emails') ?>">
-                      <i class="bi bi-envelope-paper-fill me-1"></i> Group emails
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="<?= base_url('admin/system/cron-logs') ?>">
-                      <i class="bi bi-clock-history me-1"></i> Cron Jobs
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="<?= base_url('admin/surveys/ticketing') ?>">
-                      <i class="bi bi-clipboard-data me-1"></i> Ticketing questionnaire
-                    </a>
-                  </li>
-                <?php endif; ?>
-                <li>
-                  <a class="dropdown-item" href="<?= base_url('admin/content/faqs') ?>">
-                    <i class="bi bi-question-circle-fill me-1"></i> FAQs
-                  </a>
-                </li>
+                <?php foreach ([
+                    ['users', 'admin/system/users', 'bi-person-gear', 'Users'],
+                    ['email_queue', 'admin/system/emails', 'bi-envelope-fill', 'Emails'],
+                    ['group_emails', 'admin/group-emails', 'bi-envelope-paper-fill', 'Group emails'],
+                    ['cron', 'admin/system/cron-logs', 'bi-clock-history', 'Cron Jobs'],
+                    ['ticketing_survey', 'admin/surveys/ticketing', 'bi-clipboard-data', 'Ticketing questionnaire'],
+                    ['content', 'admin/content/faqs', 'bi-question-circle-fill', 'FAQs'],
+                ] as [$feature, $path, $icon, $label]): ?>
+                  <?php if (canAccess($feature)): ?>
+                    <li>
+                      <a class="dropdown-item" href="<?= base_url($path) ?>">
+                        <i class="bi <?= $icon ?> me-1"></i> <?= $label ?>
+                      </a>
+                    </li>
+                  <?php endif; ?>
+                <?php endforeach; ?>
               </ul>
             </li>
           <?php endif; ?>
 
-          <?php if (hasRole('ADMIN')): ?>
+          <?php if (canAccess('gallery')): ?>
             <!-- Photo gallery -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/gallery') ?>">
@@ -157,7 +140,7 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
           <?php endif; ?>
 
 
-          <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
+          <?php if (canAccess('content')): ?>
             <!-- Committees -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/content/committee') ?>">
@@ -167,14 +150,16 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
           <?php endif; ?>
 
 
-          <?php if (hasRole('ADMIN', 'EVENTS')): ?>
+          <?php if (canAccess('content')): ?>
             <!-- Events -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/content/events') ?>">
                 <i class="bi bi-calendar-event-fill me-1"></i> Events
               </a>
             </li>
+          <?php endif; ?>
 
+          <?php if (canAccess('christmas_mehfil')): ?>
             <!-- Christmas Mehfil bookings -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/christmas-mehfil') ?>">
@@ -184,7 +169,7 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
           <?php endif; ?>
 
 
-          <?php if (hasRole('ADMIN', 'MEMBERSHIP')): ?>
+          <?php if (canAccess('membership')): ?>
             <!-- Members -->
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url('admin/membership') ?>">

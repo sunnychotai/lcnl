@@ -37,18 +37,22 @@ composer test                      # or: ./vendor/bin/phpunit
 
 | System | Session key | Filter | Routes |
 |--------|-------------|--------|--------|
-| Admin | `isAdminLoggedIn`, `admin_role` | `authAdmin` | `/auth/*`, `/admin/*` |
+| Admin | `isAdminLoggedIn`, `admin_role` | `can:<feature>` | `/auth/*`, `/admin/*` |
 | Member | `isMemberLoggedIn` | `authMember` | `/membership/*`, `/account/*` |
 
-Admin roles: `ADMIN`, `MEMBERSHIP`, `EVENTS`, `WEBSITE`. The `authAdmin` filter accepts role arguments, e.g. `filter' => 'authAdmin:ADMIN,MEMBERSHIP'`.
+Admin roles: `ADMIN`, `WEBADMIN`, `WEBSITE`, `EVENTS`, `MEMBERSHIP`, `FINANCE`. Access is by **feature**, set in one place: `Config\AdminAccess::$features` maps each feature to the roles (besides ADMIN) that can use it. Routes use `'filter' => 'can:gallery'`; views use `canAccess('gallery')`. Don't check roles directly with `hasRole()` for access decisions.
+
+- **ADMIN** can use everything, and is meant for the site owner only. Users (admin logins and roles), the email queue, group emails and cron logs are ADMIN-only.
+- **WEBADMIN** has everything else.
+- Only roles listed in `Config\AdminAccess::$roles` can sign in. Admins can't change their own role or delete their own login from the Users screen. There is no master login.
 
 ### Route groups
 
 - **Public** — home, events, FAQs, committee pages, contact, membership registration
 - **`/account/*`** — member self-service (dashboard, profile, family, Stripe upgrade); requires `authMember`
-- **`/admin/system/*`** — system dashboard, email queue, cron logs; requires `authAdmin`
-- **`/admin/membership/*`** — member CRUD, DataTables data endpoints, reports, exports; requires `authAdmin:ADMIN,MEMBERSHIP`
-- **`/admin/content/*`** — events, FAQs, committee CRUD; requires `authAdmin:ADMIN,EVENTS,WEBSITE`
+- **`/admin/system/*`** — dashboard (`can:dashboard`, every role); users, email queue, cron logs (`can:users`, `can:email_queue`, `can:cron`: ADMIN only)
+- **`/admin/membership/*`** — member CRUD, DataTables data endpoints, reports, exports; `can:membership`
+- **`/admin/content/*`** — events, registrations, FAQs, committees, golf, Mela stalls; `can:content`
 
 Auto-routing is **disabled** (`$routes->setAutoRoute(false)`). Every route must be explicit.
 
@@ -88,7 +92,7 @@ Several app-specific configs extend `BaseConfig` and read from `.env`:
 
 ### Photo gallery
 
-Public at `/gallery`, managed at `/admin/gallery` (ADMIN only). Images live in a public Cloudflare R2 bucket on a custom domain (`photos.lcnl.co.uk`; `photos-dev.` locally) and are never served from Hostinger. The browser hashes each original (dedup and resume), resizes it to 1600px and posts it alone; `GalleryService::addPhoto()` re-encodes with GD into `-web.webp` and `-thumb.webp` and PUTs both via `App\Libraries\R2Client`, a hand-written SigV4 client (no AWS SDK). Originals are not kept. The LCNL logo is stamped top-right on the web variant only (`Config\Gallery::$watermark*`); photos uploaded before that have `watermarked = 0` and are marked later from the album admin page via `GalleryService::watermarkExisting()`, which saves them under a new key because the old URL is cached immutably. Always change photos through `GalleryService` so R2, `photo_count` and the cover stay in step. Tests swap in `Tests\Support\Libraries\FakeR2Client` via `Services::injectMock('r2', ...)`.
+Public at `/gallery`, managed at `/admin/gallery` (`can:gallery`). Images live in a public Cloudflare R2 bucket on a custom domain (`photos.lcnl.co.uk`; `photos-dev.` locally) and are never served from Hostinger. The browser hashes each original (dedup and resume), resizes it to 1600px and posts it alone; `GalleryService::addPhoto()` re-encodes with GD into `-web.webp` and `-thumb.webp` and PUTs both via `App\Libraries\R2Client`, a hand-written SigV4 client (no AWS SDK). Originals are not kept. The LCNL logo is stamped top-right on the web variant only (`Config\Gallery::$watermark*`); photos uploaded before that have `watermarked = 0` and are marked later from the album admin page via `GalleryService::watermarkExisting()`, which saves them under a new key because the old URL is cached immutably. Always change photos through `GalleryService` so R2, `photo_count` and the cover stay in step. Tests swap in `Tests\Support\Libraries\FakeR2Client` via `Services::injectMock('r2', ...)`.
 
 ### Group emails
 

