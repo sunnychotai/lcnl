@@ -60,11 +60,11 @@
   <!-- =======================
        Admin Actions
   ======================== -->
-  <?php if (hasRole('ADMIN', 'WEBSITE', 'MEMBERSHIP')): ?>
+  <?php if (canAccess('content', 'users', 'email_queue', 'membership')): ?>
     <h4 class="fw-bold mb-3">Admin Actions</h4>
     <div class="row g-4 mb-5">
 
-    <?php if (hasRole('ADMIN', 'WEBSITE')): ?>
+    <?php if (canAccess('content')): ?>
       <!-- Committee -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/content/committee') ?>" class="text-decoration-none">
@@ -92,7 +92,7 @@
       </div>
     <?php endif; ?>
 
-    <?php if (hasRole('ADMIN')): ?>
+    <?php if (canAccess('users')): ?>
       <!-- Users -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/system/users') ?>" class="text-decoration-none">
@@ -105,7 +105,9 @@
           </div>
         </a>
       </div>
+    <?php endif; ?>
 
+    <?php if (canAccess('email_queue')): ?>
       <!-- Emails -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/system/emails') ?>" class="text-decoration-none">
@@ -120,7 +122,7 @@
       </div>
     <?php endif; ?>
 
-    <?php if (hasRole('ADMIN', 'MEMBERSHIP')): ?>
+    <?php if (canAccess('membership')): ?>
       <!-- Members -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/membership') ?>" class="text-decoration-none">
@@ -141,11 +143,11 @@
   <!-- =======================
        Events & Campaigns
   ======================== -->
-  <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
+  <?php if (canAccess('content', 'chopda_pujan', 'christmas_mehfil', 'legacy50', 'ticketing_survey')): ?>
     <h4 class="fw-bold mb-3">Events &amp; Campaigns</h4>
     <div class="row g-4">
 
-    <?php if (hasRole('ADMIN', 'EVENTS')): ?>
+    <?php if (canAccess('chopda_pujan')): ?>
       <!-- Chopda Pujan 2026 -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/chopda-pujan') ?>" class="text-decoration-none">
@@ -158,7 +160,9 @@
           </div>
         </a>
       </div>
+    <?php endif; ?>
 
+    <?php if (canAccess('christmas_mehfil')): ?>
       <!-- Christmas Mehfil 2026 -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/christmas-mehfil') ?>" class="text-decoration-none">
@@ -173,7 +177,7 @@
       </div>
     <?php endif; ?>
 
-    <?php if (hasRole('ADMIN', 'EVENTS', 'WEBSITE')): ?>
+    <?php if (canAccess('content')): ?>
       <!-- Golf Tournament 2026 -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/content/golf') ?>" class="text-decoration-none">
@@ -214,8 +218,8 @@
       </div>
     <?php endif; ?>
 
-    <?php if (hasRole('ADMIN')): ?>
-      <!-- Legacy 50 pledges (ADMIN only: pledges hold home addresses) -->
+    <?php if (canAccess('legacy50')): ?>
+      <!-- Legacy 50 pledges (pledges hold home addresses and Gift Aid declarations) -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/legacy50') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
@@ -227,8 +231,10 @@
           </div>
         </a>
       </div>
+    <?php endif; ?>
 
-      <!-- Committee ticketing questionnaire (ADMIN only: answers carry names) -->
+    <?php if (canAccess('ticketing_survey')): ?>
+      <!-- Committee ticketing questionnaire (answers carry names) -->
       <div class="col-md-3">
         <a href="<?= base_url('admin/surveys/ticketing') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">

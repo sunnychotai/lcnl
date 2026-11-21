@@ -32,7 +32,7 @@ class Users extends BaseController
         $rules = [
             'name'     => 'required',
             'email'    => 'required|valid_email|is_unique[lcnl_users.email]',
-            'role'     => 'required|in_list[ADMIN,WEBSITE,MEMBERSHIP]',
+            'role'     => 'required|in_list[' . $this->roleList() . ']',
             'password' => 'required|min_length[6]'
         ];
 
@@ -40,7 +40,7 @@ class Users extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $this->userModel->save($this->request->getPost());
+        $this->userModel->save($this->request->getPost(['name', 'email', 'role', 'password']));
 
         return redirect()->to('admin/system/users')->with('success', 'User created successfully.');
     }
@@ -63,8 +63,15 @@ class Users extends BaseController
         $rules = [
             'name'  => 'required',
             'email' => 'required|valid_email|is_unique[lcnl_users.email,id,'.$id.']',
-            'role'  => 'required|in_list[ADMIN,WEBSITE,MEMBERSHIP]'
+            'role'  => 'required|in_list[' . $this->roleList() . ']'
         ];
+
+        // Your own role can't change here (the form disables it), so you
+        // can't lock yourself out of the admin.
+        $isSelf = (int) $id === (int) session('admin_id');
+        if ($isSelf) {
+            unset($rules['role']);
+        }
 
         // If password provided, validate it
         $password = $this->request->getPost('password');
@@ -76,9 +83,12 @@ class Users extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $data = $this->request->getPost();
+        $data = $this->request->getPost(['name', 'email', 'role', 'password']);
         if (empty($data['password'])) {
             unset($data['password']);
+        }
+        if ($isSelf) {
+            unset($data['role']);
         }
 
         $this->userModel->update($id, $data);
@@ -88,7 +98,17 @@ class Users extends BaseController
 
     public function delete($id)
     {
+        if ((int) $id === (int) session('admin_id')) {
+            return redirect()->to('admin/system/users')->with('error', 'You can\'t delete your own account.');
+        }
+
         $this->userModel->delete($id);
         return redirect()->to('admin/system/users')->with('success', 'User deleted successfully.');
+    }
+
+    /** Roles from Config\AdminAccess, for an in_list rule. */
+    private function roleList(): string
+    {
+        return implode(',', array_keys(config('AdminAccess')->roles));
     }
 }

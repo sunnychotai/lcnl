@@ -10,7 +10,7 @@ use Config\TicketingSurvey;
 /**
  * Results of the committee ticketing questionnaire: totals per question, the
  * feature list ranked by priority, every comment, each response in full,
- * and a CSV export. ADMIN only, because answers carry names.
+ * and a CSV export. ADMIN and WEBADMIN only, because answers carry names.
  */
 class TicketingSurveyController extends BaseController
 {

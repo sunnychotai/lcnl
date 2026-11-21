@@ -8,7 +8,7 @@ use App\Models\LegacyPledgeModel;
 use Config\Legacy50;
 
 /**
- * Back-office for the Legacy 50 pledge campaign. ADMIN only: pledges carry
+ * Back-office for the Legacy 50 pledge campaign. ADMIN and WEBADMIN: pledges carry
  * home addresses and Gift Aid declarations.
  */
 class Legacy50Controller extends BaseController

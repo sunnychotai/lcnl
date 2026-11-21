@@ -10,8 +10,11 @@
 <div class="container py-4">
   <h2 class="mb-3">Manage Users</h2>
 
+  <?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div>
+  <?php endif; ?>
   <?php if (session()->getFlashdata('success')): ?>
-    <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+    <div class="alert alert-success"><?= esc(session()->getFlashdata('success')) ?></div>
   <?php endif; ?>
 
   <a href="<?= base_url('admin/system/users/create') ?>" class="btn btn-brand mb-3">Add User</a>
@@ -32,15 +35,17 @@
           <td><?= $user['id'] ?></td>
           <td><?= esc($user['name']) ?></td>
           <td><?= esc($user['email']) ?></td>
-          <td><?= esc($user['role']) ?></td>
+          <td><?= esc(config('AdminAccess')->roles[strtoupper((string) $user['role'])] ?? $user['role']) ?></td>
           <td>
             <a href="<?= base_url('admin/system/users/edit/'.$user['id']) ?>" class="btn btn-sm btn-warning">Edit</a>
-            <?= view('admin/_delete_button', [
-              'action'  => base_url('admin/system/users/delete/'.$user['id']),
-              'confirm' => 'Delete the admin user ' . $user['name'] . '?',
-              'label'   => 'Delete',
-              'class'   => 'btn btn-sm btn-danger',
-            ]) ?>
+            <?php if ((int) $user['id'] !== (int) session('admin_id')): ?>
+              <?= view('admin/_delete_button', [
+                'action'  => base_url('admin/system/users/delete/'.$user['id']),
+                'confirm' => 'Delete the admin user ' . $user['name'] . '?',
+                'label'   => 'Delete',
+                'class'   => 'btn btn-sm btn-danger',
+              ]) ?>
+            <?php endif; ?>
           </td>
         </tr>
       <?php endforeach; ?>

@@ -237,7 +237,7 @@ $routes->group('account', [
 
 
 $routes->group('admin/membership', [
-    'filter' => 'authAdmin:ADMIN,MEMBERSHIP'
+    'filter' => 'can:membership'
 ], function ($routes) {
 
     // MEMBERS LIST UI
@@ -284,33 +284,34 @@ $routes->group('admin/membership', [
    ADMIN SYSTEM (DASHBOARD + EMAILS + CRON)
 ============================================================ */
 
-$routes->group('admin/system', [
-    'filter' => 'authAdmin'
-], function ($routes) {
-
+// Each part of /admin/system has its own feature (Config\AdminAccess).
+// Users, the email queue, group emails and cron logs are ADMIN only.
+$routes->group('admin/system', ['filter' => 'can:dashboard'], function ($routes) {
     // IMPORTANT: This controller lives in App\Controllers\Admin.php
     $routes->get('dashboard', '\App\Controllers\Admin::dashboard');
+});
 
-    // Admin users. The navbar has linked here since Sept 2025 and the
-    // controller exists, but the routes were never declared — with auto-routing
-    // off that made the menu item a dead link.
-    $routes->get('users', 'Admin\Users::index');
-    $routes->get('users/create', 'Admin\Users::create');
-    $routes->post('users/store', 'Admin\Users::store');
-    $routes->get('users/edit/(:num)', 'Admin\Users::edit/$1');
-    $routes->post('users/update/(:num)', 'Admin\Users::update/$1');
-    $routes->post('users/delete/(:num)', 'Admin\Users::delete/$1');
+$routes->group('admin/system/users', ['filter' => 'can:users'], function ($routes) {
+    $routes->get('/', 'Admin\Users::index');
+    $routes->get('create', 'Admin\Users::create');
+    $routes->post('store', 'Admin\Users::store');
+    $routes->get('edit/(:num)', 'Admin\Users::edit/$1');
+    $routes->post('update/(:num)', 'Admin\Users::update/$1');
+    $routes->post('delete/(:num)', 'Admin\Users::delete/$1');
+});
 
-    $routes->get('cron-logs', 'Admin\CronController::index');
-    $routes->get('cron-logs/(:num)', 'Admin\CronController::show/$1');
+$routes->group('admin/system/cron-logs', ['filter' => 'can:cron'], function ($routes) {
+    $routes->get('/', 'Admin\CronController::index');
+    $routes->get('(:num)', 'Admin\CronController::show/$1');
+});
 
-    // Email Queue
-    $routes->get('emails', 'Admin\Emails::index');
-    $routes->get('emails/view/(:num)', 'Admin\Emails::view/$1');
-    $routes->get('emails/retry/(:num)', 'Admin\Emails::retry/$1');
-    $routes->post('emails/delete/(:num)', 'Admin\Emails::delete/$1');
-    $routes->post('emails/data', 'Admin\EmailDataController::list');
-    $routes->get('emails/stats', 'Admin\EmailDataController::stats');
+$routes->group('admin/system/emails', ['filter' => 'can:email_queue'], function ($routes) {
+    $routes->get('/', 'Admin\Emails::index');
+    $routes->get('view/(:num)', 'Admin\Emails::view/$1');
+    $routes->get('retry/(:num)', 'Admin\Emails::retry/$1');
+    $routes->post('delete/(:num)', 'Admin\Emails::delete/$1');
+    $routes->post('data', 'Admin\EmailDataController::list');
+    $routes->get('stats', 'Admin\EmailDataController::stats');
 });
 
 
@@ -319,7 +320,7 @@ $routes->group('admin/system', [
 ========================================================= */
 
 $routes->group('admin/content', [
-    'filter' => 'authAdmin:ADMIN,EVENTS,WEBSITE'
+    'filter' => 'can:content'
 ], function ($routes) {
 
     // Events
@@ -373,11 +374,11 @@ $routes->group('admin/content', [
 /* =========================================================
    ADMIN LEGACY 50 PLEDGES
 
-   ADMIN only: pledges hold home addresses and Gift Aid declarations.
+   Pledges hold home addresses and Gift Aid declarations: ADMIN and WEBADMIN.
 ========================================================= */
 
 $routes->group('admin/legacy50', [
-    'filter' => 'authAdmin:ADMIN'
+    'filter' => 'can:legacy50'
 ], function ($routes) {
     $routes->get('/', 'Admin\Legacy50Controller::index');
     $routes->get('edit/(:num)', 'Admin\Legacy50Controller::edit/$1');
@@ -397,7 +398,7 @@ $routes->group('admin/legacy50', [
 ========================================================= */
 
 $routes->group('admin/chopda-pujan', [
-    'filter' => 'authAdmin:ADMIN,EVENTS'
+    'filter' => 'can:chopda_pujan'
 ], function ($routes) {
     $routes->get('/', 'Admin\ChopdaPujanController::index');
     $routes->get('edit/(:num)', 'Admin\ChopdaPujanController::edit/$1');
@@ -415,7 +416,7 @@ $routes->group('admin/chopda-pujan', [
 ========================================================= */
 
 $routes->group('admin/christmas-mehfil', [
-    'filter' => 'authAdmin:ADMIN,EVENTS'
+    'filter' => 'can:christmas_mehfil'
 ], function ($routes) {
     $routes->get('/', 'Admin\ChristmasMehfilController::index');
     $routes->get('edit/(:num)', 'Admin\ChristmasMehfilController::edit/$1');
@@ -431,11 +432,11 @@ $routes->group('admin/christmas-mehfil', [
 /* =========================================================
    ADMIN QUESTIONNAIRE RESULTS
 
-   ADMIN only: answers carry respondents' names.
+   Answers carry respondents' names: ADMIN and WEBADMIN.
 ========================================================= */
 
 $routes->group('admin/surveys/ticketing', [
-    'filter' => 'authAdmin:ADMIN'
+    'filter' => 'can:ticketing_survey'
 ], function ($routes) {
     $routes->get('/', 'Admin\TicketingSurveyController::index');
     $routes->post('delete/(:num)', 'Admin\TicketingSurveyController::delete/$1');
@@ -452,7 +453,7 @@ $routes->group('admin/surveys/ticketing', [
 ========================================================= */
 
 $routes->group('admin/group-emails', [
-    'filter' => 'authAdmin:ADMIN'
+    'filter' => 'can:group_emails'
 ], function ($routes) {
     $routes->get('/', 'Admin\GroupEmailController::index');
     $routes->get('new/(:segment)/(:num)', 'Admin\GroupEmailController::compose/$1/$2');
@@ -467,12 +468,12 @@ $routes->group('admin/group-emails', [
 /* =========================================================
    ADMIN PHOTO GALLERY
 
-   ADMIN only. The uploader posts one photo per request (upload), after
+   ADMIN and WEBADMIN. The uploader posts one photo per request (upload), after
    asking which files the album already holds (check).
 ========================================================= */
 
 $routes->group('admin/gallery', [
-    'filter' => 'authAdmin:ADMIN'
+    'filter' => 'can:gallery'
 ], function ($routes) {
     $routes->get('/', 'Admin\GalleryController::index');
     $routes->get('create', 'Admin\GalleryController::create');

@@ -11,7 +11,7 @@ use Config\Gallery;
 use Throwable;
 
 /**
- * Photo gallery back-office. ADMIN only.
+ * Photo gallery back-office. ADMIN and WEBADMIN (Config\AdminAccess).
  *
  * Uploads arrive one photo per request from the browser uploader, already
  * resized, so no request comes near PHP's upload or time limits however many
