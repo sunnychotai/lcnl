@@ -101,7 +101,7 @@ class EmailDataController extends BaseController
                 3 => '<span class="badge bg-primary">P3</span>',
                 4 => '<span class="badge bg-secondary">P4</span>',
                 5 => '<span class="badge bg-light text-dark">P5</span>',
-                default => '<span class="badge bg-dark">?</span>',
+                default => '<span class="badge bg-dark">P' . (int) $r['priority'] . '</span>',
             };
 
             $actions = '<div class="btn-group btn-group-sm" role="group">';

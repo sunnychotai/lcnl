@@ -44,7 +44,7 @@
                                 3 => '<span class="badge bg-primary">P3 - Normal</span>',
                                 4 => '<span class="badge bg-secondary">P4 - Low</span>',
                                 5 => '<span class="badge bg-light text-dark">P5 - Bulk</span>',
-                                default => '<span class="badge bg-dark">Unknown</span>'
+                                default => '<span class="badge bg-dark">P' . (int) $email['priority'] . '</span>'
                             };
                             echo $priorityLabel;
                             ?>

@@ -26,10 +26,11 @@ class GroupEmail extends BaseConfig
     public string $replyTo = 'info@lcnl.org';
 
     /**
-     * Queue priority (1 = first). Group emails go after booking confirmations
-     * and other transactional mail, so a big send never holds those up.
+     * Queue priority (1 = first). 5 is "P5 – Bulk" in the email queue admin:
+     * group emails go after booking confirmations, password resets and other
+     * transactional mail (P1–P2), so a big send never holds those up.
      */
-    public int $priority = 7;
+    public int $priority = 5;
 
     /** Test copies jump the queue so they arrive within a cron run or two. */
     public int $testPriority = 1;
