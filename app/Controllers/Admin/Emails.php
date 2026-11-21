@@ -13,8 +13,9 @@ class Emails extends BaseController
         $emails = $model->orderBy('id', 'DESC')->paginate(20);
 
         return view('admin/system/emails/index', [
-            'emails' => $emails,
-            'pager'  => $model->pager,
+            'emails'    => $emails,
+            'pager'     => $model->pager,
+            'retryable' => $this->retryableFailed()->countAllResults(),
         ]);
     }
 
@@ -44,6 +45,39 @@ class Emails extends BaseController
         }
 
         return redirect()->to('/admin/system/emails')->with('error', 'Email not found.');
+    }
+
+    /**
+     * Put every failed email back in the queue in one go. emails:send then
+     * works through them at its usual rate, and pauses itself if SMTP is
+     * still failing. Emails that failed because the address is invalid
+     * would only fail again, so they stay as they are.
+     */
+    public function retryFailed()
+    {
+        $count = $this->retryableFailed()->update([
+            'status'       => 'pending',
+            'last_error'   => null,
+            'scheduled_at' => null,
+            'updated_at'   => date('Y-m-d H:i:s'),
+        ]) ? db_connect()->affectedRows() : 0;
+
+        $back = redirect()->to('/admin/system/emails');
+
+        return $count > 0
+            ? $back->with('message', $count . ' failed email' . ($count === 1 ? '' : 's') . ' queued again.')
+            : $back->with('error', 'There are no failed emails to retry.');
+    }
+
+    /** Failed emails worth retrying: everything except invalid addresses. */
+    private function retryableFailed(): \CodeIgniter\Database\BaseBuilder
+    {
+        return db_connect()->table('email_queue')
+            ->where('status', 'failed')
+            ->groupStart()
+                ->where('last_error', null)
+                ->orWhere('last_error !=', 'INVALID_EMAIL')
+            ->groupEnd();
     }
 
     public function delete(int $id)

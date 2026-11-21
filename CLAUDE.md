@@ -21,7 +21,7 @@ php spark migrate:rollback
 # Spark CLI commands (app-specific)
 php spark emails:send              # send queued emails (Fasthosts-throttled)
 php spark emails:send --test       # dry-run, redirects all email to sunnychotai@me.com
-php spark emails:requeue           # requeue failed emails
+php spark emails:requeue-failed    # requeue failed emails (or "Retry all failed" on /admin/system/emails)
 php spark members:activate         # bulk-activate pending members
 php spark members:import           # import members from staging
 php spark cron:purge               # purge old cron logs

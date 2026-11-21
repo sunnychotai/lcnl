@@ -7,7 +7,15 @@
         <h2 class="mb-0">
             <i class="bi bi-envelope-fill me-2"></i>Email Queue
         </h2>
-        <div>
+        <div class="d-flex gap-1 flex-wrap justify-content-end">
+            <form method="post" action="<?= base_url('admin/system/emails/retry-failed') ?>" class="d-inline"
+                onsubmit="return confirm('Put <?= (int) $retryable ?> failed email<?= $retryable === 1 ? '' : 's' ?> back in the queue? They will go out at the usual rate.');">
+                <?= csrf_field() ?>
+                <button type="submit" class="btn btn-sm btn-warning" <?= $retryable ? '' : 'disabled' ?>
+                    title="Emails to invalid addresses are left out: they would only fail again.">
+                    <i class="bi bi-arrow-repeat"></i> Retry all failed (<?= (int) $retryable ?>)
+                </button>
+            </form>
             <button id="refreshStats" class="btn btn-sm btn-outline-primary">
                 <i class="bi bi-arrow-clockwise"></i> Refresh
             </button>
@@ -20,6 +28,13 @@
     <?php if ($message = session()->getFlashdata('message')): ?>
         <div class="alert alert-success alert-dismissible fade show">
             <?= esc($message) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($error = session()->getFlashdata('error')): ?>
+        <div class="alert alert-warning alert-dismissible fade show">
+            <?= esc($error) ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     <?php endif; ?>

@@ -309,6 +309,7 @@ $routes->group('admin/system/emails', ['filter' => 'can:email_queue'], function 
     $routes->get('/', 'Admin\Emails::index');
     $routes->get('view/(:num)', 'Admin\Emails::view/$1');
     $routes->get('retry/(:num)', 'Admin\Emails::retry/$1');
+    $routes->post('retry-failed', 'Admin\Emails::retryFailed');
     $routes->post('delete/(:num)', 'Admin\Emails::delete/$1');
     $routes->post('data', 'Admin\EmailDataController::list');
     $routes->get('stats', 'Admin\EmailDataController::stats');
