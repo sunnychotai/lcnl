@@ -89,7 +89,7 @@ $pct   = $total ? (int) round($progress['sent'] / $total * 100) : 0;
                 <p class="mt-3 mb-0 text-danger">
                     <i class="bi bi-exclamation-triangle-fill me-1"></i>
                     Failed emails can be retried one by one from the <a href="<?= site_url('admin/system/emails') ?>">email queue</a>,
-                    or all at once with <code>php spark emails:requeue</code>.
+                    or all at once with <strong>Retry all failed</strong> there.
                 </p>
             <?php endif; ?>
         </div>
