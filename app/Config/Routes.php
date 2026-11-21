@@ -444,6 +444,27 @@ $routes->group('admin/surveys/ticketing', [
 
 
 /* =========================================================
+   ADMIN GROUP EMAILS
+
+   ADMIN only. Write one email for an audience (key + reference, e.g.
+   new/event/63 for event 63's registrants) and queue a personalised copy
+   for each person. Audiences are listed in Config\GroupEmail.
+========================================================= */
+
+$routes->group('admin/group-emails', [
+    'filter' => 'authAdmin:ADMIN'
+], function ($routes) {
+    $routes->get('/', 'Admin\GroupEmailController::index');
+    $routes->get('new/(:segment)/(:num)', 'Admin\GroupEmailController::compose/$1/$2');
+    $routes->post('new/(:segment)/(:num)/preview', 'Admin\GroupEmailController::preview/$1/$2');
+    $routes->post('new/(:segment)/(:num)/test', 'Admin\GroupEmailController::test/$1/$2');
+    $routes->post('new/(:segment)/(:num)/queue', 'Admin\GroupEmailController::queue/$1/$2');
+    $routes->get('(:num)', 'Admin\GroupEmailController::show/$1');
+    $routes->post('(:num)/cancel', 'Admin\GroupEmailController::cancel/$1');
+});
+
+
+/* =========================================================
    ADMIN PHOTO GALLERY
 
    ADMIN only. The uploader posts one photo per request (upload), after
