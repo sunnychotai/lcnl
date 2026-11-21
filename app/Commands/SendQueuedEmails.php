@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Libraries\SmtpError;
 use App\Models\EmailQueueModel;
 use App\Models\CronLogModel;
 use App\Models\MemberModel;
@@ -159,7 +160,6 @@ class SendQueuedEmails extends BaseCommand
 
             CLI::write("📧 Processing " . count($rows) . " email(s)...", 'green');
 
-            $email = service('email');
             $consecutiveFailures = 0;
             $memberModel = new MemberModel();
 
@@ -224,8 +224,13 @@ class SendQueuedEmails extends BaseCommand
                     $rawText = trim(html_entity_decode(strip_tags($rawHtml)));
                 }
 
+                // A new mailer, and so a new SMTP connection, for every email.
+                // After a failed login CodeIgniter can leave the connection
+                // open mid-conversation; reusing it made every later email in
+                // the run fail too ("Invalid base64 data in continued response").
+                $email = \Config\Services::email(null, false);
+
                 try {
-                    $email->clear(true);
                     $email->setFrom($emailCfg->fromEmail, $emailCfg->fromName);
 
                     if ($isTestMode) {
@@ -265,7 +270,10 @@ class SendQueuedEmails extends BaseCommand
                         CLI::write("  ✓ Sent to: {$toEmail}", 'green');
                         $consecutiveFailures = 0;
                     } else {
-                        throw new \RuntimeException('SMTP send failed');
+                        // Keep the server's actual reply (e.g. "554 5.7.1 Spam message
+                        // rejected"), so the admin can see why, and "Retry all failed"
+                        // can leave permanent rejections alone.
+                        throw new \RuntimeException(SmtpError::summarise($email->printDebugger([])));
                     }
                 } catch (\Throwable $e) {
                     $model->update($row['id'], [

@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Libraries\ContactSpamCheck;
+use App\Libraries\Turnstile;
 use App\Models\EmailQueueModel;
 
 class ContactController extends BaseController
@@ -61,6 +63,19 @@ class ContactController extends BaseController
         }
 
         $payload = $this->request->getPost();
+
+        // Link-stuffed messages: Hostinger rejects them as spam, and enough
+        // rejections can get the mailbox blocked. Tell the sender what to fix.
+        if ($problem = ContactSpamCheck::problem($payload)) {
+            return redirect()->back()->withInput()->with('errors', [$problem]);
+        }
+
+        // Cloudflare Turnstile (only once its keys are set in .env).
+        $turnstile = new Turnstile();
+        if (!$turnstile->verify($this->request->getPost(Turnstile::FIELD), $ip)) {
+            return redirect()->back()->withInput()
+                ->with('errors', ['Please complete the "verify you are human" check and send again.']);
+        }
 
         // Prepare email body
         $bodyHtml = view('emails/contact_html', [

@@ -67,28 +67,32 @@ final class EmailQueueAdminTest extends CIUnitTestCase
         return $this->db->table('email_queue')->where('to_email', $to)->get()->getRowArray();
     }
 
-    public function testRetryAllQueuesEveryFailedEmailExceptInvalidAddresses(): void
+    public function testRetryAllSkipsInvalidAddressesAndPermanentRejections(): void
     {
         $this->email('smtp@example.com', 'failed', 'SMTP send failed');
         $this->email('noerror@example.com', 'failed');
         $this->email('bad-address', 'failed', 'INVALID_EMAIL');
+        $this->email('spam@example.com', 'failed', '554 5.7.1 Spam message rejected');
+        $this->email('login@example.com', 'failed', 'AUTH: Failed to authenticate username. Error: 501 5.5.2 Invalid base64 data');
         $this->email('sent@example.com', 'sent');
         $this->email('waiting@example.com', 'pending');
 
         $page = $this->withSession(self::ADMIN)->get('admin/system/emails');
-        $page->assertSee('Retry all failed (2)');
+        $page->assertSee('Retry all failed (3)');
 
         $result = $this->withSession(self::ADMIN)->post('admin/system/emails/retry-failed');
         $result->assertRedirectTo(site_url('admin/system/emails'));
-        $result->assertSessionHas('message', '2 failed emails queued again.');
+        $result->assertSessionHas('message', '3 failed emails queued again.');
 
-        foreach (['smtp@example.com', 'noerror@example.com'] as $to) {
+        // Login trouble is temporary, so it is retried.
+        foreach (['smtp@example.com', 'noerror@example.com', 'login@example.com'] as $to) {
             $row = $this->statusOf($to);
             $this->assertSame('pending', $row['status']);
             $this->assertNull($row['last_error']);
             $this->assertNull($row['scheduled_at']); // goes on the next run, not at the old retry time
         }
         $this->assertSame('failed', $this->statusOf('bad-address')['status']);
+        $this->assertSame('failed', $this->statusOf('spam@example.com')['status']); // would be refused again
         $this->assertSame('sent', $this->statusOf('sent@example.com')['status']);
     }
 
