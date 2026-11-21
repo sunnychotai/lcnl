@@ -226,7 +226,7 @@ final class GroupEmailTest extends CIUnitTestCase
         $this->assertStringContainsString('Dear Asha, we have you down for a party of 3.', $rows[0]['body_html']);
         $this->assertStringContainsString('Dear Ravi, we have you down for a party of 1.', $rows[1]['body_html']);
         $this->assertStringContainsString('Dear Ravi', $rows[1]['body_text']);
-        $this->assertSame('7', (string) $rows[0]['priority']);
+        $this->assertSame('5', (string) $rows[0]['priority']); // P5 – Bulk
         $this->assertNull($rows[0]['related_id']); // emails:send reads related_id as a member id
         $this->assertSame($id, (int) $rows[0]['group_email_id']);
 
