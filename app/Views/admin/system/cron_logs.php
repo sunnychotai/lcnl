@@ -25,8 +25,8 @@
                 </thead>
                 <tbody>
                     <?php foreach ($logs as $row):
-                        $start = strtotime($row['started_at']);
-                        $end = strtotime($row['finished_at']);
+                        $start = strtotime((string) $row['started_at']);
+                        $end = strtotime((string) $row['finished_at']);
                         $dur = $end && $start ? max(0, $end - $start) : 0;
                         $badge = 'secondary';
                         if ($row['status'] === 'success')
@@ -40,7 +40,7 @@
                             <td><?= (int) $row['id'] ?></td>
                             <td class="fw-semibold"><?= esc($row['job_name']) ?></td>
                             <td>
-                                <span class="badge bg-<?= $badge ?>"><?= ucfirst($row['status']) ?></span>
+                                <span class="badge bg-<?= $badge ?>"><?= esc(ucfirst((string) $row['status'])) ?></span>
                             </td>
                             <td><?= esc($row['started_at']) ?></td>
                             <td><?= esc($row['finished_at']) ?></td>

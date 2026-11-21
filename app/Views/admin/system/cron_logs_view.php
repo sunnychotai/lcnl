@@ -12,8 +12,10 @@
     </div>
 
     <?php
-    // Parse the JSON summary
-    $summary = json_decode($log['summary'], true) ?? [];
+    // Parse the JSON summary. Every job writes its own shape, and older runs
+    // lack newer keys, so read every field as optional.
+    $summary = json_decode((string) ($log['summary'] ?? ''), true);
+    $summary = is_array($summary) ? $summary : [];
     $hasData = !empty($summary);
     ?>
 
@@ -35,7 +37,7 @@
                             elseif ($log['status'] === 'partial') $badge = 'warning';
                             elseif ($log['status'] === 'error') $badge = 'danger';
                             ?>
-                            <span class="badge bg-<?= $badge ?>"><?= ucfirst($log['status']) ?></span>
+                            <span class="badge bg-<?= $badge ?>"><?= esc(ucfirst((string) $log['status'])) ?></span>
                         </dd>
 
                         <dt class="col-sm-4">Started</dt>
@@ -47,8 +49,8 @@
                         <dt class="col-sm-4">Duration</dt>
                         <dd class="col-sm-8">
                             <?php
-                            $start = strtotime($log['started_at']);
-                            $end = strtotime($log['finished_at']);
+                            $start = strtotime((string) $log['started_at']);
+                            $end = strtotime((string) $log['finished_at']);
                             echo ($end && $start) ? max(0, $end - $start) . 's' : '-';
                             ?>
                         </dd>
@@ -56,16 +58,16 @@
                 </div>
             </div>
 
-            <?php if ($hasData && isset($summary['test_mode'])): ?>
+            <?php if ($hasData): ?>
                 <!-- Test Mode Indicator -->
-                <?php if ($summary['test_mode']): ?>
+                <?php if (!empty($summary['test_mode'])): ?>
                     <div class="alert alert-info mt-3">
                         <i class="bi bi-info-circle me-2"></i>
                         <strong>Test Mode:</strong> Emails sent to <?= esc($summary['test_email'] ?? 'test address') ?>
                     </div>
                 <?php endif; ?>
 
-                <?php if ($summary['paused']): ?>
+                <?php if (!empty($summary['paused'])): ?>
                     <div class="alert alert-warning mt-3">
                         <i class="bi bi-pause-circle me-2"></i>
                         <strong>Auto-Paused:</strong> Too many consecutive failures
@@ -82,15 +84,15 @@
                         <h5 class="fw-bold text-brand mb-3">Email Processing</h5>
                         <div class="row g-3">
                             <div class="col-4 text-center">
-                                <div class="fs-2 fw-bold text-primary"><?= (int)$summary['processed'] ?></div>
+                                <div class="fs-2 fw-bold text-primary"><?= (int) ($summary['processed'] ?? 0) ?></div>
                                 <div class="text-muted small">Processed</div>
                             </div>
                             <div class="col-4 text-center">
-                                <div class="fs-2 fw-bold text-success"><?= (int)$summary['sent'] ?></div>
+                                <div class="fs-2 fw-bold text-success"><?= (int) ($summary['sent'] ?? 0) ?></div>
                                 <div class="text-muted small">Sent</div>
                             </div>
                             <div class="col-4 text-center">
-                                <div class="fs-2 fw-bold text-danger"><?= (int)$summary['failed'] ?></div>
+                                <div class="fs-2 fw-bold text-danger"><?= (int) ($summary['failed'] ?? 0) ?></div>
                                 <div class="text-muted small">Failed</div>
                             </div>
                         </div>
@@ -169,23 +171,27 @@
                 <div class="card border-0 shadow-sm border-warning">
                     <div class="card-body">
                         <h5 class="fw-bold text-warning mb-3">
-                            <i class="bi bi-exclamation-triangle me-2"></i>Backoff Events
+                            <i class="bi bi-exclamation-triangle me-2"></i>Failed emails
                         </h5>
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
                                         <th>Row ID</th>
+                                        <th>Email</th>
                                         <th>Error</th>
-                                        <th>Delay (ms)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($summary['backoff'] as $backoff): ?>
+                                    <?php foreach ((array) $summary['backoff'] as $backoff): $backoff = (array) $backoff; ?>
                                         <tr>
-                                            <td><?= (int)$backoff['row_id'] ?></td>
-                                            <td><code class="small"><?= esc($backoff['error']) ?></code></td>
-                                            <td><?= (int)$backoff['delay_ms_now'] ?></td>
+                                            <td>
+                                                <?php if (!empty($backoff['row_id'])): ?>
+                                                    <a href="<?= base_url('admin/system/emails/view/' . (int) $backoff['row_id']) ?>"><?= (int) $backoff['row_id'] ?></a>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?= esc((string) ($backoff['email'] ?? '')) ?></td>
+                                            <td><code class="small"><?= esc((string) ($backoff['error'] ?? '')) ?></code></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -207,8 +213,8 @@
                             <i class="bi bi-x-circle me-2"></i>Errors
                         </h5>
                         <ul class="mb-0">
-                            <?php foreach ($summary['errors'] as $error): ?>
-                                <li><code><?= esc($error) ?></code></li>
+                            <?php foreach ((array) $summary['errors'] as $error): ?>
+                                <li><code><?= esc(is_scalar($error) ? (string) $error : json_encode($error)) ?></code></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
@@ -230,7 +236,7 @@
                     </h5>
                     <div class="collapse" id="rawJson">
                         <pre class="bg-light p-3 rounded mb-0"
-                            style="white-space:pre-wrap;word-wrap:break-word;"><?= esc($log['summary']) ?></pre>
+                            style="white-space:pre-wrap;word-wrap:break-word;"><?= esc((string) ($log['summary'] ?? '')) ?></pre>
                     </div>
                 </div>
             </div>
