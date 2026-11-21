@@ -50,7 +50,7 @@ class Emails extends BaseController
     /**
      * Put every failed email back in the queue in one go. emails:send then
      * works through them at its usual rate, and pauses itself if SMTP is
-     * still failing. Emails that failed because the address is invalid
+     * still failing. Invalid addresses and permanent rejections (e.g. spam)
      * would only fail again, so they stay as they are.
      */
     public function retryFailed()
@@ -69,15 +69,10 @@ class Emails extends BaseController
             : $back->with('error', 'There are no failed emails to retry.');
     }
 
-    /** Failed emails worth retrying: everything except invalid addresses. */
+    /** Failed emails worth retrying (see EmailQueueModel::retryableFailed()). */
     private function retryableFailed(): \CodeIgniter\Database\BaseBuilder
     {
-        return db_connect()->table('email_queue')
-            ->where('status', 'failed')
-            ->groupStart()
-                ->where('last_error', null)
-                ->orWhere('last_error !=', 'INVALID_EMAIL')
-            ->groupEnd();
+        return (new EmailQueueModel())->retryableFailed();
     }
 
     public function delete(int $id)

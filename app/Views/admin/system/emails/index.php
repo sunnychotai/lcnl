@@ -12,7 +12,7 @@
                 onsubmit="return confirm('Put <?= (int) $retryable ?> failed email<?= $retryable === 1 ? '' : 's' ?> back in the queue? They will go out at the usual rate.');">
                 <?= csrf_field() ?>
                 <button type="submit" class="btn btn-sm btn-warning" <?= $retryable ? '' : 'disabled' ?>
-                    title="Emails to invalid addresses are left out: they would only fail again.">
+                    title="Left out: invalid addresses and permanent rejections such as spam (5xx). They would only fail again.">
                     <i class="bi bi-arrow-repeat"></i> Retry all failed (<?= (int) $retryable ?>)
                 </button>
             </form>

@@ -87,6 +87,8 @@
               required><?= old('message') ?></textarea>
           </div>
 
+          <?= view('partials/turnstile') ?>
+
           <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
             <button type="submit" class="btn btn-brand btn-lg px-4 shadow-sm">
               <i class="bi bi-send-check me-2"></i> Send Message

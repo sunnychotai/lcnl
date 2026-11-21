@@ -10,7 +10,7 @@ class RequeueFailedEmails extends BaseCommand
 {
     protected $group = 'Email';
     protected $name = 'emails:requeue-failed';
-    protected $description = 'Re-queue failed emails that are safe to retry.';
+    protected $description = 'Re-queue failed emails that are safe to retry (not invalid addresses or 5xx rejections).';
     protected $usage = 'php spark emails:requeue-failed --limit 5 --max-attempts 3 --delay-minutes 30';
 
     protected $options = [
@@ -46,7 +46,10 @@ class RequeueFailedEmails extends BaseCommand
         /*
          * STEP 1: Select eligible failed emails (IDs only)
          */
-        $query = $model->where('status', 'failed')
+        // Same rules as the admin's "Retry all failed": no invalid
+        // addresses or permanent (5xx) rejections such as spam.
+        $query = $model->retryableFailed()
+            ->select('id')
             ->where('attempts <', $maxAttempts)
             ->orderBy('updated_at', 'ASC');
 
@@ -54,7 +57,7 @@ class RequeueFailedEmails extends BaseCommand
             $query->limit($limit);
         }
 
-        $rows = $query->findAll();
+        $rows = $query->get()->getResultArray();
         $count = count($rows);
 
         if ($count === 0) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use CodeIgniter\Database\BaseBuilder;
 use CodeIgniter\Model;
 
 class EmailQueueModel extends Model
@@ -49,5 +50,24 @@ class EmailQueueModel extends Model
         $data['priority'] = $data['priority'] ?? 5;
 
         return $this->insert($data, true);
+    }
+
+    /**
+     * Failed emails worth sending again. Left out: invalid addresses, and
+     * permanent rejections (a 5xx reply such as "554 5.7.1 Spam message
+     * rejected", see App\Libraries\SmtpError), which would only be refused
+     * again and can get the mailbox blocked for spam.
+     */
+    public function retryableFailed(): BaseBuilder
+    {
+        return $this->db->table($this->table)
+            ->where('status', 'failed')
+            ->groupStart()
+                ->where('last_error', null)
+                ->orGroupStart()
+                    ->where('last_error !=', 'INVALID_EMAIL')
+                    ->where("last_error NOT LIKE '5__ %'", null, false)
+                ->groupEnd()
+            ->groupEnd();
     }
 }

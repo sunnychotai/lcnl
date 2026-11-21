@@ -71,6 +71,10 @@ Emails are never sent inline. They are inserted into the `email_queue` table and
 
 Email bodies support `{{current_year}}` and `{{member_name}}` placeholders. Emails of type `member_activation` also inject `{{activation_link}}` at send time (generates a fresh password-reset token).
 
+Mail goes out through Hostinger SMTP (`smtp.hostinger.com`). The caps were originally set for Fasthosts. Each email gets a fresh mailer, and so a fresh SMTP connection, because after a failed login CodeIgniter can leave a connection open in a broken state. On failure, `last_error` holds `App\Libraries\SmtpError::summarise()` of the debug output, for example `554 5.7.1 Spam message rejected`, `AUTH: …` or `CONNECT: …`. A `5xx` reply is a permanent rejection: `EmailQueueModel::retryableFailed()`, used by both the admin's "Retry all failed" and `emails:requeue-failed`, skips those and `INVALID_EMAIL`. Resending spam rejections can get the mailbox blocked.
+
+The contact form (`ContactController`) has several spam defences: a per-IP limit, a time trap, a hidden honeypot field, `App\Libraries\ContactSpamCheck` (too many links, links in name or subject, HTML or `[url]` tags; the visitor is told what to fix) and Cloudflare Turnstile (`App\Libraries\Turnstile`, `view('partials/turnstile')`). Turnstile is on only when `turnstile.siteKey` and `turnstile.secretKey` are set in `.env`. If Cloudflare can't be reached, the submission is let through.
+
 ### Stripe
 
 `Config\Stripe` reads keys from `.env` (`stripe.*`). `StripeService` wraps the SDK client. Webhooks are verified and handled in `StripeWebhookController`. Life membership upgrade flow lives in `Account\MembershipUpgradeController`.
