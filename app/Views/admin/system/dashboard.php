@@ -143,19 +143,32 @@
   <!-- =======================
        Events & Campaigns
   ======================== -->
-  <?php if (canAccess('content', 'chopda_pujan', 'christmas_mehfil', 'connexions', 'legacy50', 'ticketing_survey')): ?>
+  <?php if (canAccess('content', 'christmas_mehfil', 'connexions', 'legacy50', 'ticketing_survey')): ?>
     <h4 class="fw-bold mb-3">Events &amp; Campaigns</h4>
     <div class="row g-4">
 
-    <?php if (canAccess('chopda_pujan')): ?>
-      <!-- Chopda Pujan 2026 -->
+    <?php if (canAccess('content')): ?>
+      <!-- Events -->
       <div class="col-md-3">
-        <a href="<?= base_url('admin/chopda-pujan') ?>" class="text-decoration-none">
+        <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
           <div class="card shadow-sm h-100 text-center border-0 hover-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-journal-check text-brand fs-1 mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Chopda Pujan 2026</h5>
-              <p class="text-muted small">Registrations, payments &amp; CSV export</p>
+              <i class="bi bi-calendar-event text-brand fs-1 mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Events</h5>
+              <p class="text-muted small">Manage community events</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Event Registrations -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/content/events/event-registrations') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-clipboard-data-fill text-brand fs-1 mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Event Registrations</h5>
+              <p class="text-muted small">Summary by event + attendee counts</p>
             </div>
           </div>
         </a>
@@ -192,46 +205,6 @@
       </div>
     <?php endif; ?>
 
-    <?php if (canAccess('content')): ?>
-      <!-- Golf Tournament 2026 -->
-      <div class="col-md-3">
-        <a href="<?= base_url('admin/content/golf') ?>" class="text-decoration-none">
-          <div class="card shadow-sm h-100 text-center border-0 hover-card">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-flag-fill text-success fs-1 mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Golf Event 2026</h5>
-              <p class="text-muted small">Registrations, stats &amp; CSV export</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Events -->
-      <div class="col-md-3">
-        <a href="<?= base_url('admin/content/events') ?>" class="text-decoration-none">
-          <div class="card shadow-sm h-100 text-center border-0 hover-card">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-calendar-event text-brand fs-1 mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Events</h5>
-              <p class="text-muted small">Manage community events</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Event Registrations -->
-      <div class="col-md-3">
-        <a href="<?= base_url('admin/content/events/event-registrations') ?>" class="text-decoration-none">
-          <div class="card shadow-sm h-100 text-center border-0 hover-card">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-              <i class="bi bi-clipboard-data-fill text-brand fs-1 mb-3"></i>
-              <h5 class="card-title text-dark mb-1">Event Registrations</h5>
-              <p class="text-muted small">Summary by event + attendee counts</p>
-            </div>
-          </div>
-        </a>
-      </div>
-    <?php endif; ?>
 
     <?php if (canAccess('legacy50')): ?>
       <!-- Legacy 50 pledges (pledges hold home addresses and Gift Aid declarations) -->
