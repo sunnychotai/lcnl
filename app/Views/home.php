@@ -43,6 +43,7 @@ $legacyOpen = $legacy->isOpen() && ! (new \App\Models\LegacyPledgeModel())->isFu
   </div>
 </section>
 
+<?= $this->include('connexions/_home_banner') ?>
 <?= $this->include('events/_diwali_home_banner') ?>
 <?= $this->include('mehfil/_home_banner') ?>
 <?= $this->include('events/_bowling_home_banner') ?>

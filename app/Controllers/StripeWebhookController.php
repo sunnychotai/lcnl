@@ -12,6 +12,7 @@ use Stripe\Exception\SignatureVerificationException;
 use App\Models\EmailQueueModel;
 use App\Models\MemberModel;
 use App\Services\ChopdaPaymentService;
+use App\Services\ConnexionsBookingService;
 
 
 class StripeWebhookController extends BaseController
@@ -63,13 +64,23 @@ class StripeWebhookController extends BaseController
         // Process supported events
         try {
             $object = $event->data->object;
-            $isChopda = str_starts_with($event->type, 'checkout.session.')
-                && ($object->metadata->purpose ?? '') === ChopdaPaymentService::PURPOSE;
+
+            // Event Checkouts (Chopda, Connexions) carry metadata.purpose and
+            // are settled by their own service; anything else is a Life
+            // membership upgrade.
+            $purpose = str_starts_with($event->type, 'checkout.session.')
+                ? (string) ($object->metadata->purpose ?? '')
+                : '';
+            $handler = match ($purpose) {
+                ChopdaPaymentService::PURPOSE      => new ChopdaPaymentService(),
+                ConnexionsBookingService::PURPOSE  => new ConnexionsBookingService(),
+                default                            => null,
+            };
 
             switch ($event->type) {
                 case 'checkout.session.completed':
-                    if ($isChopda) {
-                        (new ChopdaPaymentService())->fulfil($object);
+                    if ($handler) {
+                        $handler->fulfil($object);
                     } else {
                         $this->handleCheckoutSessionCompleted($object);
                     }
@@ -79,14 +90,14 @@ class StripeWebhookController extends BaseController
                     ])->update();
                     break;
 
-                // Chopda only: email the registrant a link to finish paying.
+                // Event Checkouts only: email the payer a link to finish paying.
                 case 'checkout.session.expired':
-                    if ($isChopda) {
-                        (new ChopdaPaymentService())->expired($object);
+                    if ($handler) {
+                        $handler->expired($object);
                     }
                     $eventModel->where('stripe_event_id', $event->id)->set([
                         'processed_at' => date('Y-m-d H:i:s'),
-                        'process_status' => $isChopda ? 'ok' : 'ignored',
+                        'process_status' => $handler ? 'ok' : 'ignored',
                     ])->update();
                     break;
 

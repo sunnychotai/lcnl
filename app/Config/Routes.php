@@ -125,6 +125,22 @@ $routes->post($mehfilSlug, 'ChristmasMehfilController::submit');
 $routes->get($mehfilSlug . '/thank-you', 'ChristmasMehfilController::thankYou');
 
 /* =========================================================
+   CONNEXIONS – SINGLES MIX & MINGLE 2026 (PUBLIC)
+
+   Girl and boy tickets with every attendee named, paid by card (Stripe)
+   only. The thank-you page reads the booking from the session; the pay link
+   uses a secret token.
+========================================================= */
+
+$connexionsSlug = config('Connexions')->slug;
+
+$routes->get($connexionsSlug, 'ConnexionsController::index');
+$routes->post($connexionsSlug, 'ConnexionsController::submit');
+$routes->get($connexionsSlug . '/thank-you', 'ConnexionsController::thankYou');
+$routes->get($connexionsSlug . '/pay/(:segment)', 'ConnexionsController::pay/$1');
+$routes->get($connexionsSlug . '/paid', 'ConnexionsController::paid');
+
+/* =========================================================
    COMMITTEE TICKETING QUESTIONNAIRE (PUBLIC, UNLISTED)
 
    Shared with committee members by link only; noindex and never linked from
@@ -427,6 +443,24 @@ $routes->group('admin/christmas-mehfil', [
     $routes->post('cancel/(:num)', 'Admin\ChristmasMehfilController::cancel/$1');
     $routes->post('reinstate/(:num)', 'Admin\ChristmasMehfilController::reinstate/$1');
     $routes->get('export', 'Admin\ChristmasMehfilController::export');
+});
+
+/* =========================================================
+   ADMIN CONNEXIONS BOOKINGS
+========================================================= */
+
+$routes->group('admin/connexions', [
+    'filter' => 'can:connexions'
+], function ($routes) {
+    $routes->get('/', 'Admin\ConnexionsController::index');
+    $routes->get('attendees', 'Admin\ConnexionsController::attendees');
+    $routes->get('edit/(:num)', 'Admin\ConnexionsController::edit/$1');
+    $routes->post('update/(:num)', 'Admin\ConnexionsController::update/$1');
+    $routes->post('payment/(:num)', 'Admin\ConnexionsController::markPaid/$1');
+    $routes->post('resend/(:num)', 'Admin\ConnexionsController::resend/$1');
+    $routes->post('cancel/(:num)', 'Admin\ConnexionsController::cancel/$1');
+    $routes->post('reinstate/(:num)', 'Admin\ConnexionsController::reinstate/$1');
+    $routes->get('export', 'Admin\ConnexionsController::export');
 });
 
 
