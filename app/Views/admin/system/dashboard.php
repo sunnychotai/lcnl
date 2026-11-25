@@ -143,7 +143,7 @@
   <!-- =======================
        Events & Campaigns
   ======================== -->
-  <?php if (canAccess('content', 'chopda_pujan', 'christmas_mehfil', 'legacy50', 'ticketing_survey')): ?>
+  <?php if (canAccess('content', 'chopda_pujan', 'christmas_mehfil', 'connexions', 'legacy50', 'ticketing_survey')): ?>
     <h4 class="fw-bold mb-3">Events &amp; Campaigns</h4>
     <div class="row g-4">
 
@@ -171,6 +171,21 @@
               <i class="bi bi-ticket-perforated text-brand fs-1 mb-3"></i>
               <h5 class="card-title text-dark mb-1">Christmas Mehfil 2026</h5>
               <p class="text-muted small">Ticket bookings, payments &amp; CSV export</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <?php endif; ?>
+
+    <?php if (canAccess('connexions')): ?>
+      <!-- Connexions Singles Mix & Mingle 2026 -->
+      <div class="col-md-3">
+        <a href="<?= base_url('admin/connexions') ?>" class="text-decoration-none">
+          <div class="card shadow-sm h-100 text-center border-0 hover-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-heart text-brand fs-1 mb-3"></i>
+              <h5 class="card-title text-dark mb-1">Connexions Mix &amp; Mingle</h5>
+              <p class="text-muted small">Card bookings, attendees &amp; door list</p>
             </div>
           </div>
         </a>

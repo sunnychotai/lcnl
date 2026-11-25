@@ -51,6 +51,7 @@ class AdminAccess extends BaseConfig
         'content'          => ['WEBADMIN', 'EVENTS', 'WEBSITE'],
         'chopda_pujan'     => ['WEBADMIN', 'EVENTS'],
         'christmas_mehfil' => ['WEBADMIN', 'EVENTS'],
+        'connexions'       => ['WEBADMIN', 'EVENTS'],
         'legacy50'         => ['WEBADMIN'],
         'ticketing_survey' => ['WEBADMIN'],
         'gallery'          => ['WEBADMIN'],

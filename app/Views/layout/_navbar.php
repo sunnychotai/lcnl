@@ -168,6 +168,15 @@ $navIsActive = static function (string ...$paths) use ($currentPath): bool {
             </li>
           <?php endif; ?>
 
+          <?php if (canAccess('connexions')): ?>
+            <!-- Connexions bookings -->
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('admin/connexions') ?>">
+                <i class="bi bi-heart me-1"></i> Connexions
+              </a>
+            </li>
+          <?php endif; ?>
+
 
           <?php if (canAccess('membership')): ?>
             <!-- Members -->
